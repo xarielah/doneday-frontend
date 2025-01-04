@@ -1,10 +1,9 @@
+@use "../setup/functions";
+
 button {
-	border: 0;
-	background-color: $clr1;
-	color: whitesmoke;
-	padding: 5px 10px;
-	margin: 5px;
-	cursor: pointer;
+text-align: center;
+border-radius: 8px;
+margin-left: EM(12px);
 }
 
 form > * {
