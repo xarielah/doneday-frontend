@@ -1,12 +1,28 @@
-<<<<<<< HEAD
-# React + Vite
+<h1 align="center">Instagram Clone</h1>
+<p align="center">A simple and responsive Instagram clone built with React, Sass, Express & MongoDB.</p>
+<p align="center">Developed by <a href="#">Afik</a>, <a href="#">Ariel</a> & <a href="#">Dor</a>.</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Features:**
 
-Currently, two official plugins are available:
+- Feature 1: A brief description.
+- Feature 2: A brief description.
+- Feature 3: A brief description.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-=======
-# Instagram-clone-proj
->>>>>>> ae41f83bac55b17dd102ca3fcc89084e62eef5f3
+## Team Members
+
+## Installation
+
+To get started with this project, clone the repository and install dependencies using the following commands:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/project-name.git
+
+# Navigate to the project directory
+cd project-name
+
+# Install dependencies
+npm install   # or yarn install, depending on the package manager you use
+
+# Run the project
+npm start     # or yarn start
