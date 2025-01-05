@@ -1,4 +1,4 @@
-<h1 align="center">Instagram Clone</h1>
+<h1 align="center">Monday Project</h1>
 <p align="center">A simple and responsive Instagram clone built with React, Sass, Express & MongoDB.</p>
 <p align="center">Developed by <a href="#">Afik</a>, <a href="#">Ariel</a> & <a href="#">Dor</a>.</p>
 
