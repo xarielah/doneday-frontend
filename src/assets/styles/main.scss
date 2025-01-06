@@ -1,19 +1,18 @@
 // // Setup
-// @import "setup/variables";
-// @import "setup/functions";
-// @import "setup/mixins";
-// @import "setup/typography";
+@import "setup/variables";
+@import "setup/functions";
+@import "setup/mixins";
+@import "setup/typography";
 
 // // Basics
-// @import "basics/helpers";
-// @import "basics/layout";
-// @import "basics/base";
-// // @import "basics/links";
-// @import "basics/forms";
+@import "basics/helpers";
+@import "basics/layout";
+@import "basics/base";
+@import "basics/forms";
 
 
 // // pages
-// @import "RootCmp";
+@import "RootCmp";
 
 // @import "pages/AboutUs";
 // @import "pages/HomePage";
@@ -21,13 +20,14 @@
 // @import "pages/ReviewIndex";
 // @import "pages/UserDetails";
 // @import "pages/TaskDetails";
-// @import "pages/LoginSignup";
+@import "pages/Board";
 
 // // Components
 // @import "cmps/list";
 // @import "cmps/preview";
 
-// @import "cmps/AppHeader";
+@import "cmps/AppHeader";
+@import "cmps/AppNav";
 // @import "cmps/AppFooter";
 // @import "cmps/UserMsg";
 

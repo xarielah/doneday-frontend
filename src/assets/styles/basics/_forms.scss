@@ -3,7 +3,7 @@
 button {
 text-align: center;
 border-radius: 8px;
-margin-left: EM(12px);
+// margin-left: EM(12px);
 }
 
 form > * {
@@ -19,5 +19,5 @@ form > * {
 	transition: 0.5s;
 }
 .btn-link:hover {
-	background-color: $clr1;
+	// background-color: $clr1;
 }
