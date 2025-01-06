@@ -1,7 +1,9 @@
 .main-container {
     display: grid;
-    grid-template-columns: 1rem 1fr 1rem;
-
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "header header"
+                         "nav board";
     > * {
         grid-column: 2;
 

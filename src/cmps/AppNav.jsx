@@ -1,5 +1,5 @@
 export function AppNav(){
     return (
-        <section className="app-nav"></section>
+        <section className="app-nav">test nav</section>
     )
 }

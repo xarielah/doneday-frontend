@@ -21,8 +21,7 @@ export function AppHeader() {
 
 	return (
 		<header className="app-header full">
-			<nav>
-			</nav>
+			<section className='header'><h1>header</h1></section>
 		</header>
 	)
 }
