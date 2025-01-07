@@ -1,20 +1,24 @@
+@import "../setup/variables";
+
+
 * {
     box-sizing: border-box;
 }
 
 html {
     line-height: 1.6;
-    color: $clr2;
+    // color: $clr2;
 }
     
 body {
     // max-width: 1024px;
     margin: 0 auto;
     font-family: 'Segoe UI',"Roboto", Helvetica, Arial, sans-serif;
+    background-color: #eceff8;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    // margin: 0 0 0.6em;
+    margin: 0 0 0.6em;
 }
 
 img {

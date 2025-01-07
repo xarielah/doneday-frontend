@@ -1,0 +1,11 @@
+@use '../setup/variables';
+
+.board-container{
+    background-color: $modal-background-color;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-area: board;
+    border-radius: 8px 0px;
+    margin-left: 10px;
+}

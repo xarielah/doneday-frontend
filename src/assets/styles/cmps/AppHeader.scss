@@ -1,0 +1,7 @@
+@use '../setup/variables';
+
+.app-header{
+    background-color: $primary-surface-color;
+    grid-area: header;
+    height: 48px;
+}

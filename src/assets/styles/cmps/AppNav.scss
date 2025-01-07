@@ -1,0 +1,9 @@
+@use '../setup/variables';
+
+.app-nav{
+ background-color: $modal-background-color;
+ grid-area: nav;
+ width: 310px;
+ border-radius: 0 8px;
+
+}
