@@ -1,9 +1,39 @@
+import {useRef} from "react";
 import { Link, NavLink } from "react-router-dom";
 
 
 export function AppNav(){
+    const sidebarRef = useRef(null)
+    const isResizing = useRef(false)
+  
+    const handleMouseDown = () => {
+      isResizing.current = true
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
+    }
+  
+    const handleMouseMove = (e) => {
+      if (isResizing.current) {
+        const newWidth = e.clientX
+        const minWidth = 200
+        const maxWidth = 576
+  
+        // Enforce min and max width constraints
+        if (newWidth >= minWidth && newWidth <= maxWidth) {
+          sidebarRef.current.style.width = `${newWidth}px`
+        }
+      }
+    }
+  
+    const handleMouseUp = () => {
+      isResizing.current = false
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+
     return (
-        <section className="app-nav">
+        <section className="app-nav" ref={sidebarRef}>
+
             <nav className="nav">
 
                 <section className="nav-section">
@@ -12,6 +42,7 @@ export function AppNav(){
                             <img src="/public/img/monday-icons/asset 21.svg" alt="" />
                         </div>
                         <span>Home</span>
+
                     </NavLink>
 
                     <NavLink to={"/2"}>
@@ -73,6 +104,7 @@ export function AppNav(){
 
 
             </nav>
+            <div className="resize-bar" onMouseDown={handleMouseDown}></div>
         </section>
     )
 }

@@ -1,13 +1,20 @@
 @use '../setup/variables';
 
 .app-nav{
- background-color: $modal-background-color;
- background: linear-gradient(180deg, $modal-background-color 0%, $primary-surface-color 100%);
-//  opacity: 0.5;
- grid-area: nav;
- width: 308px;
- max-width: 308px;
- border-radius: 0 8px;
+
+    background-color: $modal-background-color;
+    background: linear-gradient(180deg, $modal-background-color 0%, $primary-surface-color 80%);
+    
+    //  opacity: 0.5;
+    grid-area: nav;
+    width: 308px;
+    //  max-width: 308px;
+    border-radius: 0 8px;
+    
+    display: grid;
+    grid-template-columns: 1fr 3px;
+
+
  .nav-section{
     display: grid;
     gap: 3px;
@@ -38,6 +45,10 @@
             }
 
         }
+
+        span{
+            text-overflow: ellipsis;
+        }
         
 
         &:hover{
@@ -67,5 +78,13 @@
     width: 100%;
     background-color: #d0d4e4;
     margin: 0;
+}
+
+.resize-bar{
+    border-radius: 0 8px;
+    cursor:col-resize;
+    &:hover{
+        background-color: #0073ea;
+    }
 }
 }
