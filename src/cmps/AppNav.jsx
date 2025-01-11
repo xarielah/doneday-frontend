@@ -1,110 +1,280 @@
-import {useRef} from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Button, Combobox, Dialog, DialogContentContainer, Divider, ExpandCollapse, Flex, Heading, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search, Text } from "@vibe/core"
+import { Add, AddSmall, Attach, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Email, Favorite, Filter, Home, MyWeek, Search as SearchIcon, Workspace } from "@vibe/icons"
+import { Dropdown } from "@vibe/core";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 
-export function AppNav(){
-    const sidebarRef = useRef(null)
-    const isResizing = useRef(false)
-  
-    const handleMouseDown = () => {
-      isResizing.current = true
-      document.addEventListener('mousemove', handleMouseMove)
-      document.addEventListener('mouseup', handleMouseUp)
+export function AppNav() {
+
+
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [isSearch, setIsSearch] = useState(false)
+  const searchRef = useRef(null)
+
+  const sidebarRef = useRef(null)
+  const isResizing = useRef(false)
+
+  const handleClickOutside = () => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setIsSearch(false);
+    } else {
+      setIsSearch(true);
     }
-  
-    const handleMouseMove = (e) => {
-      if (isResizing.current) {
-        const newWidth = e.clientX
-        const minWidth = 200
-        const maxWidth = 576
-  
-        // Enforce min and max width constraints
-        if (newWidth >= minWidth && newWidth <= maxWidth) {
-          sidebarRef.current.style.width = `${newWidth}px`
-        }
+  }
+  useEffect(() => {
+    if (isSearch) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isSearch]);
+
+
+  // List of your workspaces:
+  const workspaces = [
+    { id: 1, label: "Main workspace" },
+    { id: 2, label: "another workspace" },
+  ];
+
+  // State to handle the currently selected workspace
+  const [selectedWorkspace, setSelectedWorkspace] = useState(workspaces[0]);
+
+  // State to handle search
+  const [searchValue, setSearchValue] = useState("");
+
+  // State to toggle the dropdown
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Filtered workspace list based on the search
+  const filteredWorkspaces = workspaces.filter((ws) =>
+    ws.label.toLowerCase().includes(searchValue.toLowerCase())
+  )
+
+  const handleMouseDown = () => {
+    isResizing.current = true
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+  }
+
+  const handleMouseMove = (e) => {
+    if (isResizing.current) {
+      const newWidth = e.clientX
+      const minWidth = 229
+      const maxWidth = 576
+
+      // Enforce min and max width constraints
+      if (newWidth >= minWidth && newWidth <= maxWidth) {
+        sidebarRef.current.style.width = `${newWidth}px`
       }
     }
-  
-    const handleMouseUp = () => {
-      isResizing.current = false
-      document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
+  }
+  const handleMouseUp = () => {
+    isResizing.current = false
+    document.removeEventListener('mousemove', handleMouseMove)
+    document.removeEventListener('mouseup', handleMouseUp)
+  }
 
-    return (
-        <section className="app-nav" ref={sidebarRef}>
+  const handleNavigate = (path) => {
+    navigate(path);
+  }
 
-            <nav className="nav">
+  const handleSelect = (workspace) => {
+    setSelectedWorkspace(workspace);
+    setIsOpen(false);
+  }
 
-                <section className="nav-section">
-                    <NavLink to={"/1"}>
-                        <div className="icon">
-                            <img src="/public/img/monday-icons/asset 21.svg" alt="" />
-                        </div>
-                        <span>Home</span>
+  return (
+    <section className="app-nav" ref={sidebarRef}>
 
-                    </NavLink>
+      <nav className="nav">
 
-                    <NavLink to={"/2"}>
-                        <div className="icon">
-                            <img src="/public/img/monday-icons/asset 22.svg" alt="" />
-                        </div>
-                        <span>My work</span>
-                    </NavLink>
-                </section>
+        <Menu className="menu-nav">
+          <MenuItem
+            className={location.pathname === "/" ? 'active home' : 'home'}
+            title="Home"
+            size="small"
+            icon={Home}
+            onClick={() => handleNavigate("/")}
+          />
+          <MenuItem
+            className={location.pathname === "/my_work" ? 'active my-work' : 'my-work'}
+            title="My work"
+            icon={MyWeek}
+            onClick={() => handleNavigate("/my_work")}
+          />
+        </Menu>
 
-                <div className="divider"></div>
+        <MenuDivider />
+        <Menu className="favorites-nav">
+          <MenuItem
+            title="Favorites"
+            icon={Favorite}
+          />
+        </Menu>
+        <MenuDivider />
 
-                <section className="nav-section favorite">
-                    <Link to={"/3"}>
-                        <div className="icon-star">
-                           <img src="/public/img/monday-icons/asset 34.svg" alt="" />
-                      </div>
-                      <span>Favorites</span>
-                        <div className="icon">
-                           <img src="/public/img/monday-icons/asset 28.svg" alt="" />
-                      </div>
-                      
-                    </Link>
-                </section>
+        <section className="workspaces-nav">
+          <Dialog
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            width={300}
+            title="Select a Workspace"
+            showTrigger={[]}
+            position="bottom"
 
-                <div className="divider"></div>
+            content={
+              <DialogContentContainer className="dialog-container ">
+                <Search
+                  placeholder="Search for a workspace"
+                  size="small"
+                  value={searchValue}
+                  onChange={(val) => setSearchValue(val)}
+                />
+                <Menu>
 
-                <section className="nav-section">
-                    <Link to={"/4"}>
-                        <div className="icon">
-                            <img src="/public/img/monday-icons/asset 24.svg" alt="" />
-                        </div>
-                        <span>Workspaces</span>
-                    </Link>
-
-                    <Link to={"/4"}>
-                        <div className="icon">
-                            <img src="/public/img/monday-icons/asset 24.svg" alt="" />
-                        </div>
-                        <span>Main Workspaces</span>
-                    </Link>
-                </section>
-
-                <section className="nav-section">
-                    <NavLink to={"/5"}>
-                        <div className="icon">
-                            <img src="/public/img/monday-icons/asset 36.svg" alt="" />
-                        </div>
-                        <span>monday recreate</span>
-                    </NavLink>
-
-                    <NavLink to={"/6"}>
-                        <div className="icon">
-                            <img src="/public/img/monday-icons/asset 31.svg" alt="" />
-                        </div>
-                        <span>Dashboard and reporting</span>
-                    </NavLink>
-                </section>
+                  <MenuTitle caption="My workspaces" />
+                  {/* List of filtered items */}
+                  {filteredWorkspaces.map((workspace) => (
+                    <MenuItem
+                      key={workspace.id}
+                      title={workspace.label}
+                      className={workspace.label == selectedWorkspace.label ? ' active ' : ' '}
+                      onClick={() => handleSelect(workspace)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  ))}
+                </Menu>
 
 
-            </nav>
-            <div className="resize-bar" onMouseDown={handleMouseDown}></div>
+
+                <Divider style={{ marginTop: "8px", marginBottom: "8px" }} />
+
+                <Button
+                  kind="tertiary"
+                  size="small"
+                >
+                  <Icon icon={AddSmall} />
+                  Add workspace
+                </Button>
+                <Button
+                  kind="tertiary"
+                  size="small"
+
+                >
+                  <Icon icon={Workspace} />
+                  Browse all
+                </Button>
+              </DialogContentContainer>
+            }
+          >
+            <section className="workspace-title">
+
+              {!isSearch && <>
+                <Icon icon={Workspace}
+                  className="icon" />
+                <MenuTitle
+                  className="title"
+                  caption="Workspaces"
+                  icon={Workspace}
+                />
+
+                <MenuButton size="xs" className="menu-btn">
+                  <Menu id="menu" size={Menu.sizes.MEDIUM}>
+                    <MenuItem iconType="svg" title="test 1" />
+                    <MenuItem iconType="svg" title="test 2" />
+                    <MenuItem
+                      title="test 3"
+                    />
+                  </Menu>
+                </MenuButton>
+                <IconButton
+                  className="search-btn"
+                  icon={SearchIcon}
+                  kind="tertiary"
+                  ariaLabel="Search results"
+                  size="xs"
+                  key="xs"
+                  onClick={() => setIsSearch(true)}
+                />
+              </>}
+
+
+              {isSearch && <Search
+                className="search"
+                ref={searchRef}
+                placeholder="Search in Main workspaces"
+                size="small"
+                autoFocus={true}
+                onClick={() => setIsSearch(true)}
+                renderAction={
+                  <IconButton
+                    icon={Filter}
+                    ariaLabel="Filter results"
+                    size="xs" />
+                }
+              />}
+
+            </section>
+            <section className="workspaces-dropdown">
+              {/* Dropdown trigger */}
+              <Button
+                size={Button.sizes.SMALL}
+                className="workspace-dropdown-btn"
+                kind={Button.kinds.TERTIARY}
+                onClick={() => setIsOpen(isOpen => !isOpen)}
+                style={{ flex: 1, justifyContent: "space-between", border: "1px solid #d0d4e4" }}
+              >
+                <span style={{ marginLeft: "8px" }}>
+                  {selectedWorkspace.label}
+                </span>
+                <Icon icon={isOpen ? DropdownChevronUp : DropdownChevronDown} />
+              </Button>
+
+              <IconButton
+                className="add-workspace-btn"
+                size={Button.sizes.SMALL}
+                kind={Button.kinds.PRIMARY}
+                ariaLabel="Add workspace"
+                icon={Add}
+                aria-disabled="false"
+                style={{
+                  marginLeft: "8px", backgroundColor: "#0073ea",
+                  color: "#ffffff"
+                }}
+              />
+
+            </section>
+          </Dialog>
         </section>
-    )
+
+        <Menu className="board-nav">
+          <MenuItem
+            className={location.pathname === "/board" ? 'active' : ''}
+            title="monday recreate"
+            icon={Board}
+            onClick={() => handleNavigate("/board")}
+          />
+          <MenuItem
+            className={location.pathname === "/overviews" ? 'active' : ''}
+            title="Dashboard and reporting"
+            icon={Dashboard}
+            onClick={() => handleNavigate("/overviews")}
+          />
+        </Menu>
+
+
+      </nav >
+      <div className="resize-bar" onMouseDown={handleMouseDown}></div>
+
+    </section >
+
+  )
 }
