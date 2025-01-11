@@ -1,27 +1,37 @@
-import { Link, NavLink } from 'react-router-dom'
-import { useNavigate } from 'react-router'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { logout } from '../store/actions/user.actions'
+import { useNavigate } from 'react-router'
+import AppHeaderInviteMembers from './AppHeaderInviteMembers'
+import AppHeaderList from './AppHeaderList'
+import AppHeaderLogo from './AppHeaderLogo'
 
 export function AppHeader() {
+	const [showInvite, setShowInvite] = useState(false);
+
 	const user = useSelector(storeState => storeState.userModule.user)
 	const navigate = useNavigate()
 
-	
-	async function onLogout() {
-		try {
-			await logout()
-			navigate('/')
-			showSuccessMsg(`Bye now`)
-		} catch (err) {
-			showErrorMsg('Cannot logout')
-		}
+	const handleInviteMember = (inviteDetails) => {
+		console.log(inviteDetails);
+	}
+
+	const handleOpenNotifications = () => {
+		console.log('open notifications');
 	}
 
 	return (
 		<header className="app-header full">
-			<section className='header'><h1>header</h1></section>
-		</header>
+			<AppHeaderInviteMembers
+				show={showInvite}
+				onClose={() => setShowInvite(false)}
+				onInviteMember={handleInviteMember}
+			/>
+			<AppHeaderLogo />
+			<AppHeaderList
+				onToggleInvite={() => setShowInvite(true)}
+				onOpenNotifications={handleOpenNotifications}
+			/>
+		</header >
 	)
 }
+

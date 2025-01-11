@@ -38,7 +38,7 @@ $color-word-blue: #2a5699;
 $color-zip-orange: #e4901c;
 $color-like_red: #fb275d;
 
-
+$avatar-background: rgba(255, 255, 255, 0.5);
 $color-scrollbar_gray: #b2b2b2;
 $color-timeline_grid_blue: #454662;
 $color-timeline_blue: #1c1f3b;
@@ -71,8 +71,6 @@ $dark-background-color: #f6f7fb;
 $dark-background-on-secondary-color: #f6f7fb;
 $dialog-background-color: #ffffff;
 $box-shadow-mediun: 0px 6px 20px rgba(0, 0, 0, 0.2);
-
-
 
 $color-highlight_blue: #cce5ff;
 $color-basic_blue: #0073ea;
@@ -293,17 +291,16 @@ $color-grass-green: #037f4c;
 $color-amethyst: #9d50dd;
 $color-dark-purple: #784bd1;
 
-
-
-
-
 // Breakpoints
 $mobile-breakpoint: 460px;
 $narrow-breakpoint: 720px;
 $normal-breakpoint: 960px;
 
-
-
-
-
-
+// Spacings
+$spacing-xs: 4px;
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+$spacing-xxxl: 64px;

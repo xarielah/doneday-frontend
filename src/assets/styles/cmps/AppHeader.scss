@@ -1,7 +1,97 @@
-@use '../setup/variables';
+@use "../setup/variables";
 
-.app-header{
-    background-color: $primary-surface-color;
-    grid-area: header;
-    height: 48px;
+.app-header {
+  display: flex;
+  align-items: center;
+  padding-right: $spacing-large;
+  padding-left: $spacing-xs;
+  background-color: $primary-surface-color;
+  //   background-color: $primary-surface-color;
+  justify-content: space-between;
+  grid-area: header;
+  height: 48px;
+
+  .company-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+  }
+
+  .app-header-logo {
+    padding-left: 4px;
+
+    .app-header-text-and-img {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+
+      .app-header-text-and-img-para {
+        /* TODO: manage this in a mixin or var */
+        @media (max-width: 550px) {
+          display: none;
+        }
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  & > .app-header-list > ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+
+    & > li > .app-header-logo-divider {
+      width: 1px;
+      height: 24px;
+      margin-left: 8px;
+      margin-right: 13px;
+      background-color: $primary-background-hover-color;
+    }
+
+    & > .app-header-user-info {
+      display: flex;
+      align-items: center;
+      background-color: $avatar-background;
+      cursor: pointer;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+
+      &:hover {
+        background-color: $primary-background-hover-color;
+      }
+
+      .abbv {
+        background-image: linear-gradient(
+          to left,
+          $primary-surface-color 50%,
+          transparent 50%
+        );
+      }
+
+      .icon {
+        margin-left: 4px;
+        margin-right: 4px;
+      }
+    }
+
+    & button {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: $primary-text-color;
+
+      &:hover {
+        background-color: $primary-background-hover-color;
+      }
+    }
+
+    & > * {
+      margin-right: 4px;
+    }
+  }
 }
