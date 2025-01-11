@@ -1,0 +1,19 @@
+.app-header-invite-modal {
+  display: grid;
+  padding: $spacing-small;
+  border-radius: 8px;
+}
+
+.app-header-invite-content {
+  & input {
+    font-size: 0.5em;
+  }
+
+  & > *:not(:last-child) {
+    margin-bottom: $spacing-large;
+  }
+}
+
+.app-header-invite-textfield {
+  font-size: 0.9em !important;
+}
