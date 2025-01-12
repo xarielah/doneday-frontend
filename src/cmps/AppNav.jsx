@@ -1,14 +1,10 @@
-import { Button, Combobox, Dialog, DialogContentContainer, Divider, ExpandCollapse, Flex, Heading, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search, Text } from "@vibe/core"
-import { Add, AddSmall, Attach, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Email, Favorite, Filter, Home, MyWeek, Search as SearchIcon, Workspace } from "@vibe/icons"
-import { Dropdown } from "@vibe/core";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search } from "@vibe/core"
+import { Add, AddSmall, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Favorite, Filter, Home, MyWeek, Search as SearchIcon, Workspace } from "@vibe/icons"
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export function AppNav() {
-
-
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -112,13 +108,17 @@ export function AppNav() {
           />
         </Menu>
 
+
         <MenuDivider />
-        <Menu className="favorites-nav">
-          <MenuItem
-            title="Favorites"
-            icon={Favorite}
-          />
-        </Menu>
+        <section className="favorites-nav">
+          <Menu>
+            <MenuItem
+              title="Favorites"
+              icon={Favorite}
+            />
+          </Menu>
+          {/* <Icon className="dropdown-favorite" icon={DropdownChevronDown} /> */}
+        </section>
         <MenuDivider />
 
         <section className="workspaces-nav">
