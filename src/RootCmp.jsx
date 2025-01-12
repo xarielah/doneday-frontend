@@ -1,10 +1,14 @@
+
 import { Routes, Route } from 'react-router'
 import { HomePage } from './pages/HomePage'
 import "@vibe/core/tokens";
 import { AppHeader } from './cmps/AppHeader'
+
 import { AppFooter } from './cmps/AppFooter'
+import { AppHeader } from './cmps/AppHeader'
 import { AppNav } from './cmps/AppNav.jsx'
 import { Board } from './pages/Board.jsx'
+import { HomePage } from './pages/HomePage.jsx'
 
 export function RootCmp() {
     return (
