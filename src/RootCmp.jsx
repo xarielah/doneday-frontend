@@ -1,5 +1,9 @@
-import "@vibe/core/tokens"
-import { Route, Routes } from 'react-router'
+
+import { Routes, Route } from 'react-router'
+import { HomePage } from './pages/HomePage'
+import "@vibe/core/tokens";
+import { AppHeader } from './cmps/AppHeader'
+
 import { AppFooter } from './cmps/AppFooter'
 import { AppHeader } from './cmps/AppHeader'
 import { AppNav } from './cmps/AppNav.jsx'
