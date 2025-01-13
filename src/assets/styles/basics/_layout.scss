@@ -1,10 +1,12 @@
 .main-container {
+    width: 100%;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas: "header header"
-                         "nav board";
-    > * {
+        "nav board";
+
+    >* {
         grid-column: 2;
 
         &.full {

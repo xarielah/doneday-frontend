@@ -1,8 +1,8 @@
 @use '../setup/variables';
 
-.board-container{
+.board-container {
     background-color: $modal-background-color;
-    width: 100%;
+    // width: 100%;
     height: 100%;
     display: grid;
     grid-area: board;
