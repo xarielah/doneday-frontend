@@ -1,3 +1,3 @@
 export function Member({ info, onTaskUpdate }) {
-    return (<div>Member</div>)
+    return (<div>{info.map((member) => member.name + ", ")}</div>)
 }

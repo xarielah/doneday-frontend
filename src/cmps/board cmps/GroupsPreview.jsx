@@ -1,5 +1,7 @@
+import { EditableText, } from "@vibe/core";
 import { Date } from "./dynamicCmps/Date";
 import { Member } from "./dynamicCmps/Member";
+import { Options } from "./dynamicCmps/Options";
 import { Priority } from "./dynamicCmps/Priority";
 import { Side } from "./dynamicCmps/Side";
 import { Status } from "./dynamicCmps/Status";
@@ -17,12 +19,22 @@ export function GroupPreview({ labels, group, cmpOrder }) {
         <section className="group-list">
             <section className="group-label">
                 {cmpOrder.map((cmp, index) => (
-                    <div key={`label-${index}`}>{labels[index] || ""}</div>
+                    <section className={`label-${cmp}`} key={`label-${index}`}>
+                        {index === 0 && <>
+                            <div className="group-color-bar" style={{ backgroundColor: `${group.color}` }}></div>
+                            <input type="checkbox" /></>}
+                        {index > 0 && <EditableText
+                            readOnly={index < 2}
+                            type={EditableText.types.TEXT2}
+                            weight={EditableText.weights.NORMAL}
+                            value={labels[index]}
+                        /> || ""}</section>
                 ))}
+
             </section>
 
             {group.tasks.map((task) => (
-                <section className="group grid" key={`task-${task.id}`}>
+                <section className="task-row" key={`task-${task.id}`}>
                     {cmpOrder.map((cmp, idx) => (
                         <section
                             className={`grid-item ${cmp}`}
@@ -30,7 +42,7 @@ export function GroupPreview({ labels, group, cmpOrder }) {
                         >
                             <DynamicCmp
                                 cmpType={cmp}
-                                info={task[cmp]}
+                                info={cmp === "side" ? group.color : task[cmp]}
                                 onTaskUpdate={onTaskUpdate}
                             />
                         </section>
@@ -44,7 +56,6 @@ export function GroupPreview({ labels, group, cmpOrder }) {
 
 
 const DynamicCmp = ({ cmpType, info, onTaskUpdate }) => {
-    console.log("Rendering component:", cmpType, "with info:", info);
 
     switch (cmpType) {
         case "side":

@@ -1,0 +1,69 @@
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$border-color: #ddd;
+$hover-bg: #f5f6f8;
+$header-bg: $modal-background-color;
+$font-color: #333;
+
+.board-details {
+    margin-top: 20px;
+    max-height: 100%;
+
+    .group-list {
+        text-align: center;
+        display: grid;
+        grid-template-columns: 39px repeat(auto-fill, minmax(auto, 300px));
+        grid-auto-rows: auto;
+        gap: 0;
+        margin-left: 30px;
+        border: 1px solid $border-color;
+        border-radius: 8px 0;
+        margin-bottom: $spacing-md;
+
+        .group-label {
+            display: grid;
+            grid-template-columns: subgrid;
+            grid-column: 1 / -1;
+            background-color: $header-bg;
+            font-weight: 600;
+            height: 36px;
+            border-bottom: 1px solid $border-color;
+
+            >div {
+                border-right: 1px solid $border-color;
+                display: flex;
+                justify-content: center;
+                align-self: center;
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
+
+        .task-row {
+            display: grid;
+            grid-template-columns: subgrid;
+            grid-column: 1 / -1;
+            height: 36px;
+            border-bottom: 1px solid $border-color;
+
+            &:hover {
+                background-color: $hover-bg;
+            }
+
+            .grid-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-right: 1px solid $border-color;
+
+
+                &:last-child {
+                    border-right: none;
+                }
+
+            }
+        }
+    }
+}

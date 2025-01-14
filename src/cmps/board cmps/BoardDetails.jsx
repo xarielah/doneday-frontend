@@ -1,4 +1,3 @@
-import { Icon } from "@vibe/core";
 import { GroupPreview } from "./GroupsPreview";
 
 export function BoardDetails() {
@@ -10,7 +9,7 @@ export function BoardDetails() {
             tasks: [
                 {
                     id: "task101",
-                    side: "frontend",
+                    side: null,
                     taskTitle: "Design homepage UI",
                     members: [
                         { name: "Tal", color: "red" },
@@ -22,7 +21,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task102",
-                    side: "backend",
+                    side: null,
                     taskTitle: "Integrate payment gateway",
                     members: [
                         { name: "Dana", color: "green" },
@@ -34,7 +33,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task103",
-                    side: "qa",
+                    side: null,
                     taskTitle: "Write test cases for API",
                     members: [
                         { name: "Eli", color: "orange" },
@@ -46,7 +45,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task104",
-                    side: "design",
+                    side: null,
                     taskTitle: "Create onboarding illustrations",
                     members: [
                         { name: "Shir", color: "purple" },
@@ -64,7 +63,7 @@ export function BoardDetails() {
             tasks: [
                 {
                     id: "task201",
-                    side: "marketing",
+                    side: null,
                     taskTitle: "Develop campaign strategy",
                     members: [
                         { name: "Yossi", color: "pink" },
@@ -76,7 +75,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task202",
-                    side: "sales",
+                    side: null,
                     taskTitle: "Prepare client proposals",
                     members: [
                         { name: "Tal", color: "red" },
@@ -88,7 +87,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task203",
-                    side: "product",
+                    side: null,
                     taskTitle: "Define MVP scope",
                     members: [
                         { name: "Avi", color: "blue" },
@@ -100,7 +99,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task204",
-                    side: "devops",
+                    side: null,
                     taskTitle: "Setup CI/CD pipeline",
                     members: [
                         { name: "Shay", color: "black" },
@@ -118,7 +117,7 @@ export function BoardDetails() {
             tasks: [
                 {
                     id: "task301",
-                    side: "support",
+                    side: null,
                     taskTitle: "Resolve high-priority tickets",
                     members: [
                         { name: "Shir", color: "purple" },
@@ -130,7 +129,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task302",
-                    side: "analytics",
+                    side: null,
                     taskTitle: "Build dashboard for KPIs",
                     members: [
                         { name: "Yossi", color: "pink" },
@@ -142,7 +141,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task303",
-                    side: "design",
+                    side: null,
                     taskTitle: "Redesign landing page",
                     members: [
                         { name: "Lior", color: "blue" },
@@ -154,7 +153,7 @@ export function BoardDetails() {
                 },
                 {
                     id: "task304",
-                    side: "product",
+                    side: null,
                     taskTitle: "Write user stories",
                     members: [
                         { name: "Avi", color: "blue" },
@@ -177,7 +176,7 @@ export function BoardDetails() {
         "date",
     ];
 
-    const labels = [null, "item", "status", "priority", "members", "date"];
+    const labels = [null, "Task", "Status", "Priority", "members", "date"];
 
 
 

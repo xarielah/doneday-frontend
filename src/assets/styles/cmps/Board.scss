@@ -1,5 +1,10 @@
 @use '../setup/variables';
 
+.main-container,
+.board-container {
+    height: 100%;
+}
+
 .board-container {
     background-color: $modal-background-color;
     // width: 100%;
@@ -8,4 +13,8 @@
     grid-area: board;
     border-radius: 8px 0px;
     margin-left: 10px;
+    // overflow: auto;
+    // scrollbar-width: none;
+    // -ms-overflow-style: none;
+    max-height: 100%;
 }

@@ -1,3 +1,3 @@
 export function Status({ info, onTaskUpdate }) {
-    return (<div>Status</div>)
+    return (<div>{info}</div>)
 }
