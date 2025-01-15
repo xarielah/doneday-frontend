@@ -11,13 +11,13 @@ const getButtonSizeStyles = (size) => {
     }
 }
 
-const ExternalDemoButton = ({ size = "small" }) => {
-    const styles = getButtonSizeStyles(size);
+const ExternalDemoButton = ({ size = "small", styles = {} }) => {
+    const variantStyles = getButtonSizeStyles(size);
     return (
         <span
             role='link'
             className="external-rounded-button"
-            style={styles}>
+            style={{ ...styles, ...variantStyles }}>
             View Demo
             <MoveArrowRight className="external-button-icon" />
         </span>

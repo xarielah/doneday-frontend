@@ -26,9 +26,7 @@ const ExternalHeader = () => {
             <div id="intersection-element" style={{ position: 'absolute', top: '0' }} ref={baseDivRef}></div>
             <header className="external-header" ref={headerRef}>
                 <div className="external-header-container">
-                    <Link to="/">
-                        <img src="/public/img/logo-transparent.png" alt="logo" className="external-header-logo" />
-                    </Link>
+                    <img src="/public/img/logo-transparent.png" alt="logo" className="external-header-logo" />
                     <nav className="external-nav">
                         <section className="external-nav-first-menu">
                             <a
@@ -39,13 +37,12 @@ const ExternalHeader = () => {
                             </a>
                         </section>
                         <section className="external-nav-other-options">
-                            <span
-                                role='link'
+                            <Link
                                 className="external-header-button"
-                                onClick={() => navigate("/login")}>
+                                to="/login">
                                 Log in
-                            </span>
-                            <ExternalDemoButton />
+                            </Link>
+                            <ExternalDemoButton styles={{ marginLeft: '8px' }} />
                         </section>
                     </nav>
                 </div>
