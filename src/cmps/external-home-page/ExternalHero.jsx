@@ -1,11 +1,13 @@
 import { Heading, Text } from "@vibe/core";
 import ExternalDemoButton from "./ExternalDemoButton";
+import ExternalHeroTitle from "./ExternalHeroTitle";
 
 const ExternalHero = () => {
     return (
         <main className="external-hero">
             <div className="external-hero-segment">
                 <article className="external-hero-segment-content">
+                    <ExternalHeroTitle />
                     <Heading
                         align="center"
                         weight="light"
