@@ -1,0 +1,12 @@
+.external-main-container {
+  background-color: #fff;
+  position: relative;
+  min-height: 100vh;
+}
+
+.external-home-page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  grid-template-areas: "header" "hero" "footer";
+}
