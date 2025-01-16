@@ -36,7 +36,7 @@ export function AppNav() {
 
   // List of your workspaces:
   const workspaces = [
-    { id: 1, label: "Main workspace" },
+    { id: 1, label: "Main board" },
     { id: 2, label: "another workspace" },
   ];
 
@@ -126,21 +126,21 @@ export function AppNav() {
             open={isOpen}
             onClose={() => setIsOpen(false)}
             width={300}
-            title="Select a Workspace"
+            title="Select a Board"
             showTrigger={[]}
             position="bottom"
 
             content={
               <DialogContentContainer className="dialog-container ">
                 <Search
-                  placeholder="Search for a workspace"
+                  placeholder="Search for a board"
                   size="small"
                   value={searchValue}
                   onChange={(val) => setSearchValue(val)}
                 />
                 <Menu>
 
-                  <MenuTitle caption="My workspaces" />
+                  <MenuTitle caption="My board" />
                   {/* List of filtered items */}
                   {filteredWorkspaces.map((workspace) => (
                     <MenuItem
@@ -162,7 +162,7 @@ export function AppNav() {
                   size="small"
                 >
                   <Icon icon={AddSmall} />
-                  Add workspace
+                  Add Board
                 </Button>
                 <Button
                   kind="tertiary"
@@ -182,7 +182,7 @@ export function AppNav() {
                   className="icon" />
                 <MenuTitle
                   className="title"
-                  caption="Workspaces"
+                  caption="Boards"
                   icon={Workspace}
                 />
 
@@ -242,7 +242,7 @@ export function AppNav() {
                 className="add-workspace-btn"
                 size={Button.sizes.SMALL}
                 kind={Button.kinds.PRIMARY}
-                ariaLabel="Add workspace"
+                ariaLabel="Add Board"
                 icon={Add}
                 aria-disabled="false"
                 style={{

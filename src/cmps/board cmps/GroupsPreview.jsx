@@ -16,12 +16,12 @@ export function GroupPreview({ labels, group, cmpOrder }) {
 
 
     return (
-        <section className="group-list">
+        <section className="group-list" style={{ borderLeft: `6px solid ${group.color}` }}>
             <section className="group-label">
                 {cmpOrder.map((cmp, index) => (
                     <section className={`label-${cmp}`} key={`label-${index}`}>
                         {index === 0 && <>
-                            <div className="group-color-bar" style={{ backgroundColor: `${group.color}` }}></div>
+                            {/* <div className="group-color-bar" style={{ backgroundColor: `${group.color}` }}></div> */}
                             <input type="checkbox" /></>}
                         {index > 0 && <EditableText
                             readOnly={index < 2}
@@ -33,24 +33,26 @@ export function GroupPreview({ labels, group, cmpOrder }) {
 
             </section>
 
-            {group.tasks.map((task) => (
-                <section className="task-row" key={`task-${task.id}`}>
-                    {cmpOrder.map((cmp, idx) => (
-                        <section
-                            className={`grid-item ${cmp}`}
-                            key={`task-${task.id}-cmp-${idx}`}
-                        >
-                            <DynamicCmp
-                                cmpType={cmp}
-                                info={cmp === "side" ? group.color : task[cmp]}
-                                onTaskUpdate={onTaskUpdate}
-                            />
-                        </section>
-                    ))}
-                </section>
-            ))}
+            {
+                group.tasks.map((task) => (
+                    <section className="task-row" key={`task-${task.id}`}>
+                        {cmpOrder.map((cmp, idx) => (
+                            <section
+                                className={`grid-item ${cmp}`}
+                                key={`task-${task.id}-cmp-${idx}`}
+                            >
+                                <DynamicCmp
+                                    cmpType={cmp}
+                                    info={cmp === "side" ? group.color : task[cmp]}
+                                    onTaskUpdate={onTaskUpdate}
+                                />
+                            </section>
+                        ))}
+                    </section>
+                ))
+            }
 
-        </section>
+        </section >
     )
 }
 

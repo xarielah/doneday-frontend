@@ -14,9 +14,11 @@
 
     .tabs {
         grid-row: 2;
+        justify-self: start;
     }
 
     .action {
         grid-row: 3;
+        justify-self: start;
     }
 }

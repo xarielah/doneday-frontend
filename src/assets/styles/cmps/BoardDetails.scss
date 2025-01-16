@@ -18,6 +18,7 @@ $font-color: #333;
         margin-left: 30px;
         border: 1px solid $border-color;
         border-radius: 8px 0;
+        // border-left: 6px solid transparent;
         margin-bottom: $spacing-md;
 
         .group-label {
@@ -28,9 +29,10 @@ $font-color: #333;
             font-weight: 600;
             height: 36px;
             border-bottom: 1px solid $border-color;
+            // border-right: 1px solid $border-color;
 
-            >div {
-                border-right: 1px solid $border-color;
+            >section {
+                // border-right: 1px solid $border-color;
                 display: flex;
                 justify-content: center;
                 align-self: center;
