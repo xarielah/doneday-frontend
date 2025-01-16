@@ -1,11 +1,13 @@
-import "@vibe/core/tokens"
+
+import ExternalHomePage from "./pages/ExternalHomePage"
 import { Navigate, Route, Routes } from 'react-router'
-import { AppFooter } from './cmps/AppFooter'
+import { HomePage } from './pages/HomePage'
+import "@vibe/core/tokens"
 import { AppHeader } from './cmps/AppHeader'
+
+import { AppFooter } from './cmps/AppFooter'
 import { AppNav } from './cmps/AppNav'
 import { Board } from './pages/Board'
-import ExternalHomePage from "./pages/ExternalHomePage"
-import { HomePage } from './pages/HomePage'
 
 export function RootCmp() {
     const isAuthenticated = false;
