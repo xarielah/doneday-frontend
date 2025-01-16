@@ -2,15 +2,15 @@ const { DEV, VITE_LOCAL } = import.meta.env
 
 import { getRandomIntInclusive, makeId } from '../util.service'
 
-import { carService as local } from './car.service.local'
-import { carService as remote } from './car.service.remote'
+import { carService as local } from './board.service.local'
+import { carService as remote } from './board.service.remote'
 
 function getEmptyCar() {
-	return {
-		vendor: makeId(),
-		speed: getRandomIntInclusive(80, 240),
-		msgs: [],
-	}
+    return {
+        vendor: makeId(),
+        speed: getRandomIntInclusive(80, 240),
+        msgs: [],
+    }
 }
 
 function getDefaultFilter() {
