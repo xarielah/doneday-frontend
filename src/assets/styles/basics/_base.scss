@@ -15,6 +15,14 @@ body {
   margin: 0 auto;
   font-family: 'Figtree', 'Roboto', sans-serif;
   background-color: #eceff8;
+
+}
+
+main {
+  background-color: $modal-background-color;
+  border-radius: 8px 0px;
+  margin-left: 10px;
+
 }
 
 h1,

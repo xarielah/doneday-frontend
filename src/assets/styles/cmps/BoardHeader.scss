@@ -1,0 +1,24 @@
+.board-header {
+    height: 156px;
+    // background-color: red;
+    border-radius: 8px 0 0 0;
+    // width: 100%;
+    padding: 10px 36px;
+    display: grid;
+    grid-template-columns: auto auto;
+    // grid-template-rows: auto auto auto auto;
+
+    .integration {
+        justify-self: end;
+    }
+
+    .tabs {
+        grid-row: 2;
+        justify-self: start;
+    }
+
+    .action {
+        grid-row: 3;
+        justify-self: start;
+    }
+}

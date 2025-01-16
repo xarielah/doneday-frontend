@@ -1,5 +1,11 @@
-export function Board(){
+import { BoardDetails } from "../cmps/board cmps/BoardDetails";
+import { BoardHeader } from "../cmps/board cmps/BoardHeader";
+
+export function Board() {
     return (
-        <section className="board-container">test board</section>
+        <section className="board-container">
+            <BoardHeader />
+            <BoardDetails />
+        </section>
     )
 }

@@ -1,0 +1,14 @@
+.task-select,
+.label-side {
+    width: 100%;
+    display: flex;
+
+    .group-color-bar {
+        // align-self: flex-start;
+        justify-self: start;
+        width: 6px;
+        // background-color: red;
+        height: 36px;
+    }
+
+}
