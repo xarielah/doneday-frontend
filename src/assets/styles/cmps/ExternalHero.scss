@@ -4,6 +4,9 @@
   min-height: min(max(41vw, 470.78px), 682px);
 
   & .external-hero-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 16px;
     border-radius: 40px;
     background-color: #f0f3ff;
