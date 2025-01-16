@@ -1,0 +1,9 @@
+.external-hero-title {
+  display: flex;
+  align-items: center;
+
+  & .external-hero-title-logo {
+    height: 40px;
+    margin-right: 4px;
+  }
+}
