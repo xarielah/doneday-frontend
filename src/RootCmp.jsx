@@ -10,7 +10,7 @@ import { AppNav } from './cmps/AppNav'
 import { Board } from './pages/Board'
 
 export function RootCmp() {
-    const isAuthenticated = false;
+    const isAuthenticated = true;
     if (isAuthenticated) return <AuthenticatedRoutes />
     else return <UnauthenticatedRoutes />
 }

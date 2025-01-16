@@ -12,6 +12,10 @@
         width: 100%;
     }
 
+    width: 100%;
+
+
+
     button {
         width: 100%;
     }
@@ -66,7 +70,12 @@
             }
         }
 
+        >* {
+            width: 100%;
+        }
+
         .menu-nav {
+
             padding: 0 10px 0 8px;
             padding-top: 2px;
             display: grid;
@@ -94,6 +103,10 @@
         }
 
         .favorites-nav {
+            >* {
+                width: 100%;
+            }
+
             margin: 2px 0;
             padding: 0 10px 0 8px;
             display: grid;

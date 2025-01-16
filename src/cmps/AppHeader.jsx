@@ -8,8 +8,8 @@ import AppHeaderLogo from './AppHeaderLogo'
 export function AppHeader() {
 	const [showInvite, setShowInvite] = useState(false);
 
-	const user = useSelector(storeState => storeState.userModule.user)
-	const navigate = useNavigate()
+	// const user = useSelector(storeState => storeState.userModule.user)
+	// const navigate = useNavigate()
 
 	const handleInviteMember = (inviteDetails) => {
 		console.log(inviteDetails);
