@@ -16,13 +16,13 @@ To get started with this project, clone the repository and install dependencies 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/project-name.git
+git clone [https://github.com/afikyefet/monday-clone-proj](https://github.com/afikyefet/monday-clone-proj)
 
 # Navigate to the project directory
-cd project-name
+cd ./monday-clone-proj
 
 # Install dependencies
 npm install   # or yarn install, depending on the package manager you use
 
 # Run the project
-npm start     # or yarn start
+npm run dev     # or yarn dev
