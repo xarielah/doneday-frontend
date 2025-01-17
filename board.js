@@ -25,10 +25,180 @@
 // (later on we can place it in a modal and nested route)
 
 
+export const testBoard = [
+    {
+        _id: "group1",
+        color: "red",
+        tasks: [
+            {
+                _id: "task101",
+                side: null,
+                taskTitle: "Design homepage UI",
+                members: [
+                    { name: "Tal", color: "red" },
+                    { name: "Avi", color: "blue" },
+                ],
+                date: "15-01-2025",
+                status: "IN WORK",
+                priority: "HIGH",
+            },
+            {
+                _id: "task102",
+                side: null,
+                taskTitle: "Integrate payment gateway",
+                members: [
+                    { name: "Dana", color: "green" },
+                    { name: "Shay", color: "black" },
+                ],
+                date: "20-01-2025",
+                status: "STUCK",
+                priority: "CRITICAL",
+            },
+            {
+                _id: "task103",
+                side: null,
+                taskTitle: "Write test cases for API",
+                members: [
+                    { name: "Eli", color: "orange" },
+                    { name: "Tal", color: "red" },
+                ],
+                date: "18-01-2025",
+                status: "DONE",
+                priority: "MEDIUM",
+            },
+            {
+                _id: "task104",
+                side: null,
+                taskTitle: "Create onboarding illustrations",
+                members: [
+                    { name: "Shir", color: "purple" },
+                    { name: "Lior", color: "blue" },
+                ],
+                date: "22-01-2025",
+                status: "IN WORK",
+                priority: "LOW",
+            },
+        ],
+    },
+    {
+        _id: "group2",
+        color: "blue",
+        tasks: [
+            {
+                _id: "task201",
+                side: null,
+                taskTitle: "Develop campaign strategy",
+                members: [
+                    { name: "Yossi", color: "pink" },
+                    { name: "Dana", color: "green" },
+                ],
+                date: "10-02-2025",
+                status: "IN REVIEW",
+                priority: "HIGH",
+            },
+            {
+                _id: "task202",
+                side: null,
+                taskTitle: "Prepare client proposals",
+                members: [
+                    { name: "Tal", color: "red" },
+                    { name: "Shay", color: "black" },
+                ],
+                date: "12-02-2025",
+                status: "STUCK",
+                priority: "MEDIUM",
+            },
+            {
+                _id: "task203",
+                side: null,
+                taskTitle: "Define MVP scope",
+                members: [
+                    { name: "Avi", color: "blue" },
+                    { name: "Eli", color: "orange" },
+                ],
+                date: "08-02-2025",
+                status: "DONE",
+                priority: "HIGH",
+            },
+            {
+                _id: "task204",
+                side: null,
+                taskTitle: "Setup CI/CD pipeline",
+                members: [
+                    { name: "Shay", color: "black" },
+                    { name: "Lior", color: "blue" },
+                ],
+                date: "15-02-2025",
+                status: "IN WORK",
+                priority: "CRITICAL",
+            },
+        ],
+    },
+    {
+        _id: "group3",
+        color: "green",
+        tasks: [
+            {
+                _id: "task301",
+                side: null,
+                taskTitle: "Resolve high-priority tickets",
+                members: [
+                    { name: "Shir", color: "purple" },
+                    { name: "Dana", color: "green" },
+                ],
+                date: "13-01-2025",
+                status: "IN WORK",
+                priority: "HIGH",
+            },
+            {
+                _id: "task302",
+                side: null,
+                taskTitle: "Build dashboard for KPIs",
+                members: [
+                    { name: "Yossi", color: "pink" },
+                    { name: "Shay", color: "black" },
+                ],
+                date: "20-01-2025",
+                status: "IN WORK",
+                priority: "MEDIUM",
+            },
+            {
+                _id: "task303",
+                side: null,
+                taskTitle: "Redesign landing page",
+                members: [
+                    { name: "Lior", color: "blue" },
+                    { name: "Tal", color: "red" },
+                ],
+                date: "25-01-2025",
+                status: "IN REVIEW",
+                priority: "HIGH",
+            },
+            {
+                _id: "task304",
+                side: null,
+                taskTitle: "Write user stories",
+                members: [
+                    { name: "Avi", color: "blue" },
+                    { name: "Eli", color: "orange" },
+                ],
+                date: "18-01-2025",
+                status: "DONE",
+                priority: "LOW",
+            },
+        ],
+    },
+];
+
+
+export async function getDummyBoardAsync(boardId) {
+    console.log(boardId);
+    return new Promise.resolve(testBoard)
+}
 
 // The comment feature can be implemented with activity
 const activity = {
-    "id": makeId(),
+    "_id": makeId(),
     "txt": "Changed Color",
     "createdAt": Date.now(),
     "byMember": userService.getLoggedinUser(),
@@ -38,7 +208,7 @@ const activity = {
 
 // Store - saveTask
 function storeSaveTask(boardId, groupId, task, activity) {
-    
+
     board = boardService.saveTask(boardId, groupId, task, activity)
     // commit(ACTION) // dispatch(ACTION)
 }
@@ -69,12 +239,12 @@ const board = {
     },
     labels: [
         {
-            "id": "l101",
+            "_id": "l101",
             "title": "Done",
             "color": "#61bd4f"
         },
         {
-            "id": "l102",
+            "_id": "l102",
             "title": "Progress",
             "color": "#61bd33"
         }
@@ -93,32 +263,32 @@ const board = {
     ],
     groups: [
         {
-            "id": "g101",
+            "_id": "g101",
             "title": "Group 1",
             "archivedAt": 1589983468418,
             "tasks": [
                 {
-                    "id": "c101",
+                    "_id": "c101",
                     "title": "Replace logo"
                 },
                 {
-                    "id": "c102",
+                    "_id": "c102",
                     "title": "Add Samples"
                 }
             ],
             "style": {}
         },
         {
-            "id": "g102",
+            "_id": "g102",
             "title": "Group 2",
             "tasks": [
                 {
-                    "id": "c103",
+                    "_id": "c103",
                     "title": "Do that",
                     "archivedAt": 1589983468418,
                 },
                 {
-                    "id": "c104",
+                    "_id": "c104",
                     "title": "Help me",
                     "status": "inProgress", // monday / both
                     "priority": "high",  // monday / both
@@ -126,7 +296,7 @@ const board = {
                     "description": "description",
                     "comments": [ // in Trello this is easier implemented as an activity
                         {
-                            "id": "ZdPnm",
+                            "_id": "ZdPnm",
                             "title": "also @yaronb please CR this",
                             "createdAt": 1590999817436,
                             "byMember": {
@@ -138,11 +308,11 @@ const board = {
                     ],
                     "checklists": [
                         {
-                            "id": "YEhmF",
+                            "_id": "YEhmF",
                             "title": "Checklist",
                             "todos": [
                                 {
-                                    "id": "212jX",
+                                    "_id": "212jX",
                                     "title": "To Do 1",
                                     "isDone": false
                                 }
@@ -166,7 +336,7 @@ const board = {
     ],
     activities: [
         {
-            "id": "a101",
+            "_id": "a101",
             "title": "Changed Color",
             "createdAt": 154514,
             "byMember": {
@@ -175,11 +345,11 @@ const board = {
                 "imgUrl": "http://some-img"
             },
             "group": {
-                "id": "g101",
+                "_id": "g101",
                 "title": "Urgent Stuff"
             },
             "task": {
-                "id": "c101",
+                "_id": "c101",
                 "title": "Replace Logo"
             }
         }
@@ -198,7 +368,7 @@ const user = {
     "password": "aBambi123",
     "imgUrl": "http://some-img.jpg",
     "mentions": [{ //optional
-        "id": "m101",
+        "_id": "m101",
         "boardId": "m101",
         "taskId": "t101"
     }]
@@ -257,30 +427,30 @@ const cmp3 = {
 // Code Ideas in React
 export function TaskPreview({ task }) {
     const cmpsOrder = [
-      "StatusPicker",
-      "MemberPicker",
-      "DatePicker",
-      "PriorityPicker",
+        "StatusPicker",
+        "MemberPicker",
+        "DatePicker",
+        "PriorityPicker",
     ]
     return (
-      <section>
-        <h5>{task.txt}</h5>
-        {cmpsOrder.map((cmp, idx) => {
-          return (
-            <DynamicCmp
-              cmp={cmp}
-              key={idx}
-              onUpdate={(data) => {
-                console.log("Updating: ", cmp, "with data:", data);
-                // make a copy, update the task, create an action
-                // Call action: updateTask(task, action)
-              }}
-            />
-          )
-        })}
-      </section>
+        <section>
+            <h5>{task.txt}</h5>
+            {cmpsOrder.map((cmp, idx) => {
+                return (
+                    <DynamicCmp
+                        cmp={cmp}
+                        key={idx}
+                        onUpdate={(data) => {
+                            console.log("Updating: ", cmp, "with data:", data);
+                            // make a copy, update the task, create an action
+                            // Call action: updateTask(task, action)
+                        }}
+                    />
+                )
+            })}
+        </section>
     )
-  }
+}
 
 export function DynamicCmp({ cmp, info, onUpdate }) {
     switch (cmp) {
@@ -295,7 +465,7 @@ export function DynamicCmp({ cmp, info, onUpdate }) {
 
 
 // Vue.js Syntax:
-// <TaskPreview> => <tr> 
+// <TaskPreview> => <tr>
 //    <td v-for="(cmpType) in cmpsOrder">
 //         <Component :is="cmpType" :info="getCmpInfo(cmpType)" @updated="updateTask(cmpType, $event)">
 //    </td>

@@ -10,7 +10,6 @@ export const boardService = {
     getById,
     save,
     remove,
-    addBoardMsg
 }
 window.cs = boardService
 
@@ -71,17 +70,3 @@ async function save(board) {
     return savedBoard
 }
 
-async function addBoardMsg(boardId, txt) {
-    // Later, this is all done by the backend
-    const board = await getById(boardId)
-
-    const msg = {
-        id: makeId(),
-        by: userService.getLoggedinUser(),
-        txt
-    }
-    board.msgs.push(msg)
-    await storageService.put(STORAGE_KEY, board)
-
-    return msg
-}

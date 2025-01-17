@@ -10,19 +10,23 @@ html {
   // color: $clr2;
 }
 
-body {
+body,
+html {
   // max-width: 1024px;
   margin: 0 auto;
   font-family: 'Figtree', 'Roboto', sans-serif;
   background-color: #eceff8;
-
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 main {
   background-color: $modal-background-color;
   border-radius: 8px 0px;
   margin-left: 10px;
-
+  width: 100%;
+  overflow: hidden;
 }
 
 h1,
