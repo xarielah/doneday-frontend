@@ -1,20 +1,15 @@
-@use '../setup/variables';
+@use "../setup/variables";
 
 .main-container,
 .board-container {
-    height: 100%;
+  min-height: 100vh;
 }
 
 .board-container {
-    background-color: $modal-background-color;
-    // width: 100%;
-    height: 100%;
-    display: grid;
-    grid-area: board;
-    border-radius: 8px 0px;
-    margin-left: 10px;
-    // overflow: auto;
-    // scrollbar-width: none;
-    // -ms-overflow-style: none;
-    max-height: 100%;
+  background-color: $modal-background-color;
+  height: 100%;
+  display: grid;
+  grid-area: board;
+  border-radius: 8px 0px;
+  margin-left: 10px;
 }
