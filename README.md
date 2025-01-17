@@ -16,7 +16,7 @@ To get started with this project, clone the repository and install dependencies 
 
 ```bash
 # Clone the repository
-git clone [https://github.com/afikyefet/monday-clone-proj](https://github.com/afikyefet/monday-clone-proj)
+git clone https://github.com/afikyefet/monday-clone-proj
 
 # Navigate to the project directory
 cd ./monday-clone-proj
