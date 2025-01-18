@@ -1,17 +1,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { boardService } from '../../services/board'
 import { store } from '../store'
-import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, } from '../reducers/board.reducer'
-import { getBoard, getDummyBoardAsync, testBoard } from '../../../board'
+import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, SET_CMP_ORDER, } from '../reducers/board.reducer'
+import { getDummyBoardAsync } from '../../../board'
+
+
+const boardId = "hey"
+
+
+
 
 // Set Boards
 export async function loadBoards(filterBy = {}) {
     try {
         //     const boards = await boardService.query(filterBy)
-        const boards = testBoard
-        store.dispatch(getCmdSetBoards(boards))
-        return boards
+        const boards = getDummyBoardAsync()
+            .then(boards => {
+                store.dispatch(getCmdSetBoards(boards))
+                return boards
+            })
     } catch (err) {
         console.log('Board Action -> Cannot load boards', err)
         throw err
@@ -19,11 +26,14 @@ export async function loadBoards(filterBy = {}) {
 }
 
 // Set Board
-export async function loadBoard(boardId) {
+export async function loadBoard(boardId = "") {
     try {
         // const board = await boardService.getById(boardId)
-        const board = testBoard
-        store.dispatch(getCmdSetBoard(board))
+        const board = getDummyBoardAsync()
+            .then(board => {
+                store.dispatch(getCmdSetBoard(board))
+                return board
+            })
     } catch (err) {
         console.log('Board Action -> Cannot load board', err)
         throw err
@@ -149,7 +159,9 @@ export async function removeTask(groupId, taskId) {
     try {
         return getDummyBoardAsync(boardId) //removeTask(boardId, groupId, taskId)
             .then(() => {
-                store.dispatch(getCmdRemoveTask(groupId, taskId))
+                console.log(groupId, taskId);
+
+                return store.dispatch(getCmdRemoveTask(groupId, taskId))
             })
     } catch (err) {
         console.log('Board Action -> Cannot remove task', err)
@@ -157,6 +169,10 @@ export async function removeTask(groupId, taskId) {
     }
 }
 
+
+export async function setCmpOrder(cmpOrder) {
+    return getCmdCmpOrder(cmpOrder)
+}
 
 
 
@@ -242,5 +258,11 @@ function getCmdRemoveTask(groupId, taskId) {
         type: REMOVE_TASK,
         groupId,
         taskId
+    }
+}
+function getCmdCmpOrder(cmpOrder) {
+    return {
+        type: SET_CMP_ORDER,
+        cmpOrder
     }
 }

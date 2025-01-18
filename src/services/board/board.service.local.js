@@ -3,18 +3,19 @@ import { storageService } from '../async-storage.service'
 import { makeId } from '../util.service'
 import { userService } from '../user'
 
-const STORAGE_KEY = 'board'
+const STORAGE_KEY = 'boardDb'
 
 export const boardService = {
     query,
     getById,
     save,
     remove,
+    getEmptyTask
 }
 window.cs = boardService
 
 
-async function query(filterBy = { txt: '', price: 0 }) {
+async function query(filterBy = {}) {
     var boards = await storageService.query(STORAGE_KEY)
     const { txt, minSpeed, maxPrice, sortField, sortDir } = filterBy
 
@@ -52,8 +53,7 @@ async function save(board) {
     if (board._id) {
         const boardToSave = {
             _id: board._id,
-            price: board.price,
-            speed: board.speed,
+
         }
         savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
     } else {
@@ -68,5 +68,18 @@ async function save(board) {
         savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
     }
     return savedBoard
+}
+
+function getEmptyTask() {
+    return {
+        _id: makeId(4),
+        side: null,
+        taskTitle: "New task",
+        members: [
+        ],
+        date: "",
+        status: "",
+        priority: "",
+    }
 }
 

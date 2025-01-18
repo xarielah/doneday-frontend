@@ -1,4 +1,7 @@
 /* eslint-disable no-unused-vars */
+
+import { testBoard } from "../../../board"
+
 /* eslint-disable no-case-declarations */
 export const SET_BOARDS = 'SET_BOARDS'
 export const SET_BOARD = 'SET_BOARD'
@@ -15,14 +18,17 @@ export const ADD_TASK = 'ADD_TASK'
 export const UPDATE_TASK = 'UPDATE_TASK'
 export const REMOVE_TASK = 'REMOVE_TASK'
 
+export const SET_CMP_ORDER = 'SET_CMP_ORDER'
+
 
 const initialState = {
     boards: [],
-    board: [],
+    board: testBoard,
     selectedTasks: null,
     lastRemovedBoard: null,
     statusLabels: [],
-    priorityLabels: []
+    priorityLabels: [],
+    cmpOrder: []
 }
 
 export function boardReducer(state = initialState, action) {
@@ -108,7 +114,13 @@ export function boardReducer(state = initialState, action) {
         case REMOVE_TASK:
             newState = {
                 ...state,
-                board: state.board.map(group => group._id === action.groupId ? group.tasks.filter(task => task._id !== action.taskId) : group)
+                board: state.board.map(group => group._id === action.groupId ? { ...group, tasks: group.tasks.filter(task => task._id !== action.taskId) } : group)
+            }
+            break
+        case SET_CMP_ORDER:
+            newState = {
+                ...state,
+                cmpOrder: action.cmpOrder
             }
             break
         default:

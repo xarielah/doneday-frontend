@@ -1,56 +1,100 @@
+/* eslint-disable react/jsx-key */
 import { EditableText, } from "@vibe/core";
 import { Date } from "./dynamicCmps/Date";
 import { Member } from "./dynamicCmps/Member";
-import { Options } from "./dynamicCmps/Options";
 import { Priority } from "./dynamicCmps/Priority";
 import { Side } from "./dynamicCmps/Side";
 import { Status } from "./dynamicCmps/Status";
 import { TaskTitle } from "./dynamicCmps/TaskTitle";
+import React from "react";
+import { addTask, removeTask } from "../../store/actions/board.actions";
+import { boardService } from "../../services/board/board.service.local";
 
 /* eslint-disable react/prop-types */
-export function GroupPreview({ labels, group, cmpOrder }) {
+export function GroupPreview({ group = [], cmpOrder = [] }) {
+
+
 
     function onTaskUpdate(taskInfo) {
         console.log("Task Updated:", taskInfo);
     }
 
+    function onTaskRemove(groupId, taskId) {
+        return removeTask(groupId, taskId)
+    }
+
+    function onAddTask(groupId) {
+        const newTask = boardService.getEmptyTask()
+        return addTask(groupId, newTask)
+    }
 
     return (
-        <section className="group-list" style={{ borderLeft: `6px solid ${group.color}` }}>
-            <section className="group-label">
-                {cmpOrder.map((cmp, index) => (
-                    <section className={`label-${cmp}`} key={`label-${index}`}>
-                        {index === 0 && <>
-                            {/* <div className="group-color-bar" style={{ backgroundColor: `${group.color}` }}></div> */}
-                            <input type="checkbox" /></>}
-                        {index > 0 && <EditableText
-                            readOnly={index < 2}
-                            type={EditableText.types.TEXT2}
-                            weight={EditableText.weights.NORMAL}
-                            value={labels[index]}
-                        /> || ""}</section>
-                ))}
+        <section className="group-list">
 
+            {/* Labels */}
+
+            <section className="label-row">
+                <section className="group-select" >
+                    <Side onTaskUpdate={onTaskUpdate} />
+                </section>
+                <section className="label label-task">
+                    <EditableText
+                        readOnly={true}
+                        type="text2"
+                        weight="normal"
+                        value={"Task"}
+                    />
+                </section>
+                {cmpOrder.length > 0 && cmpOrder?.map((cmpType, idx) => (
+                    <section className={`label label-${cmpType}`} key={cmpType + idx} >
+                        <EditableText
+                            key={cmpType + idx}
+                            readOnly={false}
+                            type="text2"
+                            weight="normal"
+                            value={cmpType.toUpperCase()}
+                        />
+                    </section>
+                ))}
             </section>
 
-            {
-                group.tasks.map((task) => (
-                    <section className="task-row" key={`task-${task.id}`}>
-                        {cmpOrder.map((cmp, idx) => (
-                            <section
-                                className={`grid-item ${cmp}`}
-                                key={`task-${task.id}-cmp-${idx}`}
-                            >
-                                <DynamicCmp
-                                    cmpType={cmp}
-                                    info={cmp === "side" ? group.color : task[cmp]}
-                                    onTaskUpdate={onTaskUpdate}
-                                />
-                            </section>
-                        ))}
+            {/* Task Rows */}
+
+            {group.tasks.length > 0 && group?.tasks?.map((task, idx) => (
+                <section className="task-row" key={task._id + idx + "task"}>
+                    <section className="task-select" >
+                        <Side onTaskUpdate={onTaskUpdate} />
                     </section>
-                ))
-            }
+                    <section className="task-title task-item">
+                        <button onClick={() => onTaskRemove(group._id, task._id)}>X</button>
+                        <DynamicCmp
+                            cmpType={"taskTitle"}
+                            info={task?.taskTitle}
+                            onTaskUpdate={onTaskUpdate}
+                        />
+                    </section>
+                    {cmpOrder.length > 0 && cmpOrder?.map((cmpType, idx) => (
+                        <section className={`task-${cmpType} task-item`} key={task._id + cmpType + idx}>
+                            <DynamicCmp
+                                cmpType={cmpType}
+                                info={task[cmpType]}
+                                onTaskUpdate={onTaskUpdate}
+                            />
+                        </section>
+                    ))}
+                </section>
+            ))}
+
+            {/* Add Task */}
+
+
+
+            {/* Label Status */}
+
+            <section></section>
+
+
+            <button onClick={() => onAddTask(group._id)}>+++</button>
 
         </section >
     )

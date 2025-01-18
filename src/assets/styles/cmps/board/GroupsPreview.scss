@@ -1,0 +1,93 @@
+// Variables for styling
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$border-color: #ddd;
+$hover-bg: #f5f6f8;
+$header-bg: $modal-background-color;
+$font-color: #333;
+
+
+.group-list {
+    margin-bottom: 16px; // Some spacing between groups
+
+    // Shared row styling for both label row and task rows
+    .label-row,
+    .task-row {
+        // Use flex so each "column" can have a fixed min-width
+        display: flex;
+        align-items: center;
+        height: 36px; // keep row height fixed
+        border-bottom: 1px solid #ccc;
+
+        // This ensures text/cell content is centered vertically
+        // (and horizontally if you like).
+        >* {
+            display: flex;
+            align-items: center;
+            // If you want left-aligned text, override:
+            justify-content: flex-start;
+            padding: 0 8px;
+        }
+
+        /****************************************
+       * First column: the checkbox (group-select / task-select)
+       ****************************************/
+        .group-select,
+        .task-select {
+            // Fix a width for the checkbox column
+            flex: 0 0 50px;
+            min-width: 50px;
+            position: sticky;
+            left: 0;
+            z-index: 2; // Keep on top
+            background-color: #fff;
+            // Optional: border-right: 1px solid #ddd;
+        }
+
+        /****************************************
+       * Second column: the label/task title
+       ****************************************/
+        .label-task,
+        .task-title {
+            flex: 0 0 200px;
+            min-width: 200px;
+            position: sticky;
+            left: 50px;
+            z-index: 2;
+            background-color: #fff;
+            // Optional: border-right: 1px solid #ddd;
+        }
+
+        /****************************************
+       * The rest of the columns (scroll horizontally)
+       ****************************************/
+        .label-status,
+        .task-status,
+        .label-priority,
+        .task-priority,
+        .label-members,
+        .task-members,
+        .label-date,
+        .task-date {
+            // You can adjust these widths as needed, 
+            // but each pair should match so header matches row cells.
+            flex: 0 0 120px;
+            min-width: 120px;
+            // Optional: border-right: 1px solid #ddd;
+        }
+    }
+
+    // Optional: If you have a trailing '+++' button or extra sections,
+    // you can style them similarly or place them below the .task-row
+    button {
+        margin-top: 6px;
+        cursor: pointer;
+    }
+}
+
+
+
+// Fix for editable text misalignment
+.editableTypography_14b3c95bd7 {
+    margin-left: 0;
+}

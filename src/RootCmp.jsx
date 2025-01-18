@@ -21,9 +21,10 @@ const AuthenticatedRoutes = () => {
         <AppNav />
         <main>
             <Routes>
-                <Route path="" element={<HomePage />} />
-                <Route path='board' element={<Board />} />
-                <Route path='board/:boardId' />
+                <Route path="/" element={<HomePage />} />
+                <Route path='/board' element={<Board />} />
+                <Route path='/board/:boardId' />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </main>
         <AppFooter />
@@ -33,8 +34,9 @@ const AuthenticatedRoutes = () => {
 const UnauthenticatedRoutes = () => {
     return <div className="external-main-container">
         <Routes>
-            <Route path="" element={<ExternalHomePage />} />
+            <Route path="/" element={<ExternalHomePage />} />
             <Route path='*' element={<Navigate to="/" replace />} />
+            <Route path='' element={<Navigate to="/" replace />} />
         </Routes>
     </div>
 }
