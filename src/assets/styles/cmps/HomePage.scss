@@ -1,0 +1,90 @@
+section.home-page {
+    width: 75%;
+    margin: 15px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 3px 12px #e6e9ef;
+
+    .custom-collapse {
+        .collapse-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .collapse-header:hover {
+            background: white;
+        }
+    
+        .collapse-content {
+            padding: 0;
+        }
+    
+        .two-boxes-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            padding: .8rem 1.5rem;
+    
+            .box {
+                flex: 0 1 calc(50% - 10px);
+                padding: 1.3rem;
+                border-radius: 5px;
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+                transition: .2s all ease;
+                border: 1px solid #efefef;
+
+                .box-header {
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                    font-weight: 500;
+                }
+
+                .box-icon {
+                    flex: 0 1 0;
+                    display: flex;
+
+                    .avatar {
+                        position: relative;
+                        z-index: 5;
+
+                        .overlay-icon {
+                            position: absolute;
+                            right: -10px;
+                            bottom: -15px;
+                            z-index: 99;
+                            color: black;
+                        }
+                    }
+                }
+                .box-content {
+                    flex: 1;
+
+                    .box-desc {
+                        display: flex;
+                        align-items: center;
+
+                        span {
+                            position: relative;
+                            top: 1px;
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
+
+            .box:hover {
+                box-shadow: 0px 3px 20px #e6e9ef;
+                transform: scale(1.02);
+            }
+        }
+    }
+
+    .custom-collapse:not(:last-child) {
+        margin-bottom: 40px;
+    }
+}
