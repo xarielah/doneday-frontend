@@ -11,12 +11,15 @@ html {
   // color: $clr2;
 }
 
-body {
+body,
+html {
   // max-width: 1024px;
   margin: 0 auto;
   font-family: "Figtree", "Roboto", sans-serif;
   background-color: #eceff8;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 main {

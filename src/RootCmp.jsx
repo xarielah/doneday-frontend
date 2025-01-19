@@ -43,8 +43,9 @@ const AuthenticatedRoutes = () => {
 const UnauthenticatedRoutes = () => {
     return <div className="external-main-container">
         <Routes>
-            <Route path="" element={<ExternalHomePage />} />
+            <Route path="/" element={<ExternalHomePage />} />
             <Route path='*' element={<Navigate to="/" replace />} />
+            <Route path='' element={<Navigate to="/" replace />} />
         </Routes>
     </div>
 }

@@ -19,10 +19,10 @@
 // @import "pages/ReviewIndex";
 // @import "pages/UserDetails";
 // @import "pages/TaskDetails";
-@import "cmps/Board";
-@import "cmps/BoardHeader";
-@import "cmps/BoardDetails";
-@import "cmps/GroupsPreview";
+@import "cmps/Board/Board.scss";
+@import "cmps/Board/BoardHeader.scss";
+@import "cmps/Board/BoardDetails";
+@import "cmps/Board/GroupsPreview";
 @import "cmps/BoardDynamicCmps/Side.scss";
 @import "cmps/HomePage";
 
@@ -30,17 +30,35 @@
 // @import "cmps/list";
 // @import "cmps/preview";
 
-@import "cmps/AppHeader";
-@import "cmps/AppHeaderInviteMembers";
-@import "cmps/AppNav";
-@import "cmps/ExternalHeader";
-@import "cmps/ExternalHomePage";
-@import "cmps/ExternalHero";
-@import "cmps/ExternalDemoButton";
-@import "cmps/ExternalFooter";
-@import "cmps/ExternalHeroTitle";
+
+// <<<<<<< HEAD @import "cmps/AppHeader";
+// @import "cmps/AppHeaderInviteMembers";
+// @import "cmps/AppNav";
+// @import "cmps/ExternalHeader";
+// @import "cmps/ExternalHomePage";
+// @import "cmps/ExternalHero";
+// @import "cmps/ExternalDemoButton";
+// @import "cmps/ExternalFooter";
+// @import "cmps/ExternalHeroTitle";
+// @import "cmps/BoardHeaderTabList";
+// @import "cmps/SlidePanel";
+// =======
+@import "cmps/AppHeader/AppHeader";
+@import "cmps/AppHeader/AppHeaderInviteMembers";
+@import "cmps/SideNav/AppNav";
+@import "cmps/ExternalHomePage/ExternalHeader";
+@import "cmps/ExternalHomePage/ExternalHomePage";
+@import "cmps/ExternalHomePage/ExternalHero";
+@import "cmps/ExternalHomePage/ExternalDemoButton";
+@import "cmps/ExternalHomePage/ExternalFooter";
+@import "cmps/ExternalHomePage/ExternalHeroTitle";
+@import "cmps/ExternalHomePage/BoardHeaderTabList";
+@import "cmps/ExternalHomePage/SlidePanel";
 @import "cmps/BoardHeaderTabList";
 @import "cmps/SlidePanel";
+// >>>>>>>crud 
+
+
 // @import "cmps/AppFooter";
 // @import "cmps/UserMsg";
 

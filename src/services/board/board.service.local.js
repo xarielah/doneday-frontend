@@ -189,19 +189,19 @@ export const defaultBoardsLocal = [
     },
 ]
 
-const STORAGE_KEY = 'board'
+const STORAGE_KEY = 'boardDb'
 
 export const boardService = {
     query,
     getById,
     save,
     remove,
-    addBoardMsg
+    getEmptyTask
 }
 window.cs = boardService
 
 
-async function query(filterBy = { txt: '', price: 0 }) {
+async function query(filterBy = {}) {
     var boards = await storageService.query(STORAGE_KEY)
     const { txt, minSpeed, maxPrice, sortField, sortDir } = filterBy
 
@@ -255,17 +255,16 @@ async function save(board) {
     return savedBoard
 }
 
-async function addBoardMsg(boardId, txt) {
-    // Later, this is all done by the backend
-    const board = await getById(boardId)
-
-    const msg = {
-        id: makeId(),
-        by: userService.getLoggedinUser(),
-        txt
+function getEmptyTask() {
+    return {
+        _id: makeId(4),
+        side: null,
+        taskTitle: "New task",
+        members: [
+        ],
+        date: "",
+        status: "",
+        priority: "",
     }
-    board.msgs.push(msg)
-    await storageService.put(STORAGE_KEY, board)
-
-    return msg
 }
+
