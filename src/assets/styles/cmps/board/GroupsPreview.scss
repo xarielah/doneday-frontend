@@ -49,8 +49,6 @@ $font-color: #333;
             // background-color: red;
 
 
-            // This ensures text/cell content is centered vertically
-            // (and horizontally if you like).
             >* {
                 display: flex;
                 align-items: center;
@@ -64,12 +62,11 @@ $font-color: #333;
 
             .group-select,
             .task-select {
-                // Fix a width for the checkbox column
                 flex: 0 0 33px;
                 min-width: 33px;
                 position: sticky;
                 left: 0;
-                z-index: 2; // Keep on top
+                z-index: 2;
                 // background-color: #fff;
 
                 border-right: 1px solid #ddd;
@@ -80,7 +77,6 @@ $font-color: #333;
                 flex: 0 0 200px;
                 display: block;
                 line-height: 200%;
-                /* or block, if you prefer */
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -92,7 +88,6 @@ $font-color: #333;
                 background-color: #fff;
                 // border-right: 1px solid $border-color;
                 // background-color: red;
-                // Optional: border-right: 1px solid #ddd;
             }
 
             .label {
@@ -123,53 +118,40 @@ $font-color: #333;
     }
 
 
-    // Shared row styling for both label row and task rows
     .label-row,
     .task-row {
 
 
-        // Use flex so each "column" can have a fixed min-width
         display: flex;
         align-items: center;
         height: 36px;
         border-bottom: 1px solid #ccc;
 
-        // This ensures text/cell content is centered vertically
-        // (and horizontally if you like).
         >* {
             display: flex;
             align-items: center;
-            // If you want left-aligned text, override:
             justify-content: flex-start;
             padding: 0 8px;
             height: 100%;
         }
 
 
-        /****************************************
-       * First column: the checkbox (group-select / task-select)
-       ****************************************/
         .group-select,
         .task-select {
-            // Fix a width for the checkbox column
             flex: 0 0 33px;
             min-width: 33px;
             position: sticky;
             left: 0;
-            z-index: 2; // Keep on top
+            z-index: 2;
             // background-color: #fff;
 
-            // Optional: border-right: 1px solid #ddd;
         }
 
-        /****************************************
-       * Second column: the label/task title
-       ****************************************/
+
         .label-task,
         .task-title {
             flex: 0 0 200px;
             display: block;
-            /* or block, if you prefer */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -180,19 +162,14 @@ $font-color: #333;
             background-color: #fff;
             border-right: 1px solid $border-color;
             // background-color: red;
-            // Optional: border-right: 1px solid #ddd;
         }
 
-        /****************************************
-       * The rest of the columns (scroll horizontally)
-       ****************************************/
+
         /* STATUS */
         .label-status,
         .task-status {
-            /* You can adjust these widths as needed */
             flex: 0 0 120px;
             min-width: 120px;
-            /* Optional: border-right: 1px solid #ddd; */
         }
 
         /* PRIORITY */
@@ -246,8 +223,6 @@ $font-color: #333;
     }
 
 
-    // Optional: If you have a trailing '+++' button or extra sections,
-    // you can style them similarly or place them below the .task-row
     button {
         margin-top: 6px;
         cursor: pointer;
