@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search } from "@vibe/core"
-import { Add, AddSmall, Board, Dashboard, DropdownChevronDown, DropdownChevronLeft, DropdownChevronUp, Favorite, Filter, Home, MyWeek, NavigationChevronLeft, Search as SearchIcon, Workspace } from "@vibe/icons"
+import { Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search } from "@vibe/core";
+import { Add, AddSmall, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Favorite, Filter, Home, MyWeek, NavigationChevronLeft, Search as SearchIcon, Workspace } from "@vibe/icons";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -261,10 +261,10 @@ export function AppNav() {
 
           <Menu className="board-nav">
             <MenuItem
-              className={location.pathname === "/board" ? 'active' : ''}
+              className={location.pathname === "/board/123" ? 'active' : ''}
               title="monday recreate"
               icon={Board}
-              onClick={() => handleNavigate("/board")}
+              onClick={() => handleNavigate("/board/123")}
             />
             <MenuItem
               className={location.pathname === "/overviews" ? 'active' : ''}
