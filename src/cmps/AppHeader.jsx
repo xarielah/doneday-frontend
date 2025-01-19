@@ -1,22 +1,25 @@
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
-import AppHeaderInviteMembers from './AppHeaderInviteMembers'
-import AppHeaderList from './AppHeaderList'
-import AppHeaderLogo from './AppHeaderLogo'
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { panelTypes, togglePanel } from '../services/sidePanel.service';
+import AppHeaderInviteMembers from './AppHeaderInviteMembers';
+import AppHeaderList from './AppHeaderList';
+import AppHeaderLogo from './AppHeaderLogo';
 
 export function AppHeader() {
 	const [showInvite, setShowInvite] = useState(false);
+	const dispatch = useDispatch();
+	const { type } = useSelector(storeState => storeState.sidePanelModule);
 
 	// const user = useSelector(storeState => storeState.userModule.user)
 	// const navigate = useNavigate()
+	// const { pathname } = useLocation();
 
 	const handleInviteMember = (inviteDetails) => {
 		console.log(inviteDetails);
 	}
 
 	const handleOpenNotifications = () => {
-		console.log('open notifications');
+		togglePanel(panelTypes.notifications)
 	}
 
 	return (
