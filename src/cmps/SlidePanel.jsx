@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { panelTypes } from "../services/sidePanel.service";
 import { SET_PAGE_INFO } from "../store/reducers/sidePanel.reducer";
 import SidePanelDynamicCmps from "./SidePanelDynamicCmps";
 
@@ -10,11 +11,10 @@ const SlidePanel = ({ params }) => {
     const { boardId, taskId } = params;
     const dispatch = useDispatch();
 
-    // This will be the listener for the store that holds the navigation content information.
-    // if the side panel store is empty - set isOpen to false, and otherwise.
     useEffect(() => {
+        // We know we should present the side panel with the task details, otherwise we wont have the task id.
         if (taskId) {
-            dispatch({ type: SET_PAGE_INFO, payload: { type: 'task', info: { boardId, taskId } } });
+            dispatch({ type: SET_PAGE_INFO, payload: { type: panelTypes.task, info: { boardId, taskId } } });
         }
     }, [taskId])
 

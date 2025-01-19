@@ -4,7 +4,7 @@ const getComponent = (type) => {
     switch (type) {
         case panelTypes.notifications:
             return <div>notifications</div>
-        case panelTypes.notifications:
+        case panelTypes.task:
             return <div>task</div>
         default:
             return null
