@@ -19,11 +19,17 @@
 
   .app-header-logo {
     padding-left: 4px;
+    height: 100%;
 
     .app-header-text-and-img {
       display: flex;
       align-items: center;
       gap: 0.5em;
+      height: 100%;
+
+      .company-logo-header {
+        height: 40px;
+      }
 
       .app-header-text-and-img-para {
         /* TODO: manage this in a mixin or var */
