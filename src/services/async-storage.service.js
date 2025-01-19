@@ -1,3 +1,5 @@
+import { defaultBoardsLocal } from "./board/board.service.local";
+
 export const storageService = {
     query,
     get,
@@ -7,7 +9,11 @@ export const storageService = {
 }
 
 function query(entityType, delay = 500) {
-    var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    let entities = JSON.parse(localStorage.getItem(entityType));
+    if (!entities) {
+        _save(entityType, defaultBoardsLocal)
+        entities = JSON.stringify(JSON.parse(defaultBoardsLocal));
+    }
     return new Promise(resolve => setTimeout(() => resolve(entities), delay))
 }
 
@@ -32,7 +38,7 @@ function put(entityType, updatedEntity) {
     return query(entityType).then(entities => {
         const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
         if (idx < 0) throw new Error(`Update failed, cannot find entity with id: ${updatedEntity._id} in: ${entityType}`)
-        const entityToUpdate = {...entities[idx], ...updatedEntity}
+        const entityToUpdate = { ...entities[idx], ...updatedEntity }
         entities.splice(idx, 1, entityToUpdate)
         _save(entityType, entities)
         return entityToUpdate
