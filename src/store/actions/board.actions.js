@@ -133,7 +133,7 @@ export async function addTask(groupId, task) {
     try {
         return getDummyBoardAsync(boardId) //saveTask(groupId, task)
             .then((savedTask) => {
-                store.dispatch(getCmdAddTask(groupId, savedTask))
+                store.dispatch(getCmdAddTask(groupId, task))
             })
     } catch (err) {
         console.log('Board Action -> Cannot add task', err)

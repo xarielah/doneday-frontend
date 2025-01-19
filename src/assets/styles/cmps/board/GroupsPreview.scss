@@ -8,15 +8,130 @@ $font-color: #333;
 
 
 .group-list {
-    margin-bottom: 16px; // Some spacing between groups
+    margin-bottom: 36px;
+    // border: 1px solid #ddd;
+    // border-top: 1px solid #ddd;
+
+    .side-bar {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        z-index: 5;
+        background-color: #fff;
+        // background-color: red;
+        // height: 36px;
+        // border-right: 1px solid #ccc;
+
+        border-radius: 8px 0 0 0;
+
+        // border-top: 1px solid #ddd;
+
+        .crudl-menu {
+            width: 30px;
+
+        }
+
+
+        .label-side {
+            border-top: 1px solid #ddd;
+        }
+
+        .label-side,
+        .task-side {
+            // Use flex so each "column" can have a fixed min-width
+            display: flex;
+            align-items: center;
+            height: 36px;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+
+            // background-color: red;
+
+
+            // This ensures text/cell content is centered vertically
+            // (and horizontally if you like).
+            >* {
+                display: flex;
+                align-items: center;
+                // If you want left-aligned text, override:
+                justify-content: flex-start;
+                padding: 0 8px;
+                height: 100%;
+            }
+
+
+
+            .group-select,
+            .task-select {
+                // Fix a width for the checkbox column
+                flex: 0 0 33px;
+                min-width: 33px;
+                position: sticky;
+                left: 0;
+                z-index: 2; // Keep on top
+                // background-color: #fff;
+
+                border-right: 1px solid #ddd;
+            }
+
+            .label-task,
+            .task-title {
+                flex: 0 0 200px;
+                display: block;
+                line-height: 200%;
+                /* or block, if you prefer */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 200px;
+                max-width: 200px;
+                position: sticky;
+                left: 50px;
+                z-index: 2;
+                background-color: #fff;
+                // border-right: 1px solid $border-color;
+                // background-color: red;
+                // Optional: border-right: 1px solid #ddd;
+            }
+
+            .label {
+                // border-right: 1px solid $border-color;
+                // margin-left: 20px;
+                width: 100%;
+            }
+
+        }
+    }
+
+    .label {
+        border-right: 1px solid $border-color;
+        margin-left: 15px;
+        width: 100%;
+    }
+
+    .task-item {
+        border-right: 1px solid $border-color;
+        margin-left: 15px;
+        width: 100%;
+
+    }
+
+
+    .label-row {
+        border-top: 1px solid #ddd;
+    }
+
 
     // Shared row styling for both label row and task rows
     .label-row,
     .task-row {
+
+
         // Use flex so each "column" can have a fixed min-width
         display: flex;
         align-items: center;
-        height: 36px; // keep row height fixed
+        height: 36px;
         border-bottom: 1px solid #ccc;
 
         // This ensures text/cell content is centered vertically
@@ -27,7 +142,9 @@ $font-color: #333;
             // If you want left-aligned text, override:
             justify-content: flex-start;
             padding: 0 8px;
+            height: 100%;
         }
+
 
         /****************************************
        * First column: the checkbox (group-select / task-select)
@@ -35,12 +152,13 @@ $font-color: #333;
         .group-select,
         .task-select {
             // Fix a width for the checkbox column
-            flex: 0 0 50px;
-            min-width: 50px;
+            flex: 0 0 33px;
+            min-width: 33px;
             position: sticky;
             left: 0;
             z-index: 2; // Keep on top
-            background-color: #fff;
+            // background-color: #fff;
+
             // Optional: border-right: 1px solid #ddd;
         }
 
@@ -50,32 +168,83 @@ $font-color: #333;
         .label-task,
         .task-title {
             flex: 0 0 200px;
+            display: block;
+            /* or block, if you prefer */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             min-width: 200px;
             position: sticky;
             left: 50px;
             z-index: 2;
             background-color: #fff;
+            border-right: 1px solid $border-color;
+            // background-color: red;
             // Optional: border-right: 1px solid #ddd;
         }
 
         /****************************************
        * The rest of the columns (scroll horizontally)
        ****************************************/
+        /* STATUS */
         .label-status,
-        .task-status,
-        .label-priority,
-        .task-priority,
-        .label-members,
-        .task-members,
-        .label-date,
-        .task-date {
-            // You can adjust these widths as needed, 
-            // but each pair should match so header matches row cells.
+        .task-status {
+            /* You can adjust these widths as needed */
             flex: 0 0 120px;
             min-width: 120px;
-            // Optional: border-right: 1px solid #ddd;
+            /* Optional: border-right: 1px solid #ddd; */
         }
+
+        /* PRIORITY */
+        .label-priority,
+        .task-priority {
+            flex: 0 0 120px;
+            min-width: 120px;
+            /* Optional: border-right: 1px solid #ddd; */
+        }
+
+        /* MEMBERS */
+        .label-members,
+        .task-members {
+            flex: 0 0 120px;
+            min-width: 120px;
+            // border-right: 1px solid #ddd;
+        }
+
+        /* DATE */
+        .label-date,
+        .task-date {
+            flex: 0 0 120px;
+            min-width: 120px;
+            width: 100%;
+
+            // border-right: 1px solid #ddd;
+        }
+
+        /* FILLER */
+        .label-filler,
+        .task-filler {
+            flex: 0 0 120px;
+            width: 100%;
+            border: none;
+        }
+
+        .label {
+            border-right: 1px solid $border-color;
+            margin-left: 10px;
+            width: 100%;
+        }
+
+        .task-item {
+            border-right: 1px solid $border-color;
+            margin-left: 10px;
+            width: 100%;
+
+        }
+
+
     }
+
 
     // Optional: If you have a trailing '+++' button or extra sections,
     // you can style them similarly or place them below the .task-row
@@ -84,8 +253,6 @@ $font-color: #333;
         cursor: pointer;
     }
 }
-
-
 
 // Fix for editable text misalignment
 .editableTypography_14b3c95bd7 {

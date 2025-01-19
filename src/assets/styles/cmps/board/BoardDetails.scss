@@ -1,16 +1,10 @@
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$border-color: #ddd;
-$hover-bg: #f5f6f8;
-$header-bg: $modal-background-color;
-$font-color: #333;
-
 .board-details {
     // display: grid;
     // grid-template-columns: auto 1fr;
     // box-sizing: border-box;
     width: 100%;
     width: auto;
+    min-height: 0;
     // padding: 0 10px;
     overflow-x: auto;
     overflow-y: auto;
