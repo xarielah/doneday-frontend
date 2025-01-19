@@ -1,8 +1,7 @@
 @use "../setup/variables";
 
-.main-container,
-.board-container {
-  min-height: 100vh;
+.main-container {
+  height: 100vh;
 }
 
 .board-container {
@@ -12,4 +11,5 @@
   grid-area: board;
   border-radius: 8px 0px;
   margin-left: 10px;
+  overflow-y: auto;
 }
