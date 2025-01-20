@@ -7,6 +7,7 @@ import { loadBoard } from "../../store/actions/board.actions";
 export function BoardDetails() {
 
     const storeBoard = useSelector(storeState => storeState.boardModule.board)
+    const selectedTasks = useSelector(storeState => storeState.boardModule.selectedTasks ?? [])
 
     useEffect(() => {
         console.log(storeBoard[0].tasks);
@@ -201,6 +202,7 @@ export function BoardDetails() {
                     // labels={labels}
                     cmpOrder={cmpOrder}
                     key={group.id}
+                    selectedTasks={selectedTasks}
                 />
             ))}
         </section>

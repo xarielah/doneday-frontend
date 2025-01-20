@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import { store } from '../store'
-import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, SET_CMP_ORDER, } from '../reducers/board.reducer'
+import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, SET_CMP_ORDER, SET_SELECTED_TASK, ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, } from '../reducers/board.reducer'
 import { getDummyBoardAsync } from '../../../board'
+import { makeId } from '../../services/util.service'
 
 
 const boardId = "hey"
@@ -146,6 +147,7 @@ export async function updateTask(groupId, task) {
     try {
         return getDummyBoardAsync(boardId) //saveTask(groupId, task)
             .then((savedTask) => {
+                savedTask._id = makeId(4)
                 store.dispatch(getCmdUpdateTask(groupId, savedTask))
             })
     } catch (err) {
@@ -165,6 +167,82 @@ export async function removeTask(groupId, taskId) {
             })
     } catch (err) {
         console.log('Board Action -> Cannot remove task', err)
+        throw err
+    }
+}
+
+export async function setSelectedTask(selectedTasks = []) {
+    try {
+        return getDummyBoardAsync(boardId)
+            .then(() => {
+
+                return store.dispatch(getCmdSetSelectedTasks(selectedTasks))
+            })
+    } catch (err) {
+        console.log('Board Action -> Cannot set select task', err)
+        throw err
+    }
+}
+
+export async function addSelectedTask(groupId, taskId) {
+    try {
+        return getDummyBoardAsync(boardId)
+            .then(() => {
+                console.log(groupId, taskId);
+                console.log(store.selectedTasks);
+
+                return store.dispatch(getCmdAddSelectedTasks(groupId, taskId))
+            })
+    } catch (err) {
+        console.log('Board Action -> Cannot select task', err)
+        throw err
+    }
+}
+
+export async function removeSelectedTask(groupId, taskId) {
+    try {
+        return getDummyBoardAsync(boardId)
+            .then(() => {
+                console.log(groupId, taskId);
+                console.log(store.selectedTasks);
+
+                return store.dispatch(getCmdRemoveSelectedTasks(groupId, taskId))
+            })
+    } catch (err) {
+        console.log('Board Action -> Cannot remove select task', err)
+        throw err
+    }
+}
+
+export async function addSelectedGroup(groupId, tasks) {
+    try {
+        await getDummyBoardAsync(boardId)
+
+        if (!Array.isArray(tasks)) return
+
+        for (const task of tasks) {
+            store.dispatch(getCmdAddSelectedTasks(groupId, task._id))
+        }
+
+    } catch (err) {
+        console.log('Board Action -> Cannot select group tasks', err)
+        throw err
+    }
+}
+
+
+export async function removeSelectedGroup(groupId, tasks) {
+    try {
+        await getDummyBoardAsync(boardId)
+
+        if (!Array.isArray(tasks)) return
+
+        for (const task of tasks) {
+            store.dispatch(getCmdRemoveSelectedTasks(groupId, task._id))
+        }
+
+    } catch (err) {
+        console.log('Board Action -> Cannot unselect group tasks', err)
         throw err
     }
 }
@@ -266,3 +344,29 @@ function getCmdCmpOrder(cmpOrder) {
         cmpOrder
     }
 }
+
+
+
+// Selected Tasks
+function getCmdSetSelectedTasks(selectedTasks = []) {
+    return {
+        type: SET_SELECTED_TASK,
+        selectedTasks
+    }
+}
+function getCmdAddSelectedTasks(groupId, taskId) {
+    return {
+        type: ADD_SELECTED_TASK,
+        groupId,
+        taskId
+    }
+}
+function getCmdRemoveSelectedTasks(groupId, taskId) {
+    return {
+        type: REMOVE_SELECTED_TASK,
+        groupId,
+        taskId
+    }
+}
+
+

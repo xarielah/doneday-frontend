@@ -7,12 +7,13 @@ import { Side } from "./dynamicCmps/Side";
 import { Status } from "./dynamicCmps/Status";
 import { TaskTitle } from "./dynamicCmps/TaskTitle";
 import React from "react";
-import { addTask, removeTask } from "../../store/actions/board.actions";
+import { addSelectedGroup, addSelectedTask, addTask, removeSelectedGroup, removeSelectedTask, removeTask } from "../../store/actions/board.actions";
 import { boardService } from "../../services/board/board.service.local";
 import { AddTask } from "./dynamicCmps/AddTask";
+import { SideGroup } from "./dynamicCmps/SideGroup";
 
 /* eslint-disable react/prop-types */
-export function GroupPreview({ group = [], cmpOrder = [] }) {
+export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) {
 
 
 
@@ -29,6 +30,38 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
         return addTask(groupId, newTask)
     }
 
+    function isTaskSelected(groupId = "", taskId = "") {
+        const group = selectedTasks.find(selectedGroups => selectedGroups.groupId === groupId)
+        if (!group) return false
+        return group.tasks.includes(taskId)
+    }
+
+    function isGroupSelected(groupId, tasks) {
+        const found = selectedTasks?.find(selectedGroup => selectedGroup.groupId === groupId) || false
+        if (!found) return false
+
+        if (!Array.isArray(tasks) || tasks.length === 0) return false
+
+        return tasks.every(task => found.tasks.includes(task._id))
+    }
+
+    async function handleChangeSelect(ev, groupId, taskId) {
+        if (ev.target.checked) {
+            await addSelectedTask(groupId, taskId)
+        } else {
+            await removeSelectedTask(groupId, taskId)
+        }
+    }
+
+    async function handleChangeSelectGroup(ev, groupId, tasks) {
+        if (ev.target.checked) {
+            await addSelectedGroup(groupId, tasks)
+        } else {
+            await removeSelectedGroup(groupId, tasks)
+        }
+    }
+
+
     return (
         <section className="group-list">
 
@@ -38,7 +71,7 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
                 <section className="label-side">
                     {/* <section className="crudl-menu"></section> */}
                     <section className="group-select">
-                        <Side onTaskUpdate={onTaskUpdate} />
+                        <SideGroup info={{ handleChangeSelectGroup, isGroupSelected, groupId: group._id, tasks: group.tasks }} onTaskUpdate={onTaskUpdate} />
                     </section>
                     <section className="label label-task">
                         <EditableText
@@ -57,7 +90,7 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
                             {/* <section className="crudl-menu"></section> */}
 
                             <section className="group-select">
-                                <Side onTaskUpdate={onTaskUpdate} />
+                                <Side info={{ handleChangeSelect, isTaskSelected, groupId: group._id, taskId: task._id }} onTaskUpdate={onTaskUpdate} />
                             </section>
                             <section className="task-title task-item">
                                 <DynamicCmp
@@ -72,7 +105,7 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
                 }
                 <section className="task-side add-task">
                     <section className="group-select">
-                        <Side onTaskUpdate={onTaskUpdate} />
+                        {/* <Side info={{ handleChangeSelect, isTaskSelected }} onTaskUpdate={onTaskUpdate} /> */}
                     </section>
                     <section className="task-title task-item">
                         <DynamicCmp
@@ -103,7 +136,7 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
 
             <section className="label-row">
                 <section className="group-select">
-                    <Side onTaskUpdate={onTaskUpdate} />
+                    <Side info={{ handleChangeSelect, isTaskSelected, groupId: group._id, taskId: "0" }} onTaskUpdate={onTaskUpdate} />
                 </section>
                 <section className="label label-task">
                     <EditableText
@@ -162,7 +195,7 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
             <section className="task-row">
                 <section className="task-title add-task">
                     <section className="group-select">
-                        <Side onTaskUpdate={onTaskUpdate} />
+                        <Side info={{ handleChangeSelect, isTaskSelected, groupId: group._id, taskId: "0" }} onTaskUpdate={onTaskUpdate} />
                     </section>
                     <section className="task-title task-item">
                         {/* <DynamicCmp

@@ -3,16 +3,17 @@
 .main-container,
 .board-container {
     height: 100%;
-    width: 100%;
+    // width: 100%;
 }
 
 .board-container {
     background-color: $modal-background-color;
-    width: 100%;
+    // width: 100%;
     min-height: 0;
     grid-area: board;
     border-radius: 8px 0px;
-    overflow: auto;
-    box-sizing: border-box;
+    // overflow: auto;
+    position: relative;
+    // box-sizing: border-box;
     // background-color: red;
 }
