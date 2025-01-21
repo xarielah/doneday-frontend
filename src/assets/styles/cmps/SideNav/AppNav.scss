@@ -1,4 +1,4 @@
-@use '../setup/variables';
+@use '/src/assets/styles/setup/variables';
 
 
 .active {
@@ -7,6 +7,10 @@
 }
 
 .app-nav {
+    // overflow: hidden;
+    // box-sizing: border-box;
+    z-index: 20;
+
 
     .medium_004db5bace {
         width: 100%;
@@ -103,13 +107,14 @@
         }
 
         .favorites-nav {
-            >* {
-                width: 100%;
-            }
 
             margin: 2px 0;
             padding: 0 10px 0 8px;
             display: grid;
+
+            >* {
+                width: 100%;
+            }
         }
 
         .workspaces-nav {

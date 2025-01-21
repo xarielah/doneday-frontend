@@ -1,6 +1,5 @@
 
 import { storageService } from '../async-storage.service';
-import { userService } from '../user';
 import { makeId } from '../util.service';
 import { dummyData } from './dummy-data';
 import { groupService } from './group.service.local';
@@ -9,14 +8,14 @@ import { taskService } from './task.service.local';
 
 const STORAGE_KEY = 'boardDB'
 
-
 export const boardService = {
     query,
     getById,
     save,
     remove,
-    addBoardMsg,
-    STORAGE_KEY
+    STORAGE_KEY,
+    getEmptyTask,
+    addBoardMsg
 }
 
 _checkForDummyData();
@@ -26,7 +25,6 @@ async function _checkForDummyData() {
     let boards = await boardService.query();
 
     if (!boards || boards.length === 0) {
-
         storageService._save(boardService.STORAGE_KEY, dummyData.defaultBoards)
 
         boards = dummyData.defaultBoards
@@ -106,6 +104,19 @@ async function save(board) {
     return savedBoard
 }
 
+function getEmptyTask() {
+    return {
+        _id: makeId(4),
+        side: null,
+        taskTitle: "New task",
+        members: [
+        ],
+        date: "",
+        status: "",
+        priority: "",
+    }
+}
+
 async function addBoardMsg(boardId, txt) {
     // Later, this is all done by the backend
     const board = await getById(boardId)
@@ -115,10 +126,7 @@ async function addBoardMsg(boardId, txt) {
         by: userService.getLoggedinUser(),
         txt
     }
-    const messages = board.msgs || []
-    messages.push(msg)
-    board.msgs = messages
-
+    board.msgs.push(msg)
     await storageService.put(STORAGE_KEY, board)
 
     return msg

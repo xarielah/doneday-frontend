@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { BoardDetails } from "../cmps/board cmps/BoardDetails";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
+import { CrudlBar } from "../cmps/board cmps/CrudlBar";
 import { boardService } from "../services/board/board.service.local";
 
 export function Board() {
@@ -22,6 +23,7 @@ export function Board() {
         <section className="board-container">
             <BoardHeader />
             <BoardDetails />
+            <CrudlBar />
         </section>
     )
 }

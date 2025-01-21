@@ -1,0 +1,13 @@
+.board-details {
+    // display: grid;
+    // grid-template-columns: auto 1fr;
+    // box-sizing: border-box;
+    width: 100%;
+    // width: auto;
+    min-height: 0;
+    // padding: 0 10px;
+    // overflow-x: auto;
+    // overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
