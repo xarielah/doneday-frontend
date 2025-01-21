@@ -1,35 +1,37 @@
-import { makeId } from "../util.service";
-import { boardService } from "./board.service.local";
+import { storageService } from "../async-storage.service";
+
+const STORAGE_KEY = "taskDB";
 
 export const taskService = {
     add,
-    put,
-    remove
+    update,
+    remove,
+    get,
+    _query,
+    STORAGE_KEY,
+    getByGroupId
 };
 
-function add(boardId, groupId, task) {
-    boardService.query({ _id: boardId }).then(async board => {
-        task._id = makeId();
-        const group = board.groups.find(group => group._id === groupId)
-        group.tasks.push(task)
-        boardService.save(board)
-    })
+function _query() {
+    return storageService.query(STORAGE_KEY)
 }
 
-function put(boardId, groupId, taskId, newTask) {
-    boardService.query({ _id: boardId }).then(async board => {
-        const group = board.groups.find(group => group._id === groupId)
-        const task = group.tasks.find(task => task._id === taskId)
-        task = { ...task, ...newTask };
-        boardService.save(board);
-    })
+function add(task) {
+    return storageService.post(STORAGE_KEY, task);
 }
 
-function remove(boardId, groupId, taskId) {
-    boardService.query({ _id: boardId }).then(async board => {
-        const group = board.groups.find(group => group._id === groupId)
-        const task = group.tasks.find(task => task._id === taskId)
-        group.tasks.splice(group.tasks.indexOf(task), 1)
-        boardService.save(board)
-    })
+function update(updatedTask) {
+    return storageService.put(STORAGE_KEY, updatedTask)
+}
+
+function remove(taskId) {
+    return storageService.remove(STORAGE_KEY, taskId);
+}
+
+function get(taskId) {
+    return storageService.get(STORAGE_KEY, taskId);
+}
+
+function getByGroupId(groupId) {
+    return storageService.query(STORAGE_KEY).then(tasks => tasks.filter(task => task.groupId === groupId))
 }

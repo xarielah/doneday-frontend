@@ -2,235 +2,86 @@
 import { storageService } from '../async-storage.service';
 import { userService } from '../user';
 import { makeId } from '../util.service';
+import { dummyData } from './dummy-data';
+import { groupService } from './group.service.local';
+import { taskService } from './task.service.local';
 
-const defaultGroupsLocal = [
-    {
-        _id: "group1",
-        color: "red",
-        tasks: [
-            {
-                _id: "task101",
-                side: null,
-                taskTitle: "Design homepage UI",
-                members: [
-                    { name: "Tal", color: "red" },
-                    { name: "Avi", color: "blue" },
-                ],
-                date: "15-01-2025",
-                status: "IN WORK",
-                priority: "HIGH",
-            },
-            {
-                _id: "task102",
-                side: null,
-                taskTitle: "Integrate payment gateway",
-                members: [
-                    { name: "Dana", color: "green" },
-                    { name: "Shay", color: "black" },
-                ],
-                date: "20-01-2025",
-                status: "STUCK",
-                priority: "CRITICAL",
-            },
-            {
-                _id: "task103",
-                side: null,
-                taskTitle: "Write test cases for API",
-                members: [
-                    { name: "Eli", color: "orange" },
-                    { name: "Tal", color: "red" },
-                ],
-                date: "18-01-2025",
-                status: "DONE",
-                priority: "MEDIUM",
-            },
-            {
-                _id: "task104",
-                side: null,
-                taskTitle: "Create onboarding illustrations",
-                members: [
-                    { name: "Shir", color: "purple" },
-                    { name: "Lior", color: "blue" },
-                ],
-                date: "22-01-2025",
-                status: "IN WORK",
-                priority: "LOW",
-            },
-        ],
-    },
-    {
-        _id: "group2",
-        color: "blue",
-        tasks: [
-            {
-                _id: "task201",
-                side: null,
-                taskTitle: "Develop campaign strategy",
-                members: [
-                    { name: "Yossi", color: "pink" },
-                    { name: "Dana", color: "green" },
-                ],
-                date: "10-02-2025",
-                status: "IN REVIEW",
-                priority: "HIGH",
-            },
-            {
-                _id: "task202",
-                side: null,
-                taskTitle: "Prepare client proposals",
-                members: [
-                    { name: "Tal", color: "red" },
-                    { name: "Shay", color: "black" },
-                ],
-                date: "12-02-2025",
-                status: "STUCK",
-                priority: "MEDIUM",
-            },
-            {
-                _id: "task203",
-                side: null,
-                taskTitle: "Define MVP scope",
-                members: [
-                    { name: "Avi", color: "blue" },
-                    { name: "Eli", color: "orange" },
-                ],
-                date: "08-02-2025",
-                status: "DONE",
-                priority: "HIGH",
-            },
-            {
-                _id: "task204",
-                side: null,
-                taskTitle: "Setup CI/CD pipeline",
-                members: [
-                    { name: "Shay", color: "black" },
-                    { name: "Lior", color: "blue" },
-                ],
-                date: "15-02-2025",
-                status: "IN WORK",
-                priority: "CRITICAL",
-            },
-        ],
-    },
-    {
-        _id: "group3",
-        color: "green",
-        tasks: [
-            {
-                _id: "task301",
-                side: null,
-                taskTitle: "Resolve high-priority tickets",
-                members: [
-                    { name: "Shir", color: "purple" },
-                    { name: "Dana", color: "green" },
-                ],
-                date: "13-01-2025",
-                status: "IN WORK",
-                priority: "HIGH",
-            },
-            {
-                _id: "task302",
-                side: null,
-                taskTitle: "Build dashboard for KPIs",
-                members: [
-                    { name: "Yossi", color: "pink" },
-                    { name: "Shay", color: "black" },
-                ],
-                date: "20-01-2025",
-                status: "IN WORK",
-                priority: "MEDIUM",
-            },
-            {
-                _id: "task303",
-                side: null,
-                taskTitle: "Redesign landing page",
-                members: [
-                    { name: "Lior", color: "blue" },
-                    { name: "Tal", color: "red" },
-                ],
-                date: "25-01-2025",
-                status: "IN REVIEW",
-                priority: "HIGH",
-            },
-            {
-                _id: "task304",
-                side: null,
-                taskTitle: "Write user stories",
-                members: [
-                    { name: "Avi", color: "blue" },
-                    { name: "Eli", color: "orange" },
-                ],
-                date: "18-01-2025",
-                status: "DONE",
-                priority: "LOW",
-            },
-        ],
-    },
-];
 
-export const defaultBoardsLocal = [
-    {
-        _id: "board1",
-        name: "Board numero uno",
-        color: "red",
-        groups: defaultGroupsLocal,
-    },
-    {
-        _id: "board2",
-        name: "Monday clone development",
-        color: "blue",
-        groups: defaultGroupsLocal,
-    },
-    {
-        _id: "board3",
-        name: "Self development",
-        color: "green",
-        groups: defaultGroupsLocal,
-    },
-]
+const STORAGE_KEY = 'boardDB'
 
-const STORAGE_KEY = 'board'
 
 export const boardService = {
     query,
     getById,
     save,
     remove,
-    addBoardMsg
+    addBoardMsg,
+    STORAGE_KEY
 }
-window.cs = boardService
 
+_checkForDummyData();
 
-async function query(filterBy = { txt: '', price: 0 }) {
-    var boards = await storageService.query(STORAGE_KEY)
-    const { txt, minSpeed, maxPrice, sortField, sortDir } = filterBy
+// Dummy data feeder
+async function _checkForDummyData() {
+    let boards = await boardService.query();
 
-    if (txt) {
-        const regex = new RegExp(filterBy.txt, 'i')
-        boards = boards.filter(board => regex.test(board.vendor) || regex.test(board.description))
-    }
-    if (minSpeed) {
-        boards = boards.filter(board => board.speed >= minSpeed)
-    }
-    if (sortField === 'vendor' || sortField === 'owner') {
-        boards.sort((board1, board2) =>
-            board1[sortField].localeCompare(board2[sortField]) * +sortDir)
-    }
-    if (sortField === 'price' || sortField === 'speed') {
-        boards.sort((board1, board2) =>
-            (board1[sortField] - board2[sortField]) * +sortDir)
+    if (!boards || boards.length === 0) {
+
+        storageService._save(boardService.STORAGE_KEY, dummyData.defaultBoards)
+
+        boards = dummyData.defaultBoards
     }
 
-    boards = boards.map(({ _id, vendor, price, speed, owner }) => ({ _id, vendor, price, speed, owner }))
+    let groups = await groupService._query();
+
+    if (!groups || groups.length === 0) {
+        storageService._save(groupService.STORAGE_KEY, dummyData.defaultGroups)
+
+        groups = dummyData.defaultGroups
+
+        boards.forEach(board => board.groups = groups.filter(group => group.boardId === board._id))
+    }
+
+    let tasks = await taskService._query();
+
+    if (!tasks || tasks.length === 0) {
+        storageService._save(taskService.STORAGE_KEY, dummyData.defaultTasks)
+
+        tasks = dummyData.defaultTasks
+
+        groups.forEach(group => group.tasks = tasks.filter(task => task.groupId === group._id))
+    }
+}
+
+async function query(filterBy = { name: '' }) {
+    var boards = await storageService.query(STORAGE_KEY) || [];
+
+    const { name } = filterBy;
+
+    if (name) {
+        return boards.filter(board => name.toLowerCase().includes(board.name.toLowerCase()))
+    }
+
     return boards
 }
 
 function getById(boardId) {
     return storageService.get(STORAGE_KEY, boardId)
+        .then(async board => {
+            let groups = [];
+            let tasks = [];
+
+            groups = await groupService.getByBoardId(boardId);
+            tasks = await taskService.getByGroupId(boardId);
+
+            board.groups = groups;
+            board.tasks = tasks;
+
+            return board;
+        })
 }
 
 async function remove(boardId) {
-    // throw new Error('Nope')
     await storageService.remove(STORAGE_KEY, boardId)
 }
 
@@ -264,7 +115,10 @@ async function addBoardMsg(boardId, txt) {
         by: userService.getLoggedinUser(),
         txt
     }
-    board.msgs.push(msg)
+    const messages = board.msgs || []
+    messages.push(msg)
+    board.msgs = messages
+
     await storageService.put(STORAGE_KEY, board)
 
     return msg
