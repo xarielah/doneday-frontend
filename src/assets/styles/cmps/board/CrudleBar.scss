@@ -1,0 +1,113 @@
+.crudl-bar {
+    width: clamp(3%, 60%, 800px);
+    height: 63px;
+    // background-color: red;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    bottom: 6vh;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    display: flex;
+    box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
+
+
+    >* {
+        width: 100%;
+    }
+
+
+    .select-count {
+        border-radius: 5px 0 0 5px;
+        height: 100%;
+        width: 63px;
+        background-color: #0073ea;
+        color: white;
+        flex: 0 0 63px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tasks-selected {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .crud-btn {
+        flex: 0 0 63px;
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        font-size: 0.8em;
+        justify-content: space-evenly;
+        margin-right: 10px;
+        transition: 0.05s;
+        cursor: pointer;
+
+
+        &:hover {
+            transform: scale(1.1);
+            color: #0073ea;
+        }
+    }
+
+    // .duplicate {
+    //     flex: 0 0 63px;
+    //     display: flex;
+    //     flex-direction: column;
+
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    // .export {
+    //     flex: 0 0 63px;
+    //     display: flex;
+    //     flex-direction: column;
+
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    // .delete {
+    //     flex: 0 0 63px;
+    //     display: flex;
+    //     flex-direction: column;
+
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    // .move-to {
+    //     flex: 0 0 63px;
+    //     display: flex;
+    //     flex-direction: column;
+
+    //     justify-content: center;
+    //     align-items: center;
+    // }
+
+    .unselect {
+        // grid-row: 1/-1;
+        grid-column: -1;
+        flex: 0 0 63px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 2px solid #ccc;
+
+        transition: 0.05s;
+        cursor: pointer;
+
+
+        &:hover {
+            color: #0073ea;
+        }
+    }
+
+
+}

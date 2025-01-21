@@ -1,4 +1,4 @@
-@use "../setup/variables";
+@use "/src/assets/styles/setup/variables";
 
 .app-header {
   display: flex;
@@ -32,6 +32,7 @@
       }
 
       .app-header-text-and-img-para {
+
         /* TODO: manage this in a mixin or var */
         @media (max-width: 550px) {
           display: none;
@@ -44,13 +45,13 @@
     }
   }
 
-  & > .app-header-list > ul {
+  &>.app-header-list>ul {
     display: flex;
     align-items: center;
     margin: 0;
     width: 100%;
 
-    & > li > .app-header-logo-divider {
+    &>li>.app-header-logo-divider {
       width: 1px;
       height: 24px;
       margin-left: 8px;
@@ -58,7 +59,7 @@
       background-color: $primary-background-hover-color;
     }
 
-    & > .app-header-user-info {
+    &>.app-header-user-info {
       display: flex;
       align-items: center;
       background-color: $avatar-background;
@@ -71,11 +72,9 @@
       }
 
       .abbv {
-        background-image: linear-gradient(
-          to left,
-          $primary-surface-color 50%,
-          transparent 50%
-        );
+        background-image: linear-gradient(to left,
+            $primary-surface-color 50%,
+            transparent 50%);
       }
 
       .icon {
@@ -96,7 +95,7 @@
       }
     }
 
-    & > * {
+    &>* {
       margin-right: 4px;
     }
   }

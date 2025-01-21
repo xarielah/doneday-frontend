@@ -1,74 +1,120 @@
 
-import { storageService } from '../async-storage.service'
-import { makeId } from '../util.service'
-import { userService } from '../user'
+import { storageService } from '../async-storage.service';
+import { makeId } from '../util.service';
+import { dummyData } from './dummy-data';
+import { groupService } from './group.service.local';
+import { taskService } from './task.service.local';
 
-const STORAGE_KEY = 'board'
+
+const STORAGE_KEY = 'boardDB'
 
 export const boardService = {
     query,
     getById,
     save,
     remove,
+    STORAGE_KEY,
+    getEmptyTask,
     addBoardMsg
 }
-window.cs = boardService
 
+_checkForDummyData();
 
-async function query(filterBy = { txt: '', price: 0 }) {
-    var boards = await storageService.query(STORAGE_KEY)
-    const { txt, minSpeed, maxPrice, sortField, sortDir } = filterBy
+// Dummy data feeder
+async function _checkForDummyData() {
+    let boards = await boardService.query();
 
-    if (txt) {
-        const regex = new RegExp(filterBy.txt, 'i')
-        boards = boards.filter(board => regex.test(board.vendor) || regex.test(board.description))
-    }
-    if (minSpeed) {
-        boards = boards.filter(board => board.speed >= minSpeed)
-    }
-    if (sortField === 'vendor' || sortField === 'owner') {
-        boards.sort((board1, board2) =>
-            board1[sortField].localeCompare(board2[sortField]) * +sortDir)
-    }
-    if (sortField === 'price' || sortField === 'speed') {
-        boards.sort((board1, board2) =>
-            (board1[sortField] - board2[sortField]) * +sortDir)
+    if (!boards || boards.length === 0) {
+        storageService._save(boardService.STORAGE_KEY, dummyData.defaultBoards)
+
+        boards = dummyData.defaultBoards
     }
 
-    boards = boards.map(({ _id, vendor, price, speed, owner }) => ({ _id, vendor, price, speed, owner }))
+    let groups = await groupService._query();
+
+    if (!groups || groups.length === 0) {
+        storageService._save(groupService.STORAGE_KEY, dummyData.defaultGroups)
+
+        groups = dummyData.defaultGroups
+
+        boards.forEach(board => board.groups = groups.filter(group => group.boardId === board._id))
+    }
+
+    let tasks = await taskService._query();
+
+    if (!tasks || tasks.length === 0) {
+        storageService._save(taskService.STORAGE_KEY, dummyData.defaultTasks)
+
+        tasks = dummyData.defaultTasks
+
+        groups.forEach(group => group.tasks = tasks.filter(task => task.groupId === group._id))
+    }
+}
+
+async function query(filterBy = { name: '' }) {
+    var boards = await storageService.query(STORAGE_KEY) || [];
+
+    const { name } = filterBy;
+
+    if (name) {
+        return boards.filter(board => name.toLowerCase().includes(board.name.toLowerCase()))
+    }
+
     return boards
 }
 
 function getById(boardId) {
     return storageService.get(STORAGE_KEY, boardId)
+        .then(async board => {
+            let groups = [];
+            let tasks = [];
+
+            groups = await groupService.getByBoardId(boardId);
+            tasks = await taskService.getByGroupId(boardId);
+
+            board.groups = groups;
+            board.tasks = tasks;
+
+            return board;
+        })
 }
 
 async function remove(boardId) {
-    // throw new Error('Nope')
     await storageService.remove(STORAGE_KEY, boardId)
 }
 
 async function save(board) {
-    var savedBoard
+    let savedBoard
     if (board._id) {
         const boardToSave = {
             _id: board._id,
-            price: board.price,
-            speed: board.speed,
+            name: board.name,
+            color: board.color,
+            groups: board.groups,
         }
         savedBoard = await storageService.put(STORAGE_KEY, boardToSave)
     } else {
         const boardToSave = {
-            vendor: board.vendor,
-            price: board.price,
-            speed: board.speed,
-            // Later, owner is set by the backend
-            owner: userService.getLoggedinUser(),
-            msgs: []
+            name: board.name,
+            color: board.color,
+            groups: [],
         }
         savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
     }
     return savedBoard
+}
+
+function getEmptyTask() {
+    return {
+        _id: makeId(4),
+        side: null,
+        taskTitle: "New task",
+        members: [
+        ],
+        date: "",
+        status: "",
+        priority: "",
+    }
 }
 
 async function addBoardMsg(boardId, txt) {
