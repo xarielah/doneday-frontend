@@ -1,31 +1,37 @@
-import { makeId } from "../util.service";
+import { storageService } from "../async-storage.service";
+
+const STORAGE_KEY = "groupDB";
 
 export const groupService = {
     add,
-    put,
-    remove
+    update,
+    remove,
+    get,
+    _query,
+    STORAGE_KEY,
+    getByBoardId
 };
 
-function add(boardId, group) {
-    boardService.query({ _id: boardId }).then(async board => {
-        group._id = makeId()
-        board.groups.push(group)
-        boardService.save(board)
-    });
+function _query() {
+    return storageService.query(STORAGE_KEY)
 }
 
-function put(boardId, groupId, newGroup) {
-    boardService.query({ _id: boardId }).then(async board => {
-        const group = board.groups.find(group => group._id === groupId)
-        group = { ...group, ...newGroup };
-        boardService.save(board);
-    })
+function add(group) {
+    return storageService.post(STORAGE_KEY, group);
 }
 
-function remove(boardId, groupId) {
-    boardService.query({ _id: boardId }).then(async board => {
-        const group = board.groups.find(group => group._id === groupId)
-        board.groups.splice(board.groups.indexOf(group), 1)
-        boardService.save(board)
-    })
+function update(updatedGroup) {
+    return storageService.put(STORAGE_KEY, updatedGroup)
+}
+
+function remove(groupId) {
+    return storageService.remove(STORAGE_KEY, groupId);
+}
+
+function get(groupId) {
+    return storageService.get(STORAGE_KEY, groupId);
+}
+
+function getByBoardId(boardId) {
+    return storageService.query(STORAGE_KEY).then(groups => groups.filter(group => group.boardId === boardId))
 }
