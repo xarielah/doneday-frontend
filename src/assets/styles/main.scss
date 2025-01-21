@@ -19,12 +19,14 @@
 // @import "pages/ReviewIndex";
 // @import "pages/UserDetails";
 // @import "pages/TaskDetails";
+
+@import "cmps/BoardDynamicCmps/Side";
+@import "cmps/BoardDynamicCmps/Status";
 @import "cmps/Board/Board.scss";
 @import "cmps/Board/BoardHeader.scss";
 @import "cmps/Board/BoardDetails";
 @import "cmps/Board/CrudleBar";
 @import "cmps/Board/GroupsPreview";
-@import "cmps/BoardDynamicCmps/Side.scss";
 @import "cmps/HomePage";
 
 // // Components
@@ -60,9 +62,7 @@
 // @import "cmps/ExternalHomePage/SlidePanel";
 @import "cmps/BoardHeaderTabList";
 @import "cmps/SlidePanel";
-
-// >>>>>>>crud 
-
+@import "cmps/BoardDynamicCmps/DialogValuePicker";
 
 // @import "cmps/AppFooter";
 // @import "cmps/UserMsg";

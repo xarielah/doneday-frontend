@@ -1,0 +1,40 @@
+.fancy-value-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.fancy-value-picker-dialog {
+  margin-top: 8px;
+}
+
+.status-draft {
+  background-color: $clr-status-draft;
+}
+
+.status-done {
+  background-color: $clr-status-done;
+}
+
+.status-wip {
+  background-color: $clr-status-wip;
+}
+
+.status-stuck {
+  background-color: $clr-status-stuck;
+}
+
+.status-onhold {
+  background-color: $clr-status-onhold;
+}
+
+.status-revision {
+  background-color: $clr-status-revision;
+}
+
+.status-design {
+  background-color: $clr-status-design;
+}
