@@ -23,7 +23,8 @@
 @import "cmps/BoardHeader";
 @import "cmps/BoardDetails";
 @import "cmps/GroupsPreview";
-@import "cmps/BoardDynamicCmps/Side.scss";
+@import "cmps/BoardDynamicCmps/Side";
+@import "cmps/BoardDynamicCmps/Status";
 @import "cmps/HomePage";
 
 // // Components
@@ -41,6 +42,7 @@
 @import "cmps/ExternalHeroTitle";
 @import "cmps/BoardHeaderTabList";
 @import "cmps/SlidePanel";
+@import "cmps/BoardDynamicCmps/DialogValuePicker";
 // @import "cmps/AppFooter";
 // @import "cmps/UserMsg";
 

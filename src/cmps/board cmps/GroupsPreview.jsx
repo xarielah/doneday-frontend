@@ -1,7 +1,6 @@
 import { EditableText, } from "@vibe/core";
 import { Date } from "./dynamicCmps/Date";
 import { Member } from "./dynamicCmps/Member";
-import { Options } from "./dynamicCmps/Options";
 import { Priority } from "./dynamicCmps/Priority";
 import { Side } from "./dynamicCmps/Side";
 import { Status } from "./dynamicCmps/Status";
