@@ -27,51 +27,59 @@ section.home-page {
             gap: 10px;
             justify-content: space-between;
             padding: .8rem 1.5rem;
-    
-            .box {
-                flex: 0 1 calc(50% - 10px);
-                padding: 1.3rem;
-                border-radius: 5px;
-                display: flex;
+
+            .box-link {
+                display: inline-flex;
+                width: 50%;
                 justify-content: space-between;
                 gap: 10px;
-                transition: .2s all ease;
-                border: 1px solid #efefef;
+                flex: 0 1 calc(50% - 10px);
 
-                .box-header {
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                    font-weight: 500;
-                }
-
-                .box-icon {
-                    flex: 0 1 0;
+                .box {
+                    flex: 0 1 calc(100% - 10px);
+                    padding: 1.3rem;
+                    border-radius: 5px;
                     display: flex;
-
-                    .avatar {
-                        position: relative;
-                        z-index: 5;
-
-                        .overlay-icon {
-                            position: absolute;
-                            right: -10px;
-                            bottom: -15px;
-                            z-index: 99;
-                            color: black;
+                    justify-content: space-between;
+                    gap: 10px;
+                    transition: .2s all ease;
+                    border: 1px solid #efefef;
+    
+                    .box-header {
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                        font-weight: 500;
+                    }
+    
+                    .box-icon {
+                        flex: 0 1 0;
+                        display: flex;
+    
+                        .avatar {
+                            position: relative;
+                            z-index: 5;
+    
+                            .overlay-icon {
+                                position: absolute;
+                                right: -10px;
+                                bottom: -15px;
+                                z-index: 99;
+                                color: black;
+                            }
                         }
                     }
-                }
-                .box-content {
-                    flex: 1;
-
-                    .box-desc {
-                        display: flex;
-                        align-items: center;
-
-                        span {
-                            position: relative;
-                            top: 1px;
-                            margin-left: 5px;
+                    .box-content {
+                        flex: 1;
+    
+                        .box-desc {
+                            display: flex;
+                            align-items: center;
+    
+                            span {
+                                position: relative;
+                                top: 1px;
+                                margin-left: 5px;
+                            }
                         }
                     }
                 }
@@ -86,5 +94,13 @@ section.home-page {
 
     .custom-collapse:not(:last-child) {
         margin-bottom: 40px;
+    }
+}
+
+
+@media screen and (max-width: 1200px) {
+    section.home-page .custom-collapse .two-boxes-container .box-link {
+        width: 100%;
+        flex: 0 1 100%;
     }
 }
