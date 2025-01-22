@@ -47,6 +47,7 @@ export function Priority({ info, onTaskUpdate }) {
             className={cn("fancy-value-picker column-label-priority", `priority-${info}`)}
             onClick={onDialogChange}>
             {getLabel(info)}
+            <span className="fold"></span>
         </div>
     </Dialog>)
 }

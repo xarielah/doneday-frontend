@@ -6,6 +6,9 @@
   height: 100%;
   cursor: pointer;
   font-size: 14px;
+  position: relative;
+
+  @include fold-animation;
 }
 
 .fancy-value-picker-dialog {

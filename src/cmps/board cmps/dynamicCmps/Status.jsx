@@ -52,6 +52,7 @@ export function Status({ info, onTaskUpdate }) {
                 className={cn('fancy-value-picker column-label-status', `status-${info}`)}
                 onClick={onDialogChange}>
                 {getLabel(info)}
+                <span className="fold"></span>
             </div>
         </Dialog>
     )
