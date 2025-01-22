@@ -1,4 +1,5 @@
 import { Dialog, DialogContentContainer, useSwitch } from "@vibe/core";
+import { cn } from "../../../services/util.service";
 import { DialogValuePicker } from "./DialogValuesPicker";
 
 const modifiers = [
@@ -20,6 +21,10 @@ const values = [
     { value: 'design', label: 'In Design', className: 'status-design' },
 ]
 
+function getLabel(statusValue) {
+    return values.find(value => value.value === statusValue)?.label || statusValue
+}
+
 export function Status({ info, onTaskUpdate }) {
     const { isChecked: isDialogOpen, onChange: onDialogChange } = useSwitch({
         defaultChecked: false,
@@ -39,15 +44,15 @@ export function Status({ info, onTaskUpdate }) {
             zIndex={1010}
             content={
                 <DialogContentContainer size="large" className="fancy-value-picker-dialog">
-                    <DialogValuePicker data={values} onPick={value => handleValueChange(value)} />
+                    <DialogValuePicker data={values} onPick={option => handleValueChange(option.value)} />
                 </DialogContentContainer>
             }
             position="bottom">
             <div
-                className="fancy-value-picker column-label-status"
-                onClick={onDialogChange}
-                style={{ backgroundColor: info?.color || 'gray' }}>
-                {info}
+                className={cn('fancy-value-picker column-label-status', `status-${info}`)}
+                onClick={onDialogChange}>
+                {getLabel(info)}
+                <span className="fold"></span>
             </div>
         </Dialog>
     )

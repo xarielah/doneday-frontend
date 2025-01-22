@@ -5,6 +5,10 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
+  font-size: 14px;
+  position: relative;
+
+  @include fold-animation;
 }
 
 .fancy-value-picker-dialog {
@@ -12,29 +16,29 @@
 }
 
 .status-draft {
-  background-color: $clr-status-draft;
+  @include dialog-options-button($color: $clr-status-draft);
 }
 
 .status-done {
-  background-color: $clr-status-done;
+  @include dialog-options-button($color: $clr-status-done);
 }
 
 .status-wip {
-  background-color: $clr-status-wip;
+  @include dialog-options-button($color: $clr-status-wip);
 }
 
 .status-stuck {
-  background-color: $clr-status-stuck;
+  @include dialog-options-button($color: $clr-status-stuck);
 }
 
 .status-onhold {
-  background-color: $clr-status-onhold;
+  @include dialog-options-button($color: $clr-status-onhold);
 }
 
 .status-revision {
-  background-color: $clr-status-revision;
+  @include dialog-options-button($color: $clr-status-revision);
 }
 
 .status-design {
-  background-color: $clr-status-design;
+  @include dialog-options-button($color: $clr-status-design);
 }

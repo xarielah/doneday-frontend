@@ -11,7 +11,7 @@ const GroupTableHeader = ({ columnLabels, group }) => {
             <div className="min-table-cell table-cell-first-column task-border-top"><Text type="text2">Task</Text></div>
         </GroupStickyColumns>
         <GroupScrollableColumns>
-            {columnLabels.map(label => <Text type="text2" className={cn('min-table-cell task-border-top column-label', `column-label-${label}`)}>{label}</Text>)}
+            {columnLabels.map(label => <Text type="text2" key={label} className={cn('min-table-cell task-border-top column-label', `column-label-${label}`)}>{label}</Text>)}
         </GroupScrollableColumns>
     </section>
 }

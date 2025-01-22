@@ -4,8 +4,6 @@ import { Priority } from "../dynamicCmps/Priority";
 import { Status } from "../dynamicCmps/Status";
 
 const DynamicColumn = ({ cmpType, info, onTaskUpdate }) => {
-    console.log("🚀 ~ DynamicColumn ~ cmpType:", cmpType)
-    console.log("🚀 ~ DynamicColumn ~ info:", info)
     switch (cmpType) {
         case "priority":
             return <Priority info={info} onTaskUpdate={onTaskUpdate} />;

@@ -1,23 +1,15 @@
-import { EditableText } from "@vibe/core"
-import DynamicColumn from "./DynamicColumn"
-import GroupPreRow from "./GroupPreRow"
-import GroupScrollableColumns from "./GroupScrollableColumns"
-import GroupStickyColumns from "./GroupStickyColumns"
+import GroupTableContentTask from "./GroupTableContentTask"
 
 const GroupTableContent = ({ group, columnLabels }) => {
-    console.log("🚀 ~ GroupTableContent ~ group:", group)
     return <section className="group-table-content">
-        {group.tasks.map(task => <div role="listitem" className="table-task-row">
-            <GroupStickyColumns>
-                <GroupPreRow group={group} />
-                <div className="min-table-cell table-cell-first-column">
-                    <EditableText type="text2" value={task.taskTitle} />
-                </div>
-            </GroupStickyColumns>
-            <GroupScrollableColumns>
-                {columnLabels.map(cmpType => <DynamicColumn cmpType={cmpType} info={task[cmpType]} onTaskUpdate={console.log} />)}
-            </GroupScrollableColumns>
-        </div>)}
+        {group.tasks.map(task =>
+            <GroupTableContentTask
+                key={task._id}
+                task={task}
+                columnLabels={columnLabels}
+                group={group}
+            />
+        )}
     </section>
 }
 

@@ -1,5 +1,35 @@
 /* Breakpoint mixins */
 
+@mixin fold-animation {
+  & .fold {
+    display: block;
+    height: 0px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 0px;
+    background: rgba(0, 0, 0, 0.353);
+    border-color: transparent rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 0px;
+    transition: border-width 0.2s ease-out;
+  }
+
+  &:hover .fold {
+    transition-delay: 0.2s;
+    border-width: 0px 10px 10px 0px;
+  }
+}
+
+@mixin dialog-options-button($color) {
+  background-color: $color;
+  color: white;
+
+  &:hover {
+    background-color: lighten($color, 4%);
+  }
+}
+
 @mixin button-with-icon {
   display: flex;
   align-items: center;
