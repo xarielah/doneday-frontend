@@ -186,6 +186,34 @@ $font-color: #333;
             flex: 0 0 120px;
             min-width: 120px;
             // border-right: 1px solid #ddd;
+            position: relative;
+            justify-content: center;
+        }
+
+        .addMembers {
+            position: absolute;
+            left: 0;
+            z-index: 9;
+            bottom: 10px;
+            color: blue;
+            cursor: pointer;
+            margin: 0;
+            display: block;
+            padding: 0 !important;
+            width: 15px !important;
+            height: 15px !important;
+            border-radius: 50%;
+        }
+
+        .addMemberDialog {
+            position: absolute;
+            z-index: 10;
+        }
+
+        .avatars {
+            width: 100%;
+            justify-content: center;
+            display: flex;
         }
 
         /* DATE */
