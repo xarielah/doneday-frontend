@@ -15,7 +15,8 @@ export const boardService = {
     remove,
     STORAGE_KEY,
     getEmptyTask,
-    addBoardMsg
+    addBoardMsg,
+    getBoards
 }
 
 _checkForDummyData();
@@ -117,12 +118,16 @@ function getEmptyTask() {
     }
 }
 
+function getBoards(filterBy = {}) {
+    return query()
+}
+
 async function addBoardMsg(boardId, txt) {
     // Later, this is all done by the backend
     const board = await getById(boardId)
 
     const msg = {
-        id: makeId(),
+        _id: makeId(),
         by: userService.getLoggedinUser(),
         txt
     }

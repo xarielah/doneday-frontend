@@ -4,9 +4,10 @@ import { BoardDetails } from "../cmps/board cmps/BoardDetails";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
 import { CrudlBar } from "../cmps/board cmps/CrudlBar";
 import { boardService } from "../services/board/board.service.local";
+import { setBoard } from "../store/actions/board.actions";
 
 export function Board() {
-    const [tempBoard, setTempBoard] = useState();
+    // const [tempBoard, setTempBoard] = useState();
     const { boardId } = useParams();
     const navigate = useNavigate();
 
@@ -14,7 +15,10 @@ export function Board() {
         boardService.getById(boardId)
             .then(board => {
                 // TODO: Append it to the crud as current board.
-                setTempBoard(board)
+                // setTempBoard(board)
+                console.log(board);
+
+                setBoard(board)
             })
             .catch(console.error);
     }, [])

@@ -1,11 +1,11 @@
 import { Box } from "@vibe/core";
 import { BoardPreview } from "./BoardPreview.jsx";
 
-export function BoardsSection({boards}) {
+export function BoardsSection({ boards }) {
     return (
         <Box className="two-boxes-container">
             {boards && boards.length > 0 && boards.map(board =>
-                <BoardPreview board={board} key={board.id}></BoardPreview>
+                <BoardPreview board={board} key={board._id}></BoardPreview>
             )}
         </Box>
     )

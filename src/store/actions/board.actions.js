@@ -4,6 +4,7 @@ import { store } from '../store'
 import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, SET_CMP_ORDER, SET_SELECTED_TASK, ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, } from '../reducers/board.reducer'
 import { getDummyBoardAsync } from '../../../board'
 import { makeId } from '../../services/util.service'
+import { boardService } from '../../services/board/board.service.local'
 
 
 const boardId = "hey"
@@ -15,10 +16,9 @@ const boardId = "hey"
 export async function loadBoards(filterBy = {}) {
     try {
         //     const boards = await boardService.query(filterBy)
-        const boards = getDummyBoardAsync()
+        return boardService.getBoards()
             .then(boards => {
                 store.dispatch(getCmdSetBoards(boards))
-                return boards
             })
     } catch (err) {
         console.log('Board Action -> Cannot load boards', err)
@@ -27,13 +27,12 @@ export async function loadBoards(filterBy = {}) {
 }
 
 // Set Board
-export async function loadBoard(boardId = "") {
+export async function setBoard(boardId = "") {
     try {
         // const board = await boardService.getById(boardId)
-        const board = getDummyBoardAsync()
+        return boardService.getById(boardId)
             .then(board => {
                 store.dispatch(getCmdSetBoard(board))
-                return board
             })
     } catch (err) {
         console.log('Board Action -> Cannot load board', err)
@@ -129,6 +128,20 @@ export async function setTask(task) {
     }
 }
 
+// Get Task
+export function getTaskById(taskId) {
+    for (const group of store.getState().board || []) {
+        for (const task of group.tasks || []) {
+            if (task._id === taskId) {
+                console.log(task);
+
+                return task;
+            }
+        }
+    }
+    return null;
+}
+
 // Add Task
 export async function addTask(groupId, task) {
     try {
@@ -161,7 +174,7 @@ export async function removeTask(groupId, taskId) {
     try {
         return getDummyBoardAsync(boardId) //removeTask(boardId, groupId, taskId)
             .then(() => {
-                console.log(groupId, taskId);
+                // console.log(groupId, taskId);
 
                 return store.dispatch(getCmdRemoveTask(groupId, taskId))
             })
@@ -188,8 +201,8 @@ export async function addSelectedTask(groupId, taskId) {
     try {
         return getDummyBoardAsync(boardId)
             .then(() => {
-                console.log(groupId, taskId);
-                console.log(store.selectedTasks);
+                // console.log(groupId, taskId);
+                // console.log(store.selectedTasks);
 
                 return store.dispatch(getCmdAddSelectedTasks(groupId, taskId))
             })
@@ -203,8 +216,8 @@ export async function removeSelectedTask(groupId, taskId) {
     try {
         return getDummyBoardAsync(boardId)
             .then(() => {
-                console.log(groupId, taskId);
-                console.log(store.selectedTasks);
+                // console.log(groupId, taskId);
+                // console.log(store.selectedTasks);
 
                 return store.dispatch(getCmdRemoveSelectedTasks(groupId, taskId))
             })

@@ -3,7 +3,7 @@
 @import "../setup/mixins";
 
 * {
-  box-sizing: border-box;
+  // box-sizing: border-box;
 }
 
 html {
@@ -20,7 +20,6 @@ html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  // box-sizing: border-box;
 }
 
 main {
