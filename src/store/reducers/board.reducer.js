@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 
-import { testBoard } from "../../../board"
 
 /* eslint-disable no-case-declarations */
 export const SET_BOARDS = 'SET_BOARDS'
@@ -28,7 +27,7 @@ export const REMOVE_SELECTED_TASK = 'REMOVE_SELECTED_TASK';
 
 const initialState = {
     boards: [],
-    board: testBoard,
+    board: null,
     selectedTasks: [],
     lastRemovedBoard: null,
     statusLabels: [],
@@ -135,8 +134,6 @@ export function boardReducer(state = initialState, action) {
             }
             break
         case ADD_SELECTED_TASK: {
-            console.log(state.selectedTasks);
-
             const groupId = action.groupId;
             const taskId = action.taskId;
             const existingGroupIndex = state.selectedTasks?.findIndex(
@@ -144,8 +141,6 @@ export function boardReducer(state = initialState, action) {
             )
 
             if (existingGroupIndex === -1) {
-                console.log(existingGroupIndex);
-
                 const newGroup = {
                     groupId,
                     tasks: [taskId]

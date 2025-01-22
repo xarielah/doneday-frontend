@@ -5,6 +5,7 @@ import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
 
 const GroupTableContent = ({ group, columnLabels }) => {
+    console.log("🚀 ~ GroupTableContent ~ group:", group)
     return <section className="group-table-content">
         {group.tasks.map(task => <div role="listitem" className="table-task-row">
             <GroupStickyColumns>
@@ -14,7 +15,7 @@ const GroupTableContent = ({ group, columnLabels }) => {
                 </div>
             </GroupStickyColumns>
             <GroupScrollableColumns>
-                {columnLabels.map(cmpType => <DynamicColumn cmpType={cmpType} info={task[cmpType]} onTaskUpdate={null} />)}
+                {columnLabels.map(cmpType => <DynamicColumn cmpType={cmpType} info={task[cmpType]} onTaskUpdate={console.log} />)}
             </GroupScrollableColumns>
         </div>)}
     </section>

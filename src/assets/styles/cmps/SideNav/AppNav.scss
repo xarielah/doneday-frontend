@@ -7,10 +7,12 @@
 }
 
 .app-nav {
-    // overflow: hidden;
-    // box-sizing: border-box;
-    z-index: 20;
+    box-sizing: border-box;
 
+    * {
+        box-sizing: border-box;
+
+    }
 
     .medium_004db5bace {
         width: 100%;
