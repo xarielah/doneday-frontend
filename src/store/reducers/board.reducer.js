@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 
-import { testBoard } from "../../../board"
 
 /* eslint-disable no-case-declarations */
 export const SET_BOARDS = 'SET_BOARDS'
@@ -28,7 +27,7 @@ export const REMOVE_SELECTED_TASK = 'REMOVE_SELECTED_TASK';
 
 const initialState = {
     boards: [],
-    board: [],
+    board: null,
     selectedTasks: [],
     lastRemovedBoard: null,
     statusLabels: [],

@@ -64,20 +64,13 @@ async function query(filterBy = { name: '' }) {
     return boards
 }
 
-function getById(boardId) {
-    return storageService.get(STORAGE_KEY, boardId)
-        .then(async board => {
-            let groups = [];
-            let tasks = [];
-
-            groups = await groupService.getByBoardId(boardId);
-            tasks = await taskService.getByGroupId(boardId);
-
-            board.groups = groups;
-            board.tasks = tasks;
-
-            return board;
-        })
+async function getById(boardId) {
+    const board = await storageService.get(STORAGE_KEY, boardId)
+    board.groups = await groupService.getByBoardId(boardId)
+    for (let group of board.groups) {
+        group.tasks = await taskService.getByGroupId(group._id)
+    }
+    return board
 }
 
 async function remove(boardId) {

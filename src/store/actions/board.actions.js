@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { store } from '../store'
-import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, SET_CMP_ORDER, SET_SELECTED_TASK, ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, } from '../reducers/board.reducer'
 import { getDummyBoardAsync } from '../../../board'
-import { makeId } from '../../services/util.service'
 import { boardService } from '../../services/board/board.service.local'
+import { makeId } from '../../services/util.service'
+import { ADD_BOARD, ADD_GROUP, ADD_SELECTED_TASK, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_SELECTED_TASK, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_SELECTED_TASK, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer'
+import { store } from '../store'
 
 
 const boardId = "hey"
@@ -27,17 +27,8 @@ export async function loadBoards(filterBy = {}) {
 }
 
 // Set Board
-export async function setBoard(boardId = "") {
-    try {
-        // const board = await boardService.getById(boardId)
-        return boardService.getById(boardId)
-            .then(board => {
-                store.dispatch(getCmdSetBoard(board))
-            })
-    } catch (err) {
-        console.log('Board Action -> Cannot load board', err)
-        throw err
-    }
+export async function setBoard(board) {
+    store.dispatch(getCmdSetBoard(board))
 }
 
 // Remove Board
@@ -279,6 +270,7 @@ function getCmdSetBoards(boards) {
     }
 }
 function getCmdSetBoard(board) {
+    console.log("🚀 ~ getCmdSetBoard ~ board:", board)
     return {
         type: SET_BOARD,
         board
