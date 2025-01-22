@@ -1,0 +1,21 @@
+.task-details-button-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid $layout-border-color;
+  height: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  & > .task-details-icon {
+    $side-paddings: 22px;
+
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: $side-paddings;
+    padding-right: $side-paddings;
+    color: $secondary-text-color;
+  }
+}

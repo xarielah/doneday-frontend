@@ -1,0 +1,18 @@
+.side-panel-contents-wrapper {
+  $panel-spacings: 20px;
+
+  & .side-panel-header {
+    margin: $panel-spacings $panel-spacings 0 $panel-spacings;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    padding: 0 2px;
+
+    & .side-panel-heading {
+      margin-top: 8px;
+    }
+
+    & .side-panel-closing-bar {
+      width: 100%;
+    }
+  }
+}

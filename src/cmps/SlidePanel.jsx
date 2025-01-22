@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { panelTypes } from "../services/sidePanel.service";
-import { SET_PAGE_INFO } from "../store/reducers/sidePanel.reducer";
+import { CLEAR_PAGE_INFO, SET_PAGE_INFO } from "../store/reducers/sidePanel.reducer";
 import SidePanelDynamicCmps from "./SidePanelDynamicCmps";
 
 const SlidePanel = ({ params }) => {
@@ -12,9 +12,10 @@ const SlidePanel = ({ params }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // We know we should present the side panel with the task details, otherwise we wont have the task id.
         if (taskId) {
             dispatch({ type: SET_PAGE_INFO, payload: { type: panelTypes.task, info: { boardId, taskId } } });
+        } if (!taskId && type === panelTypes.task) {
+            dispatch({ type: CLEAR_PAGE_INFO });
         }
     }, [taskId])
 

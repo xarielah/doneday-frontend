@@ -35,6 +35,9 @@
 @import "cmps/board/structure/GroupContainer";
 @import "cmps/board/structure/GroupTableContent";
 @import "cmps/board/structure/DynamicColumn";
+@import "cmps/board/structure/GroupTableContentTask";
+@import "cmps/board/structure/TaskDetailsTriggerCell";
+@import "cmps/SidePanelWrapper";
 
 // // Components
 // @import "cmps/list";
@@ -69,6 +72,8 @@
 @import "cmps/BoardHeaderTabList";
 @import "cmps/SlidePanel";
 @import "cmps/BoardDynamicCmps/DialogValuePicker";
+@import "cmps/board/SidePanelWriteUpdate";
+@import "cmps/board/SidePanelTaskMessages";
 
 // @import "cmps/AppFooter";
 // @import "cmps/UserMsg";
