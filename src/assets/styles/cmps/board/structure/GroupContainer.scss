@@ -43,6 +43,7 @@
     height: 100%;
     border-left: 1px solid $layout-border-color;
     border-top: 1px solid $layout-border-color;
+    flex-shrink: 0;
   }
 
   & > *:not(:last-child) {

@@ -18,12 +18,13 @@ export function Board() {
             .catch(console.error);
     }, [])
 
-    return (
-        <section className="board-container">
-            <BoardHeader />
-            {board === null && <div>loading...</div>}
-            {board && <BoardDetails />}
-            <CrudlBar />
-        </section>
-    )
+    if (!board) return <div>loading...</div>
+    if (board)
+        return (
+            <section className="board-container">
+                <BoardHeader />
+                <BoardDetails />
+                <CrudlBar />
+            </section>
+        )
 }

@@ -36,6 +36,7 @@ export function Status({ info, onTaskUpdate }) {
             open={isDialogOpen}
             showTrigger={[]}
             onClickOutside={onDialogChange}
+            zIndex={1010}
             content={
                 <DialogContentContainer size="large" className="fancy-value-picker-dialog">
                     <DialogValuePicker data={values} onPick={value => handleValueChange(value)} />
