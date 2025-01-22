@@ -1,5 +1,14 @@
 /* Breakpoint mixins */
 
+@mixin dialog-options-button($color) {
+  background-color: $color;
+  color: white;
+
+  &:hover {
+    background-color: lighten($color, 4%);
+  }
+}
+
 @mixin button-with-icon {
   display: flex;
   align-items: center;

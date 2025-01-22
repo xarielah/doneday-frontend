@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import { getDummyBoardAsync } from '../../../board'
 import { boardService } from '../../services/board/board.service.local'
-import { makeId } from '../../services/util.service'
+import { taskService } from '../../services/board/task.service.local'
 import { ADD_BOARD, ADD_GROUP, ADD_SELECTED_TASK, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_SELECTED_TASK, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_SELECTED_TASK, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer'
 import { store } from '../store'
 
@@ -147,13 +147,15 @@ export async function addTask(groupId, task) {
 }
 
 // Update Task
-export async function updateTask(groupId, task) {
+export async function updateTask(groupId, updatedTask) {
     try {
-        return getDummyBoardAsync(boardId) //saveTask(groupId, task)
-            .then((savedTask) => {
-                savedTask._id = makeId(4)
-                store.dispatch(getCmdUpdateTask(groupId, savedTask))
-            })
+        const currentBoard = store.getState().boardModule.board
+        const currentGroup = currentBoard.groups.find(group => group._id === groupId)
+        const taskIdx = currentGroup.tasks.findIndex(task => task._id === updatedTask._id)
+        if (taskIdx === -1) return
+        currentGroup.tasks.splice(taskIdx, 1, updatedTask);
+
+        taskService.update(updatedTask).then(() => setBoard(currentBoard))
     } catch (err) {
         console.log('Board Action -> Cannot update task', err)
         throw err
@@ -270,10 +272,9 @@ function getCmdSetBoards(boards) {
     }
 }
 function getCmdSetBoard(board) {
-    console.log("🚀 ~ getCmdSetBoard ~ board:", board)
     return {
         type: SET_BOARD,
-        board
+        board: { ...board }
     }
 }
 function getCmdRemoveBoard(boardId) {

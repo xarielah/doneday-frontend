@@ -314,3 +314,9 @@ $clr-status-revision: #339ecd;
 $clr-status-design: #784bd1;
 $clr-status-draft: #797e93;
 
+// Priority colors
+$clr-priority-low: $color-grass-green;
+$clr-priority-medium: $color-jeans;
+$clr-priority-high: $color-orange;
+$clr-priority-critical: #0c0c0c;
+$clr-priority-tbd: $clr-status-draft;
