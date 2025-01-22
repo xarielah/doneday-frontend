@@ -9,12 +9,9 @@ import { loadBoards } from "../store/actions/board.actions.js";
 export function HomePage() {
 
     const boards = useSelector(storeState => storeState.boardModule.boards)
-    console.log(boards);
 
     useEffect(() => {
         loadBoards()
-        console.log(boards);
-
     }, [])
 
 

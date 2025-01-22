@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
+
 import { getDummyBoardAsync } from '../../../board'
 import { boardService } from '../../services/board/board.service.local'
 import { taskService } from '../../services/board/task.service.local'
@@ -67,6 +66,26 @@ export async function updateBoard(board) {
 }
 
 
+// Get Group
+export function getGroupById(groupId) {
+    try {
+        const board = store.getState().boardModule.board;
+        if (!board || !board.groups) {
+            throw new Error('Board or groups are undefined.');
+        }
+
+        const group = board.groups.find(group => group._id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID ${groupId} not found.`);
+        }
+        return group;
+    } catch (err) {
+        console.error('Error in getGroupById:', err.message);
+        return null;
+    }
+}
+
+
 // Add Group
 export async function addGroup(group) {
     try {
@@ -121,11 +140,10 @@ export async function setTask(task) {
 
 // Get Task
 export function getTaskById(taskId) {
-    for (const group of store.getState().board || []) {
+    const board = store.getState().boardModule.board;
+    for (const group of board.groups) {
         for (const task of group.tasks || []) {
             if (task._id === taskId) {
-                console.log(task);
-
                 return task;
             }
         }
@@ -133,15 +151,16 @@ export function getTaskById(taskId) {
     return null;
 }
 
+
 // Add Task
 export async function addTask(groupId, task) {
     try {
-        return getDummyBoardAsync(boardId) //saveTask(groupId, task)
-            .then((savedTask) => {
+        return taskService.add(task)
+            .then(task => {
                 store.dispatch(getCmdAddTask(groupId, task))
             })
     } catch (err) {
-        console.log('Board Action -> Cannot add task', err)
+        console.log('Board Action -> Cannot update task', err)
         throw err
     }
 }
@@ -165,10 +184,8 @@ export async function updateTask(groupId, updatedTask) {
 // Remove Task
 export async function removeTask(groupId, taskId) {
     try {
-        return getDummyBoardAsync(boardId) //removeTask(boardId, groupId, taskId)
+        return taskService.remove(taskId)
             .then(() => {
-                // console.log(groupId, taskId);
-
                 return store.dispatch(getCmdRemoveTask(groupId, taskId))
             })
     } catch (err) {
@@ -192,13 +209,8 @@ export async function setSelectedTask(selectedTasks = []) {
 
 export async function addSelectedTask(groupId, taskId) {
     try {
-        return getDummyBoardAsync(boardId)
-            .then(() => {
-                // console.log(groupId, taskId);
-                // console.log(store.selectedTasks);
+        return store.dispatch(getCmdAddSelectedTasks(groupId, taskId))
 
-                return store.dispatch(getCmdAddSelectedTasks(groupId, taskId))
-            })
     } catch (err) {
         console.log('Board Action -> Cannot select task', err)
         throw err

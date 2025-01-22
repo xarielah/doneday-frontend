@@ -7,10 +7,10 @@ const GroupHeader = ({ group, isCollapsed, setIsCollapsed }) => {
             <Icon className="collapse-chevron" icon={DropdownChevronRight} iconSize={20} />
         </button>}
         {!isCollapsed && <button onClick={() => setIsCollapsed(true)}>
-            <Icon className="collapse-chevron" icon={DropdownChevronDown} iconSize={20} />
+            <Icon style={{ color: group.color }} className="collapse-chevron" icon={DropdownChevronDown} iconSize={20} />
         </button>}
-        <EditableHeading type="h3" value={group._id} />
-        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>2 items</Text>
+        <EditableHeading style={{ color: group.color }} type="h3" value={group._id} />
+        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{group.tasks.length} items</Text>
     </section>
 }
 
