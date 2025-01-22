@@ -9,7 +9,7 @@ const BoardHeaderTitleButtons = () => {
     return <>
         <Heading type="h2" className="title">doneday recreate</Heading>
 
-        <Flex className="actions" gap="small" align="center" style={{ height: '36px' }}>
+        <Flex className="actions" gap="small" align="center" justify="end" style={{ height: '36px' }}>
             <Button className="icon-button" size="small" kind="tertiary"><Icon icon={Integrations} />Integrate</Button>
             <Button className="icon-button" size="small" kind="tertiary"><Icon icon={Robot} />Automate</Button>
             <IconButton icon={Notifications} ariaLabel="Notifications" badge="1" />
