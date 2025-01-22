@@ -1,22 +1,19 @@
 /* eslint-disable react/jsx-key */
-import { EditableText, MenuItemButton, TextField, } from "@vibe/core";
+import { EditableText } from "@vibe/core";
+import React from "react";
+import { boardService } from "../../services/board/board.service.local";
+import { addSelectedGroup, addSelectedTask, addTask, removeSelectedGroup, removeSelectedTask, removeTask } from "../../store/actions/board.actions";
+import { AddTask } from "./dynamicCmps/AddTask";
 import { Date } from "./dynamicCmps/Date";
 import { Member } from "./dynamicCmps/Member";
 import { Priority } from "./dynamicCmps/Priority";
 import { Side } from "./dynamicCmps/Side";
+import { SideGroup } from "./dynamicCmps/SideGroup";
 import { Status } from "./dynamicCmps/Status";
 import { TaskTitle } from "./dynamicCmps/TaskTitle";
-import React from "react";
-import { addSelectedGroup, addSelectedTask, addTask, removeSelectedGroup, removeSelectedTask, removeTask } from "../../store/actions/board.actions";
-import { boardService } from "../../services/board/board.service.local";
-import { AddTask } from "./dynamicCmps/AddTask";
-import { SideGroup } from "./dynamicCmps/SideGroup";
 
 /* eslint-disable react/prop-types */
 export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) {
-
-
-
     function onTaskUpdate(taskInfo) {
         console.log("Task Updated:", taskInfo);
     }

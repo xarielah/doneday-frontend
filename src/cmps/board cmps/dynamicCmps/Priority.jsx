@@ -1,3 +1,3 @@
 export function Priority({ info, onTaskUpdate }) {
-    return (<div>{info}</div>)
+    return (<div className="column-label-priority">{info}</div>)
 }

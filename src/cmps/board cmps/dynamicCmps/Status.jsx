@@ -43,7 +43,7 @@ export function Status({ info, onTaskUpdate }) {
             }
             position="bottom">
             <div
-                className="fancy-value-picker"
+                className="fancy-value-picker column-label-status"
                 onClick={onDialogChange}
                 style={{ backgroundColor: info.color || 'gray' }}>
                 {info}

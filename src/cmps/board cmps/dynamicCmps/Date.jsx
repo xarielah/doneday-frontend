@@ -1,3 +1,3 @@
 export function Date({ info, onTaskUpdate }) {
-    return (<div>{info}</div>)
+    return (<div className="column-label-date">{info}</div>)
 }

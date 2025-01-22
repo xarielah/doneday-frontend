@@ -1,0 +1,21 @@
+.group-header {
+  height: 40px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  margin-left: 5px;
+
+  .items-count {
+    opacity: 0;
+  }
+
+  &:hover .items-count {
+    opacity: 1;
+  }
+
+  .collapse-chevron {
+    margin-left: 9px;
+    margin-right: 4px;
+  }
+}

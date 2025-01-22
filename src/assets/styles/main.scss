@@ -28,13 +28,18 @@
 @import "cmps/Board/CrudleBar";
 @import "cmps/Board/GroupsPreview";
 @import "cmps/HomePage";
+@import "cmps/board/structure/GroupHeader";
+@import "cmps/board/structure/GroupTableHeader";
+@import "cmps/board/structure/GroupStickyColumns";
+@import "cmps/board/structure/GroupContainer";
+@import "cmps/board/structure/GroupTableContent";
+@import "cmps/board/structure/DynamicColumn";
 
 // // Components
 // @import "cmps/list";
 // @import "cmps/preview";
 
-
-// <<<<<<< HEAD 
+// <<<<<<< HEAD
 
 // @import "cmps/AppHeader";
 // @import "cmps/AppHeaderInviteMembers";
