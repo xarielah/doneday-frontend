@@ -1,7 +1,7 @@
 import { Heading, Icon } from "@vibe/core"
 import { makeId } from "../../services/util.service"
 import { Close, Delete, Duplicate, MoveArrowRight, Upload, } from "@vibe/icons"
-import { addGroup, addTask, removeTask, setSelectedTask } from "../../store/actions/board.actions"
+import { addGroup, addTask, getTaskById, removeTask, setSelectedTask } from "../../store/actions/board.actions"
 import { useSelector } from "react-redux"
 
 
@@ -10,19 +10,41 @@ export function CrudlBar() {
     const selectedTasks = useSelector((storeState) => storeState.boardModule.selectedTasks)
 
 
-    async function duplicateSelectedTasks(selectedTasks = []) {
+    async function duplicateSelectedTasks(board) {
+        // if (!Array.isArray(selectedTasks)) {
+        //     console.error("selectedTasks must be an array.");
+        //     return;
+        // }
+
         for (const { groupId, tasks } of selectedTasks) {
+            if (!Array.isArray(tasks)) {
+                console.error(`Tasks for groupId ${groupId} must be an array.`);
+                continue;
+            }
+
             for (const taskId of tasks) {
-                const newTask = {
-                    title: `Copy of ${taskId}`,
+                const originalTask = getTaskById(taskId);
+                console.log(originalTask);
+
+                if (!originalTask) {
+                    console.error(`Task with ID ${taskId} not found in the board.`);
+                    continue;
                 }
-                await addTask(groupId, newTask)
+
+                const newTask = {
+                    ...originalTask,
+                    _id: `task${Date.now()}`,
+                    taskTitle: `Copy of ${originalTask.taskTitle}`,
+                };
+
+                // Add the new task to the group
+                await addTask(groupId, newTask);
             }
         }
     }
 
 
-    async function deleteSelectedTasks(selectedTasks = []) {
+    async function deleteSelectedTasks() {
         for (const { groupId, tasks } of selectedTasks) {
             for (const taskId of tasks) {
                 await removeTask(groupId, taskId)
@@ -30,7 +52,7 @@ export function CrudlBar() {
         }
     }
 
-    async function moveSelectedTasks(selectedTasks = [], targetGroupId = null) {
+    async function moveSelectedTasks(targetGroupId = null) {
         let actualTargetGroupId = targetGroupId
 
         if (!actualTargetGroupId) {
@@ -83,7 +105,7 @@ export function CrudlBar() {
                 <Heading className="number" color="Primary" type="h2" weight="light">
                     Tasks selected
                 </Heading></section>
-            <section className="duplicate crud-btn"><Icon iconSize={22} icon={Duplicate} /> Duplicate</section>
+            <section onClick={() => duplicateSelectedTasks()} className="duplicate crud-btn"><Icon iconSize={22} icon={Duplicate} /> Duplicate</section>
             <section className="export crud-btn"><Icon iconSize={22} icon={Upload} /> Export</section>
             <section className="delete crud-btn "><Icon iconSize={22} icon={Delete} />Delete</section>
             <section className="move-to crud-btn"> <Icon iconSize={22} icon={MoveArrowRight

@@ -112,12 +112,6 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
                             info={{ isEdit: false, onAddTask: () => onAddTask(group._id) }}
                             onTaskUpdate={onTaskUpdate}
                         />
-                        {/* <TextField
-                            placeholder="Add Task"
-                            kind="secondary"
-                            size="small"
-                            onClick={() => onAddTask()}
-                        /> */}
                     </section>
                 </section>
             </section>

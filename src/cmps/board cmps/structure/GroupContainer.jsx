@@ -5,6 +5,7 @@ import GroupTableFooter from "./GroupTableFooter";
 import GroupTableHeader from "./GroupTableHeader";
 
 const GroupContainer = ({ group, cmpOrder }) => {
+    console.log("🚀 ~ GroupContainer ~ group:", group)
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const handleOnAddTask = (task) => {
