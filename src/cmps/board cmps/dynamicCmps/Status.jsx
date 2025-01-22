@@ -45,7 +45,7 @@ export function Status({ info, onTaskUpdate }) {
             <div
                 className="fancy-value-picker"
                 onClick={onDialogChange}
-                style={{ backgroundColor: info.color || 'gray' }}>
+                style={{ backgroundColor: info?.color || 'gray' }}>
                 {info}
             </div>
         </Dialog>
