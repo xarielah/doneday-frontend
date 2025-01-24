@@ -12,7 +12,7 @@ const demoUpdates = [
             avatar: ''
         },
         isLiked: false,
-        comments: [
+        replies: [
             {
                 _id: 'comment101',
                 text: 'Some comment',
@@ -34,7 +34,7 @@ const demoUpdates = [
             avatar: ''
         },
         isLiked: true,
-        comments: [
+        replies: [
             {
                 _id: 'comment102',
                 text: 'Some comment',
@@ -59,31 +59,18 @@ const SidePanelTaskMessages = () => {
         return () => clearTimeout(to)
     }, [])
 
-    const handleNewUpdate = (updateText) => {
-        const newUpdate = {
-            _id: crypto.randomUUID(),
-            text: updateText,
-            by: {
-                _id: 'user101',
-                name: 'User 101',
-                avatar: ''
-            },
-        }
 
-        setUpdates(updates => [newUpdate, ...updates])
+    const onUpdateChange = (updatedUpdate) => {
+        console.log("🚀 ~ onUpdateChange ~ updatedUpdate:", updatedUpdate)
+        const updateIdx = updates.findIndex(update => update._id === updatedUpdate._id);
+        const newUpdatesArray = [...updates];
+        newUpdatesArray[updateIdx] = updatedUpdate;
+        console.log("🚀 ~ onUpdateChange ~ newUpdatesArray:", newUpdatesArray)
+        setUpdates(newUpdatesArray);
     }
 
-    const handleUpdateLike = (update) => {
-        console.log("update liked", update);
-    }
-
-    const handleUpdateReply = (update) => {
-        // TODO: Should focus on reply input
-        console.log("update replied", update);
-    }
-
-    const handleAddReply = (reply) => {
-        console.log("reply added", reply);
+    const handleNewUpdate = (newUpdate) => {
+        setUpdates(updates => [newUpdate, ...updates]);
     }
 
     return <section className="side-panel-task-messages">
@@ -91,9 +78,7 @@ const SidePanelTaskMessages = () => {
             onAddUpdate={handleNewUpdate}
         />
         <SidePanelUpdateList
-            onAddReply={handleAddReply}
-            onUpdateLike={handleUpdateLike}
-            onUpdateReply={handleUpdateReply}
+            onUpdateChange={onUpdateChange}
             updates={updates}
         />
     </section>

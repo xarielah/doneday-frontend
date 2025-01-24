@@ -1,7 +1,7 @@
 .update-preview {
   $panel-spacings: 16px;
   border: 1px solid $ui-border-color;
-  border-radius: 4px;
+  border-radius: 8px;
 
   &:not(:last-child) {
     margin-bottom: 24px;

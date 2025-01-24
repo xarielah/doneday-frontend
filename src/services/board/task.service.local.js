@@ -9,7 +9,8 @@ export const taskService = {
     get,
     _query,
     STORAGE_KEY,
-    getByGroupId
+    getByGroupId,
+    getEmptyReply
 };
 
 function _query() {
@@ -34,4 +35,17 @@ function get(taskId) {
 
 function getByGroupId(groupId) {
     return storageService.query(STORAGE_KEY).then(tasks => tasks.filter(task => task.groupId === groupId))
+}
+
+function getEmptyReply() {
+    return ({
+        _id: crypto.randomUUID(),
+        text: '',
+        by: {
+            _id: 'user101',
+            name: 'User 101',
+            avatar: ''
+        },
+        likedBy: []
+    })
 }

@@ -1,39 +1,47 @@
-import { Avatar, IconButton, Text } from "@vibe/core"
-import { Menu } from "@vibe/icons"
+import { Avatar, Text } from "@vibe/core"
 import { useRef } from "react"
+import SidePanelRepliesList from "./SidePanelRepliesList"
 import SidePanelReplyInput from "./SidePanelReplyInput"
 import SidePanelUpdateActions from "./SidePanelUpdateActions"
+import SidePanelUpdateMenu from "./SidePanelUpdateMenu"
 
-const SidePanelUpdatePreview = ({ update, onUpdateLike, onAddReply }) => {
+const SidePanelUpdatePreview = ({ update, onUpdateChange, onDeleteUpdate }) => {
     const textAreaRef = useRef();
 
+    // When user clicks on reply button, it focuses on the reply input
     const onClickUpdateReply = () => {
         if (textAreaRef.current) {
             textAreaRef.current.focus()
         }
     }
 
+    // When logged user likes an update
     const handleUpdateLike = () => {
         onUpdateLike(update)
     }
 
-    const handleUpdateReply = (reply) => {
-        onAddReply(reply)
+    // When logged user replys to an update
+    const handleAddReply = (newReply) => {
+        console.log('reply added', newReply);
+        const newUpdate = structuredClone(update);
+        newUpdate.replies.push(newReply);
+        onUpdateChange(newUpdate);
     }
 
     return <article className="update-preview">
         <header className="update-preview-header">
             <div className="update-preview-user">
-                <Avatar className="update-preview-avatar" size="medium" text={update.by.name[0]} />
-                <Text className="update-preview-user-name" type="text2" element="p">{update.by.name}</Text>
-                <IconButton className="update-preview-update-menu" icon={Menu} size="xs" />
+                <Avatar className="update-preview-avatar" size="large" text={update.by.name[0]} />
+                <Text className="update-preview-user-name" type="text1" weight="bold" element="p">{update.by.name}</Text>
+                <SidePanelUpdateMenu onDelete={() => console.log('delete')} onEdit={() => console.log('edit')} />
             </div>
             <section className="update-preview-contents">
-                <Text type="text2" element="p">{update.text}</Text>
+                <Text type="text1" element="p">{update.text}</Text>
             </section>
         </header>
         <SidePanelUpdateActions onUpdateLike={handleUpdateLike} onClickUpdateReply={onClickUpdateReply} />
-        <SidePanelReplyInput ref={textAreaRef} onAddReply={handleUpdateReply} />
+        <SidePanelRepliesList replies={update.replies} />
+        <SidePanelReplyInput ref={textAreaRef} onAddReply={handleAddReply} />
     </article>
 }
 

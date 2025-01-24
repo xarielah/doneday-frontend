@@ -1,5 +1,6 @@
 import { Avatar, Button, TextArea } from "@vibe/core";
 import { forwardRef, useEffect, useState } from "react";
+import { taskService } from "../../../../../services/board/task.service.local";
 import { cn } from "../../../../../services/util.service";
 
 export default forwardRef(function SidePanelReplyInput({ onAddReply }, ref) {
@@ -19,10 +20,9 @@ export default forwardRef(function SidePanelReplyInput({ onAddReply }, ref) {
     }, [reply])
 
     const handleAddReply = () => {
-        console.log('clicked');
-
-        onAddReply(reply)
-        setInputFocus(false)
+        const newReply = taskService.getEmptyReply();
+        newReply.text = reply;
+        onAddReply(newReply)
         setReply('')
     }
 
