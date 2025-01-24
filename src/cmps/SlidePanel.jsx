@@ -30,7 +30,7 @@ const SlidePanel = ({ params }) => {
     const openClass = isOpen ? ' open' : '';
 
     return <aside className="slide-panel-container">
-        <div className={`slide-panel` + openClass} style={{ width: '700px', marginTop: '0' }}>
+        <div className={`slide-panel` + openClass}>
             <SidePanelDynamicCmps cmpType={type} />
         </div>
     </aside>

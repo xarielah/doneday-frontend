@@ -12,14 +12,6 @@
 
 // // pages
 @import "RootCmp";
-
-// @import "pages/AboutUs";
-// @import "pages/HomePage";
-// @import "pages/CarIndex";
-// @import "pages/ReviewIndex";
-// @import "pages/UserDetails";
-// @import "pages/TaskDetails";
-
 @import "cmps/BoardDynamicCmps/Side";
 @import "cmps/BoardDynamicCmps/Status";
 @import "cmps/BoardDynamicCmps/Priority";
@@ -37,27 +29,9 @@
 @import "cmps/board/structure/DynamicColumn";
 @import "cmps/board/structure/GroupTableContentTask";
 @import "cmps/board/structure/TaskDetailsTriggerCell";
-@import "cmps/SidePanelWrapper";
+@import "cmps/SidePanel/SidePanelWrapper";
+@import "cmps/SidePanel/SidePanelDynamicCmps";
 
-// // Components
-// @import "cmps/list";
-// @import "cmps/preview";
-
-// <<<<<<< HEAD
-
-// @import "cmps/AppHeader";
-// @import "cmps/AppHeaderInviteMembers";
-// @import "cmps/AppNav";
-// @import "cmps/ExternalHeader";
-// @import "cmps/ExternalHomePage";
-// @import "cmps/ExternalHero";
-// @import "cmps/ExternalDemoButton";
-// @import "cmps/ExternalFooter";
-// @import "cmps/ExternalHeroTitle";
-// @import "cmps/BoardHeaderTabList";
-// @import "cmps/SlidePanel";
-
-// =======
 @import "cmps/AppHeader/AppHeader";
 @import "cmps/AppHeader/AppHeaderInviteMembers";
 @import "cmps/SideNav/AppNav";
@@ -67,20 +41,14 @@
 @import "cmps/ExternalHomePage/ExternalDemoButton";
 @import "cmps/ExternalHomePage/ExternalFooter";
 @import "cmps/ExternalHomePage/ExternalHeroTitle";
-// @import "cmps/ExternalHomePage/BoardHeaderTabList";
-// @import "cmps/ExternalHomePage/SlidePanel";
 @import "cmps/BoardHeaderTabList";
-@import "cmps/SlidePanel";
+@import "cmps/SidePanel/SidePanel";
 @import "cmps/BoardDynamicCmps/DialogValuePicker";
-@import "cmps/board/SidePanelWriteUpdate";
-@import "cmps/board/SidePanelTaskMessages";
-
-// @import "cmps/AppFooter";
-// @import "cmps/UserMsg";
-
-// @import "cmps/CarFilter";
-// @import "cmps/ReviewEdit";
-// @import "cmps/ReviewList";
-// @import "cmps/ReviewPreview";
-// @import "cmps/CarList";
-// @import "cmps/CarPreview";
+@import "cmps/SidePanel/SidePanelWriteUpdate";
+@import "cmps/SidePanel/SidePanelTaskMessages";
+@import "cmps/SidePanel/SidePanelNoUpdates";
+@import "cmps/SidePanel/SidePanelUpdatesList";
+@import "cmps/SidePanel/SidePanelUpdatePreview";
+@import "cmps/SidePanel/SidePanelReplyUpdate";
+@import "cmps/SidePanel/SidePanelUpdateActions";
+@import "cmps/SidePanel/SidePanelReplyInput";

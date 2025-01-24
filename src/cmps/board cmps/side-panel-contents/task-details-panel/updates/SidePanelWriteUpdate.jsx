@@ -1,11 +1,15 @@
-import { Button, Text, TextArea } from "@vibe/core"
+import { Button, TextArea } from "@vibe/core"
 import { useEffect, useRef, useState } from "react"
 
 const SidePanelWriteUpdate = ({ onAddUpdate }) => {
     const [text, setText] = useState('')
     const [isFocused, setIsFocused] = useState(false)
     const textAreaRef = useRef();
-    const [messages, setMessages] = useState([])
+
+    const handleAddUpdate = () => {
+        onAddUpdate(text)
+        setText('')
+    }
 
     useEffect(() => {
         if (textAreaRef.current) {
@@ -33,9 +37,8 @@ const SidePanelWriteUpdate = ({ onAddUpdate }) => {
             style={{ maxHeight: '400px' }}
         />
         <div className="write-update-actions-container">
-            {(text || isFocused) && <Button size="small" disabled={!text.trim()} onClick={() => onAddUpdate(text)}>Update</Button>}
+            {(text || isFocused) && <Button size="small" disabled={!text.trim()} onClick={handleAddUpdate}>Update</Button>}
         </div>
-        {messages.length === 0 && <Text type="text2" style={{ marginTop: '8px' }}>No messages yet</Text>}
     </div>
 }
 

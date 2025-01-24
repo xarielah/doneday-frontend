@@ -1,0 +1,43 @@
+.update-preview {
+  $panel-spacings: 16px;
+  border: 1px solid $ui-border-color;
+  border-radius: 4px;
+
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
+
+  &:first-child {
+    margin-top: 16px;
+  }
+  .update-preview-header {
+    padding-top: $panel-spacings;
+    padding-right: $panel-spacings;
+    padding-left: $panel-spacings;
+
+    .update-preview-user {
+      display: grid;
+      align-items: center;
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: "avatar user-name update-menu";
+      padding-bottom: 16px;
+
+      .update-preview-avatar {
+        grid-area: avatar;
+        margin-right: 8px;
+      }
+
+      .update-preview-user-name {
+        grid-area: user-name;
+      }
+
+      .update-preview-update-menu {
+        grid-area: update-menu;
+      }
+    }
+  }
+
+  & .update-preview-contents {
+    padding-bottom: 16px;
+  }
+}
