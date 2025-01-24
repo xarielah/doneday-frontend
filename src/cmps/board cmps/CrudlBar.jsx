@@ -111,24 +111,24 @@ export function CrudlBar() {
     }
 
     function getSelectedTasksDots() {
-        const selectedTaskDots = selectedTasks.map(group => {
+        const allDots = selectedTasks.flatMap(group => {
             const groupColor = getGroupById(group.groupId).color;
 
-            return (
+            return Array.from({ length: group.tasks.length }).map((_, i) => (
                 <div
-                    className="dot-container"
-                    key={group.groupId}
+                    style={{ background: groupColor }}
+                    key={`${group.groupId}-${i}`}
+                    className={`${group.groupId}-dot dot`}
                 >
-                    {Array.from({ length: group.tasks.length }).map((_, i) => (
-                        <div style={{ background: groupColor }} key={i} className={`${group.groupId}-dot dot`}>
-                            {/* • */}
-                        </div>
-                    ))}
                 </div>
-            );
+            ));
         });
 
-        return selectedTaskDots;
+        return (
+            <div className="dot-container">
+                {allDots}
+            </div>
+        );
     }
 
     return (
@@ -139,19 +139,38 @@ export function CrudlBar() {
                     {getSelectedTasksSum(selectedTasks)}
                 </Heading>
             </section>
+
             <section className="tasks-selected">
                 <Heading className="task-selected-heading" color="Primary" type="h2" weight="light">
                     Task{s()} selected
                 </Heading>
                 {selectedTasks.length > 0 && getSelectedTasksDots()}
             </section>
-            <section onClick={() => duplicateSelectedTasks()} className="duplicate crud-btn"><Icon className="icon" iconSize={14} icon={Duplicate} /> Duplicate</section>
-            <section onClick={() => exportSelectedTasks()} className="export crud-btn"><Icon className="icon" iconSize={14} icon={Upload} /> Export</section>
-            <section onClick={() => deleteSelectedTasks()} className="delete crud-btn "><Icon className="icon" iconSize={14} icon={Delete} />Delete</section>
-            <section className="move-to crud-btn"> <Icon className="icon" iconSize={14} icon={MoveArrowRight
-            } />Move to</section>
-            <section onClick={() => onUnselectTasks()} className="unselect"><Icon icon={Close
-            } /></section>
+
+            <section onClick={() => duplicateSelectedTasks()} className="duplicate crud-btn">
+                <Icon className="icon" iconSize={14} icon={Duplicate} />
+                <span>Duplicate</span>
+            </section>
+
+            <section onClick={() => exportSelectedTasks()} className="export crud-btn">
+                <Icon className="icon" iconSize={14} icon={Upload} />
+                <span>Export</span>
+            </section>
+
+            <section onClick={() => deleteSelectedTasks()} className="delete crud-btn ">
+                <Icon className="icon" iconSize={14} icon={Delete} />
+                <span>Delete</span>
+            </section>
+
+            <section className="move-to crud-btn">
+                <Icon className="icon" iconSize={14} icon={MoveArrowRight} />
+                <span>Move to</span>
+            </section>
+
+            <section onClick={() => onUnselectTasks()} className="unselect">
+                <Icon icon={Close} />
+            </section>
+
         </section>)
 
     )

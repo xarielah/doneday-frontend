@@ -81,22 +81,23 @@
     }
 
     .crud-btn {
-        flex: 0 0 63px;
         display: flex;
         flex-direction: column;
-
         align-items: center;
-        height: 100%;
-        width: 100%;
-        font-size: 12px !important;
-        font-weight: 300;
-        justify-content: space-evenly;
         padding-right: 20px;
-        transition: 0.05s;
-        cursor: pointer;
+        justify-content: space-evenly;
+        // align-items: center;
+        // height: 100%;
+        // width: 100%;
+        font-size: 12px !important;
+        // font-weight: 300;
+        // justify-content: space-evenly;
+        // padding-right: 20px;
+        // transition: 0.05s;
+        // cursor: pointer;
 
-        display: flex;
-        justify-content: center;
+        // display: flex;
+        // justify-content: center;
 
 
 
@@ -114,6 +115,8 @@
             display: flex;
             justify-content: center;
         }
+
+        span {}
     }
 
     .unselect {
