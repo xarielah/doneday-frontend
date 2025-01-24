@@ -13,7 +13,7 @@ export function CrudlBar() {
 
 
 
-    async function duplicateSelectedTasks(board) {
+    async function duplicateSelectedTasks() {
         if (!Array.isArray(selectedTasks)) {
             console.error("selectedTasks must be an array.");
             return;
@@ -40,7 +40,6 @@ export function CrudlBar() {
                     taskTitle: `${originalTask.taskTitle} (copy)`,
                 };
 
-                // Add the new task to the group
                 await addTask(groupId, newTask);
             }
         }

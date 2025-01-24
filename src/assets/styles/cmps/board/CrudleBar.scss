@@ -1,15 +1,11 @@
 .crudl-bar {
-    // width: clamp(3%, 60%, 800px);
     height: 100%px;
-    // background-color: red;
     position: fixed;
     z-index: 10;
     left: 50%;
     bottom: 40px;
-    // transform: translateX(-50%, 0);
     border-radius: 5px;
     display: grid;
-    // max-width: 100%;
     grid-auto-flow: column;
     box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
     background-color: #FFF;
@@ -34,12 +30,7 @@
     }
 
     .tasks-selected {
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: end;
-        // align-items: center;
-        // max-width: 180px;
-        // padding: 0 8px;
+
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -52,7 +43,6 @@
             color: var(--primary-text-color);
             font-size: 24px;
             padding-left: 20px;
-            // font-weight: 100;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -60,10 +50,7 @@
         }
 
         .dot-container {
-            // align-self: flex-start;
-            // font-size: 2em;
-            // margin: 0;
-            // padding: 0;
+
             color: #333333;
             padding-left: 20px;
             display: flex;
@@ -86,20 +73,9 @@
         align-items: center;
         padding-right: 20px;
         justify-content: space-evenly;
-        // align-items: center;
-        // height: 100%;
-        // width: 100%;
-        font-size: 12px !important;
-        // font-weight: 300;
-        // justify-content: space-evenly;
-        // padding-right: 20px;
-        // transition: 0.05s;
-        // cursor: pointer;
-
-        // display: flex;
-        // justify-content: center;
-
-
+        font-size: 0.87em !important;
+        letter-spacing: 0.3px;
+        font-weight: 300;
 
         &:hover {
             transform: scale(1.1);
@@ -115,8 +91,6 @@
             display: flex;
             justify-content: center;
         }
-
-        span {}
     }
 
     .unselect {
