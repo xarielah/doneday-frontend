@@ -3,11 +3,11 @@ import { cn } from "../../../services/util.service"
 import GroupPreRow from "./GroupPreRow"
 import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
-import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/board.actions"
 import { useSelector } from "react-redux"
+import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/taskSelect.actions"
 
 const GroupTableHeader = ({ columnLabels, group }) => {
-    const selectedTasks = useSelector(storeState => storeState.boardModule.selectedTasks)
+    const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
 
     function isGroupSelected(groupId, tasks) {
         const found = selectedTasks?.find(selectedGroup => selectedGroup.groupId === groupId) || false

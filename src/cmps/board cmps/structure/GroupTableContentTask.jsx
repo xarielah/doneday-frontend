@@ -1,13 +1,14 @@
 import { EditableText } from "@vibe/core"
-import { addSelectedTask, removeSelectedTask, updateTask } from "../../../store/actions/board.actions"
+import { updateTask } from "../../../store/actions/board.actions"
 import DynamicColumn from "./DynamicColumn"
 import GroupPreRow from "./GroupPreRow"
 import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
 import { useSelector } from "react-redux"
+import { addSelectedTask, removeSelectedTask } from "../../../store/actions/taskSelect.actions"
 
 const GroupTableContentTask = ({ task, columnLabels, group }) => {
-    const selectedTasks = useSelector(storeState => storeState.boardModule.selectedTasks)
+    const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
 
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }

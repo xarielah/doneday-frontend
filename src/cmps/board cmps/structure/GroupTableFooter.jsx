@@ -13,12 +13,13 @@ const GroupTableFooter = ({ onAddTask, group }) => {
     const handleChange = (newValue) => {
         onAddTask(group._id, newValue)
         setEditableValue('')
-    };
+    }
 
-    function onAddTask(groupId, taskTitle) {
+    function onAddTask(taskTitle) {
+        const groupId = group._id
         let newTask = taskService.getEmptyTask()
         newTask = { ...newTask, groupId, taskTitle, status: "draft", priority: "tbd" }
-        console.log(addTaskRef.current);
+        setEditableValue(text => text = '')
         return addTask(groupId, newTask)
     }
 
@@ -27,10 +28,10 @@ const GroupTableFooter = ({ onAddTask, group }) => {
             <GroupPreRow group={group} roundedBottomLeft bottomBorders disableCheckbox />
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom" style={{ textAlign: 'left' }}>
                 <EditableText
-                    onChange={handleChange}
-                    value={editableValue}
+                    onChange={onAddTask}
                     className="cell-left-padding"
                     placeholder="+ Add Task"
+                    value={editableValue}
                 />
             </div>
         </GroupStickyColumns>

@@ -1,9 +1,6 @@
 import { Checkbox, IconButton } from "@vibe/core"
 import { Menu } from "@vibe/icons"
 import { cn } from "../../../services/util.service"
-import { useSelector } from "react-redux"
-import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/board.actions"
-
 const GroupPreRow = ({ group, roundedTopLeft, roundedBottomLeft, bottomBorders, isChecked, onCheckBox, disableCheckbox }) => {
 
     const topLeft = roundedTopLeft ? { borderTopLeftRadius: '4px' } : {}

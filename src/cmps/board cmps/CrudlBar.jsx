@@ -1,14 +1,14 @@
 import { Heading, Icon } from "@vibe/core"
 import { makeId } from "../../services/util.service"
 import { Close, Delete, Duplicate, MoveArrowRight, Upload, } from "@vibe/icons"
-import { addGroup, addTask, getGroupById, getTaskById, removeTask, setBoard, setSelectedTask, updateBoard } from "../../store/actions/board.actions"
+import { getGroupById, getTaskById, removeTask, setBoard, updateBoard } from "../../store/actions/board.actions"
 import { useSelector } from "react-redux"
-import { boardService } from "../../services/board/board.service.local"
+import { setSelectedTask } from "../../store/actions/taskSelect.actions"
 
 
 export function CrudlBar() {
 
-    const selectedTasks = useSelector((storeState) => storeState.boardModule.selectedTasks)
+    const selectedTasks = useSelector((storeState) => storeState.taskSelectModule.selectedTasks)
     const board = useSelector((storeState) => storeState.boardModule.board)
 
 
