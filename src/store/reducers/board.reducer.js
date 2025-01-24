@@ -46,6 +46,16 @@ export function boardReducer(state = initialState, action) {
                 board: action.board || { groups: [] }
             };
             break;
+        case UPDATE_BOARD:
+            newState = {
+                ...state,
+                boards: [
+                    ...state.boards,
+                    state.boards.map(board => board._id !== action.board._id ? board : action.board)
+                ],
+                board: { ...action.board }
+            };
+            break;
 
         case REMOVE_BOARD:
             const lastRemovedBoard = state.boards.find(board => board._id === action.boardId);

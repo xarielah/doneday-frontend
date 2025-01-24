@@ -1,40 +1,23 @@
 import { Heading, Icon } from "@vibe/core"
 import { makeId } from "../../services/util.service"
 import { Close, Delete, Duplicate, MoveArrowRight, Upload, } from "@vibe/icons"
-import { addGroup, addTask, getGroupById, getTaskById, removeTask, setSelectedTask } from "../../store/actions/board.actions"
+import { addGroup, addTask, getGroupById, getTaskById, removeTask, setBoard, setSelectedTask, updateBoard } from "../../store/actions/board.actions"
 import { useSelector } from "react-redux"
+import { boardService } from "../../services/board/board.service.local"
 
 
 export function CrudlBar() {
 
     const selectedTasks = useSelector((storeState) => storeState.boardModule.selectedTasks)
-
-    function getSelectedTasksDots() {
-        const selectedTaskDots = selectedTasks.map(group => {
-            const groupColor = getGroupById(group.groupId).color;
+    const board = useSelector((storeState) => storeState.boardModule.board)
 
 
-            return (
-                <span
-                    key={group.groupId}
-                    style={{ color: groupColor }}
-                >
-                    {Array.from({ length: group.tasks.length }).map((_, i) => (
-                        <span key={i} className={`${group.groupId}-dot`}>•</span>
-                    ))}
-                </span>
-            );
-        });
-
-        return selectedTaskDots;
-    }
 
     async function duplicateSelectedTasks(board) {
         if (!Array.isArray(selectedTasks)) {
             console.error("selectedTasks must be an array.");
             return;
         }
-
         for (const { groupId, tasks } of selectedTasks) {
             if (!Array.isArray(tasks)) {
                 console.error(`Tasks for groupId ${groupId} must be an array.`);
@@ -54,7 +37,7 @@ export function CrudlBar() {
                 const newTask = {
                     ...originalTask,
                     _id: `task${Date.now()}`,
-                    taskTitle: `Copy of ${originalTask.taskTitle}`,
+                    taskTitle: `${originalTask.taskTitle} (copy)`,
                 };
 
                 // Add the new task to the group
@@ -62,7 +45,6 @@ export function CrudlBar() {
             }
         }
     }
-
 
     async function deleteSelectedTasks() {
         for (const { groupId, tasks } of selectedTasks) {
@@ -72,6 +54,7 @@ export function CrudlBar() {
         }
         setSelectedTask([])
     }
+
 
     async function moveSelectedTasks(targetGroupId = null) {
         let actualTargetGroupId = targetGroupId
@@ -113,6 +96,11 @@ export function CrudlBar() {
         setSelectedTask([])
     }
 
+    function exportSelectedTasks() {
+        console.log("export");
+
+    }
+
 
     function s() {
         if (selectedTasks.length === 1 && selectedTasks[0].tasks.length === 1) {
@@ -122,25 +110,45 @@ export function CrudlBar() {
         }
     }
 
+    function getSelectedTasksDots() {
+        const selectedTaskDots = selectedTasks.map(group => {
+            const groupColor = getGroupById(group.groupId).color;
+
+            return (
+                <div
+                    className="dot-container"
+                    key={group.groupId}
+                >
+                    {Array.from({ length: group.tasks.length }).map((_, i) => (
+                        <div style={{ background: groupColor }} key={i} className={`${group.groupId}-dot dot`}>
+                            {/* • */}
+                        </div>
+                    ))}
+                </div>
+            );
+        });
+
+        return selectedTaskDots;
+    }
 
     return (
 
         selectedTasks.length > 0 && (<section className="crudl-bar">
             <section className="select-count">
-                <Heading color="onPrimary" type="h1" weight="light">
+                <Heading color="onPrimary" type="h2" weight="normal">
                     {getSelectedTasksSum(selectedTasks)}
                 </Heading>
             </section>
             <section className="tasks-selected">
-                <Heading className="number" color="Primary" type="h2" weight="light">
+                <Heading className="task-selected-heading" color="Primary" type="h2" weight="light">
                     Task{s()} selected
                 </Heading>
-                <div className="selected-tasks-dots">{selectedTasks.length > 0 && getSelectedTasksDots()}</div>
+                {selectedTasks.length > 0 && getSelectedTasksDots()}
             </section>
-            <section onClick={() => duplicateSelectedTasks()} className="duplicate crud-btn"><Icon iconSize={22} icon={Duplicate} /> Duplicate</section>
-            <section className="export crud-btn"><Icon iconSize={22} icon={Upload} /> Export</section>
-            <section onClick={() => deleteSelectedTasks()} className="delete crud-btn "><Icon iconSize={22} icon={Delete} />Delete</section>
-            <section className="move-to crud-btn"> <Icon iconSize={22} icon={MoveArrowRight
+            <section onClick={() => duplicateSelectedTasks()} className="duplicate crud-btn"><Icon className="icon" iconSize={14} icon={Duplicate} /> Duplicate</section>
+            <section onClick={() => exportSelectedTasks()} className="export crud-btn"><Icon className="icon" iconSize={14} icon={Upload} /> Export</section>
+            <section onClick={() => deleteSelectedTasks()} className="delete crud-btn "><Icon className="icon" iconSize={14} icon={Delete} />Delete</section>
+            <section className="move-to crud-btn"> <Icon className="icon" iconSize={14} icon={MoveArrowRight
             } />Move to</section>
             <section onClick={() => onUnselectTasks()} className="unselect"><Icon icon={Close
             } /></section>

@@ -22,6 +22,16 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
         }
     }
 
+    function handleChangeTitle(taskTitle) {
+        try {
+            const updatedTask = { ...task, taskTitle }
+            updateTask(group._id, updatedTask)
+        } catch (err) {
+            console.error('task could not be updated' + err);
+
+        }
+    }
+
     function isTaskSelected(groupId = "", taskId = "") {
         const group = selectedTasks.find(selectedGroups => selectedGroups.groupId === groupId)
         if (!group) return false
@@ -36,7 +46,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
                 group={group}
             />
             <div className="min-table-cell table-cell-first-column">
-                <EditableText type="text2" value={task.taskTitle} />
+                <EditableText type="text2" onChange={handleChangeTitle} value={task.taskTitle} />
             </div>
         </GroupStickyColumns>
         <GroupScrollableColumns>

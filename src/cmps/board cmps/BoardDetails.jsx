@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import GroupContainer from "./structure/GroupContainer";
+import { AddGroup } from "./structure/AddGroup";
 
 
 export function BoardDetails() {
@@ -24,6 +25,7 @@ export function BoardDetails() {
                     selectedTasks={selectedTasks}
                 />
             ))}
+            <AddGroup />
         </section>
     )
 }

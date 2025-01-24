@@ -9,7 +9,8 @@ export const taskService = {
     get,
     _query,
     STORAGE_KEY,
-    getByGroupId
+    getByGroupId,
+    getEmptyTask
 };
 
 function _query() {
@@ -34,4 +35,15 @@ function get(taskId) {
 
 function getByGroupId(groupId) {
     return storageService.query(STORAGE_KEY).then(tasks => tasks.filter(task => task.groupId === groupId))
+}
+function getEmptyTask() {
+    return {
+        side: null,
+        taskTitle: "New task",
+        members: [
+        ],
+        date: "",
+        status: "",
+        priority: "",
+    }
 }
