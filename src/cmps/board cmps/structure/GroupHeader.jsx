@@ -1,9 +1,7 @@
 
 import { Heading, Icon, Text } from "@vibe/core";
 import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons";
-import { EditableHeading, Icon, Text } from "@vibe/core"
-import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons"
-import { updateGroup } from "../../../store/actions/board.actions"
+import { updateGroup } from "../../../store/actions/board.actions";
 
 const GroupHeader = ({ group, isCollapsed, setIsCollapsed }) => {
     const groupCount = group.tasks?.length || 0;

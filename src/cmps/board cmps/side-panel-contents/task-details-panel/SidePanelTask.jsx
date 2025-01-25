@@ -25,7 +25,7 @@ const SidePanelTask = () => {
         }
     }, [taskId])
 
-    return <SidePanelWrapper heading="Task name">
+    return <SidePanelWrapper heading={task.taskTitle || 'loading...'}>
         <SidePanelTaskContentTabs onTabChange={setCurrentTab} />
         {currentTab === tabs.messages && <SidePanelTaskMessages task={task} />}
         {currentTab === tabs.files && <SidePanelTaskFiles />}
