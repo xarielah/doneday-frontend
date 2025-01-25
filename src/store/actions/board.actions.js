@@ -6,7 +6,7 @@ import { taskService } from '../../services/board/task.service.local'
 import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer'
 import { store } from '../store'
 
-
+loadBoards()
 // Set Boards
 export async function loadBoards(filterBy = {}) {
     try {
