@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { cn } from "../../../services/util.service";
 
 const TaskDetailsTriggerCell = ({ task }) => {
-    console.log("🚀 ~ TaskDetailsTriggerCell ~ task:", task)
     const currentBoard = useSelector(state => state.boardModule.board);
     const url = `/board/${currentBoard._id}/task/${task._id}`;
 

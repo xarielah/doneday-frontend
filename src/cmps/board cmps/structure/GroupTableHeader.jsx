@@ -1,10 +1,10 @@
 import { Text } from "@vibe/core"
+import { useSelector } from "react-redux"
 import { cn } from "../../../services/util.service"
+import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/taskSelect.actions"
 import GroupPreRow from "./GroupPreRow"
 import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
-import { useSelector } from "react-redux"
-import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/taskSelect.actions"
 
 const GroupTableHeader = ({ columnLabels, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)

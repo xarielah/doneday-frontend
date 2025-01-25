@@ -1,10 +1,9 @@
 import { EditableText } from "@vibe/core"
+import { useState } from "react"
+import { taskService } from "../../../services/board/task.service.local"
+import { addTask } from "../../../store/actions/board.actions"
 import GroupPreRow from "./GroupPreRow"
 import GroupStickyColumns from "./GroupStickyColumns"
-import { addTask } from "../../../store/actions/board.actions"
-import { boardService } from "../../../services/board/board.service.local"
-import { useEffect, useRef, useState } from "react"
-import { taskService } from "../../../services/board/task.service.local"
 
 const GroupTableFooter = ({ onAddTask, group }) => {
 

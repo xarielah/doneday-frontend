@@ -1,12 +1,11 @@
 /* eslint-disable react/no-children-prop */
 import { useSelector } from "react-redux";
 import { groupService } from "../../services/board/group.service.local";
+import { taskService } from "../../services/board/task.service.local";
 import { addGroup, addTask } from "../../store/actions/board.actions";
 import BoardHeaderContextualActions from "./BoardHeaderContextualActions";
 import BoardHeadersTabList from "./BoardHeadersTabList";
 import BoardHeaderTitleButtons from "./BoardHeaderTitleButtons";
-import { boardService } from "../../services/board/board.service.local";
-import { taskService } from "../../services/board/task.service.local";
 
 export function BoardHeader() {
     const board = useSelector((storeState) => storeState.boardModule.board)
