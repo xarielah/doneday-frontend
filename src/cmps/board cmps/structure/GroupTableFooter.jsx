@@ -8,17 +8,11 @@ import { taskService } from "../../../services/board/task.service.local"
 
 const GroupTableFooter = ({ onAddTask, group }) => {
 
-    const valueRef = useRef("")
-
-    useEffect(() => {
-        if (valueRef) {
-            valueRef.value = ""
-        }
-    }, [valueRef])
-
     const handleChange = (newValue) => {
-        onAddTask(group._id, newValue)
-    }
+        onAddTask(newValue);
+        setIsEditing(false); // Trigger unmount and remount
+        setTimeout(() => setIsEditing(true), 0); // Force reset after task creation
+    };
 
     function onAddTask(taskTitle) {
         const groupId = group._id
@@ -32,11 +26,10 @@ const GroupTableFooter = ({ onAddTask, group }) => {
             <GroupPreRow group={group} roundedBottomLeft bottomBorders disableCheckbox />
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom" style={{ textAlign: 'left' }}>
                 <EditableText
+                    onChange={handleChange}
                     ref={valueRef}
-                    onChange={onAddTask}
                     className="cell-left-padding"
                     placeholder="+ Add Task"
-                    value={valueRef.value}
                 />
             </div>
         </GroupStickyColumns>

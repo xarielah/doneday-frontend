@@ -12,7 +12,6 @@ export function CrudlBar() {
     const board = useSelector((storeState) => storeState.boardModule.board)
 
     async function onDuplicateSelectedTasks() {
-        console.log(board);
         return duplicateSelectedTasks(selectedTasks, board)
     }
 
