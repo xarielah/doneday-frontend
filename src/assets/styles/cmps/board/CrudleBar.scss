@@ -1,13 +1,15 @@
 .crudl-bar {
-    height: 100%px;
+    height: 63px;
+    width: auto;
     position: fixed;
     z-index: 10;
     left: 50%;
-    bottom: 40px;
+    transform: translate(-50%, -50%);
+    bottom: 30px;
     border-radius: 5px;
     display: grid;
     grid-auto-flow: column;
-    box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
+    box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.3);
     background-color: #FFF;
 
 

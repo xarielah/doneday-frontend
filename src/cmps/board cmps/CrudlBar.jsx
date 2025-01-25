@@ -3,7 +3,7 @@ import { makeId } from "../../services/util.service"
 import { Close, Delete, Duplicate, MoveArrowRight, Upload, } from "@vibe/icons"
 import { getGroupById, getTaskById, removeTask, setBoard, updateBoard } from "../../store/actions/board.actions"
 import { useSelector } from "react-redux"
-import { setSelectedTask } from "../../store/actions/taskSelect.actions"
+import { deleteSelectedTasks, duplicateSelectedTasks, moveSelectedTasks, setSelectedTask } from "../../store/actions/taskSelect.actions"
 
 
 export function CrudlBar() {
@@ -11,70 +11,18 @@ export function CrudlBar() {
     const selectedTasks = useSelector((storeState) => storeState.taskSelectModule.selectedTasks)
     const board = useSelector((storeState) => storeState.boardModule.board)
 
-
-
-    async function duplicateSelectedTasks() {
-        if (!Array.isArray(selectedTasks)) {
-            console.error("selectedTasks must be an array.");
-            return;
-        }
-        for (const { groupId, tasks } of selectedTasks) {
-            if (!Array.isArray(tasks)) {
-                console.error(`Tasks for groupId ${groupId} must be an array.`);
-                continue;
-            }
-
-            for (const taskId of tasks) {
-                const originalTask = getTaskById(taskId);
-                console.log(originalTask);
-
-
-                if (!originalTask) {
-                    console.error(`Task with ID ${taskId} not found in the board.`);
-                    continue;
-                }
-
-                const newTask = {
-                    ...originalTask,
-                    _id: `task${Date.now()}`,
-                    taskTitle: `${originalTask.taskTitle} (copy)`,
-                };
-
-                await addTask(groupId, newTask);
-            }
-        }
+    async function onDuplicateSelectedTasks() {
+        console.log(board);
+        return duplicateSelectedTasks(selectedTasks, board)
     }
 
-    async function deleteSelectedTasks() {
-        for (const { groupId, tasks } of selectedTasks) {
-            for (const taskId of tasks) {
-                await removeTask(groupId, taskId)
-            }
-        }
-        setSelectedTask([])
+    async function onDeleteSelectedTasks() {
+        return deleteSelectedTasks(selectedTasks)
     }
 
 
-    async function moveSelectedTasks(targetGroupId = null) {
-        let actualTargetGroupId = targetGroupId
-
-        if (!actualTargetGroupId) {
-            const newGroupObj = {
-                title: 'My New Group',
-            }
-            const savedGroup = await addGroup(newGroupObj)
-            actualTargetGroupId = makeId(5)
-            actualTargetGroupId._id = makeId(5)
-        }
-        for (const { groupId, tasks } of selectedTasks) {
-            for (const taskId of tasks) {
-                await removeTask(groupId, taskId)
-                const movedTask = {
-                    title: `Moved ${taskId}`,
-                }
-                await addTask(actualTargetGroupId, movedTask)
-            }
-        }
+    async function onMoveSelectedTasks(targetGroupId = null) {
+        return moveSelectedTasks(selectedTasks, targetGroupId)
     }
 
 
@@ -82,7 +30,6 @@ export function CrudlBar() {
         if (!Array.isArray(selectedTasks)) {
             return 0;
         }
-
         return selectedTasks.reduce((total, group) => {
             if (Array.isArray(group.tasks)) {
                 return total + group.tasks.length;
@@ -146,7 +93,7 @@ export function CrudlBar() {
                 {selectedTasks.length > 0 && getSelectedTasksDots()}
             </section>
 
-            <section onClick={() => duplicateSelectedTasks()} className="duplicate crud-btn">
+            <section onClick={() => onDuplicateSelectedTasks()} className="duplicate crud-btn">
                 <Icon className="icon" iconSize={14} icon={Duplicate} />
                 <span>Duplicate</span>
             </section>
@@ -156,12 +103,12 @@ export function CrudlBar() {
                 <span>Export</span>
             </section>
 
-            <section onClick={() => deleteSelectedTasks()} className="delete crud-btn ">
+            <section onClick={() => onDeleteSelectedTasks()} className="delete crud-btn ">
                 <Icon className="icon" iconSize={14} icon={Delete} />
                 <span>Delete</span>
             </section>
 
-            <section className="move-to crud-btn">
+            <section onClick={() => onMoveSelectedTasks()} className="move-to crud-btn">
                 <Icon className="icon" iconSize={14} icon={MoveArrowRight} />
                 <span>Move to</span>
             </section>

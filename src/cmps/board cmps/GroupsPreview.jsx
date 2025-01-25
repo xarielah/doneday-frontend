@@ -11,6 +11,7 @@ import { Side } from "./dynamicCmps/Side";
 import { SideGroup } from "./dynamicCmps/SideGroup";
 import { Status } from "./dynamicCmps/Status";
 import { TaskTitle } from "./dynamicCmps/TaskTitle";
+import { taskService } from "../../services/board/task.service.local";
 
 /* eslint-disable react/prop-types */
 export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) {
@@ -23,7 +24,7 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
     }
 
     function onAddTask(groupId, taskTitle) {
-        const newTask = boardService.getEmptyTask()
+        const newTask = taskService.getEmptyTask()
         newTask.taskTitle = taskTitle
         return addTask(groupId, newTask)
     }

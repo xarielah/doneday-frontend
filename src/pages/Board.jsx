@@ -12,7 +12,6 @@ export function Board() {
     const { boardId } = useParams();
 
     useEffect(() => {
-        // console.log(board);
 
         if (!board) {
             boardService.getById(boardId)

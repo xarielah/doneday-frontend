@@ -1,5 +1,5 @@
 
-import { Heading, Icon, Text } from "@vibe/core";
+import { EditableHeading, Heading, Icon, Text } from "@vibe/core";
 import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons";
 import { updateGroup } from "../../../store/actions/board.actions";
 
@@ -21,8 +21,8 @@ const GroupHeader = ({ group, isCollapsed, setIsCollapsed }) => {
         {!isCollapsed && <button onClick={() => setIsCollapsed(true)}>
             <Icon style={{ color: group.color || 'inherit' }} className="collapse-chevron" icon={DropdownChevronDown} iconSize={20} />
         </button>}
-        <Heading type="h3" style={{ color: group.color || 'inherit' }}>{group.name || group._id}</Heading>
-        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{groupCount} items</Text>
+        <EditableHeading type="h3" style={{ color: group.color || 'inherit' }} value={group.name || group._id} />
+        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{groupCount || "No"} Task{groupCount !== 1 && "s"}</Text>
     </section>
 }
 
