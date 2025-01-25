@@ -8,7 +8,7 @@ const GroupPreRow = ({ group, roundedTopLeft, roundedBottomLeft, bottomBorders, 
     return <>
         <div className="task-menu-button" style={{ border: 'none' }}><IconButton size="xs" icon={Menu} /></div>
         <div className="task-left-indicator" style={{ ...topLeft, ...bottomLeft, border: 'none', background: group.color }}></div>
-        <div className={cn("task-left-checkbox", bottomBorders && "task-border-bottom")}>
+        <div className={cn("task-left-checkbox default-cell-color", bottomBorders && "task-border-bottom")}>
             <Checkbox
                 checked={isChecked}
                 disabled={disableCheckbox}

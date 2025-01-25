@@ -1,3 +1,5 @@
 .table-footer {
-  background-color: white;
+  & .last-cell {
+    background-color: white;
+  }
 }
