@@ -8,18 +8,22 @@ import { taskService } from "../../../services/board/task.service.local"
 
 const GroupTableFooter = ({ onAddTask, group }) => {
 
-    const [editableValue, setEditableValue] = useState('')
+    const valueRef = useRef("")
+
+    useEffect(() => {
+        if (valueRef) {
+            valueRef.value = ""
+        }
+    }, [valueRef])
 
     const handleChange = (newValue) => {
         onAddTask(group._id, newValue)
-        setEditableValue('')
     }
 
     function onAddTask(taskTitle) {
         const groupId = group._id
         let newTask = taskService.getEmptyTask()
         newTask = { ...newTask, groupId, taskTitle, status: "draft", priority: "tbd" }
-        setEditableValue(text => text = '')
         return addTask(groupId, newTask)
     }
 
@@ -28,10 +32,11 @@ const GroupTableFooter = ({ onAddTask, group }) => {
             <GroupPreRow group={group} roundedBottomLeft bottomBorders disableCheckbox />
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom" style={{ textAlign: 'left' }}>
                 <EditableText
+                    ref={valueRef}
                     onChange={onAddTask}
                     className="cell-left-padding"
                     placeholder="+ Add Task"
-                    value={editableValue}
+                    value={valueRef.value}
                 />
             </div>
         </GroupStickyColumns>
