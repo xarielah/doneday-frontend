@@ -100,7 +100,6 @@ async function save(board) {
 
 function getEmptyTask() {
     return {
-        _id: makeId(4),
         side: null,
         taskTitle: "New task",
         members: [

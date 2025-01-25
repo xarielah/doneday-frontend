@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import GroupContainer from "./structure/GroupContainer";
+import { AddGroup } from "./structure/AddGroup";
 
 
 export function BoardDetails() {
     const board = useSelector(storeState => storeState.boardModule.board)
-    const selectedTasks = useSelector(storeState => storeState.boardModule.selectedTasks ?? [])
+    const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks ?? [])
 
     const cmpOrder = [
         "status",
@@ -24,6 +25,7 @@ export function BoardDetails() {
                     selectedTasks={selectedTasks}
                 />
             ))}
+            <AddGroup />
         </section>
     )
 }

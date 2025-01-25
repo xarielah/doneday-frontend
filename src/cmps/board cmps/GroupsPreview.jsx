@@ -22,8 +22,9 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
         return removeTask(groupId, taskId)
     }
 
-    function onAddTask(groupId) {
+    function onAddTask(groupId, taskTitle) {
         const newTask = boardService.getEmptyTask()
+        newTask.taskTitle = taskTitle
         return addTask(groupId, newTask)
     }
 

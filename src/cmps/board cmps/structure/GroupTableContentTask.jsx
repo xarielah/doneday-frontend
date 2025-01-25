@@ -4,19 +4,52 @@ import DynamicColumn from "./DynamicColumn"
 import GroupPreRow from "./GroupPreRow"
 import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
+import { useSelector } from "react-redux"
+import { addSelectedTask, removeSelectedTask } from "../../../store/actions/taskSelect.actions"
 import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell"
 
+
+
 const GroupTableContentTask = ({ task, columnLabels, group }) => {
+    const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
         updateTask(group._id, updatedTask)
     }
 
+    async function handleChangeSelect(ev, groupId, taskId) {
+        if (ev.target.checked) {
+            await addSelectedTask(groupId, taskId)
+        } else {
+            await removeSelectedTask(groupId, taskId)
+        }
+    }
+
+    function handleChangeTitle(taskTitle) {
+        try {
+            const updatedTask = { ...task, taskTitle }
+            updateTask(group._id, updatedTask)
+        } catch (err) {
+            console.error('task could not be updated' + err);
+
+        }
+    }
+
+    function isTaskSelected(groupId = "", taskId = "") {
+        const group = selectedTasks.find(selectedGroups => selectedGroups.groupId === groupId)
+        if (!group) return false
+        return group.tasks.includes(taskId)
+    }
+
     return (<div role="listitem" className="table-task-row">
         <GroupStickyColumns>
-            <GroupPreRow group={group} />
+            <GroupPreRow
+                isChecked={isTaskSelected(group._id, task._id)}
+                onCheckBox={(ev) => handleChangeSelect(ev, group._id, task._id)}
+                group={group}
+            />
             <div className="min-table-cell table-cell-first-column task-title">
-                <EditableText type="text2" value={task.taskTitle} />
+                <EditableText type="text2" onChange={handleChangeTitle} value={task.taskTitle} />
                 <TaskDetailsTriggerCell task={task} />
             </div>
         </GroupStickyColumns>

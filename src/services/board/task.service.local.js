@@ -12,6 +12,7 @@ export const taskService = {
     STORAGE_KEY,
     getByGroupId,
     getEmptyReply,
+    getEmptyTask
 };
 
 function _query() {
@@ -49,4 +50,16 @@ function getEmptyReply() {
         },
         likedBy: []
     })
+}
+
+function getEmptyTask() {
+    return {
+        side: null,
+        taskTitle: "New task",
+        members: [
+        ],
+        date: "",
+        status: "",
+        priority: "",
+    }
 }

@@ -12,15 +12,22 @@
 
 // // pages
 @import "RootCmp";
+@import "cmps/HomePage";
+
+// Dynamic Components
 @import "cmps/BoardDynamicCmps/Side";
 @import "cmps/BoardDynamicCmps/Status";
 @import "cmps/BoardDynamicCmps/Priority";
+@import "cmps/BoardDynamicCmps/DialogValuePicker";
+
+// Board Stuff
 @import "cmps/Board/Board.scss";
 @import "cmps/Board/BoardHeader.scss";
 @import "cmps/Board/BoardDetails";
 @import "cmps/Board/CrudleBar";
 @import "cmps/Board/GroupsPreview";
-@import "cmps/HomePage";
+
+// New Structure & Board Layout
 @import "cmps/board/structure/GroupHeader";
 @import "cmps/board/structure/GroupTableHeader";
 @import "cmps/board/structure/GroupStickyColumns";
@@ -29,21 +36,26 @@
 @import "cmps/board/structure/DynamicColumn";
 @import "cmps/board/structure/GroupTableContentTask";
 @import "cmps/board/structure/TaskDetailsTriggerCell";
-@import "cmps/SidePanel/SidePanelWrapper";
-@import "cmps/SidePanel/SidePanelDynamicCmps";
+@import "cmps/board/structure/AddGroup";
 
+// App
 @import "cmps/AppHeader/AppHeader";
 @import "cmps/AppHeader/AppHeaderInviteMembers";
 @import "cmps/SideNav/AppNav";
+@import "cmps/BoardHeaderTabList";
+
+// External (Unauthed) Home Page
 @import "cmps/ExternalHomePage/ExternalHeader";
 @import "cmps/ExternalHomePage/ExternalHomePage";
 @import "cmps/ExternalHomePage/ExternalHero";
 @import "cmps/ExternalHomePage/ExternalDemoButton";
 @import "cmps/ExternalHomePage/ExternalFooter";
 @import "cmps/ExternalHomePage/ExternalHeroTitle";
-@import "cmps/BoardHeaderTabList";
+
+// Side Panel Stuff
 @import "cmps/SidePanel/SidePanel";
-@import "cmps/BoardDynamicCmps/DialogValuePicker";
+@import "cmps/SidePanel/SidePanelWrapper";
+@import "cmps/SidePanel/SidePanelDynamicCmps";
 @import "cmps/SidePanel/SidePanelWriteUpdate";
 @import "cmps/SidePanel/SidePanelTaskMessages";
 @import "cmps/SidePanel/SidePanelNoUpdates";
@@ -54,3 +66,4 @@
 @import "cmps/SidePanel/SidePanelReplyInput";
 @import "cmps/SidePanel/SidePanelRepliesList";
 @import "cmps/SidePanel/SidePanelReplyPreview";
+
