@@ -8,8 +8,7 @@ const getComponent = (type) => {
             return <SidePanelNotifications />
         case panelTypes.task:
             return <SidePanelTask />
-        default:
-            return null
+        default: return null
     }
 }
 

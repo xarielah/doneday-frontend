@@ -5,7 +5,7 @@ import SidePanelReplyInput from "./SidePanelReplyInput"
 import SidePanelUpdateActions from "./SidePanelUpdateActions"
 import SidePanelUpdateMenu from "./SidePanelUpdateMenu"
 
-const SidePanelUpdatePreview = ({ update, onUpdateChange, onDeleteUpdate }) => {
+const SidePanelUpdatePreview = ({ update, onUpdateReply, onDeleteUpdate }) => {
     const textAreaRef = useRef();
 
     // When user clicks on reply button, it focuses on the reply input
@@ -22,10 +22,10 @@ const SidePanelUpdatePreview = ({ update, onUpdateChange, onDeleteUpdate }) => {
 
     // When logged user replys to an update
     const handleAddReply = (newReply) => {
-        console.log('reply added', newReply);
-        const newUpdate = structuredClone(update);
+        const newUpdate = { ...update };
+        newUpdate.replies = newUpdate?.replies || [];
         newUpdate.replies.push(newReply);
-        onUpdateChange(newUpdate);
+        onUpdateReply(newUpdate);
     }
 
     return <article className="update-preview">

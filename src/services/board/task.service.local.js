@@ -1,6 +1,7 @@
 import { storageService } from "../async-storage.service";
 
 const STORAGE_KEY = "taskDB";
+const UPDATES_STORAGE_KEY = "taskUpdatesDB";
 
 export const taskService = {
     add,
@@ -10,7 +11,7 @@ export const taskService = {
     _query,
     STORAGE_KEY,
     getByGroupId,
-    getEmptyReply
+    getEmptyReply,
 };
 
 function _query() {

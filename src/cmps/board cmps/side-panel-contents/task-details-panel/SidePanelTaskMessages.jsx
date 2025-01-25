@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { taskService } from "../../../../services/board/task.service.local";
 import SidePanelUpdateList from "./updates/SidePanelUpdateList";
 import SidePanelWriteUpdate from "./updates/SidePanelWriteUpdate";
 
@@ -49,36 +50,51 @@ const demoUpdates = [
     }
 ]
 
-const SidePanelTaskMessages = () => {
+const SidePanelTaskMessages = ({ task }) => {
     const [updates, setUpdates] = useState();
 
     useEffect(() => {
-        const to = setTimeout(() => {
-            setUpdates(demoUpdates)
-        }, 1000)
-        return () => clearTimeout(to)
-    }, [])
-
+        if (task)
+            setUpdates(task.replies || [])
+    }, [task])
 
     const onUpdateChange = (updatedUpdate) => {
-        console.log("🚀 ~ onUpdateChange ~ updatedUpdate:", updatedUpdate)
         const updateIdx = updates.findIndex(update => update._id === updatedUpdate._id);
         const newUpdatesArray = [...updates];
         newUpdatesArray[updateIdx] = updatedUpdate;
-        console.log("🚀 ~ onUpdateChange ~ newUpdatesArray:", newUpdatesArray)
         setUpdates(newUpdatesArray);
     }
 
-    const handleNewUpdate = (newUpdate) => {
+    const handleUpdateReply = async (newReply) => {
+        const updateIdx = updates.findIndex(update => update._id === newReply._id);
+        const newUpdatesArray = [...updates];
+        newUpdatesArray[updateIdx] = newReply;
+
+        const replyIdx = task.replies.findIndex(reply => reply._id === newReply._id);
+        task.replies[replyIdx] = newReply;
+        await taskService.update(task);
+
+        setUpdates(newUpdatesArray);
+    }
+
+    const handleNewUpdate = async (newUpdateText) => {
+        const newUpdate = taskService.getEmptyReply();
+        newUpdate.text = newUpdateText;
+        newUpdate.groupId = task.groupId;
+        task.replies = (task.replies || [])
+        task.replies.unshift(newUpdate);
+        await taskService.update(task);
         setUpdates(updates => [newUpdate, ...updates]);
     }
 
+    if (!task) return <div>Loading comments...</div>
     return <section className="side-panel-task-messages">
         <SidePanelWriteUpdate
             onAddUpdate={handleNewUpdate}
         />
         <SidePanelUpdateList
             onUpdateChange={onUpdateChange}
+            onUpdateReply={handleUpdateReply}
             updates={updates}
         />
     </section>

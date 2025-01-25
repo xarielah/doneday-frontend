@@ -7,7 +7,6 @@ import GroupStickyColumns from "./GroupStickyColumns"
 import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell"
 
 const GroupTableContentTask = ({ task, columnLabels, group }) => {
-
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
         updateTask(group._id, updatedTask)
@@ -18,7 +17,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
             <GroupPreRow group={group} />
             <div className="min-table-cell table-cell-first-column task-title">
                 <EditableText type="text2" value={task.taskTitle} />
-                <TaskDetailsTriggerCell taskId={task._id} />
+                <TaskDetailsTriggerCell task={task} />
             </div>
         </GroupStickyColumns>
         <GroupScrollableColumns>

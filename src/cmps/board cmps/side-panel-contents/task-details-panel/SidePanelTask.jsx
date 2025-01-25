@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import { taskService } from "../../../../services/board/task.service.local";
 import SidePanelWrapper from "../SidePanelWrapper";
 import SidePanelTaskContentTabs from "./SidePanelTaskContentTabs";
 import SidePanelTaskFiles from "./SidePanelTaskFiles";
@@ -11,13 +12,14 @@ const tabs = {
 }
 
 const SidePanelTask = () => {
-    const { taskId } = useParams();
+    const { taskId } = useSelector(storeState => storeState.sidePanelModule.info)
     const [task, setTask] = useState();
     const [currentTab, setCurrentTab] = useState(tabs.messages)
 
     useEffect(() => {
         if (taskId) {
-            setTask(taskId)
+            taskService.get(taskId)
+                .then(setTask)
         } else {
             setTask(null)
         }
@@ -25,7 +27,7 @@ const SidePanelTask = () => {
 
     return <SidePanelWrapper heading="Task name">
         <SidePanelTaskContentTabs onTabChange={setCurrentTab} />
-        {currentTab === tabs.messages && <SidePanelTaskMessages />}
+        {currentTab === tabs.messages && <SidePanelTaskMessages task={task} />}
         {currentTab === tabs.files && <SidePanelTaskFiles />}
     </SidePanelWrapper>
 }

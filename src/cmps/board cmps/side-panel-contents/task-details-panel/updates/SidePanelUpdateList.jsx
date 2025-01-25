@@ -1,7 +1,7 @@
 import SidePanelNoUpdates from "./SidePanelNoUpdates";
 import SidePanelUpdatePreview from "./SidePanelUpdatePreview";
 
-const SidePanelUpdateList = ({ updates, onUpdateChange }) => {
+const SidePanelUpdateList = ({ updates, onUpdateChange, onUpdateReply }) => {
     if (!updates) return <div>Loading comments...</div>
     return <section className="updates-list">
         {updates.length === 0 && <SidePanelNoUpdates />}
@@ -10,6 +10,7 @@ const SidePanelUpdateList = ({ updates, onUpdateChange }) => {
                 key={update._id}
                 update={update}
                 onUpdateChange={onUpdateChange}
+                onUpdateReply={onUpdateReply}
             />
         )}
     </section>
