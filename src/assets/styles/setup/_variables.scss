@@ -308,15 +308,15 @@ $spacing-xxxl: 64px;
 // Status colors
 $clr-status-done: #00c875;
 $clr-status-wip: #fdab3d;
-$clr-status-stuck: #e2445c;
-$clr-status-onhold: #ff44a1;
-$clr-status-revision: #339ecd;
-$clr-status-design: #784bd1;
-$clr-status-draft: #797e93;
+$clr-status-stuck: #df2f4a;
+$clr-status-onhold: #ff007f;
+$clr-status-revision: #007eb5;
+$clr-status-design: #9d50dd;
+$clr-status-draft: #c4c4c4;
 
 // Priority colors
-$clr-priority-low: $color-grass-green;
-$clr-priority-medium: $color-jeans;
-$clr-priority-high: $color-orange;
-$clr-priority-critical: #0c0c0c;
-$clr-priority-tbd: $clr-status-draft;
+$clr-priority-low: #579bfc;
+$clr-priority-medium: #5559df;
+$clr-priority-high: #401694;
+$clr-priority-critical: #333333;
+$clr-priority-tbd: #c4c4c4;
