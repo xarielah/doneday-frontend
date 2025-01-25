@@ -12,71 +12,58 @@
 
 // // pages
 @import "RootCmp";
+@import "cmps/HomePage";
 
-// @import "pages/AboutUs";
-// @import "pages/HomePage";
-// @import "pages/CarIndex";
-// @import "pages/ReviewIndex";
-// @import "pages/UserDetails";
-// @import "pages/TaskDetails";
-
+// Dynamic Components
 @import "cmps/BoardDynamicCmps/Side";
 @import "cmps/BoardDynamicCmps/Status";
 @import "cmps/BoardDynamicCmps/Priority";
+@import "cmps/BoardDynamicCmps/DialogValuePicker";
+
+// Board Stuff
 @import "cmps/Board/Board.scss";
 @import "cmps/Board/BoardHeader.scss";
 @import "cmps/Board/BoardDetails";
 @import "cmps/Board/CrudleBar";
 @import "cmps/Board/GroupsPreview";
-@import "cmps/HomePage";
+
+// New Structure & Board Layout
 @import "cmps/board/structure/GroupHeader";
 @import "cmps/board/structure/GroupTableHeader";
 @import "cmps/board/structure/GroupStickyColumns";
 @import "cmps/board/structure/GroupContainer";
 @import "cmps/board/structure/GroupTableContent";
 @import "cmps/board/structure/DynamicColumn";
+@import "cmps/board/structure/GroupTableContentTask";
+@import "cmps/board/structure/TaskDetailsTriggerCell";
 @import "cmps/board/structure/AddGroup";
 
-// // Components
-// @import "cmps/list";
-// @import "cmps/preview";
-
-// <<<<<<< HEAD
-
-// @import "cmps/AppHeader";
-// @import "cmps/AppHeaderInviteMembers";
-// @import "cmps/AppNav";
-// @import "cmps/ExternalHeader";
-// @import "cmps/ExternalHomePage";
-// @import "cmps/ExternalHero";
-// @import "cmps/ExternalDemoButton";
-// @import "cmps/ExternalFooter";
-// @import "cmps/ExternalHeroTitle";
-// @import "cmps/BoardHeaderTabList";
-// @import "cmps/SlidePanel";
-
-// =======
+// App
 @import "cmps/AppHeader/AppHeader";
 @import "cmps/AppHeader/AppHeaderInviteMembers";
 @import "cmps/SideNav/AppNav";
+@import "cmps/BoardHeaderTabList";
+
+// External (Unauthed) Home Page
 @import "cmps/ExternalHomePage/ExternalHeader";
 @import "cmps/ExternalHomePage/ExternalHomePage";
 @import "cmps/ExternalHomePage/ExternalHero";
 @import "cmps/ExternalHomePage/ExternalDemoButton";
 @import "cmps/ExternalHomePage/ExternalFooter";
 @import "cmps/ExternalHomePage/ExternalHeroTitle";
-// @import "cmps/ExternalHomePage/BoardHeaderTabList";
-// @import "cmps/ExternalHomePage/SlidePanel";
-@import "cmps/BoardHeaderTabList";
-@import "cmps/SlidePanel";
-@import "cmps/BoardDynamicCmps/DialogValuePicker";
 
-// @import "cmps/AppFooter";
-// @import "cmps/UserMsg";
+// Side Panel Stuff
+@import "cmps/SidePanel/SidePanel";
+@import "cmps/SidePanel/SidePanelWrapper";
+@import "cmps/SidePanel/SidePanelDynamicCmps";
+@import "cmps/SidePanel/SidePanelWriteUpdate";
+@import "cmps/SidePanel/SidePanelTaskMessages";
+@import "cmps/SidePanel/SidePanelNoUpdates";
+@import "cmps/SidePanel/SidePanelUpdatesList";
+@import "cmps/SidePanel/SidePanelUpdatePreview";
+@import "cmps/SidePanel/SidePanelReplyUpdate";
+@import "cmps/SidePanel/SidePanelUpdateActions";
+@import "cmps/SidePanel/SidePanelReplyInput";
+@import "cmps/SidePanel/SidePanelRepliesList";
+@import "cmps/SidePanel/SidePanelReplyPreview";
 
-// @import "cmps/CarFilter";
-// @import "cmps/ReviewEdit";
-// @import "cmps/ReviewList";
-// @import "cmps/ReviewPreview";
-// @import "cmps/CarList";
-// @import "cmps/CarPreview";

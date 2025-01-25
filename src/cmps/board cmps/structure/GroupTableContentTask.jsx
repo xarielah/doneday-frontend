@@ -6,10 +6,12 @@ import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
 import { useSelector } from "react-redux"
 import { addSelectedTask, removeSelectedTask } from "../../../store/actions/taskSelect.actions"
+import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell"
+
+
 
 const GroupTableContentTask = ({ task, columnLabels, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
-
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
         updateTask(group._id, updatedTask)
@@ -46,12 +48,20 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
                 onCheckBox={(ev) => handleChangeSelect(ev, group._id, task._id)}
                 group={group}
             />
-            <div className="min-table-cell table-cell-first-column">
+            <div className="min-table-cell table-cell-first-column task-title">
                 <EditableText type="text2" onChange={handleChangeTitle} value={task.taskTitle} />
+                <TaskDetailsTriggerCell task={task} />
             </div>
         </GroupStickyColumns>
         <GroupScrollableColumns>
-            {columnLabels.map(cmpType => <DynamicColumn key={cmpType} cmpType={cmpType} info={task[cmpType]} onTaskUpdate={(value) => handleCellUpdate(cmpType, value)} />)}
+            {columnLabels.map(cmpType =>
+                <DynamicColumn
+                    key={cmpType}
+                    cmpType={cmpType}
+                    info={task[cmpType]}
+                    onTaskUpdate={(value) => handleCellUpdate(cmpType, value)}
+                />
+            )}
         </GroupScrollableColumns>
     </div>)
 }

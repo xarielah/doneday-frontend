@@ -1,6 +1,7 @@
 import { storageService } from "../async-storage.service";
 
 const STORAGE_KEY = "taskDB";
+const UPDATES_STORAGE_KEY = "taskUpdatesDB";
 
 export const taskService = {
     add,
@@ -10,6 +11,7 @@ export const taskService = {
     _query,
     STORAGE_KEY,
     getByGroupId,
+    getEmptyReply,
     getEmptyTask
 };
 
@@ -36,6 +38,20 @@ function get(taskId) {
 function getByGroupId(groupId) {
     return storageService.query(STORAGE_KEY).then(tasks => tasks.filter(task => task.groupId === groupId))
 }
+
+function getEmptyReply() {
+    return ({
+        _id: crypto.randomUUID(),
+        text: '',
+        by: {
+            _id: 'user101',
+            name: 'User 101',
+            avatar: ''
+        },
+        likedBy: []
+    })
+}
+
 function getEmptyTask() {
     return {
         side: null,
