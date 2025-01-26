@@ -9,7 +9,7 @@ import GroupTableHeader from "./GroupTableHeader";
 
 const GroupContainer = ({ group, cmpOrder }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group._id });
+    const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group?._id || "" });
     const { setNodeRef: setDroppableRef } = useDroppable({ id: group._id });
 
     const handleOnAddTask = (task) => {
@@ -22,7 +22,6 @@ const GroupContainer = ({ group, cmpOrder }) => {
         zIndex: isDragging ? 1250 : 0,
     };
 
-    console.log("🚀 ~ GroupContainer ~ dndStyles:", style)
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
         <section role="rowheader" className="group-header-container">
             <GroupHeader

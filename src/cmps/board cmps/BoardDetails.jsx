@@ -1,8 +1,7 @@
-import { closestCenter, DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { closestCorners, DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { groupService } from "../../services/board/group.service.local";
 import { setBoard } from "../../store/actions/board.actions";
 import { AddGroup } from "./structure/AddGroup";
 import GroupContainer from "./structure/GroupContainer";
@@ -26,9 +25,13 @@ export function BoardDetails() {
         useSensor(KeyboardSensor),
     );
 
-    const onDragEnd = useCallback((dragEvent) => {
+    const onDragEnd = (dragEvent) => {
         const { active, over } = dragEvent;
-        if (!over) return;
+        console.log("🚀 ~ onDragEnd ~ over:", over)
+        console.log("🚀 ~ onDragEnd ~ active:", active)
+
+        if (!over || !active) return;
+
         const activeGroupId = active.id;
         const overGroupId = over.id;
 
@@ -41,20 +44,21 @@ export function BoardDetails() {
         board.groups[activeGroupIdx] = overGroup;
         board.groups[overGroupIdx] = activeGroup;
 
-        groupService.update
         setBoard({ ...board })
-    }, [])
+    }
+
+    const boardGroupIds = useMemo(() => board.groups.map(g => g._id), [board])
 
     if (!board || !board.groups) return null
     return (
-        <DndContext onDragEnd={onDragEnd} collisionDetection={closestCenter}>
+        <DndContext sensors={sensors} onDragEnd={onDragEnd} collisionDetection={closestCorners}>
             <section className="board-details">
-                <SortableContext items={board.groups.map(g => g._id)} strategy={verticalListSortingStrategy}>
-                    {board.groups.map((group) => (
+                <SortableContext items={boardGroupIds} strategy={verticalListSortingStrategy}>
+                    {board.groups && board.groups.map((group) => (
                         <GroupContainer
                             group={group}
                             cmpOrder={cmpOrder}
-                            key={group._id}
+                            key={group?._id}
                             selectedTasks={selectedTasks}
                         />
                     ))}
