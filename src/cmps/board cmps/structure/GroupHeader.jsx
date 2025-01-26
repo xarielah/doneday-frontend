@@ -2,10 +2,11 @@
 import { Heading, Icon, Text } from "@vibe/core";
 import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons";
 import { forwardRef } from "react";
+import { cn } from "../../../services/util.service";
 import { updateGroup } from "../../../store/actions/board.actions";
 
 const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, isDragging }, ref) => {
-    const groupCount = group.tasks?.length || 0;
+    const tasksCount = group.tasks?.length || 0;
 
     function handleChangeName(name) {
         try {
@@ -16,16 +17,35 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
         }
     }
 
-    return <section ref={ref} {...dndProps} className="group-header" style={{ cursor: isDragging ? 'grabbing' : 'grab' }}>
+    const collapsedStyle = isCollapsed ? { borderLeft: '6px solid' + (group.color || '#000') } : undefined
+
+    return <section className={cn(!isCollapsed && "group-header", isCollapsed && "group-header-collapsed group-collapsed-border")} style={collapsedStyle}>
         {isCollapsed && <button onClick={() => setIsCollapsed(false)}>
             <Icon style={{ color: group.color || 'inherit' }} className="collapse-chevron" icon={DropdownChevronRight} iconSize={20} />
         </button>}
         {!isCollapsed && <button onClick={() => setIsCollapsed(true)}>
             <Icon style={{ color: group.color || 'inherit' }} className="collapse-chevron" icon={DropdownChevronDown} iconSize={20} />
         </button>}
-        <Heading type="h3" style={{ color: group.color || 'inherit' }}>{group.name || group._id}</Heading>
-        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{groupCount} items</Text>
+        <div ref={ref} {...dndProps} className={cn("group-header-wrapper", isDragging && "dragging")}>
+            <Heading type="h3" className="group-heading" style={{ color: group.color || 'inherit' }}>{group.name || group._id}</Heading>
+            {!isCollapsed && <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{tasksCount} items</Text>}
+        </div>
+        {isCollapsed && <Text className="collapse-items" color='secondary' type="text2">{tasksCount} items</Text>}
     </section>
 })
+
+const UncollapsedHeader = forwardRef(function ({ group, isDragging, dndProps, tasksCount }, ref) {
+    return <div ref={ref} {...dndProps} className={cn("group-header-wrapper", isDragging && "dragging")}>
+        <Heading type="h3" style={{ color: group.color || 'inherit' }}>{group.name || group._id}</Heading>
+        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{tasksCount} items</Text>
+    </div>
+});
+
+const CollapsedHeader = forwardRef(function ({ group, isDragging, dndProps, tasksCount }, ref) {
+    return <div ref={ref} {...dndProps} className={cn("group-header-wrapper", isDragging && "dragging")}>
+        <Heading type="h3" style={{ color: group.color || 'inherit' }}>{group.name || group._id}</Heading>
+        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{tasksCount} items</Text>
+    </div>
+});
 
 export default GroupHeader

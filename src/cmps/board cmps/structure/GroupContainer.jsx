@@ -1,7 +1,9 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_GLOBALLY_COLLAPSED } from "../../../store/reducers/board.reducer";
 import GroupHeader from "./GroupHeader";
 import GroupTableContent from "./GroupTableContent";
 import GroupTableFooter from "./GroupTableFooter";
@@ -11,6 +13,25 @@ const GroupContainer = ({ group, cmpOrder }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group?._id || "" });
     const { setNodeRef: setDroppableRef } = useDroppable({ id: group._id });
+    const previousCollapsedValue = useRef(isCollapsed);
+    const { isGloballyCollapsed } = useSelector(state => state.boardModule)
+    console.log("🚀 ~ GroupContainer ~ isGloballyCollapsed:", isGloballyCollapsed)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (isGloballyCollapsed) {
+            previousCollapsedValue.current = isCollapsed
+            setIsCollapsed(true)
+        } else {
+            setIsCollapsed(previousCollapsedValue.current)
+        }
+    }, [isGloballyCollapsed])
+
+    useEffect(() => {
+        if (isDragging !== isGloballyCollapsed) {
+            dispatch({ type: SET_GLOBALLY_COLLAPSED, isGloballyCollapsed: isDragging })
+        }
+    }, [isDragging])
 
     const handleOnAddTask = (task) => {
         console.log('task: ' + task);
@@ -32,14 +53,17 @@ const GroupContainer = ({ group, cmpOrder }) => {
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
             />
-            <GroupTableHeader group={group} columnLabels={cmpOrder} />
+            {!isCollapsed && <GroupTableHeader group={group} columnLabels={cmpOrder} />}
         </section>
-        <section role="rowgroup">
-            <GroupTableContent group={group} columnLabels={cmpOrder} />
-        </section>
-        <footer>
-            <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
-        </footer>
+        {!isCollapsed && <>
+            <section role="rowgroup">
+                <GroupTableContent group={group} columnLabels={cmpOrder} />
+            </section>
+            <footer>
+                <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
+            </footer>
+        </>}
+
     </section>
 }
 
