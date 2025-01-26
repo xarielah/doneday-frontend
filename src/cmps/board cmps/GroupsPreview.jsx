@@ -11,6 +11,7 @@ import { addSelectedGroup, addSelectedTask, addTask, removeSelectedGroup, remove
 import { boardService } from "../../services/board/board.service.local";
 import { AddTask } from "./dynamicCmps/AddTask";
 import { SideGroup } from "./dynamicCmps/SideGroup";
+import { Timeline } from "./dynamicCmps/Timeline";
 
 /* eslint-disable react/prop-types */
 export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) {
@@ -178,9 +179,11 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
                         </section>
                         {cmpOrder.length > 0 && cmpOrder?.map((cmpType, idx) => (
                             <section className={`task-${cmpType} task-item`} key={task._id + cmpType + idx}>
+                                
                                 <DynamicCmp
                                     cmpType={cmpType}
                                     info={task[cmpType]}
+                                    allMembers={cmpType === 'members' ? task['allMembers'] : ''}
                                     onTaskUpdate={onTaskUpdate}
                                 />
                             </section>
@@ -222,7 +225,7 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
 }
 
 
-const DynamicCmp = ({ cmpType, info, onTaskUpdate }) => {
+const DynamicCmp = ({ cmpType, info, allMembers, onTaskUpdate }) => {
 
     switch (cmpType) {
         case "side":
@@ -234,7 +237,9 @@ const DynamicCmp = ({ cmpType, info, onTaskUpdate }) => {
         case "status":
             return <Status info={info} onTaskUpdate={onTaskUpdate} />;
         case "members":
-            return <Member info={info} onTaskUpdate={onTaskUpdate} />;
+            return <Member info={info} allMembers={allMembers} onTaskUpdate={onTaskUpdate} />;
+        case "timeline":
+            return <Timeline info={info} onTaskUpdate={onTaskUpdate} />;
         case "date":
             return <Date info={info} onTaskUpdate={onTaskUpdate} />;
         case "add":

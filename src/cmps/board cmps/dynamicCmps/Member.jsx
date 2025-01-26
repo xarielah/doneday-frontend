@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
-import { AvatarGroup, Avatar, Dialog, Icon, DialogContentContainer, IconButton, Text, Button, AttentionBox, AttentionBoxLink } from "@vibe/core";
+import { AvatarGroup, Avatar, Dialog, Icon, DialogContentContainer, IconButton, Text, Button, AttentionBox } from "@vibe/core";
 import { Add, Search } from "@vibe/icons";
 import { useState, useMemo } from "react";
 import { debounce } from "../../../services/util.service";
 
-export function Member({ info, onTaskUpdate }) {
-
+export function Member({ info, allMembers, onTaskUpdate }) {
+    
+    const [infoState, setInfoState] = useState(info);
+    const [allAvailableMembers, setAllAvailableMembers] = useState(allMembers);
     const [isAddButtonVisible, setisAddButtonVisible] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -37,25 +39,72 @@ export function Member({ info, onTaskUpdate }) {
         debouncedUpdate(value);
     };
 
+    const handleRemoveMember = (memberName) => {
+        const updatedInfo = infoState.filter((member) => member.name !== memberName);
+        onTaskUpdate(updatedInfo);
+        setInfoState(updatedInfo);
+    };
+
     const toggleMemberSelection = (memberName, isCtrlPressed) => {
         setSelectedMembers((prev) => {
+            if (prev.includes(memberName)) {
+                return prev;
+            }
+
+            let updatedMembers;
+    
             if (isCtrlPressed) {
                 // Toggle selection
-                return prev.includes(memberName)
+                updatedMembers = prev.includes(memberName)
                     ? prev.filter((name) => name !== memberName)
                     : [...prev, memberName];
             } else {
                 // Single selection
-                return prev.includes(memberName) ? [] : [memberName];
+                updatedMembers = prev.includes(memberName) ? [] : [memberName];
             }
+    
+            // Call the service with the updated members
+            updateServiceWithMembers(updatedMembers);
+    
+            return updatedMembers;
         });
     };
 
-    const filteredMembers = info?.filter((member) =>
+    const updateServiceWithMembers = (newMembers) => {
+        setInfoState((prevInfo) => {
+            const structuredMembers = newMembers.map((memberName) => {
+                const member = allMembers.find((m) => m.name === memberName);
+                if (member) {
+                    return { name: member.name, color: member.color };
+                }
+            });
+            
+            if(!structuredMembers) {
+                alert('No member data found.')
+                return;
+            }
+            
+            const updatedInfo = [...prevInfo, ...structuredMembers];
+    
+            const updatedAllAvailableMembers = allAvailableMembers.filter((member) => 
+                !newMembers.some((newMember) => 
+                    newMember === member.name
+                )
+            );
+            
+            setAllAvailableMembers(updatedAllAvailableMembers);
+    
+            return updatedInfo;
+        });
+    };
+
+    const filteredMembers = allAvailableMembers?.filter((member) =>
         member.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
     
-    const avatarMax = (info.length > 3 ? 3 : info.length)
+    console.log(`Updated all members: ${allAvailableMembers}`);
+
+    const avatarMax = (infoState.length > 3 ? 3 : infoState.length)
 
     return (
         <div style={{width: '100%'}} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
@@ -69,6 +118,60 @@ export function Member({ info, onTaskUpdate }) {
                         zIndex="99"
                     >
                         <DialogContentContainer className="addMemberDialog" size="large" type="modal">
+                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
+                                {infoState.map((member) => (
+                                    <div
+                                        key={member.name}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            backgroundColor: "#f0f4ff",
+                                            borderRadius: "20px",
+                                            padding: "0",
+                                            boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)",
+                                            fontSize: "12px",
+                                            color: "#333",
+                                        }}
+                                    >
+                                        <button
+                                            onClick={() => handleRemoveMember(member.name)}
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                background: "none",
+                                                border: "none",
+                                                padding: "0",
+                                                cursor: "pointer",
+                                                marginTop: 0
+                                            }}
+                                            aria-label={`Remove ${member.name}`}
+                                        >
+                                            <Avatar
+                                                type="text"
+                                                text={member.name.substring(0, 2)}
+                                                backgroundColor={member?.color || "#6200ea"} // Default to purple
+                                                ariaLabel={member.name}
+                                                size="small"
+                                            />
+                                        </button>
+                                        <span style={{ marginLeft: "8px", marginRight: "8px" }}>{member.name}</span>
+                                        <button
+                                            onClick={() => handleRemoveMember(member.name)}
+                                            style={{
+                                                background: "none",
+                                                border: "none",
+                                                color: "#999",
+                                                cursor: "pointer",
+                                                fontSize: "16px",
+                                                marginTop: 0
+                                            }}
+                                            aria-label={`Remove ${member.name}`}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                                 <Icon
                                     icon={Search}
@@ -124,10 +227,6 @@ export function Member({ info, onTaskUpdate }) {
                                     </Button>
                                 )}
                             </AvatarGroup>
-                            <AttentionBox
-                                title="Did you know?"
-                                text="Hold Crl for multiple selection"
-                            />
                         </DialogContentContainer>
                     </Dialog>
                 )}
@@ -140,7 +239,7 @@ export function Member({ info, onTaskUpdate }) {
                         ariaLabelItemsName: "teams",
                     }}
                 >
-                    {info?.length > 0 && info?.map((member) => 
+                    {infoState?.length > 0 && infoState?.map((member) => 
                         (
                             <Avatar key={member.name}
                                 type="text"
@@ -156,5 +255,5 @@ export function Member({ info, onTaskUpdate }) {
 
         </div>
     )
-    return (<div>{info?.length > 0 && info?.map((member) => member.name + ", ")}</div>)
+    return (<div>{infoState?.length > 0 && infoState?.map((member) => member.name + ", ")}</div>)
 }

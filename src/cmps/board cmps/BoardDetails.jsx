@@ -188,6 +188,7 @@ export function BoardDetails() {
         "priority",
         "members",
         "date",
+        "timeline"
     ];
 
     // const labels = ["Status", "Priority", "members", "date"];

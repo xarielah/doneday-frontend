@@ -24,6 +24,8 @@ export const SET_SELECTED_TASK = 'SET_SELECTED_TASK'
 export const ADD_SELECTED_TASK = 'ADD_SELECTED_TASK';
 export const REMOVE_SELECTED_TASK = 'REMOVE_SELECTED_TASK';
 
+export const ADD_MEMBERS = 'ADD_MEMBERS'
+
 
 
 const initialState = {
@@ -211,6 +213,14 @@ export function boardReducer(state = initialState, action) {
                 ...state,
                 selectedTasks: updatedSelectedTasks,
             }
+        }
+        case ADD_MEMBERS: {
+            const groupId = action.groupId;
+            const members = action.members;
+            const existingGroupIndex = state.selectedTasks.findIndex(
+                (item) => item.groupId === groupId
+            )
+
         }
 
 
