@@ -1,6 +1,10 @@
+import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import GroupContainer from "./structure/GroupContainer";
+import { setBoard } from "../../store/actions/board.actions";
 import { AddGroup } from "./structure/AddGroup";
+import GroupContainer from "./structure/GroupContainer";
 
 
 export function BoardDetails() {
@@ -14,18 +18,46 @@ export function BoardDetails() {
         "date",
     ];
 
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(MouseSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor),
+    );
+
+    const onDragEnd = (dragEvent) => {
+        const { active, over } = dragEvent;
+        if (!over || !active) return;
+        if (active.id === over.id) return;
+
+        const updatedBoard = { ...board };
+
+        const oldIndex = updatedBoard.groups.findIndex(group => group._id === active.id);
+        const newIndex = updatedBoard.groups.findIndex(group => group._id === over.id);
+
+        updatedBoard.groups = arrayMove(updatedBoard.groups, oldIndex, newIndex);
+
+        setBoard(updatedBoard)
+    }
+
+    const boardGroupIds = useMemo(() => board.groups.map(g => g._id), [board])
+
     if (!board || !board.groups) return null
     return (
-        <section className="board-details">
-            {board.groups.map((group) => (
-                <GroupContainer
-                    group={group}
-                    cmpOrder={cmpOrder}
-                    key={group._id}
-                    selectedTasks={selectedTasks}
-                />
-            ))}
-            <AddGroup />
-        </section>
+        <DndContext sensors={sensors} onDragEnd={onDragEnd} >
+            <section className="board-details">
+                <SortableContext items={boardGroupIds} >
+                    {board.groups && board.groups.map((group) => (
+                        <GroupContainer
+                            group={group}
+                            cmpOrder={cmpOrder}
+                            key={group?._id}
+                            selectedTasks={selectedTasks}
+                        />
+                    ))}
+                </SortableContext>
+                <AddGroup />
+            </section >
+        </DndContext>
     )
 }

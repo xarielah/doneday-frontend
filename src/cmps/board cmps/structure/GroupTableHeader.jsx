@@ -1,10 +1,10 @@
 import { Text } from "@vibe/core"
+import { useSelector } from "react-redux"
 import { cn } from "../../../services/util.service"
+import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/taskSelect.actions"
 import GroupPreRow from "./GroupPreRow"
 import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
-import { useSelector } from "react-redux"
-import { addSelectedGroup, removeSelectedGroup } from "../../../store/actions/taskSelect.actions"
 
 const GroupTableHeader = ({ columnLabels, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
@@ -31,10 +31,10 @@ const GroupTableHeader = ({ columnLabels, group }) => {
                 isChecked={isGroupSelected(group._id, group.tasks)}
                 onCheckBox={(ev) => handleChangeSelectGroup(ev, group._id, group.tasks)}
             />
-            <div className="min-table-cell table-cell-first-column task-border-top"><Text type="text2">Task</Text></div>
+            <div className="min-table-cell default-cell-color table-cell-first-column task-border-top"><Text type="text2">Task</Text></div>
         </GroupStickyColumns>
         <GroupScrollableColumns>
-            {columnLabels.map(label => <Text type="text2" key={label} className={cn('min-table-cell task-border-top column-label', `column-label-${label}`)}>{label}</Text>)}
+            {columnLabels.map(label => <Text type="text2" key={label} className={cn('min-table-cell default-cell-color task-border-top column-label', `column-label-${label}`)}>{label}</Text>)}
         </GroupScrollableColumns>
     </section>
 }

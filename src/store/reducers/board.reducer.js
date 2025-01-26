@@ -15,6 +15,8 @@ export const REMOVE_TASK = 'REMOVE_TASK';
 
 export const SET_CMP_ORDER = 'SET_CMP_ORDER';
 
+export const SET_GLOBALLY_COLLAPSED = 'SET_GLOBALLY_COLLAPSED';
+
 
 const initialState = {
     boards: [],
@@ -23,7 +25,8 @@ const initialState = {
     lastRemovedBoard: null,
     statusLabels: [],
     priorityLabels: [],
-    cmpOrder: []
+    cmpOrder: [],
+    isGloballyCollapsed: false
 };
 
 export function boardReducer(state = initialState, action) {
@@ -178,6 +181,9 @@ export function boardReducer(state = initialState, action) {
                 cmpOrder: action.cmpOrder
             };
             break;
+        case SET_GLOBALLY_COLLAPSED: {
+            return { ...state, isGloballyCollapsed: action.isGloballyCollapsed }
+        }
         default:
             break;
     }
