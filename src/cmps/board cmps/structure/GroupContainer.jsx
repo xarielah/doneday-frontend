@@ -15,7 +15,6 @@ const GroupContainer = ({ group, cmpOrder }) => {
     const { setNodeRef: setDroppableRef } = useDroppable({ id: group._id });
     const previousCollapsedValue = useRef(isCollapsed);
     const { isGloballyCollapsed } = useSelector(state => state.boardModule)
-    console.log("🚀 ~ GroupContainer ~ isGloballyCollapsed:", isGloballyCollapsed)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -63,7 +62,6 @@ const GroupContainer = ({ group, cmpOrder }) => {
                 <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
             </footer>
         </>}
-
     </section>
 }
 

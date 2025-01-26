@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   z-index: 1;
-  margin-left: 36px;
 
   & .group-header-wrapper {
     display: flex;
@@ -29,7 +28,7 @@
 
 .collapse-chevron {
   grid-area: chevron;
-  margin-left: 9px;
+  margin-left: 6px;
   margin-right: 4px;
   cursor: pointer;
 }
@@ -41,6 +40,13 @@
 .group-heading {
   cursor: grab;
   grid-area: title;
+}
+
+.group-header-menu-button {
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .group-header-collapsed {
@@ -56,6 +62,7 @@
   padding-bottom: $spacing-small;
   padding-right: $spacing-small;
   margin-inline: 38px;
+  margin-bottom: 6px;
   max-width: 98%;
   background-color: white;
 

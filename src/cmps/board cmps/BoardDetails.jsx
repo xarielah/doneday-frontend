@@ -1,5 +1,5 @@
-import { closestCorners, DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { setBoard } from "../../store/actions/board.actions";
@@ -27,33 +27,26 @@ export function BoardDetails() {
 
     const onDragEnd = (dragEvent) => {
         const { active, over } = dragEvent;
-        console.log("🚀 ~ onDragEnd ~ over:", over)
-        console.log("🚀 ~ onDragEnd ~ active:", active)
-
         if (!over || !active) return;
+        if (active.id === over.id) return;
 
-        const activeGroupId = active.id;
-        const overGroupId = over.id;
+        const updatedBoard = { ...board };
 
-        const activeGroupIdx = board.groups.findIndex(group => group._id === activeGroupId);
-        const overGroupIdx = board.groups.findIndex(group => group._id === overGroupId);
+        const oldIndex = updatedBoard.groups.findIndex(group => group._id === active.id);
+        const newIndex = updatedBoard.groups.findIndex(group => group._id === over.id);
 
-        const activeGroup = board.groups[activeGroupIdx];
-        const overGroup = board.groups[overGroupIdx];
+        updatedBoard.groups = arrayMove(updatedBoard.groups, oldIndex, newIndex);
 
-        board.groups[activeGroupIdx] = overGroup;
-        board.groups[overGroupIdx] = activeGroup;
-
-        setBoard({ ...board })
+        setBoard(updatedBoard)
     }
 
     const boardGroupIds = useMemo(() => board.groups.map(g => g._id), [board])
 
     if (!board || !board.groups) return null
     return (
-        <DndContext sensors={sensors} onDragEnd={onDragEnd} collisionDetection={closestCorners}>
+        <DndContext sensors={sensors} onDragEnd={onDragEnd} >
             <section className="board-details">
-                <SortableContext items={boardGroupIds} strategy={verticalListSortingStrategy}>
+                <SortableContext items={boardGroupIds} >
                     {board.groups && board.groups.map((group) => (
                         <GroupContainer
                             group={group}
