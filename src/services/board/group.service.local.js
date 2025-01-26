@@ -5,6 +5,7 @@ const STORAGE_KEY = "groupDB";
 export const groupService = {
     add,
     update,
+    save,
     remove,
     get,
     _query,
@@ -23,6 +24,14 @@ function add(group) {
 
 function update(updatedGroup) {
     return storageService.put(STORAGE_KEY, updatedGroup)
+}
+
+function save(group) {
+    if (group._id) {
+        return storageService.put(STORAGE_KEY, group);
+    } else {
+        return storageService.post(STORAGE_KEY, group)
+    }
 }
 
 function remove(groupId) {

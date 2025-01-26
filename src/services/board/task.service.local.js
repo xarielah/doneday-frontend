@@ -7,6 +7,7 @@ export const taskService = {
     add,
     update,
     remove,
+    save,
     get,
     _query,
     STORAGE_KEY,
@@ -25,6 +26,14 @@ function add(task) {
 
 function update(updatedTask) {
     return storageService.put(STORAGE_KEY, updatedTask)
+}
+
+function save(task) {
+    if (task._id) {
+        return storageService.put(STORAGE_KEY, task);
+    } else {
+        return storageService.post(STORAGE_KEY, task)
+    }
 }
 
 function remove(taskId) {
@@ -59,7 +68,7 @@ function getEmptyTask() {
         members: [
         ],
         date: "",
-        status: "",
-        priority: "",
+        status: "draft",
+        priority: "tbd",
     }
 }

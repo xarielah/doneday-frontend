@@ -1,7 +1,7 @@
 
-import { Heading, Icon, Text } from "@vibe/core";
+import { EditableHeading, Heading, Icon, Text } from "@vibe/core";
 import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { cn } from "../../../services/util.service";
 import { updateGroup } from "../../../store/actions/board.actions";
 import ChevronTooltip from "./ChevronTooltip";
@@ -11,6 +11,22 @@ import GroupHeaderMenu from "./GroupHeaderMenu";
 
 const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, isDragging }, ref) => {
     const tasksCount = group.tasks?.length || 0;
+    const headingRef = useRef()
+    const [headerColorTrigger, setHeaderColorTrigger] = useState(false)
+
+    useEffect(() => {
+        if (headingRef.current) {
+            const h3HeaderColor = headingRef.current.querySelector("h3")
+            h3HeaderColor.style.color = group.color;
+
+            const inputHeaderColor = headingRef.current.querySelector("input")
+            if (inputHeaderColor) {
+                inputHeaderColor.style.color = group.color;
+            }
+        }
+    }, [headingRef, headerColorTrigger])
+
+    const groupCount = group.tasks?.length || 0;
 
     function handleChangeName(name) {
         try {
@@ -40,6 +56,8 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
             {!isCollapsed && <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{tasksCount} items</Text>}
         </div>
         {isCollapsed && <Text className="collapse-items" color='secondary' type="text2">{tasksCount} items</Text>}
+        <EditableHeading onEditModeChange={() => setHeaderColorTrigger(!headerColorTrigger)} ref={headingRef} onChange={(name) => handleChangeName(name)} className="group-header-color" type="h3" style={{ color: group.color || 'inherit' }} value={group.name || group._id} />
+        <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{groupCount || "No"} Task{groupCount !== 1 && "s"}</Text>
     </section>
 })
 

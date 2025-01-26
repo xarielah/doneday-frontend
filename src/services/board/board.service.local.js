@@ -14,7 +14,6 @@ export const boardService = {
     save,
     remove,
     STORAGE_KEY,
-    getEmptyTask,
     addBoardMsg,
     getBoards
 }
@@ -98,17 +97,6 @@ async function save(board) {
     return savedBoard
 }
 
-function getEmptyTask() {
-    return {
-        side: null,
-        taskTitle: "New task",
-        members: [
-        ],
-        date: "",
-        status: "",
-        priority: "",
-    }
-}
 
 function getBoards(filterBy = {}) {
     return query()
