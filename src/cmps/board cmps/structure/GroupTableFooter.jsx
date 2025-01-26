@@ -7,11 +7,15 @@ import { useEffect, useRef, useState } from "react"
 import { taskService } from "../../../services/board/task.service.local"
 
 const GroupTableFooter = ({ onAddTask, group }) => {
+    const [taskValue, setTaskValue] = useState("")
+
+    useEffect(() => {
+        setTaskValue(value => value = "")
+    }, [taskValue])
 
     const handleChange = (newValue) => {
+        setTaskValue(value => value = newValue)
         onAddTask(newValue);
-        setIsEditing(false); // Trigger unmount and remount
-        setTimeout(() => setIsEditing(true), 0); // Force reset after task creation
     };
 
     function onAddTask(taskTitle) {
@@ -26,8 +30,8 @@ const GroupTableFooter = ({ onAddTask, group }) => {
             <GroupPreRow group={group} roundedBottomLeft bottomBorders disableCheckbox />
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom" style={{ textAlign: 'left' }}>
                 <EditableText
+                    value={taskValue}
                     onChange={handleChange}
-                    ref={valueRef}
                     className="cell-left-padding"
                     placeholder="+ Add Task"
                 />
