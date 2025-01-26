@@ -10,7 +10,7 @@ const GroupTableFooter = ({ onAddTask, group }) => {
     const [taskValue, setTaskValue] = useState("")
 
     useEffect(() => {
-        setTaskValue(value => value = "")
+        setTaskValue("")
     }, [taskValue])
 
     const handleChange = (newValue) => {
