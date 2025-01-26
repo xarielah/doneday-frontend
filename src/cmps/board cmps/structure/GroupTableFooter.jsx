@@ -1,27 +1,24 @@
 import { EditableText } from "@vibe/core"
+import { useEffect, useState } from "react"
+import { taskService } from "../../../services/board/task.service.local"
+import { addTask } from "../../../store/actions/board.actions"
 import GroupPreRow from "./GroupPreRow"
 import GroupStickyColumns from "./GroupStickyColumns"
-import { addTask } from "../../../store/actions/board.actions"
-import { boardService } from "../../../services/board/board.service.local"
-import { useEffect, useRef, useState } from "react"
-import { taskService } from "../../../services/board/task.service.local"
 
 const GroupTableFooter = ({ onAddTask, group }) => {
     const [taskValue, setTaskValue] = useState("")
 
     useEffect(() => {
+        if (!taskValue) return;
+        onAddTask(taskValue)
         setTaskValue("")
     }, [taskValue])
 
-    const handleChange = (newValue) => {
-        setTaskValue(value => value = newValue)
-        onAddTask(newValue);
-    };
 
     function onAddTask(taskTitle) {
         const groupId = group._id
         let newTask = taskService.getEmptyTask()
-        newTask = { ...newTask, groupId, taskTitle, status: "draft", priority: "tbd" }
+        newTask = { ...newTask, groupId, taskTitle }
         return addTask(groupId, newTask)
     }
 
@@ -31,7 +28,7 @@ const GroupTableFooter = ({ onAddTask, group }) => {
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom" style={{ textAlign: 'left' }}>
                 <EditableText
                     value={taskValue}
-                    onChange={handleChange}
+                    onChange={setTaskValue}
                     className="cell-left-padding"
                     placeholder="+ Add Task"
                 />

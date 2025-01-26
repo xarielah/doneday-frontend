@@ -68,7 +68,7 @@ function getEmptyTask() {
         members: [
         ],
         date: "",
-        status: "",
-        priority: "",
+        status: "draft",
+        priority: "tbd",
     }
 }
