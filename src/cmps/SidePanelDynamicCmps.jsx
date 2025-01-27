@@ -1,13 +1,14 @@
 import { panelTypes } from "../services/sidePanel.service"
+import SidePanelNotifications from "./board cmps/side-panel-contents/SidePanelNotifications"
+import SidePanelTask from "./board cmps/side-panel-contents/task-details-panel/SidePanelTask"
 
 const getComponent = (type) => {
     switch (type) {
         case panelTypes.notifications:
-            return <div>notifications</div>
+            return <SidePanelNotifications />
         case panelTypes.task:
-            return <div>task</div>
-        default:
-            return null
+            return <SidePanelTask />
+        default: return null
     }
 }
 

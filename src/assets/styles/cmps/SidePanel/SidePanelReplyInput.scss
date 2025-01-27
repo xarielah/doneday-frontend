@@ -1,0 +1,32 @@
+.side-panel-reply-input {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  padding-inline: 8px;
+  padding-block: 16px;
+
+  & .side-panel-reply-avatar {
+    grid-column: 1;
+  }
+
+  & .side-panel-input-group {
+    display: grid;
+    grid-column: 2;
+    gap: 8px;
+    justify-items: end;
+
+    & .side-panel-reply {
+      width: max-content;
+    }
+  }
+}
+
+.focused {
+  border: 1px solid $ui-border-color;
+  border-radius: 4px;
+}
+
+.focused-margins {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}

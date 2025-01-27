@@ -5,7 +5,6 @@ import { useState, useMemo } from "react";
 import { debounce } from "../../../services/util.service";
 
 export function Member({ info, onTaskUpdate }) {
-
     const [isAddButtonVisible, setisAddButtonVisible] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -58,7 +57,7 @@ export function Member({ info, onTaskUpdate }) {
     const avatarMax = (info.length > 3 ? 3 : info.length)
 
     return (
-        <div style={{width: '100%'}} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
+        <div className="column-label-members default-cell-color" style={{width: '100%'}} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
             {isDialogOpen && (
                     <Dialog
                         isOpen={isDialogOpen}
@@ -153,8 +152,6 @@ export function Member({ info, onTaskUpdate }) {
 
                 </AvatarGroup>
             </div>
-
         </div>
     )
-    return (<div>{info?.length > 0 && info?.map((member) => member.name + ", ")}</div>)
 }

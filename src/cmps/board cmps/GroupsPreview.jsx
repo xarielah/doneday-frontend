@@ -1,22 +1,20 @@
 /* eslint-disable react/jsx-key */
-import { EditableText, MenuItemButton, TextField, } from "@vibe/core";
+import { EditableText } from "@vibe/core";
+import React from "react";
+import { boardService } from "../../services/board/board.service.local";
+import { addSelectedGroup, addSelectedTask, addTask, removeSelectedGroup, removeSelectedTask, removeTask } from "../../store/actions/board.actions";
+import { AddTask } from "./dynamicCmps/AddTask";
 import { Date } from "./dynamicCmps/Date";
 import { Member } from "./dynamicCmps/Member";
 import { Priority } from "./dynamicCmps/Priority";
 import { Side } from "./dynamicCmps/Side";
+import { SideGroup } from "./dynamicCmps/SideGroup";
 import { Status } from "./dynamicCmps/Status";
 import { TaskTitle } from "./dynamicCmps/TaskTitle";
-import React from "react";
-import { addSelectedGroup, addSelectedTask, addTask, removeSelectedGroup, removeSelectedTask, removeTask } from "../../store/actions/board.actions";
-import { boardService } from "../../services/board/board.service.local";
-import { AddTask } from "./dynamicCmps/AddTask";
-import { SideGroup } from "./dynamicCmps/SideGroup";
+import { taskService } from "../../services/board/task.service.local";
 
 /* eslint-disable react/prop-types */
 export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) {
-
-
-
     function onTaskUpdate(taskInfo) {
         console.log("Task Updated:", taskInfo);
     }
@@ -25,8 +23,9 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
         return removeTask(groupId, taskId)
     }
 
-    function onAddTask(groupId) {
-        const newTask = boardService.getEmptyTask()
+    function onAddTask(groupId, taskTitle) {
+        const newTask = taskService.getEmptyTask()
+        newTask.taskTitle = taskTitle
         return addTask(groupId, newTask)
     }
 
@@ -115,12 +114,6 @@ export function GroupPreview({ group = [], cmpOrder = [], selectedTasks = [] }) 
                             info={{ isEdit: false, onAddTask: () => onAddTask(group._id) }}
                             onTaskUpdate={onTaskUpdate}
                         />
-                        {/* <TextField
-                            placeholder="Add Task"
-                            kind="secondary"
-                            size="small"
-                            onClick={() => onAddTask()}
-                        /> */}
                     </section>
                 </section>
             </section>

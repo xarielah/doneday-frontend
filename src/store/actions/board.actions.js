@@ -1,24 +1,19 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-import { store } from '../store'
-import { ADD_BOARD, REMOVE_BOARD, SET_BOARDS, SET_BOARD, UPDATE_BOARD, ADD_GROUP, UPDATE_GROUP, REMOVE_GROUP, SET_TASK, ADD_TASK, UPDATE_TASK, REMOVE_TASK, SET_CMP_ORDER, SET_SELECTED_TASK, ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, } from '../reducers/board.reducer'
+
 import { getDummyBoardAsync } from '../../../board'
-import { makeId } from '../../services/util.service'
+import { boardService } from '../../services/board/board.service.local'
+import { groupService } from '../../services/board/group.service.local'
+import { taskService } from '../../services/board/task.service.local'
+import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer'
+import { store } from '../store'
 
-
-const boardId = "hey"
-
-
-
-
+loadBoards()
 // Set Boards
 export async function loadBoards(filterBy = {}) {
     try {
         //     const boards = await boardService.query(filterBy)
-        const boards = getDummyBoardAsync()
+        return boardService.getBoards()
             .then(boards => {
                 store.dispatch(getCmdSetBoards(boards))
-                return boards
             })
     } catch (err) {
         console.log('Board Action -> Cannot load boards', err)
@@ -27,18 +22,8 @@ export async function loadBoards(filterBy = {}) {
 }
 
 // Set Board
-export async function loadBoard(boardId = "") {
-    try {
-        // const board = await boardService.getById(boardId)
-        const board = getDummyBoardAsync()
-            .then(board => {
-                store.dispatch(getCmdSetBoard(board))
-                return board
-            })
-    } catch (err) {
-        console.log('Board Action -> Cannot load board', err)
-        throw err
-    }
+export async function setBoard(board) {
+    store.dispatch(getCmdSetBoard(board))
 }
 
 // Remove Board
@@ -67,9 +52,11 @@ export async function addBoard(board) {
 // Update Board
 export async function updateBoard(board) {
     try {
-        const savedBoard = await boardService.save(board)
-        store.dispatch(getCmdUpdateBoard(savedBoard))
-        return savedBoard
+        return await boardService.save(board)
+            .then(savedBoard => {
+                store.dispatch(getCmdUpdateBoard(savedBoard))
+                return savedBoard
+            })
     } catch (err) {
         console.log('Board Action -> Cannot save board', err)
         throw err
@@ -77,10 +64,30 @@ export async function updateBoard(board) {
 }
 
 
+// Get Group
+export function getGroupById(groupId) {
+    try {
+        const board = store.getState().boardModule.board;
+        if (!board || !board.groups) {
+            throw new Error('Board or groups are undefined.');
+        }
+
+        const group = board.groups.find(group => group._id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID ${groupId} not found.`);
+        }
+        return group;
+    } catch (err) {
+        console.error('Error in getGroupById:', err.message);
+        return null;
+    }
+}
+
+
 // Add Group
 export async function addGroup(group) {
     try {
-        return getDummyBoardAsync(boardId) //saveGroup(boardId, group)
+        return groupService.add(group)
             .then((savedGroup) => {
                 store.dispatch(getCmdAddGroup(savedGroup))
             })
@@ -94,7 +101,7 @@ export async function addGroup(group) {
 // Update Group
 export async function updateGroup(group) {
     try {
-        return getDummyBoardAsync(boardId) //saveGroup(boardId, group)
+        return groupService.update(group)
             .then((savedGroup) => {
                 store.dispatch(getCmdUpdateGroup(savedGroup))
             })
@@ -108,7 +115,7 @@ export async function updateGroup(group) {
 // Remove Group
 export async function removeGroup(groupId) {
     try {
-        return getDummyBoardAsync(boardId) //removeGroup(boardId, groupId)
+        return groupService.remove(groupId)
             .then(() => {
                 store.dispatch(getCmdRemoveGroup(groupId))
             })
@@ -129,27 +136,44 @@ export async function setTask(task) {
     }
 }
 
+// Get Task
+export function getTaskById(taskId) {
+    const board = store.getState().boardModule.board;
+    for (const group of board.groups) {
+        for (const task of group.tasks || []) {
+            if (task._id === taskId) {
+                return task;
+            }
+        }
+    }
+    return null;
+}
+
+
 // Add Task
 export async function addTask(groupId, task) {
     try {
-        return getDummyBoardAsync(boardId) //saveTask(groupId, task)
-            .then((savedTask) => {
+
+        return taskService.add(task)
+            .then(task => {
                 store.dispatch(getCmdAddTask(groupId, task))
             })
     } catch (err) {
-        console.log('Board Action -> Cannot add task', err)
+        console.log('Board Action -> Cannot update task', err)
         throw err
     }
 }
 
 // Update Task
-export async function updateTask(groupId, task) {
+export async function updateTask(groupId, updatedTask) {
     try {
-        return getDummyBoardAsync(boardId) //saveTask(groupId, task)
-            .then((savedTask) => {
-                savedTask._id = makeId(4)
-                store.dispatch(getCmdUpdateTask(groupId, savedTask))
-            })
+        const currentBoard = store.getState().boardModule.board
+        const currentGroup = currentBoard.groups.find(group => group._id === groupId)
+        const taskIdx = currentGroup.tasks.findIndex(task => task._id === updatedTask._id)
+        if (taskIdx === -1) return
+        currentGroup.tasks.splice(taskIdx, 1, updatedTask);
+
+        taskService.update(updatedTask).then(() => setBoard(currentBoard))
     } catch (err) {
         console.log('Board Action -> Cannot update task', err)
         throw err
@@ -159,10 +183,8 @@ export async function updateTask(groupId, task) {
 // Remove Task
 export async function removeTask(groupId, taskId) {
     try {
-        return getDummyBoardAsync(boardId) //removeTask(boardId, groupId, taskId)
+        return taskService.remove(taskId)
             .then(() => {
-                console.log(groupId, taskId);
-
                 return store.dispatch(getCmdRemoveTask(groupId, taskId))
             })
     } catch (err) {
@@ -170,83 +192,6 @@ export async function removeTask(groupId, taskId) {
         throw err
     }
 }
-
-export async function setSelectedTask(selectedTasks = []) {
-    try {
-        return getDummyBoardAsync(boardId)
-            .then(() => {
-
-                return store.dispatch(getCmdSetSelectedTasks(selectedTasks))
-            })
-    } catch (err) {
-        console.log('Board Action -> Cannot set select task', err)
-        throw err
-    }
-}
-
-export async function addSelectedTask(groupId, taskId) {
-    try {
-        return getDummyBoardAsync(boardId)
-            .then(() => {
-                console.log(groupId, taskId);
-                console.log(store.selectedTasks);
-
-                return store.dispatch(getCmdAddSelectedTasks(groupId, taskId))
-            })
-    } catch (err) {
-        console.log('Board Action -> Cannot select task', err)
-        throw err
-    }
-}
-
-export async function removeSelectedTask(groupId, taskId) {
-    try {
-        return getDummyBoardAsync(boardId)
-            .then(() => {
-                console.log(groupId, taskId);
-                console.log(store.selectedTasks);
-
-                return store.dispatch(getCmdRemoveSelectedTasks(groupId, taskId))
-            })
-    } catch (err) {
-        console.log('Board Action -> Cannot remove select task', err)
-        throw err
-    }
-}
-
-export async function addSelectedGroup(groupId, tasks) {
-    try {
-        await getDummyBoardAsync(boardId)
-
-        if (!Array.isArray(tasks)) return
-
-        for (const task of tasks) {
-            store.dispatch(getCmdAddSelectedTasks(groupId, task._id))
-        }
-
-    } catch (err) {
-        console.log('Board Action -> Cannot select group tasks', err)
-        throw err
-    }
-}
-
-
-export async function removeSelectedGroup(groupId, tasks) {
-    try {
-        await getDummyBoardAsync(boardId)
-
-        if (!Array.isArray(tasks)) return
-
-        for (const task of tasks) {
-            store.dispatch(getCmdRemoveSelectedTasks(groupId, task._id))
-        }
-
-    } catch (err) {
-        console.log('Board Action -> Cannot unselect group tasks', err)
-        throw err
-    }
-}
-
 
 export async function setCmpOrder(cmpOrder) {
     return getCmdCmpOrder(cmpOrder)
@@ -268,7 +213,7 @@ function getCmdSetBoards(boards) {
 function getCmdSetBoard(board) {
     return {
         type: SET_BOARD,
-        board
+        board: { ...board }
     }
 }
 function getCmdRemoveBoard(boardId) {
@@ -344,29 +289,4 @@ function getCmdCmpOrder(cmpOrder) {
         cmpOrder
     }
 }
-
-
-
-// Selected Tasks
-function getCmdSetSelectedTasks(selectedTasks = []) {
-    return {
-        type: SET_SELECTED_TASK,
-        selectedTasks
-    }
-}
-function getCmdAddSelectedTasks(groupId, taskId) {
-    return {
-        type: ADD_SELECTED_TASK,
-        groupId,
-        taskId
-    }
-}
-function getCmdRemoveSelectedTasks(groupId, taskId) {
-    return {
-        type: REMOVE_SELECTED_TASK,
-        groupId,
-        taskId
-    }
-}
-
 

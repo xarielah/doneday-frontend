@@ -9,23 +9,18 @@ $font-color: #333;
 
 .group-list {
     margin-bottom: 36px;
-    // border: 1px solid #ddd;
-    // border-top: 1px solid #ddd;
+
 
     .side-bar {
         position: fixed;
         display: flex;
         flex-direction: column;
-        // align-items: center;
         z-index: 5;
         background-color: #fff;
-        // background-color: red;
-        // height: 36px;
-        // border-right: 1px solid #ccc;
+
 
         border-radius: 8px 0 0 0;
 
-        // border-top: 1px solid #ddd;
 
         .crudl-menu {
             width: 30px;
@@ -35,26 +30,22 @@ $font-color: #333;
 
         .label-side {
             border-top: 1px solid #ddd;
+
         }
 
         .label-side,
         .task-side {
-            // Use flex so each "column" can have a fixed min-width
             display: flex;
             align-items: center;
             height: 36px;
             border-bottom: 1px solid #ccc;
             width: 100%;
 
-            // background-color: red;
-
 
             >* {
                 display: flex;
                 align-items: center;
-                // If you want left-aligned text, override:
                 justify-content: flex-start;
-                padding: 0 8px;
                 height: 100%;
             }
 
@@ -65,14 +56,33 @@ $font-color: #333;
                 flex: 0 0 33px;
                 min-width: 33px;
                 position: sticky;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 left: 0;
                 z-index: 2;
-                // background-color: #fff;
 
                 border-right: 1px solid #ddd;
             }
 
-            .label-task,
+            .label-task {
+                flex: 0 0 200px;
+                display: block;
+                line-height: 200%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 200px;
+                max-width: 200px;
+                position: sticky;
+                z-index: 2;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+            }
+
             .task-title {
                 flex: 0 0 200px;
                 display: block;
@@ -86,13 +96,12 @@ $font-color: #333;
                 left: 50px;
                 z-index: 2;
                 background-color: #fff;
-                // border-right: 1px solid $border-color;
-                // background-color: red;
+                display: flex;
+
             }
 
             .label {
-                // border-right: 1px solid $border-color;
-                // margin-left: 20px;
+
                 width: 100%;
             }
 
@@ -101,13 +110,11 @@ $font-color: #333;
 
     .label {
         border-right: 1px solid $border-color;
-        margin-left: 15px;
         width: 100%;
     }
 
     .task-item {
         border-right: 1px solid $border-color;
-        margin-left: 15px;
         width: 100%;
 
     }
@@ -131,7 +138,6 @@ $font-color: #333;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding: 0 8px;
             height: 100%;
         }
 
@@ -143,7 +149,6 @@ $font-color: #333;
             position: sticky;
             left: 0;
             z-index: 2;
-            // background-color: #fff;
 
         }
 
@@ -157,11 +162,9 @@ $font-color: #333;
             text-overflow: ellipsis;
             min-width: 200px;
             position: sticky;
-            left: 50px;
             z-index: 2;
             background-color: #fff;
             border-right: 1px solid $border-color;
-            // background-color: red;
         }
 
 
@@ -177,7 +180,6 @@ $font-color: #333;
         .task-priority {
             flex: 0 0 120px;
             min-width: 120px;
-            /* Optional: border-right: 1px solid #ddd; */
         }
 
         /* MEMBERS */
@@ -185,7 +187,6 @@ $font-color: #333;
         .task-members {
             flex: 0 0 120px;
             min-width: 120px;
-            // border-right: 1px solid #ddd;
             position: relative;
             justify-content: center;
         }
@@ -223,7 +224,6 @@ $font-color: #333;
             min-width: 120px;
             width: 100%;
 
-            // border-right: 1px solid #ddd;
         }
 
         /* FILLER */
@@ -236,13 +236,17 @@ $font-color: #333;
 
         .label {
             border-right: 1px solid $border-color;
-            margin-left: 10px;
             width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .task-item {
             border-right: 1px solid $border-color;
-            margin-left: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
 
         }
@@ -252,7 +256,6 @@ $font-color: #333;
 
 
     button {
-        margin-top: 6px;
         cursor: pointer;
     }
 

@@ -1,0 +1,32 @@
+.side-panel-reply-preview {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+
+  & .side-panel-reply-user-avatar {
+    flex-shrink: 0;
+  }
+
+  & .reply-content {
+    border-radius: 8px;
+    background-color: $allgrey-background-color;
+    padding: 12px;
+
+    & .side-panel-reply-user-name {
+      flex-shrink: 0;
+      width: max-content;
+    }
+
+    & .side-panel-reply-text {
+      overflow-wrap: break-word; /* Forces long words to break and wrap */
+      word-wrap: break-word; /* Older browser support */
+      max-width: 100%; /* Ensures the text doesn't exceed container width */
+      hyphens: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      max-width: 100%;
+    }
+  }
+}
