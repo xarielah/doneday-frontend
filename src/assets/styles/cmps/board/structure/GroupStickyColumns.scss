@@ -1,0 +1,10 @@
+.group-sticky-columns {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  .table-cell-first-column {
+    width: 330px;
+  }
+}

@@ -24,7 +24,7 @@ export function GroupPreview({ group = [], cmpOrder = [] }) {
     }
 
     function onAddTask(groupId) {
-        const newTask = boardService.getEmptyTask()
+        const newTask = taskService.getEmptyTask()
         return addTask(groupId, newTask)
     }
 

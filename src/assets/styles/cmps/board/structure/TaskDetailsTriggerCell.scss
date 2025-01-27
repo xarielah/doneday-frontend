@@ -1,0 +1,47 @@
+.task-details-button-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid $layout-border-color;
+  height: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  & .has-updates {
+    color: $primary-color;
+  }
+
+  & > .task-details-icon {
+    $side-paddings: 22px;
+
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: $side-paddings;
+    padding-right: $side-paddings;
+    color: $secondary-text-color;
+    width: 100%;
+
+    & .task-details-badge-container {
+      position: relative;
+
+      & .task-details-badge {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        right: -4px;
+        bottom: 0;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        background-color: $primary-color;
+        color: white;
+        font-size: 10px;
+        width: 13px;
+        height: 13px;
+      }
+    }
+  }
+}

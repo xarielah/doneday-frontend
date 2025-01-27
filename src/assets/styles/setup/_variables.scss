@@ -304,3 +304,19 @@ $spacing-large: 24px;
 $spacing-xl: 32px;
 $spacing-xxl: 48px;
 $spacing-xxxl: 64px;
+
+// Status colors
+$clr-status-done: #00c875;
+$clr-status-wip: #fdab3d;
+$clr-status-stuck: #df2f4a;
+$clr-status-onhold: #ff007f;
+$clr-status-revision: #007eb5;
+$clr-status-design: #9d50dd;
+$clr-status-draft: #c4c4c4;
+
+// Priority colors
+$clr-priority-low: #579bfc;
+$clr-priority-medium: #5559df;
+$clr-priority-high: #401694;
+$clr-priority-critical: #333333;
+$clr-priority-tbd: #c4c4c4;

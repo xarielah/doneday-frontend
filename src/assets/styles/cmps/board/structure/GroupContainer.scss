@@ -1,0 +1,60 @@
+.task-left-indicator {
+  width: 5px;
+}
+
+.task-border-bottom {
+  border-bottom: 1px solid $layout-border-color;
+}
+
+.cell-left-padding {
+  padding-left: 8px;
+}
+
+.task-menu-button {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.add-task-cell {
+  flex-grow: 1;
+  justify-content: flex-start !important;
+}
+
+.task-menu-button:hover {
+  opacity: 1;
+}
+
+.table-row-layout {
+  display: flex;
+  height: 36px;
+
+  .task-left-checkbox {
+    border-left: none;
+    padding-left: 8px;
+  }
+
+  & > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-left: 1px solid $layout-border-color;
+    border-top: 1px solid $layout-border-color;
+    flex-shrink: 0;
+  }
+
+  & > *:not(:last-child) {
+    border-right: none;
+  }
+
+  .column-filler {
+    width: 100%;
+  }
+}
+
+.full {
+  width: 100%;
+}

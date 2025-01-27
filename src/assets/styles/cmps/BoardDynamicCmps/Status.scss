@@ -1,0 +1,44 @@
+.fancy-value-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  position: relative;
+
+  @include fold-animation;
+}
+
+.fancy-value-picker-dialog {
+  margin-top: 8px;
+}
+
+.status-draft {
+  @include dialog-options-button($color: $clr-status-draft);
+}
+
+.status-done {
+  @include dialog-options-button($color: $clr-status-done);
+}
+
+.status-wip {
+  @include dialog-options-button($color: $clr-status-wip);
+}
+
+.status-stuck {
+  @include dialog-options-button($color: $clr-status-stuck);
+}
+
+.status-onhold {
+  @include dialog-options-button($color: $clr-status-onhold);
+}
+
+.status-revision {
+  @include dialog-options-button($color: $clr-status-revision);
+}
+
+.status-design {
+  @include dialog-options-button($color: $clr-status-design);
+}

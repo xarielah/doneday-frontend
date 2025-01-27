@@ -1,18 +1,29 @@
 .tabs {
   grid-area: navigation;
   width: 100%;
-  align-self: start;
-  justify-self: start;
+  // align-self: start;
+  // justify-self: start;
   grid-column: 1 / -1;
+}
+.task-tablist,
+.tablist {
+  width: 100%;
+  border-bottom: 1px solid;
+  border-color: $layout-border-color;
+  height: 34px;
 
-  & .tablist {
-    width: 100%;
-    border-bottom: 1px solid;
-    border-color: $layout-border-color;
-    height: 34px;
-
-    & .single-tab {
-      border-bottom: none;
-    }
+  & .single-tab {
+    // height: 26px;
+    border-bottom: none;
   }
+}
+
+.tab-divider {
+  height: 16px;
+  margin: auto 0;
+  align-self: center;
+}
+
+.task-tablist {
+  padding-left: 16px;
 }

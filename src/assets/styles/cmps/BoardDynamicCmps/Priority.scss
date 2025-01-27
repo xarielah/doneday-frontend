@@ -1,0 +1,19 @@
+.priority-low {
+  @include dialog-options-button($color: $clr-priority-low);
+}
+
+.priority-medium {
+  @include dialog-options-button($color: $clr-priority-medium);
+}
+
+.priority-high {
+  @include dialog-options-button($color: $clr-priority-high);
+}
+
+.priority-critical {
+  @include dialog-options-button($color: $clr-priority-critical);
+}
+
+.priority-tbd {
+  @include dialog-options-button($color: $clr-priority-tbd);
+}

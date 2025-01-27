@@ -9,8 +9,8 @@ const defaultTasks = [
             { name: "Avi", color: "blue" },
         ],
         date: "15-01-2025",
-        status: "IN WORK",
-        priority: "HIGH",
+        status: "wip",
+        priority: "high",
     },
     {
         _id: "task102",
@@ -22,8 +22,8 @@ const defaultTasks = [
             { name: "Shay", color: "black" },
         ],
         date: "20-01-2025",
-        status: "STUCK",
-        priority: "CRITICAL",
+        status: "stuck",
+        priority: "critical",
     },
     {
         _id: "task103",
@@ -35,8 +35,8 @@ const defaultTasks = [
             { name: "Tal", color: "red" },
         ],
         date: "18-01-2025",
-        status: "DONE",
-        priority: "MEDIUM",
+        status: "done",
+        priority: "medium",
     },
     {
         _id: "task104",
@@ -48,8 +48,8 @@ const defaultTasks = [
             { name: "Lior", color: "blue" },
         ],
         date: "22-01-2025",
-        status: "IN WORK",
-        priority: "LOW",
+        status: "wip",
+        priority: "low",
     },
     {
         _id: "task201",
@@ -61,8 +61,8 @@ const defaultTasks = [
             { name: "Dana", color: "green" },
         ],
         date: "10-02-2025",
-        status: "IN REVIEW",
-        priority: "HIGH",
+        status: "revision",
+        priority: "high",
     },
     {
         _id: "task202",
@@ -74,8 +74,8 @@ const defaultTasks = [
             { name: "Shay", color: "black" },
         ],
         date: "12-02-2025",
-        status: "STUCK",
-        priority: "MEDIUM",
+        status: "stuck",
+        priority: "medium",
     },
     {
         _id: "task203",
@@ -87,8 +87,8 @@ const defaultTasks = [
             { name: "Eli", color: "orange" },
         ],
         date: "08-02-2025",
-        status: "DONE",
-        priority: "HIGH",
+        status: "done",
+        priority: "high",
     },
     {
         _id: "task204",
@@ -100,8 +100,8 @@ const defaultTasks = [
             { name: "Lior", color: "blue" },
         ],
         date: "15-02-2025",
-        status: "IN WORK",
-        priority: "CRITICAL",
+        status: "wip",
+        priority: "critical",
     },
     {
         _id: "task301",
@@ -113,8 +113,8 @@ const defaultTasks = [
             { name: "Dana", color: "green" },
         ],
         date: "13-01-2025",
-        status: "IN WORK",
-        priority: "HIGH",
+        status: "wip",
+        priority: "high",
     },
     {
         _id: "task302",
@@ -126,8 +126,8 @@ const defaultTasks = [
             { name: "Shay", color: "black" },
         ],
         date: "20-01-2025",
-        status: "IN WORK",
-        priority: "MEDIUM",
+        status: "wip",
+        priority: "medium",
     },
     {
         _id: "task303",
@@ -139,8 +139,8 @@ const defaultTasks = [
             { name: "Tal", color: "red" },
         ],
         date: "25-01-2025",
-        status: "IN REVIEW",
-        priority: "HIGH",
+        status: "revision",
+        priority: "high",
     },
     {
         _id: "task304",
@@ -152,8 +152,8 @@ const defaultTasks = [
             { name: "Eli", color: "orange" },
         ],
         date: "18-01-2025",
-        status: "DONE",
-        priority: "LOW",
+        status: "done",
+        priority: "low",
     },
 
 ];
@@ -161,19 +161,22 @@ const defaultTasks = [
 const defaultGroups = [
     {
         _id: "group1",
+        name: "Backlog",
         boardId: "board1",
-        color: "red",
+        color: "#339ecd",
     },
     {
         _id: "group2",
+        name: "Current Sprint",
         boardId: "board1",
-        color: "blue",
+        color: "#00c875",
 
     },
     {
         _id: "group3",
+        name: "Done Stories",
         boardId: "board1",
-        color: "green",
+        color: "#784bd1",
     }
 ];
 
@@ -181,7 +184,7 @@ const defaultBoards = [
     {
         _id: "board1",
         name: "Board numero uno",
-        color: "red"
+        color: "#339ecd"
     }
 ];
 
