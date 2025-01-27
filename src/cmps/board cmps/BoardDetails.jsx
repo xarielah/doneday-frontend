@@ -16,6 +16,7 @@ export function BoardDetails() {
         "priority",
         "members",
         "date",
+        "timeline"
     ];
 
     const sensors = useSensors(

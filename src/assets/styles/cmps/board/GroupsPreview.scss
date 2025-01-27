@@ -226,6 +226,15 @@ $font-color: #333;
 
         }
 
+        .label-timeline,
+        .task-timeline {
+            flex: 0 0 120px;
+            min-width: 120px;
+            width: 100%;
+
+            // border-right: 1px solid #ddd;
+        }
+
         /* FILLER */
         .label-filler,
         .task-filler {
