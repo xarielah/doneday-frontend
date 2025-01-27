@@ -2,7 +2,7 @@ import { Heading, Text, TextField } from "@vibe/core";
 import { Modal, ModalBasicLayout, ModalContent, ModalFooter, ModalHeader } from "@vibe/core/next";
 import { useState } from "react";
 
-export const AddBoard = ({ show, onClose, onAddBoard }) => {
+export const AddBoardCmp = ({ show, onClose, onAddBoard }) => {
     const [name, setName] = useState('')
 
     return <Modal
@@ -25,7 +25,6 @@ export const AddBoard = ({ show, onClose, onAddBoard }) => {
             <ModalContent>
                 <div className="board-nav-add-content">
                     <TextField
-                        // onChange={(value) => handleChange('email', value)}
                         name="name"
                         id="name"
                         className="board-nav-name-textfield"
@@ -33,6 +32,7 @@ export const AddBoard = ({ show, onClose, onAddBoard }) => {
                         title="Board name"
                         placeholder="New Board Name"
                         type="text"
+                        onChange={setName}
                     />
                 </div>
             </ModalContent>
@@ -45,7 +45,7 @@ export const AddBoard = ({ show, onClose, onAddBoard }) => {
                 onClick: () => onAddBoard(name)
             }}
             secondaryButton={{
-                onClick: function noRefCheck() { },
+                onClick: onClose,
                 text: 'Cancel'
             }}
         />

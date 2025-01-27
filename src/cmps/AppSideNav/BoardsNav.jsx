@@ -1,30 +1,47 @@
 import { useState } from "react";
-import { Button, Dialog, DialogContentContainer, Divider,Icon, IconButton,Menu,MenuButton,MenuDivider,MenuItem,MenuTitle,Search
+import {
+    Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search
 } from "@vibe/core";
-import {  Add,  AddSmall,  Board,  Dashboard,  DropdownChevronDown,  DropdownChevronUp,  Filter,  Search as SearchIcon, Workspace
+import {
+    Add, AddSmall, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Filter, Search as SearchIcon, Workspace
 } from "@vibe/icons";
-import { AddBoard } from "./AddBoard";
+import { AddBoardCmp } from "./AddBoardCmp";
+import { addBoard } from "../../store/actions/board.actions";
 
 export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch, searchRef,
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isAddBoard, setIsAddBoard] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const [selectedWorkspace, setSelectedWorkspace] = useState({
-        id: 1,
-        label: "Main board",
-    });
+    const [selectedBoard, setSelectedBoard] = useState("Main Board")
+
+    const handleCloseModal = () => {
+        setIsAddBoard(false)
+    }
+
+    const handleShowModal = () => {
+        return isAddBoard
+    }
 
     const handleSelect = (board) => {
-        setSelectedWorkspace(board);
+        setSelectedBoard(board.name);
         setIsOpen(false);
         handleNavigate(`/board/${board._id}`);
     };
 
+
+    async function handleAddBoard(name) {
+        const newBoard = { name }
+        return addBoard(newBoard)
+            .then(() => {
+                console.log(`Board added: ${name}`);
+                handleCloseModal();
+            })
+    }
+
     const filteredBoards = boards.filter((board) =>
         board.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-
+    )
     return (
         <>
             <section className="workspaces-nav">
@@ -58,14 +75,14 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                                 ))}
                             </Menu>
                             <Divider style={{ marginTop: "8px", marginBottom: "8px" }} />
-                            <Button kind="tertiary" size="small">
+                            <Button kind="tertiary" size="small" onClick={() => setIsAddBoard(true)}>
                                 <Icon icon={AddSmall} />
                                 Add Board
                             </Button>
-                            <Button kind="tertiary" size="small">
+                            {/* <Button kind="tertiary" size="small">
                                 <Icon icon={Workspace} />
                                 Browse all
-                            </Button>
+                            </Button> */}
                         </DialogContentContainer>
                     }
                 >
@@ -122,7 +139,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                                 border: "1px solid #d0d4e4"
                             }}
                         >
-                            <span style={{ marginLeft: "8px" }}>{selectedWorkspace.label}</span>
+                            <span style={{ marginLeft: "8px" }}>{selectedBoard}</span>
                             <Icon icon={isOpen ? DropdownChevronUp : DropdownChevronDown} />
                         </Button>
 
@@ -138,7 +155,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                                 backgroundColor: "#0073ea",
                                 color: "#ffffff"
                             }}
-                            onClick={setIsAddBoard(prev => !prev)}
+                            onClick={() => setIsAddBoard(true)}
 
                         />
                     </section>
@@ -153,7 +170,8 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                         className={location.pathname === `/board/${board._id}` ? "active" : ""}
                         title={board.name}
                         icon={Board}
-                        onClick={() => handleNavigate(`/board/${board._id}`)}
+
+                        onClick={() => handleSelect(board)}
                     />
                 ))}
                 <MenuItem
@@ -163,7 +181,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                     onClick={() => handleNavigate("/overviews")}
                 />
             </Menu>
-            {/* <AddBoard show={isAddBoard}/> */}
+            <AddBoardCmp onAddBoard={handleAddBoard} show={isAddBoard} onClose={handleCloseModal} />
+
+
         </>
     );
 }
