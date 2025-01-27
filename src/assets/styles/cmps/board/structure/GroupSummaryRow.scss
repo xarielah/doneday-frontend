@@ -1,0 +1,43 @@
+.summary-row-wrapper {
+  display: flex;
+  height: 36px;
+
+  & .spacer-div {
+    margin-left: 40px;
+    background-color: transparent;
+    flex-basis: 367px;
+  }
+
+  & .summary-row {
+    display: flex;
+    flex-grow: 1;
+    border-bottom-left-radius: 6px;
+    border-bottom: 1px solid $layout-border-color;
+    border-left: 1px solid $layout-border-color;
+    background-color: white;
+  }
+}
+
+.summary-cell {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid $layout-border-color;
+}
+
+.visual-summary-container {
+  flex-grow: 1;
+  display: flex;
+  height: 24px;
+  margin-inline: 8px;
+}
+
+.color-box {
+  height: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scaleY(1.2);
+    border-radius: 4px;
+  }
+}

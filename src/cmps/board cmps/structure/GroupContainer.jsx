@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_GLOBALLY_COLLAPSED } from "../../../store/reducers/board.reducer";
 import GroupHeader from "./GroupHeader";
+import GroupSummaryRow from "./GroupSummaryRow";
 import GroupTableContent from "./GroupTableContent";
 import GroupTableFooter from "./GroupTableFooter";
 import GroupTableHeader from "./GroupTableHeader";
@@ -60,6 +61,7 @@ const GroupContainer = ({ group, cmpOrder }) => {
             </section>
             <footer>
                 <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
+                <GroupSummaryRow group={group} cmpOrder={cmpOrder} />
             </footer>
         </>}
     </section>
