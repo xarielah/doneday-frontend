@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import ColorBox from "./ColorBox";
 
 const StatusSummary = ({ group }) => {
+    const board = useSelector(state => state.boardModule.board);
     const [statuses, setStatuses] = useState([]);
+
     useEffect(() => {
         const statusesCountObj = group.tasks.reduce((acc, task) => {
             acc[task.status] = (acc[task.status] || 0) + 1;
@@ -18,7 +21,7 @@ const StatusSummary = ({ group }) => {
             })
         })
         setStatuses(statusesCalc)
-    }, [group.tasks])
+    }, [group.tasks, board])
 
     return <div className="status-summary summary-cell column-label-status">
         <div className="visual-summary-container">

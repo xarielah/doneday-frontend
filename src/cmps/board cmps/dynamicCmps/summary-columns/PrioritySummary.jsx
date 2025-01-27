@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import ColorBox from "./ColorBox";
 
 const PrioritySummary = ({ group }) => {
     const [priorities, setPriorities] = useState([]);
+    const board = useSelector(state => state.boardModule.board)
+
     useEffect(() => {
         const prioritiesCountObj = group.tasks.reduce((acc, task) => {
             acc[task.priority] = (acc[task.priority] || 0) + 1;
@@ -18,7 +21,7 @@ const PrioritySummary = ({ group }) => {
             })
         })
         setPriorities(prioritiesCalc)
-    }, [group.tasks])
+    }, [group.tasks, board])
 
     return <div className="priority-summary summary-cell column-label-priority">
         <div className="visual-summary-container">
