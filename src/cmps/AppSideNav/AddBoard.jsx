@@ -2,7 +2,7 @@ import { Heading, Text, TextField } from "@vibe/core";
 import { Modal, ModalBasicLayout, ModalContent, ModalFooter, ModalHeader } from "@vibe/core/next";
 import { useState } from "react";
 
-const AddBoard = ({ show, onClose, onAddBoard }) => {
+export const AddBoard = ({ show, onClose, onAddBoard }) => {
     const [name, setName] = useState('')
 
     return <Modal
@@ -52,4 +52,3 @@ const AddBoard = ({ show, onClose, onAddBoard }) => {
     </Modal>
 }
 
-export default AppHeaderInviteMembers;

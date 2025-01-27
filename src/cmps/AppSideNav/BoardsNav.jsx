@@ -1,53 +1,26 @@
 import { useState } from "react";
-import {
-    Button,
-    Dialog,
-    DialogContentContainer,
-    Divider,
-    Icon,
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuDivider,
-    MenuItem,
-    MenuTitle,
-    Search
+import { Button, Dialog, DialogContentContainer, Divider,Icon, IconButton,Menu,MenuButton,MenuDivider,MenuItem,MenuTitle,Search
 } from "@vibe/core";
-import {
-    Add,
-    AddSmall,
-    Board,
-    Dashboard,
-    DropdownChevronDown,
-    DropdownChevronUp,
-    Filter,
-    Search as SearchIcon,
-    Workspace
+import {  Add,  AddSmall,  Board,  Dashboard,  DropdownChevronDown,  DropdownChevronUp,  Filter,  Search as SearchIcon, Workspace
 } from "@vibe/icons";
+import { AddBoard } from "./AddBoard";
 
-export function BoardNav({
-    boards,
-    location,
-    handleNavigate,
-    isSearch,
-    setIsSearch,
-    searchRef,
+export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch, searchRef,
 }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [isAddBoard, setIsAddBoard] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [selectedWorkspace, setSelectedWorkspace] = useState({
         id: 1,
         label: "Main board",
     });
 
-    // When user clicks an item in the dialog
     const handleSelect = (board) => {
         setSelectedWorkspace(board);
         setIsOpen(false);
         handleNavigate(`/board/${board._id}`);
     };
 
-    // Filter boards in the dialog based on search
     const filteredBoards = boards.filter((board) =>
         board.name.toLowerCase().includes(searchValue.toLowerCase())
     );
@@ -165,6 +138,7 @@ export function BoardNav({
                                 backgroundColor: "#0073ea",
                                 color: "#ffffff"
                             }}
+                            onClick={setIsAddBoard(prev => !prev)}
 
                         />
                     </section>
@@ -189,6 +163,7 @@ export function BoardNav({
                     onClick={() => handleNavigate("/overviews")}
                 />
             </Menu>
+            {/* <AddBoard show={isAddBoard}/> */}
         </>
     );
 }
