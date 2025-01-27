@@ -15,6 +15,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
 
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
+        //console.log(updatedTask);
         updateTask(group._id, updatedTask)
     }
 
@@ -27,6 +28,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
     }
 
     function handleChangeTitle(taskTitle) {
+        console.log
         try {
             const updatedTask = { ...task, taskTitle }
             updateTask(group._id, updatedTask)
@@ -61,6 +63,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
                     key={cmpType}
                     cmpType={cmpType}
                     info={task[cmpType]}
+                    allMembers={cmpType === 'members' ? task['allMembers'] : ''}
                     onTaskUpdate={(value) => handleCellUpdate(cmpType, value)}
                 />
             )}

@@ -19,6 +19,8 @@ export const ADD_MEMBERS = 'ADD_MEMBERS'
 
 export const SET_GLOBALLY_COLLAPSED = 'SET_GLOBALLY_COLLAPSED';
 
+export const REMOVE_SELECTED_TASK = 'REMOVE_SELECTED_TASK';
+
 
 
 const initialState = {

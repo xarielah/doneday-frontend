@@ -8,6 +8,11 @@ const defaultTasks = [
             { name: "Tal", color: "red" },
             { name: "Avi", color: "blue" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
         date: "15-01-2025",
         status: "wip",
         priority: "high",
@@ -20,6 +25,11 @@ const defaultTasks = [
         members: [
             { name: "Dana", color: "green" },
             { name: "Shay", color: "black" },
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
         ],
         date: "20-01-2025",
         status: "stuck",
@@ -34,6 +44,11 @@ const defaultTasks = [
             { name: "Eli", color: "orange" },
             { name: "Tal", color: "red" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
         date: "18-01-2025",
         status: "done",
         priority: "medium",
@@ -46,6 +61,11 @@ const defaultTasks = [
         members: [
             { name: "Shir", color: "purple" },
             { name: "Lior", color: "blue" },
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
         ],
         date: "22-01-2025",
         status: "wip",
@@ -60,6 +80,11 @@ const defaultTasks = [
             { name: "Yossi", color: "pink" },
             { name: "Dana", color: "green" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
         date: "10-02-2025",
         status: "revision",
         priority: "high",
@@ -72,6 +97,11 @@ const defaultTasks = [
         members: [
             { name: "Tal", color: "red" },
             { name: "Shay", color: "black" },
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
         ],
         date: "12-02-2025",
         status: "stuck",
@@ -86,6 +116,11 @@ const defaultTasks = [
             { name: "Avi", color: "blue" },
             { name: "Eli", color: "orange" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
         date: "08-02-2025",
         status: "done",
         priority: "high",
@@ -98,6 +133,11 @@ const defaultTasks = [
         members: [
             { name: "Shay", color: "black" },
             { name: "Lior", color: "blue" },
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
         ],
         date: "15-02-2025",
         status: "wip",
@@ -112,6 +152,11 @@ const defaultTasks = [
             { name: "Shir", color: "purple" },
             { name: "Dana", color: "green" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
         date: "13-01-2025",
         status: "wip",
         priority: "high",
@@ -124,6 +169,11 @@ const defaultTasks = [
         members: [
             { name: "Yossi", color: "pink" },
             { name: "Shay", color: "black" },
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
         ],
         date: "20-01-2025",
         status: "wip",
@@ -138,6 +188,11 @@ const defaultTasks = [
             { name: "Lior", color: "blue" },
             { name: "Tal", color: "red" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
         date: "25-01-2025",
         status: "revision",
         priority: "high",
@@ -150,6 +205,11 @@ const defaultTasks = [
         members: [
             { name: "Avi", color: "blue" },
             { name: "Eli", color: "orange" },
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
         ],
         date: "18-01-2025",
         status: "done",
