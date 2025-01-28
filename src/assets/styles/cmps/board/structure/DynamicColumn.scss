@@ -17,3 +17,29 @@
   width: 175px !important;
   flex-basis: 175px !important;
 }
+
+.column-label-timeline {
+  width: 175px;
+  flex-basis: 175px;
+}
+
+.avatars {
+  position: relative;
+  width: 100%;
+  justify-content: center;
+  display: flex
+;
+  align-items: center;
+}
+
+.addMembers {
+  position: absolute;
+  left: 0;
+  z-index: 9;
+  justify-content: left;
+}
+
+.addMemberDialog {
+  z-index: 99;
+  position: absolute;
+}
