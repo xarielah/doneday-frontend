@@ -1,10 +1,12 @@
 import { Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search } from "@vibe/core";
 import { Add, AddSmall, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Favorite, Filter, Home, MyWeek, NavigationChevronLeft, Search as SearchIcon, Workspace } from "@vibe/icons";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
 export function AppNav() {
+  const boards = useSelector(storeState => storeState.boardModule.boards)
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -83,9 +85,10 @@ export function AppNav() {
     navigate(path);
   }
 
-  const handleSelect = (workspace) => {
-    setSelectedWorkspace(workspace);
+  const handleSelect = (board) => {
+    setSelectedWorkspace(board);
     setIsOpen(false);
+    handleNavigate(`/board/${board._id}`)
   }
 
   return (
@@ -146,18 +149,16 @@ export function AppNav() {
 
                     <MenuTitle caption="My board" />
                     {/* List of filtered items */}
-                    {filteredWorkspaces.map((workspace) => (
+                    {boards.map(board => (
                       <MenuItem
-                        key={workspace.id}
-                        title={workspace.label}
-                        className={workspace.label == selectedWorkspace.label ? ' active ' : ' '}
-                        onClick={() => handleSelect(workspace)}
-                        style={{ cursor: "pointer" }}
+                        key={board._id}
+                        className={location.pathname === `/board/${board._id}` ? 'active' : ''}
+                        title={board.name}
+                        icon={Board}
+                        onClick={() => handleSelect(board)}
                       />
                     ))}
                   </Menu>
-
-
 
                   <Divider style={{ marginTop: "8px", marginBottom: "8px" }} />
 
@@ -260,12 +261,15 @@ export function AppNav() {
           </section>
 
           <Menu className="board-nav">
-            <MenuItem
-              className={location.pathname === "/board/123" ? 'active' : ''}
-              title="monday recreate"
-              icon={Board}
-              onClick={() => handleNavigate("/board/123")}
-            />
+            {boards.map(board => (
+              <MenuItem
+                key={board._id}
+                className={location.pathname === `/board/${board._id}` ? 'active' : ''}
+                title={board.name}
+                icon={Board}
+                onClick={() => handleNavigate(`/board/${board._id}`)}
+              />
+            ))}
             <MenuItem
               className={location.pathname === "/overviews" ? 'active' : ''}
               title="Dashboard and reporting"

@@ -1,5 +1,5 @@
 import { EditableText } from "@vibe/core"
-import { useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import { taskService } from "../../../services/board/task.service.local"
 import { addTask } from "../../../store/actions/board.actions"
 import GroupPreRow from "./GroupPreRow"
@@ -24,7 +24,7 @@ const GroupTableFooter = ({ onAddTask, group }) => {
 
     return <section className="table-footer">
         <GroupStickyColumns>
-            <GroupPreRow group={group} roundedBottomLeft bottomBorders disableCheckbox />
+            <GroupPreRow crudlType="footer" group={group} roundedBottomLeft bottomBorders disableCheckbox />
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom last-cell" style={{ textAlign: 'left' }}>
                 <EditableText
                     value={taskValue}
@@ -34,7 +34,7 @@ const GroupTableFooter = ({ onAddTask, group }) => {
                 />
             </div>
         </GroupStickyColumns>
-    </section>
+    </section >
 }
 
 export default GroupTableFooter

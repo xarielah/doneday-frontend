@@ -10,7 +10,8 @@ import GroupTableContent from "./GroupTableContent";
 import GroupTableFooter from "./GroupTableFooter";
 import GroupTableHeader from "./GroupTableHeader";
 
-const GroupContainer = ({ group, cmpOrder }) => {
+const GroupContainer = ({ group }) => {
+
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group?._id || "" });
     const { setNodeRef: setDroppableRef } = useDroppable({ id: group._id });
@@ -42,7 +43,6 @@ const GroupContainer = ({ group, cmpOrder }) => {
         transition,
         zIndex: isDragging ? 1250 : 0,
     };
-
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
         <section role="rowheader" className="group-header-container">
             <GroupHeader
@@ -53,15 +53,15 @@ const GroupContainer = ({ group, cmpOrder }) => {
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
             />
-            {!isCollapsed && <GroupTableHeader group={group} columnLabels={cmpOrder} />}
+            {!isCollapsed && <GroupTableHeader group={group} />}
         </section>
         {!isCollapsed && <>
             <section role="rowgroup">
-                <GroupTableContent group={group} columnLabels={cmpOrder} />
+                <GroupTableContent group={group} />
             </section>
             <footer>
                 <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
-                <GroupSummaryRow group={group} cmpOrder={cmpOrder} />
+                <GroupSummaryRow group={group} />
             </footer>
         </>}
     </section>

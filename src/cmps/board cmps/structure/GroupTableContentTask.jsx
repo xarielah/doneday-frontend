@@ -10,8 +10,10 @@ import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell"
 
 
 
-const GroupTableContentTask = ({ task, columnLabels, group }) => {
+const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
+    const cmpOrder = useSelector(state => state.boardModule.cmpOrder)
+
 
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
@@ -46,9 +48,11 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
     return (<div role="listitem" className="table-task-row">
         <GroupStickyColumns>
             <GroupPreRow
+                crudlType="task"
                 isChecked={isTaskSelected(group._id, task._id)}
                 onCheckBox={(ev) => handleChangeSelect(ev, group._id, task._id)}
                 group={group}
+                task={task}
             />
             <div className="min-table-cell table-cell-first-column task-title default-cell-color" >
                 <div>
@@ -58,7 +62,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
             </div>
         </GroupStickyColumns>
         <GroupScrollableColumns>
-            {columnLabels.map(cmpType =>
+            {cmpOrder.map(cmpType =>
                 <DynamicColumn
                     key={cmpType}
                     cmpType={cmpType}

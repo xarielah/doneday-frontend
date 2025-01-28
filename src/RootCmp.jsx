@@ -7,9 +7,9 @@ import { HomePage } from './pages/HomePage'
 
 import { useSelector } from "react-redux"
 import { AppFooter } from './cmps/AppFooter'
-import { AppNav } from './cmps/AppNav'
 import SlidePanel from "./cmps/SlidePanel"
 import { Board } from './pages/Board'
+import { AppNav } from "./cmps/AppSideNav/AppNav.jsx"
 
 export function RootCmp() {
     const isAuthenticated = true;

@@ -8,6 +8,11 @@ const PrioritySummary = ({ group }) => {
     const board = useSelector(state => state.boardModule.board)
 
     useEffect(() => {
+        if (!group?.tasks?.length) {
+            console.warn("Group tasks are undefined or empty");
+            setPriorities([]);
+            return;
+        }
         const prioritiesCountObj = group.tasks.reduce((acc, task) => {
             acc[task.priority] = (acc[task.priority] || 0) + 1;
             return acc;
