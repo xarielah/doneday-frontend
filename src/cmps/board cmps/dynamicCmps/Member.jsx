@@ -104,11 +104,11 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         onAddMembers(updatedInfo);
     };
 
-    const filteredMembers = allAvailableMembers.filter(
+    const filteredMembers = (allAvailableMembers ? allAvailableMembers.filter(
         (member) =>
             member.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) &&
             !infoState.some((infoMember) => infoMember.name === member.name)
-    );
+    ) : '');
 
     const avatarMax = infoState.length > 3 ? 3 : infoState.length;
 
@@ -121,7 +121,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         >
             {isDialogOpen && (
                 <Dialog
-                    isOpen={isDialogOpen}
+                    showTrigger={[]}
                     onClose={closeDialog}
                     title="Add Members"
                     width="large"

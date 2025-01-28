@@ -13,6 +13,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "15-01-2025",
         status: "wip",
         priority: "high",
@@ -31,6 +35,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "20-01-2025",
         status: "stuck",
         priority: "critical",
@@ -49,6 +57,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "18-01-2025",
         status: "done",
         priority: "medium",
@@ -67,6 +79,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "22-01-2025",
         status: "wip",
         priority: "low",
@@ -85,6 +101,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "10-02-2025",
         status: "revision",
         priority: "high",
@@ -103,6 +123,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "12-02-2025",
         status: "stuck",
         priority: "medium",
@@ -121,6 +145,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "08-02-2025",
         status: "done",
         priority: "high",
@@ -139,6 +167,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "15-02-2025",
         status: "wip",
         priority: "critical",
@@ -157,6 +189,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "13-01-2025",
         status: "wip",
         priority: "high",
@@ -175,6 +211,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "20-01-2025",
         status: "wip",
         priority: "medium",
@@ -193,6 +233,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "25-01-2025",
         status: "revision",
         priority: "high",
@@ -211,6 +255,10 @@ const defaultTasks = [
             { name: "Ariel", color: "blue" },
             { name: "Afik", color: "yellow" },
         ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
         date: "18-01-2025",
         status: "done",
         priority: "low",
