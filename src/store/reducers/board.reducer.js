@@ -27,24 +27,19 @@ const initialState = {
 };
 
 export function boardReducer(state = initialState, action) {
-    let newState = state;
     let boards;
     switch (action.type) {
         case SET_BOARDS:
-            newState = {
+            return {
                 ...state,
                 boards: action.boards || []
             };
-            break;
-
         case SET_BOARD:
-            newState = {
+            return {
                 ...state,
                 board: action.board || { groups: [] }
-            };
-            break;
-        case UPDATE_BOARD:
-            newState = {
+            }; case UPDATE_BOARD:
+            return {
                 ...state,
                 boards: [
                     ...state.boards,
@@ -52,27 +47,21 @@ export function boardReducer(state = initialState, action) {
                 ],
                 board: { ...action.board }
             };
-            break;
-
         case REMOVE_BOARD:
             const lastRemovedBoard = state.boards.find(board => board._id === action.boardId);
             boards = state.boards.filter(board => board._id !== action.boardId);
-            newState = {
+            return {
                 ...state,
                 boards,
                 lastRemovedBoard
             };
-            break;
-
         case ADD_BOARD:
-            newState = {
+            return {
                 ...state,
                 boards: [...state.boards, action.board]
             };
-            break;
-
         case UPDATE_GROUP:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
@@ -81,20 +70,16 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
-            break;
-
         case ADD_GROUP:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
                     groups: [...(state.board.groups || []), action.group]
                 }
             };
-            break;
-
         case UPDATE_GROUP:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
@@ -103,10 +88,8 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
-            break;
-
         case REMOVE_GROUP:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
@@ -115,10 +98,8 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
-            break;
-
         case ADD_TASK:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
@@ -132,10 +113,25 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
-            break;
-
+        // case UPDATE_TASK:
+        //     return {
+        //         ...state,
+        //         board: {
+        //             ...state.board,
+        //             groups: (state.board.groups || []).map(group =>
+        //                 group._id === action.groupId
+        //                     ? {
+        //                         ...group,
+        //                         tasks: (group.tasks || []).map(task =>
+        //                             task._id === action.task._id ? { ...action.task } : task
+        //                         )
+        //                     }
+        //                     : { ...group }
+        //             )
+        //         }
+        //     };
         case UPDATE_TASK:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
@@ -144,17 +140,17 @@ export function boardReducer(state = initialState, action) {
                             ? {
                                 ...group,
                                 tasks: (group.tasks || []).map(task =>
-                                    task._id === action.task._id ? action.task : task
+                                    task._id === action.task._id
+                                        ? { ...task, ...action.task }
+                                        : task
                                 )
                             }
                             : group
                     )
                 }
             };
-            break;
-
         case REMOVE_TASK:
-            newState = {
+            return {
                 ...state,
                 board: {
                     ...state.board,
@@ -170,16 +166,11 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
-            break;
-
         case SET_CMP_ORDER:
-            newState = {
+            return {
                 ...state,
                 cmpOrder: action.cmpOrder
-            };
-            break;
-        default:
-            break;
+            }; default:
     }
-    return newState;
+    return state;
 }

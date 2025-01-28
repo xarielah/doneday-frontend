@@ -14,7 +14,7 @@ export function Board() {
 
     useEffect(() => {
         // console.log(board.name);
-        
+
         if (!board || board._id !== boardId) {
             boardService.getById(boardId)
                 .then(setBoard)
@@ -24,9 +24,9 @@ export function Board() {
     }, [board, boardId])
 
 
-    useEffect(()=>{
-        
-    },[board])
+    useEffect(() => {
+
+    }, [board])
 
     if (!board) return <div>loading...</div>
     if (board)

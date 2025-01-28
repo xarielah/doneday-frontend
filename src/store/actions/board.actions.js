@@ -90,6 +90,7 @@ export async function addGroup(group) {
         return groupService.add(group)
             .then((savedGroup) => {
                 store.dispatch(getCmdAddGroup(savedGroup))
+                return savedGroup
             })
     } catch (err) {
         console.log('Board Action -> Cannot add group', err)
@@ -167,13 +168,11 @@ export async function addTask(groupId, task) {
 // Update Task
 export async function updateTask(groupId, updatedTask) {
     try {
-        const currentBoard = store.getState().boardModule.board
-        const currentGroup = currentBoard.groups.find(group => group._id === groupId)
-        const taskIdx = currentGroup.tasks.findIndex(task => task._id === updatedTask._id)
-        if (taskIdx === -1) return
-        currentGroup.tasks.splice(taskIdx, 1, updatedTask);
+        return taskService.update(updatedTask)
+            .then(task => {
+                store.dispatch(getCmdUpdateTask(groupId, task))
+            })
 
-        taskService.update(updatedTask).then(() => setBoard(currentBoard))
     } catch (err) {
         console.log('Board Action -> Cannot update task', err)
         throw err
@@ -273,7 +272,7 @@ function getCmdUpdateTask(groupId, task) {
     return {
         type: UPDATE_TASK,
         groupId,
-        task
+        task: { ...task }
     }
 }
 function getCmdRemoveTask(groupId, taskId) {

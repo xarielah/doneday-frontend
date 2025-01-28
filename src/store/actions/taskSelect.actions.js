@@ -146,10 +146,12 @@ export async function moveSelectedTasks(selectedTasks, targetGroupId = null) {
     for (const { groupId, tasks } of selectedTasks) {
         for (const taskId of tasks) {
             const task = await getTaskById(taskId)
-            const updatedTask = {...task, groupId: targetGroupId}            
-            updateTask(groupId, updatedTask)
+            const updatedTask = { ...task, groupId: targetGroupId }
+            await updateTask(groupId, updatedTask)
         }
     }
+    setSelectedTask([])
+
 }
 
 // Command Creators:

@@ -12,7 +12,7 @@ export function CrudlBar() {
     const selectedTasks = useSelector((storeState) => storeState.taskSelectModule.selectedTasks)
     const board = useSelector((storeState) => storeState.boardModule.board)
     const [isOpen, setIsOpen] = useState(false)
-    
+
 
     async function onDuplicateSelectedTasks() {
         return duplicateSelectedTasks(selectedTasks, board)
@@ -25,7 +25,7 @@ export function CrudlBar() {
 
     async function onMoveSelectedTasks(targetGroupId = null) {
         return moveSelectedTasks(selectedTasks, targetGroupId)
-        .then(()=> setIsOpen(!isOpen))
+            .then(() => setIsOpen(!isOpen))
     }
 
 
@@ -112,28 +112,28 @@ export function CrudlBar() {
             </section>
 
             <Dialog
-        zIndex={10000}
-        position="bottom-start"
-        open={isOpen}
-        // hideTrigger={["mouseleave"]}
-        // showTrigger={["click"]}
-        content={
-          <DialogContentContainer>
+                zIndex={10000}
+                position="bottom-start"
+                // open={isOpen}
+                showTrigger={["click"]}
+                hideTrigger={["clickoutside"]}
+                content={
+                    <DialogContentContainer>
 
                         <Menu>
                             {board.groups.map(group => (
-                                <MenuItem key={group._id} icon={Group} title={group.name} onClick={()=> onMoveSelectedTasks(group._id)} />
+                                <MenuItem key={group._id} icon={Group} title={group.name} onClick={() => onMoveSelectedTasks(group._id)} />
                             ))}
                         </Menu>
 
-          </DialogContentContainer>
-        }
-      >
-            <section onClick={() => setIsOpen(!isOpen)} className="move-to crud-btn">
-                <Icon className="icon" iconSize={14} icon={MoveArrowRight} />
-                <span>Move to</span>
-            </section>
-                </Dialog>
+                    </DialogContentContainer>
+                }
+            >
+                <section className="move-to crud-btn">
+                    <Icon className="icon" iconSize={14} icon={MoveArrowRight} />
+                    <span>Move to</span>
+                </section>
+            </Dialog>
 
             <section onClick={() => onUnselectTasks()} className="unselect">
                 <Icon icon={Close} />

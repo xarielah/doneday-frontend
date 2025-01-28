@@ -79,10 +79,6 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                                 <Icon icon={AddSmall} />
                                 Add Board
                             </Button>
-                            {/* <Button kind="tertiary" size="small">
-                                <Icon icon={Workspace} />
-                                Browse all
-                            </Button> */}
                         </DialogContentContainer>
                     }
                 >
