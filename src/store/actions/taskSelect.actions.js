@@ -4,7 +4,7 @@ import { groupService } from '../../services/board/group.service.local'
 import { taskService } from '../../services/board/task.service.local'
 import { ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, SET_SELECTED_TASK } from '../reducers/taskSelect.reducer'
 import { store } from '../store'
-import { addTask, getTaskById, removeTask, setBoard } from './board.actions'
+import { addTask, getTaskById, removeTask, setBoard, updateTask } from './board.actions'
 
 
 export async function setSelectedTask(selectedTasks = []) {
@@ -143,23 +143,11 @@ export async function deleteSelectedTasks(selectedTasks) {
 
 
 export async function moveSelectedTasks(selectedTasks, targetGroupId = null) {
-    let actualTargetGroupId = targetGroupId
-
-    if (!actualTargetGroupId) {
-        const newGroupObj = {
-            title: 'My New Group',
-        }
-        const savedGroup = await addGroup(newGroupObj)
-        actualTargetGroupId = makeId(5)
-        actualTargetGroupId._id = makeId(5)
-    }
     for (const { groupId, tasks } of selectedTasks) {
         for (const taskId of tasks) {
-            await removeTask(groupId, taskId)
-            const movedTask = {
-                title: `Moved ${taskId}`,
-            }
-            await addTask(actualTargetGroupId, movedTask)
+            const task = await getTaskById(taskId)
+            const updatedTask = {...task, groupId: targetGroupId}            
+            updateTask(groupId, updatedTask)
         }
     }
 }

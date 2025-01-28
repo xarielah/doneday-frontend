@@ -47,6 +47,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
                 isChecked={isTaskSelected(group._id, task._id)}
                 onCheckBox={(ev) => handleChangeSelect(ev, group._id, task._id)}
                 group={group}
+                task={task}
             />
             <div className="min-table-cell table-cell-first-column task-title">
                 <EditableText type="text2" onChange={handleChangeTitle} value={task.taskTitle} />

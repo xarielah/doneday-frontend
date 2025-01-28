@@ -1,15 +1,18 @@
-import { Heading, Icon } from "@vibe/core"
+import { Dialog, DialogContentContainer, Heading, Icon, Menu, MenuItem } from "@vibe/core"
 import { makeId } from "../../services/util.service"
-import { Close, Delete, Duplicate, MoveArrowRight, Upload, } from "@vibe/icons"
+import { Close, Delete, Duplicate, Group, MoveArrowRight, Open, Upload, } from "@vibe/icons"
 import { getGroupById, getTaskById, removeTask, setBoard, updateBoard } from "../../store/actions/board.actions"
 import { useSelector } from "react-redux"
 import { deleteSelectedTasks, duplicateSelectedTasks, moveSelectedTasks, setSelectedTask } from "../../store/actions/taskSelect.actions"
+import { useState } from "react"
 
 
 export function CrudlBar() {
 
     const selectedTasks = useSelector((storeState) => storeState.taskSelectModule.selectedTasks)
     const board = useSelector((storeState) => storeState.boardModule.board)
+    const [isOpen, setIsOpen] = useState(false)
+    
 
     async function onDuplicateSelectedTasks() {
         return duplicateSelectedTasks(selectedTasks, board)
@@ -22,6 +25,7 @@ export function CrudlBar() {
 
     async function onMoveSelectedTasks(targetGroupId = null) {
         return moveSelectedTasks(selectedTasks, targetGroupId)
+        .then(()=> setIsOpen(!isOpen))
     }
 
 
@@ -107,10 +111,29 @@ export function CrudlBar() {
                 <span>Delete</span>
             </section>
 
-            <section onClick={() => onMoveSelectedTasks()} className="move-to crud-btn">
+            <Dialog
+        zIndex={10000}
+        position="bottom-start"
+        open={isOpen}
+        // hideTrigger={["mouseleave"]}
+        // showTrigger={["click"]}
+        content={
+          <DialogContentContainer>
+
+                        <Menu>
+                            {board.groups.map(group => (
+                                <MenuItem key={group._id} icon={Group} title={group.name} onClick={()=> onMoveSelectedTasks(group._id)} />
+                            ))}
+                        </Menu>
+
+          </DialogContentContainer>
+        }
+      >
+            <section onClick={() => setIsOpen(!isOpen)} className="move-to crud-btn">
                 <Icon className="icon" iconSize={14} icon={MoveArrowRight} />
                 <span>Move to</span>
             </section>
+                </Dialog>
 
             <section onClick={() => onUnselectTasks()} className="unselect">
                 <Icon icon={Close} />
