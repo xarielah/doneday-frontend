@@ -9,15 +9,22 @@ import { setBoard } from "../store/actions/board.actions";
 
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
+    const boards = useSelector(storeState => storeState.boardModule.boards)
     const { boardId } = useParams();
 
     useEffect(() => {
+        // console.log(board.name);
 
-        if (!board) {
+        if (!board || board._id !== boardId) {
             boardService.getById(boardId)
                 .then(setBoard)
                 .catch(console.error);
         }
+
+    }, [board, boardId])
+
+
+    useEffect(() => {
 
     }, [board])
 

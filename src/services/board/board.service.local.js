@@ -1,6 +1,6 @@
 
 import { storageService } from '../async-storage.service';
-import { makeId } from '../util.service';
+import { getRandomColor, makeId } from '../util.service';
 import { dummyData } from './dummy-data';
 import { groupService } from './group.service.local';
 import { taskService } from './task.service.local';
@@ -89,8 +89,7 @@ async function save(board) {
     } else {
         const boardToSave = {
             name: board.name,
-            color: board.color,
-            groups: [],
+            color: getRandomColor(),
         }
         savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
     }

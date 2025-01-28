@@ -46,9 +46,11 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
     return (<div role="listitem" className="table-task-row">
         <GroupStickyColumns>
             <GroupPreRow
+                crudlType="task"
                 isChecked={isTaskSelected(group._id, task._id)}
                 onCheckBox={(ev) => handleChangeSelect(ev, group._id, task._id)}
                 group={group}
+                task={task}
             />
             <div className="min-table-cell table-cell-first-column task-title default-cell-color" >
                 <div>
