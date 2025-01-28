@@ -6,8 +6,10 @@ import GroupPreRow from "./GroupPreRow"
 import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
 
-const GroupTableHeader = ({ columnLabels, group }) => {
+const GroupTableHeader = ({ group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
+    const cmpOrder = useSelector(state => state.boardModule.cmpOrder)
+
 
     function isGroupSelected(groupId, tasks) {
         const found = selectedTasks?.find(selectedGroup => selectedGroup.groupId === groupId) || false
@@ -36,7 +38,7 @@ const GroupTableHeader = ({ columnLabels, group }) => {
             <div className="min-table-cell default-cell-color table-cell-first-column task-border-top"><Text type="text2">Task</Text></div>
         </GroupStickyColumns>
         <GroupScrollableColumns>
-            {columnLabels.map(label => <Text type="text2" key={label} className={cn('min-table-cell default-cell-color task-border-top column-label', `column-label-${label}`)}>{label}</Text>)}
+            {cmpOrder.map(label => <Text type="text2" key={label} className={cn('min-table-cell default-cell-color task-border-top column-label', `column-label-${label}`)}>{label}</Text>)}
         </GroupScrollableColumns>
     </section>
 }

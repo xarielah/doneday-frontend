@@ -30,7 +30,11 @@ const initialState = {
     lastRemovedBoard: null,
     statusLabels: [],
     priorityLabels: [],
-    cmpOrder: [],
+    cmpOrder: ["status",
+        "priority",
+        "members",
+        "date",
+        "timeline"],
     isGloballyCollapsed: false
 };
 

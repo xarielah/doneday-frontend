@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import GroupTableContentTask from "./GroupTableContentTask";
 
-const GroupTableContent = ({ group, columnLabels }) => {
+const GroupTableContent = ({ group }) => {
 
     const onDragEnd = useCallback((dragEvent) => {
         const { active, over } = dragEvent;
@@ -27,7 +27,6 @@ const GroupTableContent = ({ group, columnLabels }) => {
             <GroupTableContentTask
                 key={task._id}
                 task={task}
-                columnLabels={columnLabels}
                 group={group}
             />
         )}

@@ -10,8 +10,10 @@ import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell"
 
 
 
-const GroupTableContentTask = ({ task, columnLabels, group }) => {
+const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks)
+    const cmpOrder = useSelector(state => state.boardModule.cmpOrder)
+
 
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
@@ -60,7 +62,7 @@ const GroupTableContentTask = ({ task, columnLabels, group }) => {
             </div>
         </GroupStickyColumns>
         <GroupScrollableColumns>
-            {columnLabels.map(cmpType =>
+            {cmpOrder.map(cmpType =>
                 <DynamicColumn
                     key={cmpType}
                     cmpType={cmpType}

@@ -11,13 +11,6 @@ export function BoardDetails() {
     const board = useSelector(storeState => storeState.boardModule.board)
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks ?? [])
 
-    const cmpOrder = [
-        "status",
-        "priority",
-        "members",
-        "date",
-        "timeline"
-    ];
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -51,7 +44,6 @@ export function BoardDetails() {
                     {board.groups && board.groups.map((group) => (
                         <GroupContainer
                             group={group}
-                            cmpOrder={cmpOrder}
                             key={group?._id}
                             selectedTasks={selectedTasks}
                         />
