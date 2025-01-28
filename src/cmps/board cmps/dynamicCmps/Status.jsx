@@ -11,7 +11,7 @@ const modifiers = [
     },
 ];
 
-const values = [
+export const values = [
     { value: 'draft', label: 'Draft', className: 'status-draft' },
     { value: 'done', label: 'Done', className: 'status-done' },
     { value: 'wip', label: 'Working on it', className: 'status-wip' },

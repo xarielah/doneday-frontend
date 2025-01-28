@@ -26,7 +26,6 @@
 @import "cmps/Board/BoardHeader.scss";
 @import "cmps/Board/BoardDetails";
 @import "cmps/Board/CrudleBar";
-@import "cmps/Board/GroupsPreview";
 
 // New Structure & Board Layout
 @import "cmps/board/structure/GroupHeader";
@@ -40,6 +39,7 @@
 @import "cmps/board/structure/AddGroup";
 @import "cmps/board/structure/GroupTableFooter";
 @import "cmps/board/structure/GroupColumnFiller";
+@import "cmps/board/structure/GroupSummaryRow";
 
 // App
 @import "cmps/AppHeader/AppHeader";

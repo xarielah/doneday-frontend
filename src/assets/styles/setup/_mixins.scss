@@ -1,3 +1,4 @@
+@use "sass:color";
 /* Breakpoint mixins */
 
 @mixin fold-animation {
@@ -26,7 +27,7 @@
   color: white;
 
   &:hover {
-    background-color: lighten($color, 4%);
+    background-color: color.adjust($color, $lightness: 4%);
   }
 }
 

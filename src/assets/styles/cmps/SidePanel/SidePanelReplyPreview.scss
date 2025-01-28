@@ -2,6 +2,7 @@
   display: flex;
   gap: 8px;
   padding: 8px;
+  word-break: break-all;
 
   & .side-panel-reply-user-avatar {
     flex-shrink: 0;
@@ -18,9 +19,6 @@
     }
 
     & .side-panel-reply-text {
-      overflow-wrap: break-word; /* Forces long words to break and wrap */
-      word-wrap: break-word; /* Older browser support */
-      max-width: 100%; /* Ensures the text doesn't exceed container width */
       hyphens: auto;
       overflow: hidden;
       text-overflow: ellipsis;

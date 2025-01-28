@@ -90,7 +90,6 @@ export function boardReducer(state = initialState, action) {
                 }
             };
             break;
-
         case ADD_GROUP:
             newState = {
                 ...state,
@@ -188,43 +187,6 @@ export function boardReducer(state = initialState, action) {
             break;
         case SET_GLOBALLY_COLLAPSED: {
             return { ...state, isGloballyCollapsed: action.isGloballyCollapsed }
-        }
-        case REMOVE_SELECTED_TASK: {
-            const groupId = action.groupId;
-            const taskId = action.taskId;
-            const existingGroupIndex = state.selectedTasks.findIndex(
-                (item) => item.groupId === groupId
-            )
-
-            if (existingGroupIndex === -1) {
-                return state;
-            }
-
-            const existingGroup = state.selectedTasks[existingGroupIndex];
-            const updatedTasks = existingGroup.tasks.filter(
-                (task) => task !== taskId
-            )
-
-            if (updatedTasks.length === 0) {
-                return {
-                    ...state,
-                    selectedTasks: state.selectedTasks.filter(
-                        (item) => item.groupId !== groupId
-                    ),
-                }
-            }
-
-            const updatedGroup = {
-                ...existingGroup,
-                tasks: updatedTasks,
-            }
-
-            const updatedSelectedTasks = [...state.selectedTasks]
-            updatedSelectedTasks[existingGroupIndex] = updatedGroup
-            return {
-                ...state,
-                selectedTasks: updatedSelectedTasks,
-            }
         }
         case ADD_MEMBERS: {
             const groupId = action.groupId;
