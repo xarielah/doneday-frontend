@@ -1,19 +1,25 @@
 import { Button, Dialog, DialogContentContainer, IconButton, Menu, MenuDivider, MenuItem } from "@vibe/core";
 import { Delete, Duplicate, Group, Menu as MenuDots, MoveArrowRight, Open } from "@vibe/icons"
 import { useSelector } from "react-redux";
-import { updateTask } from "../../../store/actions/board.actions";
+import { removeTask, updateTask } from "../../../store/actions/board.actions";
 import { useState } from "react";
 
 export function TaskMenuButton( {task}){
     const board = useSelector(storeState => storeState.boardModule.board)
     const [isOpen, setIsOpen] = useState(false)
+    
 
     function moveTaskToGroup(groupId){
         const updatedTask = {...task, groupId}
         return updateTask(task.groupId, updatedTask)
         .then(()=>{
-            setIsOpen(!isOpen)
+            setIsOpen(false)
         })
+    }
+
+    function onTaskRemove(taskId){
+        removeTask(task.groupId,taskId)
+        setIsOpen(false)
     }
 
     return (
@@ -34,7 +40,7 @@ export function TaskMenuButton( {task}){
                             ))}
                         </Menu>
                     </MenuItem>
-                    <MenuItem icon={Delete} title="Delete" />
+                    <MenuItem icon={Delete} onClick={()=> onTaskRemove(task._id)} title="Delete" />
                 </Menu>
           </DialogContentContainer>
         }
