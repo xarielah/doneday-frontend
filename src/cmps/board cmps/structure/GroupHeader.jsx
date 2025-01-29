@@ -6,6 +6,7 @@ import { cn } from "../../../services/util.service";
 import { updateGroup } from "../../../store/actions/board.actions";
 import ChevronTooltip from "./ChevronTooltip";
 import GroupHeaderMenu from "./GroupHeaderMenu";
+import { TaskMenuButton } from "../CrudlMenuButtons/TaskMenuButton";
 
 
 
@@ -42,7 +43,7 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
     const collapsedStyle = isCollapsed ? { borderLeft: '6px solid' + (group.color || '#000') } : undefined
 
     return <section className={cn(!isCollapsed && "group-header", isCollapsed && "group-header-collapsed group-collapsed-border")} style={collapsedStyle}>
-        {!isCollapsed && <GroupHeaderMenu group={group} onDelete={console.log} />}
+        {!isCollapsed && <div className="group-menu-button">< TaskMenuButton crudlType={"group"} task={{}} group={group} /></div>}
         {isCollapsed && <button onClick={() => setIsCollapsed(false)}>
             <ChevronTooltip content='Expand group'>
                 <Icon style={{ color: group.color || 'inherit' }} className="collapse-chevron" icon={DropdownChevronRight} iconSize={20} />

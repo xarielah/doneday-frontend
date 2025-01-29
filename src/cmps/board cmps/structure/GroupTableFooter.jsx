@@ -24,7 +24,7 @@ const GroupTableFooter = ({ onAddTask, group }) => {
 
     return <section className="table-footer">
         <GroupStickyColumns>
-            <GroupPreRow crudlType="footer" group={group} roundedBottomLeft bottomBorders disableCheckbox />
+            <GroupPreRow crudlType="none" group={group} roundedBottomLeft bottomBorders disableCheckbox />
             <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom last-cell" style={{ textAlign: 'left' }}>
                 <EditableText
                     value={taskValue}

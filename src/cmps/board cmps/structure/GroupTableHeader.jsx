@@ -30,7 +30,7 @@ const GroupTableHeader = ({ group }) => {
     return <section className="table-header">
         <GroupStickyColumns>
             <GroupPreRow
-                crudlType="group"
+                crudlType="none"
                 roundedTopLeft group={group}
                 isChecked={isGroupSelected(group._id, group.tasks)}
                 onCheckBox={(ev) => handleChangeSelectGroup(ev, group._id, group.tasks)}

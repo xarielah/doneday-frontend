@@ -5,6 +5,18 @@
   align-items: center;
   z-index: 1;
 
+  .group-menu-button {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .group-menu-button:hover {
+    opacity: 1;
+  }
+
   & .group-header-wrapper {
     display: flex;
     align-items: center;
@@ -44,6 +56,7 @@
 
 .group-header-menu-button {
   opacity: 0;
+
   &:hover {
     opacity: 1;
   }
@@ -70,7 +83,7 @@
     margin: 0;
   }
 
-  & > .group-heading {
+  &>.group-heading {
     height: 40px;
   }
 }

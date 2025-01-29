@@ -171,7 +171,7 @@ export function TaskMenuButton({ task, group, crudlType }) {
                 icon={MenuDots}
                 kind="secondary"
                 size="xs"
-                ariaLabel="Task Menu"
+                ariaLabel={crudlType === "task" ? "Task menu" : "Group menu"}
             />
         </Dialog >
     )
