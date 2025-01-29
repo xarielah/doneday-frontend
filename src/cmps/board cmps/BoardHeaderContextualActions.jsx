@@ -25,13 +25,6 @@ const BoardHeaderContextualActions = ({ onAddGroup, onAddTask }) => {
         <Button className="icon-button" size="small" ariaLabel="Sort" kind="tertiary">
             <Icon iconSize={20} icon={Sort} /> Sort
         </Button>
-        <Button className="icon-button" size="small" ariaLabel="Hide" kind="tertiary">
-            <Icon iconSize={20} icon={Show} /> Hide
-        </Button>
-        <Button className="icon-button" size="small" ariaLabel="Group by" kind="tertiary">
-            <Icon iconSize={20} icon={Group} /> Group by
-        </Button>
-        <MenuButton ariaLabel="More options" />
     </Flex>
 }
 

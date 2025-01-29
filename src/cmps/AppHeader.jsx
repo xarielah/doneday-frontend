@@ -10,10 +10,6 @@ export function AppHeader() {
 	const dispatch = useDispatch();
 	const { type } = useSelector(storeState => storeState.sidePanelModule);
 
-	// const user = useSelector(storeState => storeState.userModule.user)
-	// const navigate = useNavigate()
-	// const { pathname } = useLocation();
-
 	const handleInviteMember = (inviteDetails) => {
 		console.log(inviteDetails);
 	}
