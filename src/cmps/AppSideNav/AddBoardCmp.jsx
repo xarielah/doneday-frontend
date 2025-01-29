@@ -2,9 +2,10 @@ import { Heading, Text, TextField } from "@vibe/core";
 import { Modal, ModalBasicLayout, ModalContent, ModalFooter, ModalHeader } from "@vibe/core/next";
 import { useState } from "react";
 
-export const AddBoardCmp = ({ show, onClose, onAddBoard }) => {
-    const [name, setName] = useState('')
+export const AddBoardCmp = ({setAddedBoard, onDuplicateBoard, addedBoard, show, onClose, handleAddBoard}) => {
 
+
+    const btnText = (addedBoard._id ? "Duplicate ": "Add ")+ "board"
     return <Modal
         show={show}
         size="medium"
@@ -32,7 +33,8 @@ export const AddBoardCmp = ({ show, onClose, onAddBoard }) => {
                         title="Board name"
                         placeholder="New Board Name"
                         type="text"
-                        onChange={setName}
+                        value={addedBoard.name}
+                        onChange={(name)=>setAddedBoard(board => board = {...board, name})}
                     />
                 </div>
             </ModalContent>
@@ -41,8 +43,8 @@ export const AddBoardCmp = ({ show, onClose, onAddBoard }) => {
 
         <ModalFooter
             primaryButton={{
-                text: "Add Board",
-                onClick: () => onAddBoard(name)
+                text: btnText,
+                onClick: () => addedBoard._id ? handleDuplicateBoard() : handleAddBoard()
             }}
             secondaryButton={{
                 onClick: onClose,

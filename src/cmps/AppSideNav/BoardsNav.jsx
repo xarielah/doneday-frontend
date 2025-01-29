@@ -1,19 +1,25 @@
 import { useState } from "react";
 import {
-    Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search
+    Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, ListItem, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search
 } from "@vibe/core";
 import {
-    Add, AddSmall, Board, Dashboard, DropdownChevronDown, DropdownChevronUp, Filter, Search as SearchIcon, Workspace
+    Add, AddSmall, Board, Dashboard, Delete, DropdownChevronDown, DropdownChevronUp, Duplicate, Edit, ExternalPage, Favorite, Filter, Moon, Remove, Search as SearchIcon, Sun, Workspace
 } from "@vibe/icons";
 import { AddBoardCmp } from "./AddBoardCmp";
-import { addBoard } from "../../store/actions/board.actions";
+import { addBoard, addGroup, addTask, removeBoard, setBoard } from "../../store/actions/board.actions";
+import { useSelector } from "react-redux";
 
 export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch, searchRef,
 }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isAddBoard, setIsAddBoard] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
+
+    const board = useSelector(store => store.boardModule.board)
+
+    const [isOpen, setIsOpen] = useState(false)
+    const [isAddBoard, setIsAddBoard] = useState(false)
+    const [searchValue, setSearchValue] = useState("")
     const [selectedBoard, setSelectedBoard] = useState("Main Board")
+    const [addedBoard, setAddedBoard] = useState({name: ''})
+    const [isDuplicate, setIsDuplicate] = useState(false)
 
     const handleCloseModal = () => {
         setIsAddBoard(false)
@@ -23,6 +29,12 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
         return isAddBoard
     }
 
+    const openBoardLink = (boardId) => {
+        const currentUrl = window.location.origin
+        const newUrl = `${currentUrl}/board/${boardId}`
+        window.open(newUrl, '_blank', 'noopener,noreferrer');
+      };
+
     const handleSelect = (board) => {
         setSelectedBoard(board.name);
         setIsOpen(false);
@@ -30,14 +42,88 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     };
 
 
-    async function handleAddBoard(name) {
-        const newBoard = { name }
+    async function handleAddBoard() {
+        const newBoard = { name: addedBoard.name , _id: undefined }
         return addBoard(newBoard)
-            .then(() => {
-                console.log(`Board added: ${name}`);
+            .then((savedboard) => {
+                console.log(`Board added: ${addedBoard.name}`);
                 handleCloseModal();
+                return savedboard
             })
     }
+
+    async function handleDuplicateBoard() {
+        try {
+                return addBoard(newBoard)
+                    .then(async (savedboard) => {
+                        console.log(`Board duplicated: ${name}`);
+                        handleCloseModal();
+                        const prevBoard = {...board}
+                        setBoard(savedboard)
+                        for (const group of prevBoard.groups){
+                            console.log(group);
+                            const newGroup = {...group, _id:undefined}
+                            await addGroup(newGroup)
+                            .then((async savedGroup => {
+                                console.log(task);
+                                for(const task of group.tasks){
+                                    const newTask = {...task, _id:undefined}
+                                    await addTask(savedGroup._id, newTask)
+                                }
+                            }))
+                        }
+                    })
+                    .finally(()=>{
+                        setAddedBoard({name: ""})
+                        setIsDuplicate(false)
+                    })
+            } catch (error) {
+                console.error('Could not duplicate board' + error);
+            }
+    }
+
+    function openDuplicateModal(boardName, boardId){
+        setAddedBoard({name: "Duplicate of "+boardName, _id: boardId})
+        setIsAddBoard(true)
+    }
+
+    function onDuplicateBoard(boardId){
+        try {
+            const newBoard = {name:addedBoard.name}
+            return addBoard(newBoard)
+                .then((savedboard) => {
+                    console.log(`Board added: ${name}`);
+                    handleCloseModal();
+                    const prevBoard = getboa
+                })
+            .finally(()=>{
+                setAddedBoard({name: ""})
+                setIsDuplicate(false)
+            })
+        } catch (error) {
+            console.error('Could not duplicate board' + error);
+            
+        }
+    }
+
+    function onRemoveBoard(boardId){
+        try {
+            return removeBoard(boardId)
+        } catch (error) {
+            console.error('Could not remove board' + error);
+            
+        }
+    }
+
+    function onRenameBoard(){
+
+    }
+
+    function onAddBoardToFavorite(){
+
+    }
+
+
 
     const filteredBoards = boards.filter((board) =>
         board.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -159,25 +245,37 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
             </section>
 
             {/* --- Board Navigation below --- */}
-            <Menu className="board-nav">
+            <div className="board-nav">
                 {boards.map((board) => (
-                    <MenuItem
+                    <ListItem
                         key={board._id}
-                        className={location.pathname === `/board/${board._id}` ? "active" : ""}
+                        className={location.pathname === `/board/${board._id}` ? "active board-item" : "board-item"}
                         title={board.name}
                         icon={Board}
-
                         onClick={() => handleSelect(board)}
-                    />
+                    >{board.name}
+                    <MenuButton onClick={(e) => e.stopPropagation()} className="board-crudl" size="xs">
+                        <Menu id="menu" size={Menu.sizes.MEDIUM}>
+                            <MenuItem icon={ExternalPage} onClick={()=>openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
+                            <MenuDivider />
+                            <MenuItem onClick={()=> openDuplicateModal(board.name)} icon={Duplicate} title="Duplicate board" />
+                            <MenuItem onClick={()=> onRemoveBoard(board._id)} icon={Delete} title="Delete board" />
+                            <MenuItem icon={Edit} title="Rename board" />
+                            <MenuDivider />
+                            <MenuItem icon={Favorite} title="Add to favorite" />
+                        </Menu>
+                    </MenuButton>
+
+                    </ListItem>
                 ))}
-                <MenuItem
+                <ListItem
                     className={location.pathname === "/overviews" ? "active" : ""}
                     title="Dashboard and reporting"
                     icon={Dashboard}
                     onClick={() => handleNavigate("/overviews")}
-                />
-            </Menu>
-            <AddBoardCmp onAddBoard={handleAddBoard} show={isAddBoard} onClose={handleCloseModal} />
+                >Dashboard and reporting</ListItem>
+            </div>
+            <AddBoardCmp addedBoard={addedBoard} setAddedBoard={setAddedBoard} handleDuplicateBoard={handleDuplicateBoard} handleAddBoard={handleAddBoard} show={isAddBoard} onClose={handleCloseModal} isDuplicate={isDuplicate} />
 
 
         </>

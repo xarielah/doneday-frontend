@@ -142,6 +142,12 @@
 
         .workspace-dropdown-btn {
           margin: 3px 1px;
+          button{
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
 
           span {
             font-size: 16px;
@@ -159,6 +165,19 @@
       padding: 0 10px 0 11px;
       grid-column: 1/-1;
       padding-top: 2px;
+
+      .board-item{
+        display: grid;
+        place-content: center;
+        // justify-content: space-between;
+        grid-template-columns: 1fr auto;
+        // background-color: red;
+        .board-crudl{
+          width: 24px;
+        }
+
+      }
+
 
       li {
         margin-top: 2px;
