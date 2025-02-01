@@ -5,7 +5,7 @@ import { BoardDetails } from "../cmps/board cmps/BoardDetails";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
 import { CrudlBar } from "../cmps/board cmps/CrudlBar";
 import { boardService } from "../services/board/board.service.local";
-import { getBoardById, setBoard } from "../store/actions/board.actions";
+import { getBoardById, loadBoards, setBoard, updateBoard } from "../store/actions/board.actions";
 
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -13,20 +13,24 @@ export function Board() {
     const { boardId } = useParams();
 
     useEffect(() => {
-        console.log(boards);
-        console.log(board);
         // setBoard(null)
+        // console.log('board', board);
+        // console.log(boards);
 
-        if (!board || board._id !== boardId) {
-            getBoardById(boardId)
-                .then(setBoard)
-                .catch(console.error);
-        }
 
-    }, [board, boardId])
+
+        // if (!board || board._id !== boardId) {
+        getBoardById(boardId)
+            .then(setBoard)
+            .catch(console.error);
+        // }
+
+    }, [boards, boardId])
 
 
     useEffect(() => {
+        // loadBoards()
+        console.log('boards', boards);
     }, [board])
 
     if (!board) return <div>loading...</div>

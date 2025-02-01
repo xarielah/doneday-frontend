@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { taskService } from "../../../../services/board/task.service.local";
 import SidePanelUpdateList from "./updates/SidePanelUpdateList";
 import SidePanelWriteUpdate from "./updates/SidePanelWriteUpdate";
+import { updateTask } from "../../../../store/actions/board.actions";
+import { boardService } from "../../../../services/board/board.service.local";
 
 const demoUpdates = [
     {
@@ -72,18 +73,19 @@ const SidePanelTaskMessages = ({ task }) => {
 
         const replyIdx = task.replies.findIndex(reply => reply._id === newReply._id);
         task.replies[replyIdx] = newReply;
-        await taskService.update(task);
+        await updateTask(task);
 
         setUpdates(newUpdatesArray);
     }
 
     const handleNewUpdate = async (newUpdateText) => {
-        const newUpdate = taskService.getEmptyReply();
+        const newUpdate = boardService.getEmptyReply();
         newUpdate.text = newUpdateText;
         newUpdate.groupId = task.groupId;
         task.replies = (task.replies || [])
         task.replies.unshift(newUpdate);
-        await taskService.update(task);
+
+        await updateTask(task);
         setUpdates(updates => [newUpdate, ...updates]);
     }
 

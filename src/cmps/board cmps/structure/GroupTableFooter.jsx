@@ -1,9 +1,10 @@
 import { EditableText } from "@vibe/core"
 import { useState, useEffect } from "react"
-import { taskService } from "../../../services/board/task.service.local"
 import { addTask } from "../../../store/actions/board.actions"
 import GroupPreRow from "./GroupPreRow"
 import GroupStickyColumns from "./GroupStickyColumns"
+import { boardReducer } from "../../../store/reducers/board.reducer"
+import { boardService } from "../../../services/board/board.service.local"
 
 const GroupTableFooter = ({ onAddTask, group }) => {
     const [taskValue, setTaskValue] = useState("")
@@ -17,7 +18,7 @@ const GroupTableFooter = ({ onAddTask, group }) => {
 
     function onAddTask(taskTitle) {
         const groupId = group._id
-        let newTask = taskService.getEmptyTask()
+        let newTask = boardService.getEmptyTask()
         newTask = { ...newTask, groupId, taskTitle }
         return addTask(groupId, newTask)
     }

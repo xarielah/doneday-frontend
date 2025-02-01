@@ -2,19 +2,19 @@ import { Button } from "@vibe/core";
 import { Add } from "@vibe/icons";
 import GroupStickyColumns from "./GroupStickyColumns";
 import { useSelector } from "react-redux";
-import { groupService } from "../../../services/board/group.service.local";
 import { addGroup } from "../../../store/actions/board.actions";
+import { boardService } from "../../../services/board/board.service.local";
 
 
 export function AddGroup() {
     const boardId = useSelector((storeState) => storeState.boardModule.board._id)
 
-    function onAddGroup() {
+    async function onAddGroup() {
         try {
 
-            let newGroup = groupService.getEmptyGroup()
+            let newGroup = boardService.getEmptyGroup()
             newGroup = { ...newGroup, boardId, name: "New Group" }
-            addGroup(newGroup)
+            await addGroup(boardId, newGroup)
         } catch (err) {
             console.error('group could not be added' + err);
         }

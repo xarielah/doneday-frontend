@@ -18,11 +18,13 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     const [isAddBoard, setIsAddBoard] = useState(false)
     const [searchValue, setSearchValue] = useState("")
     const [selectedBoard, setSelectedBoard] = useState("Main Board")
-    const [addedBoard, setAddedBoard] = useState({name: ''})
+    const [addedBoard, setAddedBoard] = useState({ name: '' })
     const [isDuplicate, setIsDuplicate] = useState(false)
 
     const handleCloseModal = () => {
         setIsAddBoard(false)
+        setIsDuplicate(false)
+        setAddedBoard({ name: '' })
     }
 
     const handleShowModal = () => {
@@ -33,7 +35,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
         const currentUrl = window.location.origin
         const newUrl = `${currentUrl}/board/${boardId}`
         window.open(newUrl, '_blank', 'noopener,noreferrer');
-      };
+    };
 
     const handleSelect = (board) => {
         setSelectedBoard(board.name);
@@ -43,7 +45,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
 
     async function handleAddBoard() {
-        const newBoard = { name: addedBoard.name , _id: undefined }
+        const newBoard = { name: addedBoard.name, _id: undefined }
         return addBoard(newBoard)
             .then((savedboard) => {
                 console.log(`Board added: ${addedBoard.name}`);
@@ -54,72 +56,82 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
     async function handleDuplicateBoard() {
         try {
-                return addBoard(newBoard)
-                    .then(async (savedboard) => {
-                        console.log(`Board duplicated: ${name}`);
-                        handleCloseModal();
-                        const prevBoard = {...board}
-                        setBoard(savedboard)
-                        for (const group of prevBoard.groups){
-                            console.log(group);
-                            const newGroup = {...group, _id:undefined}
-                            await addGroup(newGroup)
+            return addBoard(newBoard)
+                .then(async (savedboard) => {
+                    console.log(`Board duplicated: ${name}`);
+                    const prevBoard = { ...board }
+                    setBoard(savedboard)
+                    for (const group of prevBoard.groups) {
+                        const newGroup = { ...group, _id: undefined }
+                        await addGroup(savedboard._id, newGroup)
                             .then((async savedGroup => {
-                                console.log(task);
-                                for(const task of group.tasks){
-                                    const newTask = {...task, _id:undefined}
+                                for (const task of group.tasks) {
+                                    const newTask = { ...task, _id: undefined }
                                     await addTask(savedGroup._id, newTask)
                                 }
                             }))
-                        }
-                    })
-                    .finally(()=>{
-                        setAddedBoard({name: ""})
-                        setIsDuplicate(false)
-                    })
-            } catch (error) {
-                console.error('Could not duplicate board' + error);
-            }
-    }
-
-    function openDuplicateModal(boardName, boardId){
-        setAddedBoard({name: "Duplicate of "+boardName, _id: boardId})
-        setIsAddBoard(true)
-    }
-
-    function onDuplicateBoard(boardId){
-        try {
-            const newBoard = {name:addedBoard.name}
-            return addBoard(newBoard)
-                .then((savedboard) => {
-                    console.log(`Board added: ${name}`);
-                    handleCloseModal();
-                    const prevBoard = getboa
+                    }
                 })
-            .finally(()=>{
-                setAddedBoard({name: ""})
-                setIsDuplicate(false)
-            })
+                .finally(() => {
+                    handleCloseModal();
+                })
         } catch (error) {
             console.error('Could not duplicate board' + error);
-            
         }
     }
 
-    function onRemoveBoard(boardId){
+    function openDuplicateModal(boardName, boardId) {
+        setAddedBoard({ name: "Duplicate of " + boardName, _id: boardId })
+        setIsAddBoard(true)
+    }
+
+    async function onDuplicateBoard() {
+        try {
+            getBoardById(addedBoard._id)
+                .then(boardToDuplicate => {
+                    return addBoard({ ...boardToDuplicate, _id: undefined, name: addedBoard.name })
+                        .then(duplicatedBoard => {
+                            return boardToDuplicate.groups.reduce((groupChain, group) => {
+                                return groupChain.then(() => {
+                                    const newGroup = { ...group, _id: undefined }
+                                    return addGroup(duplicatedBoard._id, newGroup)
+                                        .then(savedGroup => {
+                                            return group.tasks.reduce((taskChain, task) => {
+                                                return taskChain.then(() => {
+                                                    const newTask = { ...task, _id: undefined }
+                                                    return addTask(savedGroup._id, newTask)
+                                                })
+                                            }, Promise.resolve())
+                                        })
+                                })
+                            }, Promise.resolve())
+                                .then(() => duplicatedBoard)
+                        })
+                })
+                .catch(error => {
+                    console.error('Could not duplicate board', error)
+                })
+        } catch (error) {
+            console.error('Could not duplicate board' + error)
+        } finally {
+            handleCloseModal()
+        }
+    }
+
+    function onRemoveBoard(boardId) {
         try {
             return removeBoard(boardId)
         } catch (error) {
             console.error('Could not remove board' + error);
-            
+
         }
     }
 
-    function onRenameBoard(){
+    function onRenameBoard() {
 
     }
 
-    function onAddBoardToFavorite(){
+    function onAddBoardToFavorite() {
 
     }
 
@@ -254,17 +266,17 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                         icon={Board}
                         onClick={() => handleSelect(board)}
                     >{board.name}
-                    <MenuButton onClick={(e) => e.stopPropagation()} className="board-crudl" size="xs">
-                        <Menu id="menu" size={Menu.sizes.MEDIUM}>
-                            <MenuItem icon={ExternalPage} onClick={()=>openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
-                            <MenuDivider />
-                            <MenuItem onClick={()=> openDuplicateModal(board.name)} icon={Duplicate} title="Duplicate board" />
-                            <MenuItem onClick={()=> onRemoveBoard(board._id)} icon={Delete} title="Delete board" />
-                            <MenuItem icon={Edit} title="Rename board" />
-                            <MenuDivider />
-                            <MenuItem icon={Favorite} title="Add to favorite" />
-                        </Menu>
-                    </MenuButton>
+                        <MenuButton onClick={(e) => e.stopPropagation()} className="board-crudl" size="xs">
+                            <Menu id="menu" size={Menu.sizes.MEDIUM}>
+                                <MenuItem icon={ExternalPage} onClick={() => openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
+                                <MenuDivider />
+                                <MenuItem onClick={() => openDuplicateModal(board.name)} icon={Duplicate} title="Duplicate board" />
+                                <MenuItem onClick={() => onRemoveBoard(board._id)} icon={Delete} title="Delete board" />
+                                <MenuItem icon={Edit} title="Rename board" />
+                                <MenuDivider />
+                                <MenuItem icon={Favorite} title="Add to favorite" />
+                            </Menu>
+                        </MenuButton>
 
                     </ListItem>
                 ))}
@@ -275,7 +287,14 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                     onClick={() => handleNavigate("/overviews")}
                 >Dashboard and reporting</ListItem>
             </div>
-            <AddBoardCmp addedBoard={addedBoard} setAddedBoard={setAddedBoard} handleDuplicateBoard={handleDuplicateBoard} handleAddBoard={handleAddBoard} show={isAddBoard} onClose={handleCloseModal} isDuplicate={isDuplicate} />
+            <AddBoardCmp
+                addedBoard={addedBoard}
+                setAddedBoard={setAddedBoard}
+                onDuplicateBoard={onDuplicateBoard}
+                handleAddBoard={handleAddBoard}
+                show={isAddBoard}
+                onClose={handleCloseModal}
+            />
 
 
         </>

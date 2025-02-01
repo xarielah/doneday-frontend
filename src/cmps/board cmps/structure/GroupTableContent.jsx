@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import GroupTableContentTask from "./GroupTableContentTask";
+import { boardService } from "../../../services/board/board.service.local";
 
 const GroupTableContent = ({ group }) => {
 
@@ -18,7 +19,7 @@ const GroupTableContent = ({ group }) => {
         group.tasks[activeTaskIdx] = overTask;
         group.tasks[overTaskIdx] = activeTask;
 
-        groupService.update
+        boardService.updateGroup(group)
         setBoard({ ...board })
     }, [])
 

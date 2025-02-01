@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogContentContainer, IconButton, Menu, MenuDivider, MenuItem } from "@vibe/core";
 import { Board, Checkbox, Delete, Duplicate, Group, Menu as MenuDots, MoveArrowRight, Open } from "@vibe/icons"
 import { useSelector } from "react-redux";
-import { addGroup, addTask, removeGroup, removeTask, updateGroup, updateTask } from "../../../store/actions/board.actions";
+import { addGroup, addTask, getBoardById, loadBoards, removeGroup, removeTask, updateBoard, updateGroup, updateTask } from "../../../store/actions/board.actions";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { getRandomColor } from "../../../services/util.service";
@@ -13,10 +13,11 @@ export function TaskMenuButton({ task, group, crudlType }) {
     const navigate = useNavigate()
 
     // Task CRUDL
-    async function moveTaskToGroup(groupId) {
+    async function moveTaskToGroup(groupId, task) {
         try {
             const updatedTask = { ...task, groupId };
-            await updateTask(task.groupId, updatedTask);
+            await removeTask(task.groupId, task._id);
+            await addTask(groupId, updatedTask);
         } catch (error) {
             console.error("Error moving task to group:", error);
         }
@@ -59,7 +60,7 @@ export function TaskMenuButton({ task, group, crudlType }) {
                 _id: undefined,
             };
 
-            const newGroup = await addGroup(cloneGroup);
+            const newGroup = await addGroup(board._id, cloneGroup);
 
             if (group.tasks) {
                 for (const task of group.tasks) {
@@ -85,12 +86,37 @@ export function TaskMenuButton({ task, group, crudlType }) {
         }
     }
 
-    async function moveGroupToBoard(boardId) {
+    // async function moveGroupToBoard(boardId) {
+    //     try {
+    //         // const updatedGroup = { ...group };
+    //         await removeGroup(group._id);
+    //         await addGroup(boardId, group);
+    //     } catch (error) {
+    //         console.error("Error moving group to board:", error);
+    //     }
+    // }
+
+    async function moveGroupToBoard(targetBoardId) {
         try {
-            const updatedGroup = { ...group, boardId };
-            await updateGroup(updatedGroup);
+            await removeGroup(group._id)
+                .then(() => {
+                    addGroup(targetBoardId, { ...group });
+                })
+            // const savedGroup = await addGroup(targetBoardId, { ...group });
+            // return savedGroup;
+            // const sourceBoard = boards.find(board =>
+            //     board.groups && board.groups.find(g => g._id === group._id)
+            // );
+            // sourceBoard.groups = sourceBoard.groups.filter(g => g._id !== group._id);
+            // await updateBoard(sourceBoard);
+            // targetBoard.groups.push(group);
+            // await updateBoard(targetBoard);
+
+            // await getBoardById(board._id);
+            // await updateBoard(board);
         } catch (error) {
             console.error("Error moving group to board:", error);
+            throw error;
         }
     }
 
@@ -122,7 +148,7 @@ export function TaskMenuButton({ task, group, crudlType }) {
                                         key={group._id}
                                         icon={Group}
                                         title={group.name}
-                                        onClick={() => moveTaskToGroup(group._id)}
+                                        onClick={() => moveTaskToGroup(group._id, task)}
                                     />
                                 ))}
                             </Menu>

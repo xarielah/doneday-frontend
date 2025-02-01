@@ -63,12 +63,10 @@ export function boardReducer(state = initialState, action) {
             };
 
         case REMOVE_BOARD:
-            const lastRemovedBoard = state.boards.find(board => board._id === action.boardId);
             boards = state.boards.filter(board => board._id !== action.boardId);
             return {
                 ...state,
-                boards,
-                lastRemovedBoard
+                boards: [...boards],
             };
 
         case ADD_BOARD:
@@ -117,9 +115,9 @@ export function boardReducer(state = initialState, action) {
                         group._id === action.groupId
                             ? {
                                 ...group,
-                                tasks: [...(group.tasks || []), action.task]
+                                tasks: [...(group.tasks || []), { ...action.task }]
                             }
-                            : group
+                            : { ...group }
                     )
                 }
             };
@@ -134,10 +132,10 @@ export function boardReducer(state = initialState, action) {
                             ? {
                                 ...group,
                                 tasks: (group.tasks || []).map(task =>
-                                    task._id === action.task._id ? { ...task, ...action.task } : task
+                                    task._id === action.task._id ? { ...task, ...action.task } : { ...task }
                                 )
                             }
-                            : group
+                            : { ...group }
                     )
                 }
             };

@@ -1,7 +1,5 @@
 
 import { boardService } from '../../services/board/board.service.local'
-import { groupService } from '../../services/board/group.service.local'
-import { taskService } from '../../services/board/task.service.local'
 import { ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, SET_SELECTED_TASK } from '../reducers/taskSelect.reducer'
 import { store } from '../store'
 import { addTask, getTaskById, removeTask, setBoard, updateTask } from './board.actions'
@@ -18,7 +16,7 @@ export async function setSelectedTask(selectedTasks = []) {
 
 export async function addSelectedTask(groupId, taskId) {
     try {
-        const task = await getTaskById(groupId, taskId);
+        const task = await getTaskById(taskId);
         if (!task) throw new Error(`Task with ID ${taskId} not found.`);
 
         store.dispatch(getCmdAddSelectedTasks(groupId, taskId));
@@ -60,43 +58,6 @@ export async function removeSelectedGroup(groupId, tasks) {
     } catch (err) {
         console.log('Board Action -> Cannot unselect group tasks', err)
         throw err
-    }
-}
-
-export async function saveBoardEntities(board) {
-    try {
-        let newBoard = {}
-        await boardService.save(board)
-            .then(savedBoard => newBoard = { ...savedBoard });
-        await Promise.all(
-            board.groups.map((group) => {
-                group.boardId = board._id;
-                return groupService.save(group)
-            })
-        ).then((savedGroups) => {
-            newBoard.groups = savedGroups;
-        })
-        const tasks = board.groups.flatMap((group) => group.tasks);
-        await Promise.all(
-            tasks.map((task) => {
-                return taskService.save(task);
-            })
-        ).then((savedTasks) => {
-            const groupLookup = newBoard.groups.reduce((lookup, group) => {
-                lookup[group._id] = { ...group, tasks: [] };
-                return lookup;
-            }, {})
-            savedTasks.forEach((task) => {
-                if (groupLookup[task.groupId]) {
-                    groupLookup[task.groupId].tasks.push(task);
-                }
-            })
-            newBoard.groups = Object.values(groupLookup);
-        }).then(() => setBoard(newBoard))
-        return newBoard;
-    } catch (err) {
-        console.error('select task -> Failed to save board entities:', err);
-        throw err;
     }
 }
 
@@ -153,14 +114,16 @@ export async function moveSelectedTasks(selectedTasks, targetGroupId = null) {
     try {
         for (const { groupId, tasks } of selectedTasks) {
             for (const taskId of tasks) {
-                const task = await getTaskById(groupId, taskId);
+                const task = await boardService.getTaskById(taskId);
+
                 if (!task) {
                     console.error(`Task with ID ${taskId} not found.`);
                     continue;
                 }
 
                 const updatedTask = { ...task, groupId: targetGroupId };
-                await updateTask(groupId, updatedTask);
+                await removeTask(groupId, taskId);
+                await addTask(targetGroupId, updatedTask);
             }
         }
         setSelectedTask([]);
