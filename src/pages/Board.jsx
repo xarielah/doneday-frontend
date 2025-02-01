@@ -5,7 +5,7 @@ import { BoardDetails } from "../cmps/board cmps/BoardDetails";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
 import { CrudlBar } from "../cmps/board cmps/CrudlBar";
 import { boardService } from "../services/board/board.service.local";
-import { setBoard } from "../store/actions/board.actions";
+import { getBoardById, setBoard } from "../store/actions/board.actions";
 
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -13,11 +13,12 @@ export function Board() {
     const { boardId } = useParams();
 
     useEffect(() => {
-        // console.log(board.name);
+        console.log(boards);
+        console.log(board);
         // setBoard(null)
 
         if (!board || board._id !== boardId) {
-            boardService.getById(boardId)
+            getBoardById(boardId)
                 .then(setBoard)
                 .catch(console.error);
         }

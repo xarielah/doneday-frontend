@@ -292,7 +292,33 @@ const defaultBoards = [
     {
         _id: "board1",
         name: "Board numero uno",
-        color: "#339ecd"
+        color: "#339ecd",
+        groups: [{
+            _id: "group1",
+            name: "Backlog",
+            boardId: "board1",
+            color: "#339ecd",
+            tasks: [{
+                _id: "task101",
+                groupId: "group1",
+                taskTitle: "Design homepage UI",
+                members: [
+                    { name: "Tal", color: "red" },
+                    { name: "Avi", color: "blue" }
+                ],
+                allMembers: [
+                    { name: "Dor", color: "red" },
+                    { name: "Ariel", color: "blue" },
+                    { name: "Afik", color: "yellow" }
+                ],
+                timeline: { startDate: "", endDate: "" },
+                date: "15-01-2025",
+                status: "wip",
+                priority: "high"
+            }]
+        },
+
+        ]
     }
 ];
 

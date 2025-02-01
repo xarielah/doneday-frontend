@@ -46,19 +46,22 @@ export function boardReducer(state = initialState, action) {
                 ...state,
                 boards: action.boards || []
             };
+
         case SET_BOARD:
             return {
                 ...state,
                 board: action.board || { groups: [] }
-            }; case UPDATE_BOARD:
+            };
+
+        case UPDATE_BOARD:
             return {
                 ...state,
-                boards: [
-                    ...state.boards,
-                    state.boards.map(board => board._id !== action.board._id ? board : action.board)
-                ],
+                boards: state.boards.map(board =>
+                    board._id === action.board._id ? action.board : board
+                ),
                 board: { ...action.board }
             };
+
         case REMOVE_BOARD:
             const lastRemovedBoard = state.boards.find(board => board._id === action.boardId);
             boards = state.boards.filter(board => board._id !== action.boardId);
@@ -67,21 +70,13 @@ export function boardReducer(state = initialState, action) {
                 boards,
                 lastRemovedBoard
             };
+
         case ADD_BOARD:
             return {
                 ...state,
                 boards: [...state.boards, action.board]
             };
-        case UPDATE_GROUP:
-            return {
-                ...state,
-                board: {
-                    ...state.board,
-                    groups: (state.board.groups || []).map(group =>
-                        group._id === action.group._id ? action.group : group
-                    )
-                }
-            };
+
         case ADD_GROUP:
             return {
                 ...state,
@@ -90,6 +85,7 @@ export function boardReducer(state = initialState, action) {
                     groups: [...(state.board.groups || []), action.group]
                 }
             };
+
         case UPDATE_GROUP:
             return {
                 ...state,
@@ -100,6 +96,7 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
+
         case REMOVE_GROUP:
             return {
                 ...state,
@@ -110,6 +107,7 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
+
         case ADD_TASK:
             return {
                 ...state,
@@ -125,6 +123,7 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
+
         case UPDATE_TASK:
             return {
                 ...state,
@@ -135,15 +134,14 @@ export function boardReducer(state = initialState, action) {
                             ? {
                                 ...group,
                                 tasks: (group.tasks || []).map(task =>
-                                    task._id === action.task._id
-                                        ? { ...task, ...action.task }
-                                        : task
+                                    task._id === action.task._id ? { ...task, ...action.task } : task
                                 )
                             }
                             : group
                     )
                 }
             };
+
         case REMOVE_TASK:
             return {
                 ...state,
@@ -161,24 +159,49 @@ export function boardReducer(state = initialState, action) {
                     )
                 }
             };
+
         case SET_CMP_ORDER:
             return {
                 ...state,
                 cmpOrder: action.cmpOrder
             };
-            break;
-        case SET_GLOBALLY_COLLAPSED: {
-            return { ...state, isGloballyCollapsed: action.isGloballyCollapsed }
-        }
+
+        case SET_GLOBALLY_COLLAPSED:
+            return {
+                ...state,
+                isGloballyCollapsed: action.isGloballyCollapsed
+            };
+
         case ADD_MEMBERS: {
             const groupId = action.groupId;
             const members = action.members;
-            const existingGroupIndex = state.selectedTasks.findIndex(
-                (item) => item.groupId === groupId
-            )
+
+            return {
+                ...state,
+                board: {
+                    ...state.board,
+                    groups: (state.board.groups || []).map(group =>
+                        group._id === groupId
+                            ? {
+                                ...group,
+                                tasks: (group.tasks || []).map(task => ({
+                                    ...task,
+                                    members: [...(task.members || []), ...members]
+                                }))
+                            }
+                            : group
+                    )
+                }
+            };
         }
+
+        case REMOVE_SELECTED_TASK:
+            return {
+                ...state,
+                selectedTasks: state.selectedTasks.filter(task => task._id !== action.taskId)
+            };
+
         default:
-            break;
+            return state;
     }
-    return state;
 }

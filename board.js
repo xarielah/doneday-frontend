@@ -24,236 +24,510 @@
 // <TaskDetails> (supports edit) - initially can be loaded in seperate route 
 // (later on we can place it in a modal and nested route)
 
-
-export const testBoard = [
-    {
-        _id: "group1",
-        color: "#66ccff",
-        tasks: [
-            {
-                _id: "task101",
-                side: null,
-                taskTitle: "Design homepage UI",
-                members: [
-                    { name: "Tal", color: "red" },
-                    { name: "Avi", color: "blue" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "15-01-2025",
-                status: "IN WORK",
-                priority: "HIGH",
-            },
-            {
-                _id: "task102",
-                side: null,
-                taskTitle: "Integrate payment gateway",
-                members: [
-                    { name: "Dana", color: "green" },
-                    { name: "Shay", color: "black" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "20-01-2025",
-                status: "STUCK",
-                priority: "CRITICAL",
-            },
-            {
-                _id: "task103",
-                side: null,
-                taskTitle: "Write test cases for API",
-                members: [
-                    { name: "Eli", color: "orange" },
-                    { name: "Tal", color: "red" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "18-01-2025",
-                status: "DONE",
-                priority: "MEDIUM",
-            },
-            {
-                _id: "task104",
-                side: null,
-                taskTitle: "Create onboarding illustrations",
-                members: [
-                    { name: "Shir", color: "purple" },
-                    { name: "Lior", color: "blue" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "22-01-2025",
-                status: "IN WORK",
-                priority: "LOW",
-            },
-        ],
-    },
-    {
-        _id: "group2",
-        color: "#401694",
-        tasks: [
-            {
-                _id: "task201",
-                side: null,
-                taskTitle: "Develop campaign strategy",
-                members: [
-                    { name: "Yossi", color: "pink" },
-                    { name: "Dana", color: "green" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "10-02-2025",
-                status: "IN REVIEW",
-                priority: "HIGH",
-            },
-            {
-                _id: "task202",
-                side: null,
-                taskTitle: "Prepare client proposals",
-                members: [
-                    { name: "Tal", color: "red" },
-                    { name: "Shay", color: "black" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "12-02-2025",
-                status: "STUCK",
-                priority: "MEDIUM",
-            },
-            {
-                _id: "task203",
-                side: null,
-                taskTitle: "Define MVP scope",
-                members: [
-                    { name: "Avi", color: "blue" },
-                    { name: "Eli", color: "orange" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "08-02-2025",
-                status: "DONE",
-                priority: "HIGH",
-            },
-            {
-                _id: "task204",
-                side: null,
-                taskTitle: "Setup CI/CD pipeline",
-                members: [
-                    { name: "Shay", color: "black" },
-                    { name: "Lior", color: "blue" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "15-02-2025",
-                status: "IN WORK",
-                priority: "CRITICAL",
-            },
-        ],
-    },
-    {
-        _id: "group3",
-        color: "#ff6d3b",
-        tasks: [
-            {
-                _id: "task301",
-                side: null,
-                taskTitle: "Resolve high-priority tickets",
-                members: [
-                    { name: "Shir", color: "purple" },
-                    { name: "Dana", color: "green" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "13-01-2025",
-                status: "IN WORK",
-                priority: "HIGH",
-            },
-            {
-                _id: "task302",
-                side: null,
-                taskTitle: "Build dashboard for KPIs",
-                members: [
-                    { name: "Yossi", color: "pink" },
-                    { name: "Shay", color: "black" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "20-01-2025",
-                status: "IN WORK",
-                priority: "MEDIUM",
-            },
-            {
-                _id: "task303",
-                side: null,
-                taskTitle: "Redesign landing page",
-                members: [
-                    { name: "Lior", color: "blue" },
-                    { name: "Tal", color: "red" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "25-01-2025",
-                status: "IN REVIEW",
-                priority: "HIGH",
-            },
-            {
-                _id: "task304",
-                side: null,
-                taskTitle: "Write user stories",
-                members: [
-                    { name: "Avi", color: "blue" },
-                    { name: "Eli", color: "orange" },
-                ],
-                allMembers: [
-                    { name: "Dor", color: "red" },
-                    { name: "Ariel", color: "blue" },
-                    { name: "Afik", color: "yellow" },
-                ],
-                date: "18-01-2025",
-                status: "DONE",
-                priority: "LOW",
-            },
-        ],
-    },
-];
-
-
-export async function getDummyBoardAsync(boardId = "") {
-    return Promise.resolve(testBoard);
+const newB = {
+    _id: "board1",
+    name: "Board numero uno",
+    color: "#339ecd",
+    groups: []
 }
+
+const newG = {
+    _id: "group1",
+    name: "Backlog",
+    boardId: "board1",
+    color: "#339ecd",
+    tasks: [{
+        _id: "task101",
+        groupId: "group1",
+        taskTitle: "Design homepage UI",
+        members: [
+            { name: "Tal", color: "red" },
+            { name: "Avi", color: "blue" }
+        ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" }
+        ],
+        timeline: { startDate: "", endDate: "" },
+        date: "15-01-2025",
+        status: "wip",
+        priority: "high"
+    }]
+}
+
+// const newT =
+
+
+// let newBdoard = {
+//     _id: "board1",
+//     name: "Board numero uno",
+//     color: "#339ecd",
+//     groups: [
+//         {
+//             _id: "group1",
+//             name: "Backlog",
+//             boardId: "board1",
+//             color: "#339ecd",
+//             tasks: [
+//                 {
+//                     _id: "task101",
+//                     groupId: "group1",
+//                     taskTitle: "Design homepage UI",
+//                     members: [
+//                         { name: "Tal", color: "red" },
+//                         { name: "Avi", color: "blue" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "15-01-2025",
+//                     status: "wip",
+//                     priority: "high"
+//                 },
+//                 {
+//                     _id: "task102",
+//                     groupId: "group1",
+//                     taskTitle: "Integrate payment gateway",
+//                     members: [
+//                         { name: "Dana", color: "green" },
+//                         { name: "Shay", color: "black" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "20-01-2025",
+//                     status: "stuck",
+//                     priority: "critical"
+//                 },
+//                 {
+//                     _id: "task103",
+//                     groupId: "group1",
+//                     taskTitle: "Write test cases for API",
+//                     members: [
+//                         { name: "Eli", color: "orange" },
+//                         { name: "Tal", color: "red" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "18-01-2025",
+//                     status: "done",
+//                     priority: "medium"
+//                 },
+//                 {
+//                     _id: "task104",
+//                     groupId: "group1",
+//                     taskTitle: "Create onboarding illustrations",
+//                     members: [
+//                         { name: "Shir", color: "purple" },
+//                         { name: "Lior", color: "blue" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "22-01-2025",
+//                     status: "wip",
+//                     priority: "low"
+//                 }
+//             ]
+//         },
+//         {
+//             _id: "group2",
+//             name: "Current Sprint",
+//             boardId: "board1",
+//             color: "#00c875",
+//             tasks: [
+//                 {
+//                     _id: "task201",
+//                     groupId: "group2",
+//                     taskTitle: "Develop campaign strategy",
+//                     members: [
+//                         { name: "Yossi", color: "pink" },
+//                         { name: "Dana", color: "green" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "10-02-2025",
+//                     status: "revision",
+//                     priority: "high"
+//                 },
+//                 {
+//                     _id: "task202",
+//                     groupId: "group2",
+//                     taskTitle: "Prepare client proposals",
+//                     members: [
+//                         { name: "Tal", color: "red" },
+//                         { name: "Shay", color: "black" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "12-02-2025",
+//                     status: "stuck",
+//                     priority: "medium"
+//                 },
+//                 {
+//                     _id: "task203",
+//                     groupId: "group2",
+//                     taskTitle: "Define MVP scope",
+//                     members: [
+//                         { name: "Avi", color: "blue" },
+//                         { name: "Eli", color: "orange" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "08-02-2025",
+//                     status: "done",
+//                     priority: "high"
+//                 },
+//                 {
+//                     _id: "task204",
+//                     groupId: "group2",
+//                     taskTitle: "Setup CI/CD pipeline",
+//                     members: [
+//                         { name: "Shay", color: "black" },
+//                         { name: "Lior", color: "blue" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "15-02-2025",
+//                     status: "wip",
+//                     priority: "critical"
+//                 }
+//             ]
+//         },
+//         {
+//             _id: "group3",
+//             name: "Done Stories",
+//             boardId: "board1",
+//             color: "#784bd1",
+//             tasks: [
+//                 {
+//                     _id: "task301",
+//                     groupId: "group3",
+//                     taskTitle: "Resolve high-priority tickets",
+//                     members: [
+//                         { name: "Shir", color: "purple" },
+//                         { name: "Dana", color: "green" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "13-01-2025",
+//                     status: "wip",
+//                     priority: "high"
+//                 },
+//                 {
+//                     _id: "task302",
+//                     groupId: "group3",
+//                     taskTitle: "Build dashboard for KPIs",
+//                     members: [
+//                         { name: "Yossi", color: "pink" },
+//                         { name: "Shay", color: "black" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "20-01-2025",
+//                     status: "wip",
+//                     priority: "medium"
+//                 },
+//                 {
+//                     _id: "task303",
+//                     groupId: "group3",
+//                     taskTitle: "Redesign landing page",
+//                     members: [
+//                         { name: "Lior", color: "blue" },
+//                         { name: "Tal", color: "red" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "25-01-2025",
+//                     status: "revision",
+//                     priority: "high"
+//                 },
+//                 {
+//                     _id: "task304",
+//                     groupId: "group3",
+//                     taskTitle: "Write user stories",
+//                     members: [
+//                         { name: "Avi", color: "blue" },
+//                         { name: "Eli", color: "orange" }
+//                     ],
+//                     allMembers: [
+//                         { name: "Dor", color: "red" },
+//                         { name: "Ariel", color: "blue" },
+//                         { name: "Afik", color: "yellow" }
+//                     ],
+//                     timeline: { startDate: "", endDate: "" },
+//                     date: "18-01-2025",
+//                     status: "done",
+//                     priority: "low"
+//                 }
+//             ]
+//         }
+//     ]
+// }
+
+
+
+
+
+// export const testBoard = [
+//     {
+//         _id: "group1",
+//         color: "#66ccff",
+//         tasks: [
+//             {
+//                 _id: "task101"
+//                 taskTitle: "Design homepage UI",
+//                 members: [
+//                     { name: "Tal", color: "red" },
+//                     { name: "Avi", color: "blue" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "15-01-2025",
+//                 status: "IN WORK",
+//                 priority: "HIGH",
+//             },
+//             {
+//                 _id: "task102"
+//                 taskTitle: "Integrate payment gateway",
+//                 members: [
+//                     { name: "Dana", color: "green" },
+//                     { name: "Shay", color: "black" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "20-01-2025",
+//                 status: "STUCK",
+//                 priority: "CRITICAL",
+//             },
+//             {
+//                 _id: "task103"
+//                 taskTitle: "Write test cases for API",
+//                 members: [
+//                     { name: "Eli", color: "orange" },
+//                     { name: "Tal", color: "red" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "18-01-2025",
+//                 status: "DONE",
+//                 priority: "MEDIUM",
+//             },
+//             {
+//                 _id: "task104"
+//                 taskTitle: "Create onboarding illustrations",
+//                 members: [
+//                     { name: "Shir", color: "purple" },
+//                     { name: "Lior", color: "blue" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "22-01-2025",
+//                 status: "IN WORK",
+//                 priority: "LOW",
+//             },
+//         ],
+//     },
+//     {
+//         _id: "group2",
+//         color: "#401694",
+//         tasks: [
+//             {
+//                 _id: "task201"
+//                 taskTitle: "Develop campaign strategy",
+//                 members: [
+//                     { name: "Yossi", color: "pink" },
+//                     { name: "Dana", color: "green" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "10-02-2025",
+//                 status: "IN REVIEW",
+//                 priority: "HIGH",
+//             },
+//             {
+//                 _id: "task202"
+//                 taskTitle: "Prepare client proposals",
+//                 members: [
+//                     { name: "Tal", color: "red" },
+//                     { name: "Shay", color: "black" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "12-02-2025",
+//                 status: "STUCK",
+//                 priority: "MEDIUM",
+//             },
+//             {
+//                 _id: "task203"
+//                 taskTitle: "Define MVP scope",
+//                 members: [
+//                     { name: "Avi", color: "blue" },
+//                     { name: "Eli", color: "orange" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "08-02-2025",
+//                 status: "DONE",
+//                 priority: "HIGH",
+//             },
+//             {
+//                 _id: "task204"
+//                 taskTitle: "Setup CI/CD pipeline",
+//                 members: [
+//                     { name: "Shay", color: "black" },
+//                     { name: "Lior", color: "blue" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "15-02-2025",
+//                 status: "IN WORK",
+//                 priority: "CRITICAL",
+//             },
+//         ],
+//     },
+//     {
+//         _id: "group3",
+//         color: "#ff6d3b",
+//         tasks: [
+//             {
+//                 _id: "task301"
+//                 taskTitle: "Resolve high-priority tickets",
+//                 members: [
+//                     { name: "Shir", color: "purple" },
+//                     { name: "Dana", color: "green" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "13-01-2025",
+//                 status: "IN WORK",
+//                 priority: "HIGH",
+//             },
+//             {
+//                 _id: "task302"
+//                 taskTitle: "Build dashboard for KPIs",
+//                 members: [
+//                     { name: "Yossi", color: "pink" },
+//                     { name: "Shay", color: "black" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "20-01-2025",
+//                 status: "IN WORK",
+//                 priority: "MEDIUM",
+//             },
+//             {
+//                 _id: "task303"
+//                 taskTitle: "Redesign landing page",
+//                 members: [
+//                     { name: "Lior", color: "blue" },
+//                     { name: "Tal", color: "red" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "25-01-2025",
+//                 status: "IN REVIEW",
+//                 priority: "HIGH",
+//             },
+//             {
+//                 _id: "task304"
+//                 taskTitle: "Write user stories",
+//                 members: [
+//                     { name: "Avi", color: "blue" },
+//                     { name: "Eli", color: "orange" },
+//                 ],
+//                 allMembers: [
+//                     { name: "Dor", color: "red" },
+//                     { name: "Ariel", color: "blue" },
+//                     { name: "Afik", color: "yellow" },
+//                 ],
+//                 date: "18-01-2025",
+//                 status: "DONE",
+//                 priority: "LOW",
+//             },
+//         ],
+//     },
+// ];
+
+
+// export async function getDummyBoardAsync(boardId = "") {
+//     return Promise.resolve(testBoard);
+// }
 
 // // The comment feature can be implemented with activity
 // const activity = {

@@ -12,85 +12,86 @@ export function TaskMenuButton({ task, group, crudlType }) {
     const boards = useSelector(storeState => storeState.boardModule.boards)
     const navigate = useNavigate()
 
-    const modifiers = [
-        {
-            name: "preventOverflow",
-            options: {
-                mainAxis: false,
-            },
-        },
-    ];
-
     // Task CRUDL
-    function moveTaskToGroup(groupId) {
-        const updatedTask = { ...task, groupId }
-        return updateTask(task.groupId, updatedTask)
-    }
-
-    function onTaskDuplicate(task) {
-        const cloneTask = { ...task, taskTitle: task?.taskTitle + " (copy)", id: undefined }
-        addTask(task.groupId, cloneTask)
-    }
-
-    function onTaskRemove(taskId) {
+    async function moveTaskToGroup(groupId) {
         try {
-            removeTask(task.groupId, taskId)
+            const updatedTask = { ...task, groupId };
+            await updateTask(task.groupId, updatedTask);
         } catch (error) {
-            console.error("Error removing task or tasks:", error);
+            console.error("Error moving task to group:", error);
+        }
+    }
+
+    async function onTaskDuplicate(task) {
+        try {
+            console.log(task);
+
+            const cloneTask = { ...task, taskTitle: `${task.taskTitle} (copy)`, _id: undefined };
+            await addTask(task.groupId, cloneTask);
+        } catch (error) {
+            console.error("Error duplicating task:", error);
+        }
+    }
+
+    async function onTaskRemove(taskId) {
+        try {
+            await removeTask(task.groupId, taskId);
+        } catch (error) {
+            console.error("Error removing task:", error);
         }
     }
 
     // Group CRUDL
-    function onGroupRemove(groupId) {
+    async function onGroupRemove(groupId) {
         try {
-            removeGroup(groupId)
+            await removeGroup(groupId);
         } catch (error) {
-            console.error("Error removing group or tasks:", error);
+            console.error("Error removing group:", error);
         }
     }
 
     async function onGroupDuplicate(group) {
-        console.log(group)
-        const cloneGroup = {
-            ...group,
-            name: "Duplicate of " + group.name,
-            tasks: undefined,
-            id: undefined,
-        }
         try {
-            const newGroup = await addGroup(cloneGroup)
+            const cloneGroup = {
+                ...group,
+                name: `Duplicate of ${group.name}`,
+                tasks: undefined,
+                _id: undefined,
+            };
+
+            const newGroup = await addGroup(cloneGroup);
+
             if (group.tasks) {
                 for (const task of group.tasks) {
                     const cloneTask = {
                         ...task,
-                        taskTitle: task?.taskTitle,
-                        id: undefined,
+                        taskTitle: task.taskTitle,
+                        _id: undefined,
                         groupId: newGroup._id,
-                    }
-                    await addTask(newGroup._id, cloneTask)
+                    };
+                    await addTask(newGroup._id, cloneTask);
                 }
             }
         } catch (error) {
-            console.error("Error duplicating group or tasks:", error);
+            console.error("Error duplicating group:", error);
         }
     }
 
-    function selectAllTasks(group) {
+    async function selectAllTasks(group) {
         try {
-            addSelectedGroup(group._id, group.tasks)
+            await addSelectedGroup(group._id, group.tasks);
         } catch (error) {
-            console.error("Error selecting all tasks:", err);
+            console.error("Error selecting all tasks:", error);
         }
     }
 
-    function moveGroupToBoard(boardId) {
+    async function moveGroupToBoard(boardId) {
         try {
-            const updatedGroup = { ...group, boardId }
-            updateGroup(updatedGroup)
+            const updatedGroup = { ...group, boardId };
+            await updateGroup(updatedGroup);
         } catch (error) {
             console.error("Error moving group to board:", error);
         }
-
     }
 
 
