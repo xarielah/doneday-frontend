@@ -38,7 +38,6 @@ export async function setBoard(board) {
 export async function removeBoard(boardId) {
     try {
         await boardService.removeBoard(boardId);
-        // store.dispatch(getCmdRemoveBoard(boardId));
         loadBoards()
     } catch (err) {
         console.error('Board Action -> Cannot remove board', err);
@@ -50,7 +49,6 @@ export async function removeBoard(boardId) {
 export async function addBoard(board) {
     try {
         const savedBoard = await boardService.saveBoard(board);
-        // store.dispatch(getCmdAddBoard(savedBoard));
         loadBoards()
         return savedBoard;
     } catch (err) {
@@ -64,7 +62,6 @@ export async function updateBoard(board) {
     try {
         return await boardService.saveBoard(board)
             .then(savedBoard => {
-                // store.dispatch(getCmdUpdateBoard(savedBoard))
                 loadBoards()
                 return savedBoard
             })
@@ -78,11 +75,9 @@ export async function updateBoard(board) {
 // Get Group
 export async function getGroupById(groupId) {
     const boards = store.getState().boardModule.boards;
-
     if (!boards || boards.length === 0) {
         throw new Error('No boards found in the store.');
     }
-
     const group = boards
         .flatMap(board => board.groups || [])
         .find(group => group._id === groupId);
@@ -102,7 +97,6 @@ export async function addGroup(boardId, group) {
 
     try {
         const savedGroup = await boardService.saveGroup(boardId, group);
-        // store.dispatch(getCmdAddGroup(savedGroup));
         loadBoards()
         return savedGroup;
     } catch (err) {
@@ -119,7 +113,6 @@ export async function updateGroup(group) {
 
     try {
         const savedGroup = await boardService.saveGroup(board._id, group);
-        // store.dispatch(getCmdUpdateGroup(savedGroup));
         loadBoards()
         return savedGroup;
     } catch (err) {
@@ -136,7 +129,6 @@ export async function removeGroup(groupId) {
 
     try {
         await boardService.removeGroup(board._id, groupId);
-        // store.dispatch(getCmdRemoveGroup(groupId));
         loadBoards()
     } catch (err) {
         console.error('Board Action -> Cannot remove group', err);
@@ -151,7 +143,6 @@ export async function getTaskById(taskId) {
     if (!boards || boards.length === 0) {
         throw new Error('No boards found in the store.');
     }
-
     for (const board of boards) {
         if (board.groups && board.groups.length) {
             for (const group of board.groups) {
@@ -173,11 +164,8 @@ export async function addTask(groupId, task) {
     const board = store.getState().boardModule.board;
 
     if (!board) throw new Error('No board found in the store.');
-
     try {
         const savedTask = await boardService.saveTask(board._id, groupId, { ...task });
-
-        // store.dispatch(getCmdAddTask(groupId, savedTask));
         loadBoards()
         return savedTask;
     } catch (err) {
@@ -195,7 +183,6 @@ export async function updateTask(groupId, updatedTask) {
     try {
         const savedTask = await boardService.saveTask(board._id, groupId, updatedTask);
         console.log('savedTask:', savedTask);
-        // store.dispatch(getCmdUpdateTask(groupId, savedTask));
         loadBoards()
         return savedTask;
     } catch (err) {
@@ -213,7 +200,6 @@ export async function removeTask(groupId, taskId) {
 
     try {
         await boardService.removeTask(board._id, groupId, taskId);
-        // store.dispatch(getCmdRemoveTask(groupId, taskId));
         loadBoards()
     } catch (err) {
         console.error('Board Action -> Cannot remove task', err);

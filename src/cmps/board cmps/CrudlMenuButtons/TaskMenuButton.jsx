@@ -59,9 +59,8 @@ export function TaskMenuButton({ task, group, crudlType }) {
                 tasks: undefined,
                 _id: undefined,
             };
-
             const newGroup = await addGroup(board._id, cloneGroup);
-
+            const newTasks = []
             if (group.tasks) {
                 for (const task of group.tasks) {
                     const cloneTask = {
@@ -70,8 +69,9 @@ export function TaskMenuButton({ task, group, crudlType }) {
                         _id: undefined,
                         groupId: newGroup._id,
                     };
-                    await addTask(newGroup._id, cloneTask);
+                    newTasks.push(cloneTask);
                 }
+                await updateGroup({ ...newGroup, tasks: newTasks });
             }
         } catch (error) {
             console.error("Error duplicating group:", error);
@@ -86,34 +86,12 @@ export function TaskMenuButton({ task, group, crudlType }) {
         }
     }
 
-    // async function moveGroupToBoard(boardId) {
-    //     try {
-    //         // const updatedGroup = { ...group };
-    //         await removeGroup(group._id);
-    //         await addGroup(boardId, group);
-    //     } catch (error) {
-    //         console.error("Error moving group to board:", error);
-    //     }
-    // }
-
     async function moveGroupToBoard(targetBoardId) {
         try {
             await removeGroup(group._id)
                 .then(() => {
                     addGroup(targetBoardId, { ...group });
                 })
-            // const savedGroup = await addGroup(targetBoardId, { ...group });
-            // return savedGroup;
-            // const sourceBoard = boards.find(board =>
-            //     board.groups && board.groups.find(g => g._id === group._id)
-            // );
-            // sourceBoard.groups = sourceBoard.groups.filter(g => g._id !== group._id);
-            // await updateBoard(sourceBoard);
-            // targetBoard.groups.push(group);
-            // await updateBoard(targetBoard);
-
-            // await getBoardById(board._id);
-            // await updateBoard(board);
         } catch (error) {
             console.error("Error moving group to board:", error);
             throw error;

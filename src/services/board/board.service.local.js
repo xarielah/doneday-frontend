@@ -77,7 +77,6 @@ async function _checkForDummyData() {
     return boards;
 }
 
-
 async function query(filterBy = { name: '' }) {
     var boards = await storageService.query(STORAGE_KEY) || [];
 
@@ -89,7 +88,6 @@ async function query(filterBy = { name: '' }) {
 
     return boards
 }
-
 
 async function remove(boardId) {
     await storageService.remove(STORAGE_KEY, boardId)
