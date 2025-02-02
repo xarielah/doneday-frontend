@@ -73,7 +73,7 @@ const SidePanelTaskMessages = ({ task }) => {
 
         const replyIdx = task.replies.findIndex(reply => reply._id === newReply._id);
         task.replies[replyIdx] = newReply;
-        await updateTask(task);
+        await updateTask(task.groupId, task);
 
         setUpdates(newUpdatesArray);
     }
@@ -85,7 +85,7 @@ const SidePanelTaskMessages = ({ task }) => {
         task.replies = (task.replies || [])
         task.replies.unshift(newUpdate);
 
-        await updateTask(task);
+        await updateTask(task.groupId, task);
         setUpdates(updates => [newUpdate, ...updates]);
     }
 
