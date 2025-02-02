@@ -2,7 +2,7 @@
 import { boardService } from '../../services/board/board.service.local'
 import { ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, SET_SELECTED_TASK } from '../reducers/taskSelect.reducer'
 import { store } from '../store'
-import { addTask, getTaskById, removeTask, setBoard, updateTask } from './board.actions'
+import { addTask, getTaskById, removeTask, setBoard, updateBoard, updateTask } from './board.actions'
 
 
 export async function setSelectedTask(selectedTasks = []) {
@@ -62,30 +62,16 @@ export async function removeSelectedGroup(groupId, tasks) {
 }
 
 export async function duplicateSelectedTasks(selectedTasks, board) {
-    if (!Array.isArray(selectedTasks)) {
-        console.error("selectedTasks must be an array.");
-        return;
-    }
 
     for (const { groupId, tasks } of selectedTasks) {
-        if (!Array.isArray(tasks)) {
-            console.error(`Tasks for groupId ${groupId} must be an array.`);
-            continue;
-        }
 
         const group = board.groups.find(group => group._id === groupId);
-        if (!group) {
-            console.error(`Group with ID ${groupId} not found in the board.`);
-            continue;
-        }
-
         for (const taskId of tasks) {
             const task = group.tasks.find(task => task._id === taskId);
             if (!task) {
                 console.error(`Task with ID ${taskId} not found in group ${groupId}.`);
                 continue;
             }
-
             const newTask = {
                 ...task,
                 _id: undefined,
@@ -98,11 +84,19 @@ export async function duplicateSelectedTasks(selectedTasks, board) {
 
 export async function deleteSelectedTasks(selectedTasks) {
     try {
+        const board = store.getState().boardModule.board;
         for (const { groupId, tasks } of selectedTasks) {
             for (const taskId of tasks) {
-                await removeTask(groupId, taskId);
+
+                for (const group of board.groups) {
+                    if (group._id === groupId) {
+                        group.tasks = group.tasks.filter(task => task._id !== taskId);
+                    }
+                }
+
             }
         }
+        updateBoard(board)
         setSelectedTask([]);
     } catch (err) {
         console.error('Task Select Action -> Cannot delete selected tasks', err);
@@ -112,20 +106,20 @@ export async function deleteSelectedTasks(selectedTasks) {
 
 export async function moveSelectedTasks(selectedTasks, targetGroupId = null) {
     try {
+        const board = store.getState().boardModule.board;
         for (const { groupId, tasks } of selectedTasks) {
+            const sourceGroup = board.groups.find(group => group._id === groupId);
+            const targetGroup = board.groups.find(group => group._id === targetGroupId);
             for (const taskId of tasks) {
-                const task = await boardService.getTaskById(taskId);
+                const taskIndex = sourceGroup.tasks.findIndex(task => task._id === taskId);
+                const [taskToMove] = sourceGroup.tasks.splice(taskIndex, 1);
+                const updatedTask = { ...taskToMove, groupId: targetGroupId };
+                targetGroup.tasks.push(updatedTask);
 
-                if (!task) {
-                    console.error(`Task with ID ${taskId} not found.`);
-                    continue;
-                }
-
-                const updatedTask = { ...task, groupId: targetGroupId };
-                await removeTask(groupId, taskId);
-                await addTask(targetGroupId, updatedTask);
             }
         }
+        await updateBoard(board);
+
         setSelectedTask([]);
     } catch (err) {
         console.error('Task Select Action -> Cannot move selected tasks', err);

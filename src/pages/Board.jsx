@@ -6,6 +6,7 @@ import { BoardHeader } from "../cmps/board cmps/BoardHeader";
 import { CrudlBar } from "../cmps/board cmps/CrudlBar";
 import { boardService } from "../services/board/board.service.local";
 import { getBoardById, loadBoards, setBoard, updateBoard } from "../store/actions/board.actions";
+import { setSelectedTask } from "../store/actions/taskSelect.actions";
 
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -30,6 +31,7 @@ export function Board() {
 
     useEffect(() => {
         // loadBoards()
+        setSelectedTask([])
         console.log('boards', boards);
     }, [board])
 

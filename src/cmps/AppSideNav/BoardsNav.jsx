@@ -6,7 +6,7 @@ import {
     Add, AddSmall, Board, Dashboard, Delete, DropdownChevronDown, DropdownChevronUp, Duplicate, Edit, ExternalPage, Favorite, Filter, Moon, Remove, Search as SearchIcon, Sun, Workspace
 } from "@vibe/icons";
 import { AddBoardCmp } from "./AddBoardCmp";
-import { addBoard, addGroup, addTask, removeBoard, setBoard } from "../../store/actions/board.actions";
+import { addBoard, addGroup, addTask, getBoardById, removeBoard, setBoard } from "../../store/actions/board.actions";
 import { useSelector } from "react-redux";
 
 export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch, searchRef,
@@ -81,7 +81,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     }
 
     function openDuplicateModal(boardName, boardId) {
-        setAddedBoard({ name: "Duplicate of " + boardName, _id: boardId })
+        setAddedBoard(addedBoard => addedBoard = { name: "Duplicate of " + boardName, _id: boardId })
+        console.log(addedBoard);
+
         setIsAddBoard(true)
     }
 
@@ -270,7 +272,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                             <Menu id="menu" size={Menu.sizes.MEDIUM}>
                                 <MenuItem icon={ExternalPage} onClick={() => openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
                                 <MenuDivider />
-                                <MenuItem onClick={() => openDuplicateModal(board.name)} icon={Duplicate} title="Duplicate board" />
+                                <MenuItem onClick={() => openDuplicateModal(board.name, board._id)} icon={Duplicate} title="Duplicate board" />
                                 <MenuItem onClick={() => onRemoveBoard(board._id)} icon={Delete} title="Delete board" />
                                 <MenuItem icon={Edit} title="Rename board" />
                                 <MenuDivider />
