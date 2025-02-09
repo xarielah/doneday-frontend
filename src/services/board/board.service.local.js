@@ -42,9 +42,9 @@ export const boardService = {
     STORAGE_KEY
 };
 const allMembers = [
-    { name: "Dor", color: "red" },
-    { name: "Ariel", color: "blue" },
-    { name: "Afik", color: "yellow" }
+    { name: "Dor", color: "#2a5699" },
+    { name: "Ariel", color: "#e4901c" },
+    { name: "Afik", color: "#fb275d" }
 ]
 
 const statusList = [

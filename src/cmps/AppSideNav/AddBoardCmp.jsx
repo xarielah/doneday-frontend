@@ -1,28 +1,18 @@
-import { Heading, Text, TextField } from "@vibe/core";
+import { Heading, TextField } from "@vibe/core";
 import { Modal, ModalBasicLayout, ModalContent, ModalFooter, ModalHeader } from "@vibe/core/next";
-import { useState } from "react";
 
 export const AddBoardCmp = ({ setAddedBoard, onDuplicateBoard, addedBoard, show, onClose, handleAddBoard }) => {
+    const btnText = (addedBoard._id ? "Duplicate " : "Add ") + "board";
 
-
-    const btnText = (addedBoard._id ? "Duplicate " : "Add ") + "board"
     return <Modal
         show={show}
         size="medium"
         className="board-nav-add-modal"
         description="Adding a board"
-        onClose={onClose}>
+        onClose={onClose}
+    >
         <ModalBasicLayout>
-
-            <ModalHeader
-                title={
-                    <Heading
-                        type="h1">
-                        Create board
-                    </Heading>
-                }
-            />
-
+            <ModalHeader title={<Heading type="h1">Create board</Heading>} />
             <ModalContent>
                 <div className="board-nav-add-content">
                     <TextField
@@ -38,9 +28,7 @@ export const AddBoardCmp = ({ setAddedBoard, onDuplicateBoard, addedBoard, show,
                     />
                 </div>
             </ModalContent>
-
         </ModalBasicLayout>
-
         <ModalFooter
             primaryButton={{
                 text: btnText,

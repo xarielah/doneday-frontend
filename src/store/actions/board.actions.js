@@ -1,9 +1,9 @@
 
 // import { getDummyBoardAsync } from '../../../board'
-import { boardService } from '../../services/board/board.service.local'
+import { boardService } from '../../services/board/board.service.local';
 
-import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer'
-import { store } from '../store'
+import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer';
+import { store } from '../store';
 
 loadBoards()
 // Set Boards
@@ -22,6 +22,7 @@ export async function loadBoards(filterBy = {}) {
 export async function getBoardById(boardId) {
     try {
         const board = await boardService.getBoardById(boardId);
+        if (!board) throw new Error('Board not found');
         return board;
     } catch (err) {
         console.error('Board Action -> Cannot get board', err);
@@ -66,7 +67,7 @@ export async function updateBoard(board) {
                 return savedBoard
             })
     } catch (err) {
-        console.log('Board Action -> Cannot save board', err)
+        console.error('Board Action -> Cannot save board', err)
         throw err
     }
 }
@@ -182,7 +183,6 @@ export async function updateTask(groupId, updatedTask) {
 
     try {
         const savedTask = await boardService.saveTask(board._id, groupId, updatedTask);
-        console.log('savedTask:', savedTask);
         loadBoards()
         return savedTask;
     } catch (err) {

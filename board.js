@@ -41,13 +41,13 @@ const newG = {
         groupId: "group1",
         taskTitle: "Design homepage UI",
         members: [
-            { name: "Tal", color: "red" },
+            { name: "Tal", color: "#2a5699" },
             { name: "Avi", color: "blue" }
         ],
         allMembers: [
-            { name: "Dor", color: "red" },
-            { name: "Ariel", color: "blue" },
-            { name: "Afik", color: "yellow" }
+            { name: "Dor", color: "#2a5699" },
+            { name: "Ariel", color: "#e4901c" },
+            { name: "Afik", color: "#fb275d" }
         ],
         timeline: { startDate: "", endDate: "" },
         date: "15-01-2025",
@@ -55,6 +55,8 @@ const newG = {
         priority: "high"
     }]
 }
+
+
 
 // const newT =
 
