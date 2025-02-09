@@ -1,15 +1,20 @@
-import { useState } from "react";
 import {
-    Button, Dialog, DialogContentContainer, Divider, Icon, IconButton, ListItem, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search
+    Button, Dialog, DialogContentContainer, Divider, Icon,
+    ListItem, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search
 } from "@vibe/core";
 import {
-    Add, AddSmall, Board, Dashboard, Delete, DropdownChevronDown, DropdownChevronUp, Duplicate, Edit, ExternalPage, Favorite, Filter, Moon, Remove, Search as SearchIcon, Sun, Workspace
+    AddSmall, Board,
+    Delete,
+    Duplicate, Edit, ExternalPage, Favorite
 } from "@vibe/icons";
-import { AddBoardCmp } from "./AddBoardCmp";
-import { addBoard, addGroup, addTask, getBoardById, removeBoard, setBoard } from "../../store/actions/board.actions";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import { addBoard, addGroup, addTask, getBoardById, removeBoard, setBoard } from "../../../store/actions/board.actions";
+import { AddBoardCmp } from "../AddBoardCmp";
+import WorkspacesDropdown from "./WorkspacesDropdown";
+import WorkspaceTitle from "./WorkspaceTitle";
 
-export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch, searchRef,
+export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch,
 }) {
 
     const board = useSelector(store => store.boardModule.board)
@@ -182,8 +187,8 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                         </DialogContentContainer>
                     }
                 >
-                    {/* --- Trigger Section (Board Title, Search) --- */}
-                    <section className="workspace-title">
+                    <WorkspaceTitle setIsSearch={setIsSearch} isSearch={isSearch} />
+                    {/* <section className="workspace-title">
                         {!isSearch && (
                             <>
                                 <Icon icon={Workspace} className="icon" />
@@ -215,27 +220,28 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                                 size="small"
                                 autoFocus
                                 onClick={() => setIsSearch(true)}
-                                renderAction={
-                                    <IconButton icon={Filter} ariaLabel="Filter results" size="xs" />
-                                }
+                                renderAction={<IconButton icon={Filter} ariaLabel="Filter results" size="xs" />}
                             />
                         )}
-                    </section>
+                    </section> */}
 
-                    {/* --- Board Dropdown + Add Button --- */}
-                    <section className="workspaces-dropdown">
+                    <WorkspacesDropdown
+                        selectedBoard={selectedBoard}
+                        onToggleModal={() => setIsAddBoard(true)}
+                        isBoardMenuOpen={isOpen}
+                        toggleBoardMenu={() => setIsOpen(prev => !prev)}
+                    />
+                    {/* <section className="workspaces-dropdown">
                         <Button
                             size={Button.sizes.SMALL}
                             className="workspace-dropdown-btn"
                             kind={Button.kinds.TERTIARY}
                             onClick={() => setIsOpen(prev => !prev)}
                             style={{
-                                flex: 1,
-                                justifyContent: "space-between",
                                 border: "1px solid #d0d4e4"
                             }}
                         >
-                            <span style={{ marginLeft: "8px" }}>{selectedBoard}</span>
+                            <span style={{ marginLeft: "8px", textOverflow: 'ellipsis' }}>{selectedBoard}</span>
                             <Icon icon={isOpen ? DropdownChevronUp : DropdownChevronDown} />
                         </Button>
 
@@ -254,11 +260,10 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                             onClick={() => setIsAddBoard(true)}
 
                         />
-                    </section>
+                    </section> */}
                 </Dialog>
             </section>
 
-            {/* --- Board Navigation below --- */}
             <div className="board-nav">
                 {boards.map((board) => (
                     <ListItem
@@ -282,12 +287,6 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
                     </ListItem>
                 ))}
-                <ListItem
-                    className={location.pathname === "/overviews" ? "active" : ""}
-                    title="Dashboard and reporting"
-                    icon={Dashboard}
-                    onClick={() => handleNavigate("/overviews")}
-                >Dashboard and reporting</ListItem>
             </div>
             <AddBoardCmp
                 addedBoard={addedBoard}
@@ -297,8 +296,6 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                 show={isAddBoard}
                 onClose={handleCloseModal}
             />
-
-
         </>
     );
 }

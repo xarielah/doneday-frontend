@@ -17,7 +17,6 @@ const GroupTableContentTask = ({ task, group }) => {
 
     const handleCellUpdate = (cmpType, value) => {
         const updatedTask = { ...task, [cmpType]: value }
-        //console.log(updatedTask);
         updateTask(group._id, updatedTask)
     }
 
@@ -30,7 +29,6 @@ const GroupTableContentTask = ({ task, group }) => {
     }
 
     function handleChangeTitle(taskTitle) {
-        console.log
         try {
             const updatedTask = { ...task, taskTitle }
             updateTask(group._id, updatedTask)
@@ -55,9 +53,7 @@ const GroupTableContentTask = ({ task, group }) => {
                 task={task}
             />
             <div className="min-table-cell table-cell-first-column task-title default-cell-color" >
-                <div>
-                    <EditableText type="text2" onChange={handleChangeTitle} value={task.taskTitle} />
-                </div>
+                <EditableText type="text2" onChange={handleChangeTitle} value={task.taskTitle} />
                 <TaskDetailsTriggerCell task={task} />
             </div>
         </GroupStickyColumns>

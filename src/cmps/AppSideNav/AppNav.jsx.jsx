@@ -1,11 +1,12 @@
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 import { Icon } from "@vibe/core";
 import { NavigationChevronLeft } from "@vibe/icons";
-import { MainNav } from "./MainNav";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BoardNav } from "./BoardNav/BoardsNav";
 import { FavoritesNav } from "./FavoriteNav";
-import { BoardNav } from "./BoardsNav";
+import { MainNav } from "./MainNav";
+
 
 
 export function AppNav() {
@@ -16,6 +17,7 @@ export function AppNav() {
     const [isSearch, setIsSearch] = useState(false);
     const [isMinimize, setIsMinimize] = useState(false);
 
+    const innerSidebarRef = useRef(null);
     const sidebarRef = useRef(null);
     const searchRef = useRef(null);
     const isResizing = useRef(false);
@@ -48,17 +50,18 @@ export function AppNav() {
     const handleMouseMove = (e) => {
         if (isResizing.current) {
             const newWidth = e.clientX;
-            const minWidth = 229;
-            const maxWidth = 576;
+            const minWidth = 250;
+            const maxWidth = 580;
 
             // Enforce min and max width constraints
             if (newWidth >= minWidth && newWidth <= maxWidth) {
-                sidebarRef.current.style.width = `${newWidth}px`;
+                sidebarRef.current.style.width = `${newWidth}px`
+                innerSidebarRef.current.style.width = `${newWidth}px`
             }
         }
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e) => {
         isResizing.current = false;
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
@@ -70,7 +73,7 @@ export function AppNav() {
 
     return (
         <section className="app-nav" ref={sidebarRef}>
-            <nav className="nav">
+            <nav className="nav" ref={innerSidebarRef}>
                 <Icon
                     className="minimize-btn"
                     icon={NavigationChevronLeft}
