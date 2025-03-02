@@ -13,7 +13,7 @@ import GroupTableHeader from "./GroupTableHeader";
 const GroupContainer = ({ group }) => {
 
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group?._id || "" });
+    const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group?._id || "", activationConstraint: { distance: 5 } });
     const { setNodeRef: setDroppableRef } = useDroppable({ id: group._id });
     const previousCollapsedValue = useRef(isCollapsed);
     const { isGloballyCollapsed } = useSelector(state => state.boardModule)
