@@ -2,7 +2,7 @@
 // import { getDummyBoardAsync } from '../../../board'
 import { boardService } from '../../services/board/board.service.local';
 
-import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer';
+import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer';
 import { store } from '../store';
 
 loadBoards()
@@ -19,9 +19,9 @@ export async function loadBoards(filterBy = {}) {
 }
 
 // Get Board
-export async function getBoardById(boardId) {
+export async function getBoardById(boardId, filterBy = {}) {
     try {
-        const board = await boardService.getBoardById(boardId);
+        const board = await boardService.getBoardById(boardId, filterBy);
         if (!board) throw new Error('Board not found');
         return board;
     } catch (err) {
@@ -214,7 +214,12 @@ export function setTask(task) {
 
 // Set Component Order (optional action)
 export function setCmpOrder(cmpOrder) {
-    return getCmdCmpOrder(cmpOrder);
+    return store.dispatch(getCmdCmpOrder(cmpOrder));
+}
+
+// Set Filter
+export function setFilterBy(filterBy) {
+    return store.dispatch(getCmdFilterBy(filterBy));
 }
 
 // Command Creators:
@@ -263,4 +268,9 @@ function getCmdRemoveTask(groupId, taskId) {
 // Component Order Command
 function getCmdCmpOrder(cmpOrder) {
     return { type: SET_CMP_ORDER, cmpOrder };
+}
+
+// Filter By Command
+function getCmdFilterBy(filterBy) {
+    return { type: SET_FILTER, filterBy };
 }

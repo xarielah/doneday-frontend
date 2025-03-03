@@ -117,7 +117,7 @@ function getBoards(filterBy = {}) {
 }
 
 // ----------------- Boards -----------------
-async function getBoardById(boardId) {
+async function getBoardById(boardId, filterBy = {}) {
     let boards = await storageService.query(STORAGE_KEY) || [];
     return boards.find(board => board._id === boardId) || null;
 }
@@ -381,4 +381,14 @@ async function addBoardMsg(boardId, txt) {
     await storageService.put(STORAGE_KEY, board)
 
     return msg
+}
+
+async function getEmptyFilter() {
+    return {
+        taskTitle: '',
+        status: [],
+        priority: [],
+        members: [],
+        timeline: ''
+    }
 }

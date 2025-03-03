@@ -16,20 +16,14 @@ const BoardHeaderContextualActions = ({ onAddGroup, onAddTask }) => {
         <Button className="icon-button" size="small" ariaLabel="Search" kind="tertiary">
             <Icon iconSize={20} icon={Search} /> Search
         </Button>
+
         <Button className="icon-button" size="small" ariaLabel="Person" kind="tertiary">
             <Icon iconSize={20} icon={Person} /> Person
         </Button>
-        <SplitButton children="Filter"
-            size="small"
-            kind="tertiary"
-            leftIcon={Filter}
-            dialogPaddingSize="small"
-            secondaryDialogContent={
-                <SplitButtonMenu id="split-menu">
-                    <MenuItem icon={Filter} title="Filter options" />
-                </SplitButtonMenu>
-            }
-        />
+
+        <Button className="icon-button" size="small" ariaLabel="Filter" kind="tertiary">
+            <Icon iconSize={20} icon={Filter} /> Filter
+        </Button>
 
         <Button className="icon-button" size="small" ariaLabel="Sort" kind="tertiary">
             <Icon iconSize={20} icon={Sort} /> Sort

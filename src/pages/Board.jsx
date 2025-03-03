@@ -10,12 +10,13 @@ import { setSelectedTask } from "../store/actions/taskSelect.actions";
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
     const boards = useSelector(storeState => storeState.boardModule.boards)
+    const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
     const { boardId } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
 
-        getBoardById(boardId)
+        getBoardById(boardId, filterBy)
             .then(setBoard)
             .catch((err) => {
                 navigate('/', { replace: true })
