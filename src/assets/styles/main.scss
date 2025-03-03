@@ -15,7 +15,6 @@
 @import "cmps/HomePage";
 
 // Dynamic Components
-@import "cmps/BoardDynamicCmps/Side";
 @import "cmps/BoardDynamicCmps/Status";
 @import "cmps/BoardDynamicCmps/Priority";
 @import "cmps/BoardDynamicCmps/DialogValuePicker";
@@ -26,6 +25,7 @@
 @import "cmps/Board/BoardHeader.scss";
 @import "cmps/Board/BoardDetails";
 @import "cmps/Board/CrudleBar";
+@import "cmps/Board/BoardFilter";
 
 // New Structure & Board Layout
 @import "cmps/board/structure/GroupHeader";

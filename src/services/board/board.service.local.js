@@ -41,13 +41,13 @@ export const boardService = {
     // Storage Key
     STORAGE_KEY
 };
-const allMembers = [
-    { name: "Dor", color: "#2a5699" },
-    { name: "Ariel", color: "#e4901c" },
-    { name: "Afik", color: "#fb275d" }
+export const allMembers = [
+    { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
+    { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
+    { name: "Afik", label: "Afik", value: "Afik", color: "#fb275d" }
 ]
 
-const statusList = [
+export const statusList = [
     { value: 'draft', label: 'Draft', className: 'status-draft' },
     { value: 'done', label: 'Done', className: 'status-done' },
     { value: 'wip', label: 'Working on it', className: 'status-wip' },
@@ -57,7 +57,7 @@ const statusList = [
     { value: 'design', label: 'In Design', className: 'status-design' },
 ]
 
-const priorityList = [
+export const priorityList = [
     { value: 'low', label: 'Low', className: 'priority-low' },
     { value: 'medium', label: 'Medium', className: 'priority-medium' },
     { value: 'high', label: 'High', className: 'priority-high' },
