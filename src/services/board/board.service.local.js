@@ -38,6 +38,9 @@ export const boardService = {
     getEmptyReply,
     // Message Operations
     addBoardMsg,
+    // Filter
+    getEmptyFilter,
+    getDateFilters,
     // Storage Key
     STORAGE_KEY
 };
@@ -120,10 +123,11 @@ function getBoards(filterBy = {}) {
 async function getBoardById(boardId, filterBy = {}) {
     let boards = await storageService.query(STORAGE_KEY) || [];
     const board = boards.find(board => board._id === boardId) || null;
-
     if (!board) return null;
 
-    const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim() ? filterBy.taskTitle.toLowerCase() : null;
+    const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim()
+        ? filterBy.taskTitle.toLowerCase()
+        : null;
 
     const filteredGroups = board.groups.map(group => {
         const filteredTasks = group.tasks.filter(task => {
@@ -143,7 +147,12 @@ async function getBoardById(boardId, filterBy = {}) {
                 ? task.taskTitle.toLowerCase().includes(taskTitleFilter)
                 : true;
 
-            return priorityMatch && membersMatch && statusMatch && titleMatch;
+
+            const timelineMatch = filterBy.Timeline
+                ? task.timeline?.endDate && new Date(task.timeline?.endDate) <= new Date(filterBy.Timeline)
+                : true;
+
+            return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch;
         });
 
         return {
@@ -429,4 +438,75 @@ async function getEmptyFilter() {
         members: [],
         timeline: ''
     }
+}
+
+function getDateFilters() {
+    const today = new Date();
+    // Normalize today to midnight
+    const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    // Single-day calculations
+    const yesterday = new Date(normalizedToday);
+    yesterday.setDate(normalizedToday.getDate() - 1);
+
+    const tomorrow = new Date(normalizedToday);
+    tomorrow.setDate(normalizedToday.getDate() + 1);
+
+    // Week calculations (assuming week starts on Monday)
+    const dayOfWeek = normalizedToday.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    // If Sunday (0), treat it as day 7 so that Monday is the start of the week
+    const adjustedDay = dayOfWeek === 0 ? 7 : dayOfWeek;
+    // Calculate Monday of the current week
+    const startOfThisWeek = new Date(normalizedToday);
+    startOfThisWeek.setDate(normalizedToday.getDate() - (adjustedDay - 1));
+    // End of this week is Sunday (i.e., Monday + 6 days)
+    const endOfThisWeek = new Date(startOfThisWeek);
+    endOfThisWeek.setDate(startOfThisWeek.getDate() + 6);
+
+    // Last week: previous Monday to previous Sunday
+    const startOfLastWeek = new Date(startOfThisWeek);
+    startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
+    const endOfLastWeek = new Date(startOfThisWeek);
+    endOfLastWeek.setDate(startOfThisWeek.getDate() - 1);
+
+    // Next week: next Monday to next Sunday
+    const startOfNextWeek = new Date(startOfThisWeek);
+    startOfNextWeek.setDate(startOfThisWeek.getDate() + 7);
+    const endOfNextWeek = new Date(startOfNextWeek);
+    endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+
+    // Month calculations
+    const startOfThisMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth(), 1);
+    // Setting date to 0 gives the last day of the previous month, so for current month end:
+    const endOfThisMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() + 1, 0);
+
+    // Last month
+    const startOfLastMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth(), 0);
+
+    // Next month
+    const startOfNextMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() + 1, 1);
+    const endOfNextMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() + 2, 0);
+
+    // Past Dates: all dates before today
+    // Future Dates: all dates after today
+    // Upcoming: define as the next 7 days (from tomorrow to 7 days later)
+    const upcomingStart = new Date(tomorrow);
+    const upcomingEnd = new Date(tomorrow);
+    upcomingEnd.setDate(tomorrow.getDate() + 7 - 1); // upcoming range: 7 days
+
+    return [
+        { label: 'Yesterday', value: yesterday },
+        { label: 'Today', value: normalizedToday },
+        { label: 'Tomorrow', value: tomorrow },
+        { label: 'This Week', value: { start: startOfThisWeek, end: endOfThisWeek } },
+        { label: 'Last Week', value: { start: startOfLastWeek, end: endOfLastWeek } },
+        { label: 'Next Week', value: { start: startOfNextWeek, end: endOfNextWeek } },
+        { label: 'This Month', value: { start: startOfThisMonth, end: endOfThisMonth } },
+        { label: 'Last Month', value: { start: startOfLastMonth, end: endOfLastMonth } },
+        { label: 'Next Month', value: { start: startOfNextMonth, end: endOfNextMonth } },
+        { label: 'Past Dates', value: { before: normalizedToday } },
+        { label: 'Future Dates', value: { after: normalizedToday } },
+        { label: 'Upcoming', value: { start: upcomingStart, end: upcomingEnd } }
+    ];
 }
