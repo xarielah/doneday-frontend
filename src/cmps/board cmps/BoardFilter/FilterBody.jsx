@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "@vibe/core";
 import FilterColumn from "./FilterColumn";
 
-const FilterBody = ({ columns }) => {
+const FilterBody = ({ columns, toggleFilterBy, filterBy }) => {
     return (
         <section className="filter-body">
             <section className="filter-body-header">
@@ -12,7 +12,7 @@ const FilterBody = ({ columns }) => {
             </section>
             <section className="filter-body-content">
                 {columns.map((column, idx) => (
-                    <FilterColumn key={idx} title={column.title} options={column.options} />
+                    <FilterColumn filterBy={filterBy} toggleFilterBy={toggleFilterBy} key={idx} title={column.title} options={column.options} />
                 ))}
             </section>
         </section>

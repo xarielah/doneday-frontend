@@ -23,7 +23,7 @@ export function Board() {
                 console.error('Cannot get board', err);
             });
 
-    }, [boards, boardId])
+    }, [boards, boardId, filterBy])
 
     useEffect(() => {
         setSelectedTask([])

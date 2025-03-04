@@ -119,8 +119,46 @@ function getBoards(filterBy = {}) {
 // ----------------- Boards -----------------
 async function getBoardById(boardId, filterBy = {}) {
     let boards = await storageService.query(STORAGE_KEY) || [];
-    return boards.find(board => board._id === boardId) || null;
+    const board = boards.find(board => board._id === boardId) || null;
+
+    if (!board) return null;
+
+    const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim() ? filterBy.taskTitle.toLowerCase() : null;
+
+    const filteredGroups = board.groups.map(group => {
+        const filteredTasks = group.tasks.filter(task => {
+            const priorityMatch = filterBy.Priority && filterBy.Priority.length > 0
+                ? filterBy.Priority.includes(task.priority)
+                : true;
+
+            const membersMatch = filterBy.Members && filterBy.Members.length > 0
+                ? task.members.some(member => filterBy.Members.includes(member.name))
+                : true;
+
+            const statusMatch = filterBy.Status && filterBy.Status.length > 0
+                ? filterBy.Status.includes(task.status)
+                : true;
+
+            const titleMatch = taskTitleFilter
+                ? task.taskTitle.toLowerCase().includes(taskTitleFilter)
+                : true;
+
+            return priorityMatch && membersMatch && statusMatch && titleMatch;
+        });
+
+        return {
+            ...group,
+            tasks: filteredTasks
+        };
+    });
+
+    return {
+        ...board,
+        groups: filteredGroups
+    };
 }
+
+
 
 async function saveBoard(newBoard) {
     let boards = await storageService.query(STORAGE_KEY) || [];

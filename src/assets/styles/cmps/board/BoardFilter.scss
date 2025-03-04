@@ -69,7 +69,29 @@
                 &:hover {
                     background-color: #6768791A;
                 }
+
+                &.active {
+                    background-color: #cce5ff;
+                }
+
+                .dot {
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 20px;
+                    margin-right: 4px;
+                }
+
             }
         }
+    }
+}
+
+.filter-btn {
+    &.active {
+        background-color: #cce5ff;
+    }
+
+    &.active:hover {
+        background-color: #cce5ff;
     }
 }
