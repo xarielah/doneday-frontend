@@ -14,6 +14,7 @@ export const UPDATE_TASK = 'UPDATE_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 
 export const SET_FILTER = 'SET_FILTER';
+export const SET_SORT = 'SET_SORT';
 
 export const SET_CMP_ORDER = 'SET_CMP_ORDER';
 
@@ -207,6 +208,11 @@ export function boardReducer(state = initialState, action) {
             return {
                 ...state,
                 filterBy: { ...state.filterBy, ...action.filterBy }
+            };
+        case SET_SORT:
+            return {
+                ...state,
+                sortBy: { ...state.sortBy, ...action.sortBy }
             };
 
         default:

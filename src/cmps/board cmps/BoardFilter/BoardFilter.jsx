@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Dialog, DialogContentContainer, Icon } from "@vibe/core";
-import { FiFilter } from "react-icons/fi";
-import { values as priorityValue } from "../dynamicCmps/Priority";
-import { Status, values as statusValue } from "../dynamicCmps/Status";
+import { Filter } from "@vibe/icons";
 import FilterHeader from "./FilterHeader";
 import FilterBody from "./FilterBody";
 import { allMembers, boardService, priorityList, statusList } from "../../../services/board/board.service.local";
@@ -116,7 +114,7 @@ export function BoardFilter() {
                     ariaLabel="Filter"
                     kind="tertiary"
                 >
-                    <Icon iconSize={20} icon={FiFilter} /> Filter
+                    <Icon iconSize={20} icon={Filter} /> Filter
                 </Button>
             </Dialog>
         </section>

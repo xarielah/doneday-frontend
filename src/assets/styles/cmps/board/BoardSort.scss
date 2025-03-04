@@ -1,11 +1,11 @@
-.board-filter {}
+.board-sort {}
 
-.filter-dialog {
-    width: 600px;
-    height: 348px;
+.sort-dialog {
+    width: 500px;
+    height: 180px;
     padding: 0;
 
-    .filter-header {
+    .sort-header {
         display: flex;
         align-items: center;
         padding: 16px 24px;
@@ -14,23 +14,20 @@
             margin-right: 12px;
         }
 
-        .clear-btn {
-            margin-left: auto;
-        }
     }
 
-    .filter-body {
+    .sort-body {
         padding: 8px 24px 24px 24px;
         box-sizing: border-box;
         height: calc(100% - 56px); // Total height minus header
 
-        .filter-body-header {
+        .sort-body-header {
             margin-bottom: 8px;
             height: 30px;
             flex-shrink: 0;
         }
 
-        .filter-body-content {
+        .sort-body-content {
             display: flex;
             height: calc(100% - 30px); // Set fixed height for the content area
             overflow-x: auto; // Horizontal scroll for extra columns
@@ -38,9 +35,9 @@
             width: 100%;
         }
 
-        .filter-column {
+        .sort-column {
             flex: 0 0 auto; // Prevent columns from shrinking
-            height: 100%; // Take full height of filter-body-content
+            height: 100%; // Take full height of sort-body-content
             overflow-y: auto; // Enable vertical scrolling within each column
             overflow-x: hidden;
             max-width: 170px;
@@ -49,7 +46,7 @@
             display: flex;
             flex-direction: column; // Stack items vertically
 
-            .filter-column-title {
+            .sort-column-title {
                 height: 34px;
                 flex-shrink: 0; // Title remains fixed
                 position: sticky;
@@ -58,7 +55,7 @@
                 z-index: 1; // Appear above the scrolling content
             }
 
-            .filter-item {
+            .sort-item {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -96,7 +93,7 @@
     }
 }
 
-.filter-btn {
+.sort-btn {
     &.active {
         background-color: #cce5ff;
     }

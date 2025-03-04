@@ -2,7 +2,7 @@
 // import { getDummyBoardAsync } from '../../../board'
 import { boardService } from '../../services/board/board.service.local';
 
-import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer';
+import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_SORT, SET_TASK, UPDATE_BOARD, UPDATE_GROUP, UPDATE_TASK, } from '../reducers/board.reducer';
 import { store } from '../store';
 
 loadBoards()
@@ -221,6 +221,10 @@ export function setCmpOrder(cmpOrder) {
 export function setFilterBy(filterBy) {
     return store.dispatch(getCmdFilterBy(filterBy));
 }
+// Set Sort
+export function setSortBy(sortBy) {
+    return store.dispatch(getCmdSortBy(sortBy));
+}
 
 // Command Creators:
 // Board Commands
@@ -273,4 +277,7 @@ function getCmdCmpOrder(cmpOrder) {
 // Filter By Command
 function getCmdFilterBy(filterBy) {
     return { type: SET_FILTER, filterBy };
+}
+function getCmdSortBy(sortBy) {
+    return { type: SET_SORT, sortBy };
 }

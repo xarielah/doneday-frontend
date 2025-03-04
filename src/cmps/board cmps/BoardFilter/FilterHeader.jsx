@@ -12,7 +12,7 @@ const FilterHeader = ({ title, subtitle, resetFilters, isFilter }) => {
             </Text>
             <Button
                 size="small"
-                kind="secondary"
+                kind="tertiary"
                 onClick={() => resetFilters()}
                 ariaLabel="Clear all"
                 className="clear-btn"
