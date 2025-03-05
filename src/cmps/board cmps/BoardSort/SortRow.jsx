@@ -34,7 +34,6 @@ const SortRow = () => {
             />
             <Dropdown
                 clearable={false}
-                defaultOptions={ }
                 className="ascending-decsending"
                 options={[
                     {
