@@ -7,37 +7,42 @@ import SortBody from "./SortBody";
 import SortHeader from "./SortHeader";
 
 export function BoardSort() {
-    const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
-    const board = useSelector(storeState => storeState.boardModule.board)
-    const [isSort, setIsSort] = useState(false)
-    const [sortList, setSortList] = useState(['name', 'status', 'priority', 'timeline'])
-    const [sortByList, setSortByList] = useState([{ title: '', order: 1 }])
+    const sortBy = useSelector(storeState => storeState.boardModule.sortBy);
+    const board = useSelector(storeState => storeState.boardModule.board);
+    // List of available columns to sort by.
+    const sortList = ['name', 'status', 'priority', 'timeline'];
+    // Local state holds an array of sort row objects.
+    const [sortByList, setSortByList] = useState([{ title: '', order: 1 }]);
 
-    // Name, Status, Priority, timeline
+    // Determine if any valid sort row exists (i.e. title is set).
+    const isSortActive = sortByList.some(sort => sort.title !== '') || sortByList.length > 1;
 
+    // Whenever sortByList changes, update Redux (filtering out empty sort rows)
     useEffect(() => {
-        isSort && sortBy.length > 0 ? setIsSort(true) : setIsSort(false)
-    }, [sortBy])
+        setSortBy(sortByList)
+    }, [sortByList]);
 
-    function resetFilters() {
-        setSortBy([])
-        setSortByList([{ title: '', order: 1 }])
+    // Update a particular sort row in the list.
+    function updateSortRow(index, newSort) {
+        const newList = [...sortByList];
+        newList[index] = newSort;
+        setSortByList(newList);
     }
 
-    function addSort(sortTitle, order) {
-        const newSort = { sortTitle, order }
-        setSortBy([...sortBy, newSort])
+    // Remove a sort row by index.
+    function removeSort(index) {
+        const newList = sortByList.filter((_, idx) => idx !== index);
+        setSortByList(newList);
     }
 
-    function removeSort(sortTitle) {
-        const newSort = sortBy.filter(sort => sort.sortTitle !== sortTitle)
-        setSortBy(newSort)
-        setSortByList(sortByList.filter(sort => sort.title !== sortTitle))
-    }
-
+    // Add a new (empty) sort row.
     function addSortByList() {
-        const newSort = { title: '', order: 1 }
-        setSortByList([...sortByList, newSort])
+        setSortByList([...sortByList, { title: '', order: 1 }]);
+    }
+
+    // Optionally, reset to a single empty sort row.
+    function resetSort() {
+        setSortByList([{ title: '', order: 1 }]);
     }
 
     return (
@@ -51,14 +56,24 @@ export function BoardSort() {
                         <section className="sort-dialog">
                             <SortHeader
                                 title="Sort by"
+                                onAddSort={addSortByList}
+                                onReset={resetSort}
                             />
-                            <SortBody sortByList={sortByList} sortList={sortList} />
+                            <SortBody
+                                addSortByList={addSortByList}
+                                resetSort={resetSort}
+                                isSortActive={isSortActive}
+                                sortByList={sortByList}
+                                sortList={sortList}
+                                onSortRowChange={updateSortRow}
+                                onRemoveSortRow={removeSort}
+                            />
                         </section>
                     </DialogContentContainer>
                 }
             >
                 <Button
-                    className={`icon-button sort-btn ${isSort ? 'active' : ''}`}
+                    className={`icon-button sort-btn ${isSortActive ? "active" : ""}`}
                     size="small"
                     ariaLabel="Sort"
                     kind="tertiary"

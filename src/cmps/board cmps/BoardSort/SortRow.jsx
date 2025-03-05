@@ -1,51 +1,42 @@
 import { Dropdown, IconButton } from "@vibe/core";
 import { CloseSmall } from "@vibe/icons";
-import React, { useState } from "react";
+import React from "react";
 
-const SortRow = ({ sortList, sort }) => {
-
-    // const activeOptions = options.filter(
-    //     (option) =>
-    //         filterBy[title] && filterBy[title].includes(option.value)
-    // );
-    // const inactiveOptions = options.filter(
-    //     (option) =>
-    //         !filterBy[title] || !filterBy[title].includes(option.value)
-    // );
-
+const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive }) => {
+    // Define the ordering options.
     const orderOptions = [
-        {
-            label: 'Ascending',
-            value: 1,
-        },
-        {
-            label: 'Decsending',
-            value: -1,
-        }
-    ]
-    const [order, setOrder] = useState(orderOptions[0]);
+        { label: "Ascending", value: 1 },
+        { label: "Descending", value: -1 },
+    ];
 
     return (
         <section className="sort-row">
+            {/* Column selection Dropdown */}
             <Dropdown
                 value={sort.title}
                 className="sort-list"
                 placeholder="Choose column"
-                options={sortList.map(sort => {
-                    return {
-                        label: sort.charAt(0).toUpperCase() + sort.slice(1),
-                        value: sort
-                    }
-                })}
+                options={sortList.map(s => ({
+                    label: s.charAt(0).toUpperCase() + s.slice(1),
+                    value: s,
+                }))}
+                onChange={(option) => onChange({ ...sort, title: option.value })}
             />
+            {/* Order selection Dropdown */}
             <Dropdown
-                value={order}
-                onChange={(option) => setOrder(option)}
+                value={sort.order}
+                onChange={(option) => onChange({ ...sort, order: option.value })}
                 clearable={false}
                 className="ascending-descending"
                 options={orderOptions}
             />
-            <IconButton icon={CloseSmall} className="icon-btn" kind="tertiary" />
+            {/* Remove sort row button */}
+            {isSortActive && <IconButton
+                icon={CloseSmall}
+                className="icon-btn"
+                kind="tertiary"
+                onClick={onRemove}
+            />}
         </section>
     );
 };
