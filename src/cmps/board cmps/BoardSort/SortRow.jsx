@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dropdown, List, ListItem, MenuTitle } from "@vibe/core";
 
-const SortRow = () => {
+const SortRow = ({ sortList }) => {
 
     // const activeOptions = options.filter(
     //     (option) =>
@@ -12,39 +12,35 @@ const SortRow = () => {
     //         !filterBy[title] || !filterBy[title].includes(option.value)
     // );
 
+    const orderOptions = [
+        {
+            label: 'Ascending',
+            value: 1,
+        },
+        {
+            label: 'Decsending',
+            value: -1,
+        }
+    ]
+    const [order, setOrder] = useState(orderOptions[0]);
+
     return (
         <section className="sort-row">
             <Dropdown
                 className="sort-list"
-                options={[
-                    {
-                        label: 'Option 1',
-                        value: 1
-                    },
-                    {
-                        label: 'Option 2',
-                        value: 2
-                    },
-                    {
-                        label: 'Option 3',
-                        value: 3
+                options={sortList.map(sort => {
+                    return {
+                        label: sort.charAt(0).toUpperCase() + sort.slice(1),
+                        value: sort
                     }
-                ]}
-                placeholder="Placeholder text here"
+                })}
             />
             <Dropdown
+                defaultValue={order}
+                onChange={(option) => setOrder(option.value - 1)}
                 clearable={false}
                 className="ascending-decsending"
-                options={[
-                    {
-                        label: 'Ascending',
-                        value: 1,
-                    },
-                    {
-                        label: 'Decsending',
-                        value: -1,
-                    }
-                ]}
+                options={orderOptions}
             />
         </section>
     );

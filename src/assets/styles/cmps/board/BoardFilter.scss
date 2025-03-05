@@ -22,7 +22,7 @@
     .filter-body {
         padding: 8px 24px 24px 24px;
         box-sizing: border-box;
-        height: calc(100% - 56px); // Total height minus header
+        height: calc(100% - 56px);
 
         .filter-body-header {
             margin-bottom: 8px;
@@ -32,30 +32,30 @@
 
         .filter-body-content {
             display: flex;
-            height: calc(100% - 30px); // Set fixed height for the content area
-            overflow-x: auto; // Horizontal scroll for extra columns
-            overflow-y: hidden; // Hide vertical overflow at this level
+            height: calc(100% - 30px);
+            overflow-x: auto;
+            overflow-y: hidden;
             width: 100%;
         }
 
         .filter-column {
-            flex: 0 0 auto; // Prevent columns from shrinking
-            height: 100%; // Take full height of filter-body-content
-            overflow-y: auto; // Enable vertical scrolling within each column
+            flex: 0 0 auto;
+            height: 100%;
+            overflow-y: auto;
             overflow-x: hidden;
             max-width: 170px;
             padding: 0 12px;
             width: 100%;
             display: flex;
-            flex-direction: column; // Stack items vertically
+            flex-direction: column;
 
             .filter-column-title {
                 height: 34px;
-                flex-shrink: 0; // Title remains fixed
+                flex-shrink: 0;
                 position: sticky;
                 top: 0;
-                background-color: #fff; // Ensure background covers content beneath
-                z-index: 1; // Appear above the scrolling content
+                background-color: #fff;
+                z-index: 1;
             }
 
             .filter-item {

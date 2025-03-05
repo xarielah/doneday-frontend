@@ -10,6 +10,9 @@ export function BoardSort() {
     const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
     const board = useSelector(storeState => storeState.boardModule.board)
     const [isSort, setIsSort] = useState(false)
+    const [sortList, setSortList] = useState(['name', 'status', 'priority', 'timeline'])
+
+    // Name, Status, Priority, timeline
 
     useEffect(() => {
     }, [sortBy])
@@ -26,7 +29,7 @@ export function BoardSort() {
                             <SortHeader
                                 title="Sort by"
                             />
-                            <SortBody />
+                            <SortBody sortList={sortList} />
                         </section>
                     </DialogContentContainer>
                 }

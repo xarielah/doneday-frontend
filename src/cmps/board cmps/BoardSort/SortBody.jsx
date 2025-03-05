@@ -2,10 +2,10 @@ import React from "react";
 import { Dropdown, Text } from "@vibe/core";
 import SortRow from "./SortRow";
 
-const SortBody = () => {
+const SortBody = ({ sortList }) => {
     return (
         <section className="sort-body">
-            <SortRow />
+            <SortRow sortList={sortList} />
         </section >
     );
 };
