@@ -125,18 +125,21 @@ async function getBoardById(boardId, filterBy = {}) {
     const board = boards.find(board => board._id === boardId) || null;
     if (!board) return null;
 
+    const groups = Array.isArray(board.groups) ? board.groups : [];
+
     const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim()
         ? filterBy.taskTitle.toLowerCase()
         : null;
 
-    const filteredGroups = board.groups.map(group => {
-        const filteredTasks = group.tasks.filter(task => {
+    const filteredGroups = groups.map(group => {
+        const tasks = Array.isArray(group.tasks) ? group.tasks : [];
+        const filteredTasks = tasks.filter(task => {
             const priorityMatch = filterBy.Priority && filterBy.Priority.length > 0
                 ? filterBy.Priority.includes(task.priority)
                 : true;
 
             const membersMatch = filterBy.Members && filterBy.Members.length > 0
-                ? task.members.some(member => filterBy.Members.includes(member.name))
+                ? task.members && task.members.some(member => filterBy.Members.includes(member.name))
                 : true;
 
             const statusMatch = filterBy.Status && filterBy.Status.length > 0
@@ -144,12 +147,11 @@ async function getBoardById(boardId, filterBy = {}) {
                 : true;
 
             const titleMatch = taskTitleFilter
-                ? task.taskTitle.toLowerCase().includes(taskTitleFilter)
+                ? task.taskTitle && task.taskTitle.toLowerCase().includes(taskTitleFilter)
                 : true;
 
-
             const timelineMatch = filterBy.Timeline
-                ? task.timeline?.endDate && new Date(task.timeline?.endDate) <= new Date(filterBy.Timeline)
+                ? task.timeline?.endDate && new Date(task.timeline.endDate) <= new Date(filterBy.Timeline)
                 : true;
 
             return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch;
@@ -165,6 +167,7 @@ async function getBoardById(boardId, filterBy = {}) {
         ...board,
         groups: filteredGroups
     };
+
 }
 
 

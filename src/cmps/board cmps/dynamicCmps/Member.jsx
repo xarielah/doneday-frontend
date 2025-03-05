@@ -73,8 +73,8 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                 ? selectedMembers.filter((name) => name !== memberName)
                 : [...selectedMembers, memberName]
             : selectedMembers.includes(memberName)
-            ? []
-            : [memberName];
+                ? []
+                : [memberName];
 
         setSelectedMembers(updatedMembers);
 
@@ -258,7 +258,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                                 backgroundColor={
                                                     member?.color ? member.color : "black"
                                                 }
-                                                ariaLabel="Team 1"
+                                                ariaLabel={member.name}
                                                 size="small"
                                             />
                                             <span style={{ marginLeft: "5px" }}>
@@ -299,7 +299,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                 backgroundColor={
                                     member?.color ? member.color : "black"
                                 }
-                                ariaLabel="Team 1"
+                                ariaLabel={member.name}
                             />
                         ))}
                 </AvatarGroup>

@@ -1,10 +1,8 @@
-import { Button, Dialog, DialogContentContainer, IconButton, Menu, MenuDivider, MenuItem } from "@vibe/core";
-import { Board, Checkbox, Delete, Duplicate, Group, Menu as MenuDots, MoveArrowRight, Open } from "@vibe/icons"
+import { Dialog, DialogContentContainer, IconButton, Menu, MenuDivider, MenuItem } from "@vibe/core";
+import { Board, Checkbox, Delete, Duplicate, Group, Menu as MenuDots, MoveArrowRight, Open } from "@vibe/icons";
 import { useSelector } from "react-redux";
-import { addGroup, addTask, getBoardById, loadBoards, removeGroup, removeTask, updateBoard, updateGroup, updateTask } from "../../../store/actions/board.actions";
-import { useState } from "react";
 import { useNavigate } from "react-router";
-import { getRandomColor } from "../../../services/util.service";
+import { addGroup, addTask, removeGroup, removeTask } from "../../../store/actions/board.actions";
 import { addSelectedGroup } from "../../../store/actions/taskSelect.actions";
 
 export function TaskMenuButton({ task, group, crudlType }) {
@@ -69,9 +67,9 @@ export function TaskMenuButton({ task, group, crudlType }) {
                         _id: undefined,
                         groupId: newGroup._id,
                     };
-                    newTasks.push(cloneTask);
+                    const newTask = await addTask(newGroup._id, cloneTask);
+                    newTasks.push(newTask);
                 }
-                await updateGroup({ ...newGroup, tasks: newTasks });
             }
         } catch (error) {
             console.error("Error duplicating group:", error);
@@ -104,7 +102,7 @@ export function TaskMenuButton({ task, group, crudlType }) {
             zIndex={10000}
             position="bottom-start"
             showTrigger={["click"]}
-            hideTrigger={["clickoutside", "click", "blur"]}
+            hideTrigger={["click", "clickoutside", "blur"]}
             content={
                 (crudlType === "task" && <DialogContentContainer>
                     <Menu id="menu" size="medium">

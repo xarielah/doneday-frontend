@@ -5,13 +5,13 @@ const defaultTasks = [
         side: null,
         taskTitle: "Design homepage UI",
         members: [
-            { name: "Tal", color: "red" },
-            { name: "Avi", color: "blue" },
+            { name: "Tal", color: "#2a5699" },
+            { name: "Avi", color: "#e4901c" },
         ],
         allMembers: [
-            { name: "Dor", color: "red" },
-            { name: "Ariel", color: "blue" },
-            { name: "Afik", color: "yellow" },
+            { name: "Dor", color: "#2a5699" },
+            { name: "Ariel", color: "#e4901c" },
+            { name: "Afik", color: "#fb275d" },
         ],
         timeline: {
             startDate: '',
@@ -31,9 +31,9 @@ const defaultTasks = [
             { name: "Shay", color: "black" },
         ],
         allMembers: [
-            { name: "Dor", color: "red" },
-            { name: "Ariel", color: "blue" },
-            { name: "Afik", color: "yellow" },
+            { name: "Dor", color: "#2a5699" },
+            { name: "Ariel", color: "#e4901c" },
+            { name: "Afik", color: "#fb275d" },
         ],
         timeline: {
             startDate: '',

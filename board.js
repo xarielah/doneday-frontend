@@ -42,7 +42,7 @@ const newG = {
         taskTitle: "Design homepage UI",
         members: [
             { name: "Tal", color: "#2a5699" },
-            { name: "Avi", color: "blue" }
+            { name: "Avi", color: "#2a5699" }
         ],
         allMembers: [
             { name: "Dor", color: "#2a5699" },

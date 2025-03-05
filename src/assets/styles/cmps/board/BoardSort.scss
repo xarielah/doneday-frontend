@@ -21,17 +21,30 @@
 
         .sort-row {
             display: flex;
+            align-items: center;
             width: 100%;
             margin-bottom: 8px;
+            justify-content: flex-start;
+        }
 
-            .sort-list {
-                width: 60%;
-                margin-right: 8px;
-            }
+        .sort-row .sort-list {
+            flex: 1;
+            margin-right: 8px;
+        }
 
-            .ascending-decsending {
-                width: 40%;
-            }
+        .sort-row .ascending-descending {
+            width: 150px;
+        }
+
+        .sort-row .icon-btn {
+            width: 100%;
+            color: #6b778c;
+            padding: 4px 8px;
+        }
+
+        .sort-row .icon-btn:hover {
+            background-color: transparent;
+            color: #323338;
         }
 
     }

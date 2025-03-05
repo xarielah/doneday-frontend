@@ -1,11 +1,12 @@
 import React from "react";
-import { Dropdown, Text } from "@vibe/core";
 import SortRow from "./SortRow";
 
-const SortBody = ({ sortList }) => {
+const SortBody = ({ sortList, sortByList }) => {
     return (
         <section className="sort-body">
-            <SortRow sortList={sortList} />
+            {sortByList.map((sort, idx) => {
+                return <SortRow key={idx} sortList={sortList} sort={sort} />
+            })}
         </section >
     );
 };

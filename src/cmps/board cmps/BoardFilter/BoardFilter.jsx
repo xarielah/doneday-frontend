@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { Button, Dialog, DialogContentContainer, Icon } from "@vibe/core";
 import { Filter } from "@vibe/icons";
-import FilterHeader from "./FilterHeader";
-import FilterBody from "./FilterBody";
-import { allMembers, boardService, priorityList, statusList } from "../../../services/board/board.service.local";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { allMembers, priorityList, statusList } from "../../../services/board/board.service.local";
 import { setFilterBy } from "../../../store/actions/board.actions";
+import FilterBody from "./FilterBody";
+import FilterHeader from "./FilterHeader";
 
 export function BoardFilter() {
     const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
@@ -61,8 +61,6 @@ export function BoardFilter() {
 
     function resetFilters() {
         setFilterBy({ Status: [], Priority: [], Members: [] })
-        console.log(filterBy);
-
     }
 
     function toggleFilterBy(filterTitle, filterProp) {

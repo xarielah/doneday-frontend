@@ -1,7 +1,8 @@
+import { Dropdown, IconButton } from "@vibe/core";
+import { CloseSmall } from "@vibe/icons";
 import React, { useState } from "react";
-import { Dropdown, List, ListItem, MenuTitle } from "@vibe/core";
 
-const SortRow = ({ sortList }) => {
+const SortRow = ({ sortList, sort }) => {
 
     // const activeOptions = options.filter(
     //     (option) =>
@@ -27,7 +28,9 @@ const SortRow = ({ sortList }) => {
     return (
         <section className="sort-row">
             <Dropdown
+                value={sort.title}
                 className="sort-list"
+                placeholder="Choose column"
                 options={sortList.map(sort => {
                     return {
                         label: sort.charAt(0).toUpperCase() + sort.slice(1),
@@ -36,12 +39,13 @@ const SortRow = ({ sortList }) => {
                 })}
             />
             <Dropdown
-                defaultValue={order}
-                onChange={(option) => setOrder(option.value - 1)}
+                value={order}
+                onChange={(option) => setOrder(option)}
                 clearable={false}
-                className="ascending-decsending"
+                className="ascending-descending"
                 options={orderOptions}
             />
+            <IconButton icon={CloseSmall} className="icon-btn" kind="tertiary" />
         </section>
     );
 };
