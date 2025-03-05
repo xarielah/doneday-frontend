@@ -18,78 +18,21 @@
 
     .sort-body {
         padding: 8px 24px 24px 24px;
-        box-sizing: border-box;
-        height: calc(100% - 56px); // Total height minus header
 
-        .sort-body-header {
-            margin-bottom: 8px;
-            height: 30px;
-            flex-shrink: 0;
-        }
-
-        .sort-body-content {
+        .sort-row {
             display: flex;
-            height: calc(100% - 30px); // Set fixed height for the content area
-            overflow-x: auto; // Horizontal scroll for extra columns
-            overflow-y: hidden; // Hide vertical overflow at this level
             width: 100%;
-        }
 
-        .sort-column {
-            flex: 0 0 auto; // Prevent columns from shrinking
-            height: 100%; // Take full height of sort-body-content
-            overflow-y: auto; // Enable vertical scrolling within each column
-            overflow-x: hidden;
-            max-width: 170px;
-            padding: 0 12px;
-            width: 100%;
-            display: flex;
-            flex-direction: column; // Stack items vertically
-
-            .sort-column-title {
-                height: 34px;
-                flex-shrink: 0; // Title remains fixed
-                position: sticky;
-                top: 0;
-                background-color: #fff; // Ensure background covers content beneath
-                z-index: 1; // Appear above the scrolling content
+            .sort-list {
+                width: 60%;
+                margin-right: 8px;
             }
 
-            .sort-item {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                background-color: #f5f6f8;
-                padding: 0 12px;
-                margin-right: 4px;
-                margin-bottom: 4px;
-                height: 32px;
-                cursor: pointer;
-                border-radius: 4px;
-
-                &:hover {
-                    background-color: #6768791A;
-                }
-
-                &.active {
-                    background-color: #cce5ff;
-                }
-
-                .dot {
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 20px;
-                    margin-right: 4px;
-                }
-
-                span {
-                    margin-left: auto;
-                    font-size: 0.9em;
-                    color: #676879;
-                }
-
+            .ascending-decsending {
+                width: 40%;
             }
         }
+
     }
 }
 
