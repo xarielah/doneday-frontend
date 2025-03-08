@@ -14,11 +14,9 @@
   display: grid;
   grid-template-columns: 1fr 3px;
   background-color: $modal-background-color;
-  background: linear-gradient(
-    180deg,
-    $modal-background-color 30%,
-    $primary-surface-color 100%
-  );
+  background: linear-gradient(180deg,
+      $modal-background-color 30%,
+      $primary-surface-color 100%);
 
   * {
     box-sizing: border-box;
@@ -28,44 +26,45 @@
     width: 100%;
   }
 
-  .nav {
-    transition: all 0.3s ease;
-  }
+
 
   .nav.minimize {
-    width: 0 !important;
+    transform: translateX(-100%);
     opacity: 0;
     pointer-events: none;
+    transition: none;
   }
 
   .nav.minimize.hovered {
-    width: 250px !important;
+    transform: translateX(0);
     opacity: 1;
+    height: 100%;
     pointer-events: auto;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 10;
-    background-color: inherit;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    background: linear-gradient(180deg,
+        $modal-background-color 30%,
+        $primary-surface-color 100%);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.1s ease;
   }
 
   &:hover {
     .minimize-btn {
       display: block;
     }
+
     nav {
-      .menu-nav > :nth-child(1) {
+      .menu-nav> :nth-child(1) {
         margin-right: 27px;
       }
     }
   }
 
   .nav-close {
-    width: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 28px;
   }
 
   .minimize-btn {
@@ -73,7 +72,12 @@
     position: absolute;
     right: 0;
     border-radius: 0 8px;
-    margin-right: -3.5px;
+    // margin-right: -3px;
+
+    // &.hovered {
+    //   margin-right: 0;
+    // }
+
     padding: 0 8px;
     font-size: 15px;
     width: 28px !important;
@@ -87,12 +91,19 @@
     }
   }
 
+  .minimize-close-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: -2px;
+
+  }
+
   nav {
     display: flex;
     flex-direction: column;
     position: relative;
 
-    > * {
+    >* {
       width: 100%;
     }
 
@@ -102,7 +113,7 @@
       display: grid;
       grid-template-columns: 1fr auto;
 
-      & > :nth-child(1) {
+      &> :nth-child(1) {
         transition: ease-in 0.02s;
       }
 
@@ -124,7 +135,7 @@
       padding: 0 10px 0 8px;
       display: grid;
 
-      > * {
+      >* {
         width: 100%;
       }
     }
@@ -165,6 +176,7 @@
 
         .workspace-dropdown-btn {
           margin: 3px 1px;
+
           button {
             display: inline-block;
             white-space: nowrap;
@@ -193,6 +205,12 @@
         display: grid;
         place-content: center;
         grid-template-columns: 1fr auto;
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+        // text-overflow: ellipsis;
+        width: 100%;
+
         .board-crudl {
           width: 24px;
         }
