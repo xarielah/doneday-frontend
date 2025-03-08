@@ -23,6 +23,23 @@
   flex-basis: 175px;
 }
 
+.column-label-link {
+  width: 175px;
+  flex-basis: 175px;
+}
+
+.input-container {
+  margin-top: .5rem;
+}
+
+.infoOutput {
+  justify-content: space-evenly;
+  width: 100%;
+}
+.rounded-btn {
+  border-radius: 50%;
+}
+
 .avatars {
   position: relative;
   width: 100%;

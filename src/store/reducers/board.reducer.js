@@ -34,7 +34,8 @@ const initialState = {
         "priority",
         "members",
         "date",
-        "timeline"],
+        "timeline",
+    "link"],
     isGloballyCollapsed: false
 };
 

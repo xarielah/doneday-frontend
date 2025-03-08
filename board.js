@@ -50,6 +50,7 @@ const newG = {
             { name: "Afik", color: "#fb275d" }
         ],
         timeline: { startDate: "", endDate: "" },
+        link: "",
         date: "15-01-2025",
         status: "wip",
         priority: "high"

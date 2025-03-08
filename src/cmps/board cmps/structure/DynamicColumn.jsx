@@ -1,4 +1,5 @@
 import { Date } from "../dynamicCmps/Date";
+import { LinkColumn } from "../dynamicCmps/Link";
 import { Member } from "../dynamicCmps/Member";
 import { Priority } from "../dynamicCmps/Priority";
 import { Status } from "../dynamicCmps/Status";
@@ -16,6 +17,8 @@ const DynamicColumn = ({ cmpType, info, allMembers, onTaskUpdate }) => {
             return <Date info={info} onTaskUpdate={onTaskUpdate} />;
         case "timeline":
             return <Timeline info={info} onTaskUpdate={onTaskUpdate} />;
+        case "link":
+            return <LinkColumn info={info} onTaskUpdate={onTaskUpdate} />;
         default:
             return null;
     }
