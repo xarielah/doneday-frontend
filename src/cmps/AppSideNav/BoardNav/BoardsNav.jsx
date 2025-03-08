@@ -188,79 +188,12 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                     }
                 >
                     <WorkspaceTitle setIsSearch={setIsSearch} isSearch={isSearch} />
-                    {/* <section className="workspace-title">
-                        {!isSearch && (
-                            <>
-                                <Icon icon={Workspace} className="icon" />
-                                <MenuTitle className="title" caption="Boards" icon={Workspace} />
-
-                                <MenuButton size="xs" className="menu-btn">
-                                    <Menu id="menu" size={Menu.sizes.MEDIUM}>
-                                        <MenuItem iconType="svg" title="test 1" />
-                                        <MenuItem iconType="svg" title="test 2" />
-                                        <MenuItem title="test 3" />
-                                    </Menu>
-                                </MenuButton>
-
-                                <IconButton
-                                    className="search-btn"
-                                    icon={SearchIcon}
-                                    kind="tertiary"
-                                    ariaLabel="Search boards"
-                                    size="xs"
-                                    onClick={() => setIsSearch(true)}
-                                />
-                            </>
-                        )}
-                        {isSearch && (
-                            <Search
-                                className="search"
-                                ref={searchRef}
-                                placeholder="Search in Main workspaces"
-                                size="small"
-                                autoFocus
-                                onClick={() => setIsSearch(true)}
-                                renderAction={<IconButton icon={Filter} ariaLabel="Filter results" size="xs" />}
-                            />
-                        )}
-                    </section> */}
-
                     <WorkspacesDropdown
                         selectedBoard={selectedBoard}
                         onToggleModal={() => setIsAddBoard(true)}
                         isBoardMenuOpen={isOpen}
                         toggleBoardMenu={() => setIsOpen(prev => !prev)}
                     />
-                    {/* <section className="workspaces-dropdown">
-                        <Button
-                            size={Button.sizes.SMALL}
-                            className="workspace-dropdown-btn"
-                            kind={Button.kinds.TERTIARY}
-                            onClick={() => setIsOpen(prev => !prev)}
-                            style={{
-                                border: "1px solid #d0d4e4"
-                            }}
-                        >
-                            <span style={{ marginLeft: "8px", textOverflow: 'ellipsis' }}>{selectedBoard}</span>
-                            <Icon icon={isOpen ? DropdownChevronUp : DropdownChevronDown} />
-                        </Button>
-
-                        <IconButton
-                            className="add-workspace-btn"
-                            size={Button.sizes.SMALL}
-                            kind={Button.kinds.PRIMARY}
-                            ariaLabel="Add Board"
-                            icon={Add}
-                            aria-disabled="false"
-                            style={{
-                                marginLeft: "8px",
-                                backgroundColor: "#0073ea",
-                                color: "#ffffff"
-                            }}
-                            onClick={() => setIsAddBoard(true)}
-
-                        />
-                    </section> */}
                 </Dialog>
             </section>
 
@@ -272,7 +205,8 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                         title={board.name}
                         icon={Board}
                         onClick={() => handleSelect(board)}
-                    >{board.name}
+                    >
+                        <span className="board-name-nav">{board.name}</span>
                         <MenuButton onClick={(e) => e.stopPropagation()} className="board-crudl" size="xs">
                             <Menu id="menu" size={Menu.sizes.MEDIUM}>
                                 <MenuItem icon={ExternalPage} onClick={() => openBoardLink(board._id)} iconType="svg" title="Open in new tab" />

@@ -176,6 +176,11 @@
 
         .workspace-dropdown-btn {
           margin: 3px 1px;
+          text-align: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          box-sizing: border-box;
 
           button {
             display: inline-block;
@@ -187,6 +192,9 @@
           span {
             font-size: 16px;
             font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
 
@@ -205,11 +213,14 @@
         display: grid;
         place-content: center;
         grid-template-columns: 1fr auto;
-        text-align: left;
-        overflow: hidden;
-        white-space: nowrap;
-        // text-overflow: ellipsis;
         width: 100%;
+
+        .board-name-nav {
+          text-align: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
 
         .board-crudl {
           width: 24px;

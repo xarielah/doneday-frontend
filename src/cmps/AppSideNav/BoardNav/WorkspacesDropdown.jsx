@@ -12,7 +12,7 @@ export default function WorkspacesDropdown({ selectedBoard, isBoardMenuOpen, tog
                 border: "1px solid #d0d4e4"
             }}
         >
-            <span style={{ marginLeft: "8px", textOverflow: 'ellipsis' }}>{selectedBoard}</span>
+            <span className="workspace-selected-name" style={{ marginLeft: "8px", textOverflow: 'ellipsis' }}>{selectedBoard}</span>
             <Icon icon={isBoardMenuOpen ? DropdownChevronUp : DropdownChevronDown} />
         </Button>
 
