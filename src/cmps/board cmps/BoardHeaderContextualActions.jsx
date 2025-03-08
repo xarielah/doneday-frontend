@@ -1,5 +1,6 @@
 import { Button, Flex, Icon, MenuButton, MenuItem, SplitButton, SplitButtonMenu } from "@vibe/core"
 import { Filter, Group, Person, Search, Show, Sort } from "@vibe/icons"
+import { BoardPerson } from "./BoardPerson/BoardPerson"
 
 const BoardHeaderContextualActions = ({ onAddGroup, onAddTask }) => {
     return <Flex className="action" gap="small" align="center">
@@ -16,9 +17,7 @@ const BoardHeaderContextualActions = ({ onAddGroup, onAddTask }) => {
         <Button className="icon-button" size="small" ariaLabel="Search" kind="tertiary">
             <Icon iconSize={20} icon={Search} /> Search
         </Button>
-        <Button className="icon-button" size="small" ariaLabel="Person" kind="tertiary">
-            <Icon iconSize={20} icon={Person} /> Person
-        </Button>
+        <BoardPerson />
         <Button className="icon-button" size="small" ariaLabel="Filter" kind="tertiary">
             <Icon iconSize={20} icon={Filter} /> Filter
         </Button>

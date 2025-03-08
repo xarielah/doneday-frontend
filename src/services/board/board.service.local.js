@@ -41,10 +41,11 @@ export const boardService = {
     // Storage Key
     STORAGE_KEY
 };
-const allMembers = [
-    { name: "Dor", color: "#2a5699" },
-    { name: "Ariel", color: "#e4901c" },
-    { name: "Afik", color: "#fb275d" }
+
+export const allMembers = [
+    { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
+    { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
+    { name: "Afik", label: "Afik", value: "Afik", color: "#fb275d" }
 ]
 
 const statusList = [
@@ -382,3 +383,4 @@ async function addBoardMsg(boardId, txt) {
 
     return msg
 }
+
