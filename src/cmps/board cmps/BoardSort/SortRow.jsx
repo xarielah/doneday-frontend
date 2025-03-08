@@ -2,7 +2,7 @@ import { Dropdown, IconButton } from "@vibe/core";
 import { CloseSmall } from "@vibe/icons";
 import React from "react";
 
-const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive }) => {
+const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive, getAvailableSortOptions, clearSortRow }) => {
     // Define the ordering options.
     const orderOptions = [
         { label: "Ascending", value: 1 },
@@ -13,18 +13,18 @@ const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive }) => {
         <section className="sort-row">
             {/* Column selection Dropdown */}
             <Dropdown
-                value={sort.title}
+                onClear={clearSortRow}
                 className="sort-list"
                 placeholder="Choose column"
-                options={sortList.map(s => ({
+                options={getAvailableSortOptions().map(s => ({
                     label: s.charAt(0).toUpperCase() + s.slice(1),
                     value: s,
                 }))}
-                onChange={(option) => onChange({ ...sort, title: option.value })}
+                onChange={(option) => onChange({ ...sort, title: option?.value || '' })}
             />
             {/* Order selection Dropdown */}
             <Dropdown
-                value={sort.order}
+                defaultValue={orderOptions}
                 onChange={(option) => onChange({ ...sort, order: option.value })}
                 clearable={false}
                 className="ascending-descending"

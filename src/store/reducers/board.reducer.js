@@ -34,7 +34,7 @@ const initialState = {
     statusLabels: [],
     priorityLabels: [],
     filterBy: {},
-    sortBy: {},
+    sortBy: [],
     cmpOrder: ["status",
         "priority",
         "members",

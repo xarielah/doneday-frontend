@@ -2,7 +2,7 @@ import { Button } from "@vibe/core";
 import React from "react";
 import SortRow from "./SortRow";
 
-const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSortActive, addSortByList }) => {
+const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSortActive, addSortByList, getAvailableSortOptions, clearSortRow }) => {
     return (
         <section className="sort-body">
             {sortByList.map((sort, idx) => (
@@ -12,7 +12,9 @@ const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSo
                     sortList={sortList}
                     sort={sort}
                     onChange={(newSort) => onSortRowChange(idx, newSort)}
-                    onRemove={() => isSortActive ? onRemoveSortRow(idx) : resetSort()}
+                    onRemove={() => onRemoveSortRow(idx)}
+                    getAvailableSortOptions={getAvailableSortOptions}
+                    clearSortRow={() => clearSortRow(idx)}
                 />
             ))}
             <Button
@@ -20,6 +22,7 @@ const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSo
                 size="small"
                 className="add-sort"
                 onClick={addSortByList}
+                disabled={sortList.length === sortByList.length}
             >
                 Add sort
             </Button>

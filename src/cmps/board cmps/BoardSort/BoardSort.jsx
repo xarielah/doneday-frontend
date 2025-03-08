@@ -19,8 +19,15 @@ export function BoardSort() {
 
     // Whenever sortByList changes, update Redux (filtering out empty sort rows)
     useEffect(() => {
+        // setSortBy(sortByList)
+        console.log(sortBy);
+        console.log(sortByList);
         setSortBy(sortByList)
     }, [sortByList]);
+
+    function getAvailableSortOptions() {
+        return sortList.filter((sort) => !sortByList.some((s) => s.title === sort));
+    }
 
     // Update a particular sort row in the list.
     function updateSortRow(index, newSort) {
@@ -29,10 +36,17 @@ export function BoardSort() {
         setSortByList(newList);
     }
 
+    function clearSortRow(idx) {
+        const newList = [...sortByList];
+        newList[idx] = { ...newList[idx], title: '' };
+        setSortByList(newList);
+    }
+
     // Remove a sort row by index.
     function removeSort(index) {
-        const newList = sortByList.filter((_, idx) => idx !== index);
+        const newList = sortByList.filter((sort, idx) => idx !== index);
         setSortByList(newList);
+        if (sortByList.length === 1) resetSort();
     }
 
     // Add a new (empty) sort row.
@@ -56,8 +70,6 @@ export function BoardSort() {
                         <section className="sort-dialog">
                             <SortHeader
                                 title="Sort by"
-                                onAddSort={addSortByList}
-                                onReset={resetSort}
                             />
                             <SortBody
                                 addSortByList={addSortByList}
@@ -67,6 +79,8 @@ export function BoardSort() {
                                 sortList={sortList}
                                 onSortRowChange={updateSortRow}
                                 onRemoveSortRow={removeSort}
+                                getAvailableSortOptions={getAvailableSortOptions}
+                                clearSortRow={clearSortRow}
                             />
                         </section>
                     </DialogContentContainer>
