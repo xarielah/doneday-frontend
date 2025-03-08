@@ -1,5 +1,5 @@
-import { Icon } from "@vibe/core";
-import { NavigationChevronLeft } from "@vibe/icons";
+import { Icon, IconButton } from "@vibe/core";
+import { DropdownChevronLeft, DropdownChevronRight, NavigationChevronLeft, NavigationChevronRight } from "@vibe/icons";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ export function AppNav() {
 
     const [isSearch, setIsSearch] = useState(false);
     const [isMinimize, setIsMinimize] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+
 
     const innerSidebarRef = useRef(null);
     const sidebarRef = useRef(null);
@@ -30,7 +32,7 @@ export function AppNav() {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {        
         if (isSearch) {
             document.addEventListener("mousedown", handleClickOutside);
         } else {
@@ -39,7 +41,7 @@ export function AppNav() {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isSearch]);
+    }, [isSearch,isMinimize]);
 
     const handleMouseDown = () => {
         isResizing.current = true;
@@ -67,17 +69,55 @@ export function AppNav() {
         document.removeEventListener("mouseup", handleMouseUp);
     };
 
+    const handleMouseEnter = () => {
+        if (isMinimize) {
+          setIsHovered(true);
+        }
+      };
+    
+      const handleMouseLeave = () => {
+        if (isMinimize) {
+          setIsHovered(false);
+        }
+      };
+
     const handleNavigate = (path) => {
         navigate(path);
     };
 
+    function toggleMinimize(){
+        setIsMinimize(!isMinimize)
+        setIsHovered(false)
+    }
+
+    const minimizedSideStyle = {
+
+    }
+
     return (
         <section className="app-nav" ref={sidebarRef}>
-            <nav className="nav" ref={innerSidebarRef}>
-                <Icon
+            {isMinimize &&
+            <nav
+            className={`nav-close ${isHovered ? 'hovered' : ''}`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            >
+            <IconButton 
+                    className="minimize-btn minimize-close"
+                    icon={DropdownChevronRight}
+                    onClick={() => toggleMinimize()}
+                />
+            </nav>}
+            {<nav
+            className={`nav ${isMinimize ? 'minimize' : ''} ${isHovered ? 'hovered' : ''}`}
+            ref={innerSidebarRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            >
+                <IconButton 
                     className="minimize-btn"
-                    icon={NavigationChevronLeft}
-                    onClick={() => setIsMinimize(!isMinimize)}
+                    icon={DropdownChevronLeft}
+                    onClick={() => toggleMinimize()}
                 />
                 <MainNav location={location} handleNavigate={handleNavigate} />
                 <FavoritesNav />
@@ -89,7 +129,7 @@ export function AppNav() {
                     setIsSearch={setIsSearch}
                     searchRef={searchRef}
                 />
-            </nav>
+            </nav>}
 
             <div className="resize-bar" onMouseDown={handleMouseDown}></div>
         </section>

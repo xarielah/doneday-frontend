@@ -6,6 +6,7 @@
 }
 
 .app-nav {
+  position: relative;
   box-sizing: border-box;
   grid-area: nav;
   width: 100%;
@@ -23,19 +24,36 @@
     box-sizing: border-box;
   }
 
-  .medium_004db5bace {
+  button {
     width: 100%;
   }
 
-  button {
-    width: 100%;
+  .nav {
+    transition: all 0.3s ease;
+  }
+
+  .nav.minimize {
+    width: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav.minimize.hovered {
+    width: 250px !important;
+    opacity: 1;
+    pointer-events: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: inherit;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
   }
 
   &:hover {
     .minimize-btn {
       display: block;
     }
-
     nav {
       .menu-nav > :nth-child(1) {
         margin-right: 27px;
@@ -43,30 +61,36 @@
     }
   }
 
+  .nav-close {
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .minimize-btn {
+    display: none;
+    position: absolute;
+    right: 0;
+    border-radius: 0 8px;
+    margin-right: -3.5px;
+    padding: 0 8px;
+    font-size: 15px;
+    width: 28px !important;
+    height: 38px !important;
+    background-color: #f6f7fb;
+    cursor: pointer;
+    z-index: 1;
+
+    &:hover {
+      background-color: #6768791a;
+    }
+  }
+
   nav {
     display: flex;
     flex-direction: column;
     position: relative;
-
-    .minimize-btn {
-      display: none;
-      position: absolute;
-      right: 0;
-      border-radius: 0 8px;
-      margin-right: -2.5px;
-      padding: auto;
-      font-size: 15px;
-      width: 28px;
-      padding: 0 8px;
-      height: 38px;
-      background-color: #f6f7fb;
-      cursor: pointer;
-      z-index: 1;
-
-      &:hover {
-        background-color: #6768791a;
-      }
-    }
 
     > * {
       width: 100%;
@@ -91,7 +115,6 @@
       }
     }
 
-    // devider
     .horizontal_f8c2f25be6 {
       margin: 4px 0;
     }
@@ -142,7 +165,7 @@
 
         .workspace-dropdown-btn {
           margin: 3px 1px;
-          button{
+          button {
             display: inline-block;
             white-space: nowrap;
             overflow: hidden;
@@ -166,18 +189,14 @@
       grid-column: 1/-1;
       padding-top: 2px;
 
-      .board-item{
+      .board-item {
         display: grid;
         place-content: center;
-        // justify-content: space-between;
         grid-template-columns: 1fr auto;
-        // background-color: red;
-        .board-crudl{
+        .board-crudl {
           width: 24px;
         }
-
       }
-
 
       li {
         margin-top: 2px;
