@@ -1,21 +1,27 @@
 import {
+    DatePicker,
     Dialog,
     DialogContentContainer,
-    DatePicker,
     useSwitch
 } from "@vibe/core";
-import { useState, useMemo, useCallback } from "react";
 import moment from "moment";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-const MOCK_INITIAL_DATE = { startDate: '', endDate: '' };
 
-export function Timeline({ info, onTaskUpdate }) {
+export function Timeline({ info, onTaskUpdate, isEditable = true }) {
     const { isChecked: isDialogOpen, onChange: onDialogChange } = useSwitch(false);
 
-    const [dateRange, setDateRange] = useState(() => ({
+    const [dateRange, setDateRange] = useState({
         startDate: info?.startDate ? moment(info.startDate) : '',
         endDate: info?.endDate ? moment(info.endDate) : ''
-    }));
+    });
+
+    useEffect(() => {
+        if ((info?.startDate && info?.endDate)) {
+            setDateRange({ startDate: moment(info.startDate), endDate: moment(info.endDate) })
+            return;
+        }
+    }, [info])
 
     const { startDate, endDate } = dateRange;
 
@@ -27,9 +33,10 @@ export function Timeline({ info, onTaskUpdate }) {
     };
 
     const formattedDateRange = useMemo(() => {
-        if (!startDate || !endDate) return "-";
-        return `${startDate.format("MMM DD")} - ${endDate.format("DD")}`;
-    }, [startDate, endDate]);
+        console.log("🚀 ~ formattedDateRange ~ dateRange:", dateRange)
+        if (!dateRange.startDate || !dateRange.endDate) return "-";
+        return `${dateRange.startDate.format("MMM DD")} - ${dateRange.endDate.format("DD")}`;
+    }, [dateRange]);
 
     const isStartDateFuture = moment().startOf('day').isBefore(startDate);
     const isEndDatePassed = moment().startOf('day').isAfter(endDate);
@@ -43,7 +50,7 @@ export function Timeline({ info, onTaskUpdate }) {
         if (moment().isBefore(startDate)) return 0;
 
         return ((totalDuration - Math.max(remainingDuration, 0)) / totalDuration) * 100;
-    }, [startDate, endDate]);
+    }, [dateRange]);
 
     const progressPercent = calculateProgress();
 
@@ -55,12 +62,12 @@ export function Timeline({ info, onTaskUpdate }) {
     }, [startDate, endDate, isStartDateFuture, isEndDatePassed, progressPercent]);
 
     return (
-        <div className="timeline-container column-label column-label-date default-cell-color">
+        <div className="timeline-container column-label column-label-timeline default-cell-color" style={{ justifyContent: 'center', display: 'flex' }}>
             <Dialog
                 modifiers={[{ name: "preventOverflow", options: { mainAxis: false } }]}
-                open={isDialogOpen}
-                showTrigger={[]}
-                onClickOutside={onDialogChange}
+                open={isEditable ? isDialogOpen : false}
+                showTrigger={isEditable ? [] : null}
+                onClickOutside={isEditable && onDialogChange}
                 zIndex={1010}
                 content={
                     <DialogContentContainer>
@@ -77,12 +84,12 @@ export function Timeline({ info, onTaskUpdate }) {
             >
                 <button
                     className={`set-dates-button ${startDate ? "selected" : "default"}`}
-                    onClick={onDialogChange}
+                    onClick={isEditable && onDialogChange}
                     style={{ background: getButtonBackground }}
-                    onMouseOver={(e) => !startDate && (e.currentTarget.innerText = "Set Dates")}
-                    onMouseOut={(e) => !startDate && (e.currentTarget.innerText = "-")}
+                    onMouseOver={(e) => (!startDate && isEditable) && (e.currentTarget.innerText = "Set Dates")}
+                    onMouseOut={(e) => (!startDate && isEditable) && (e.currentTarget.innerText = "-")}
                 >
-                    {startDate ? formattedDateRange : "-"}
+                    {formattedDateRange}
                 </button>
             </Dialog>
         </div>
