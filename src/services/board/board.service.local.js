@@ -51,13 +51,13 @@ export const allMembers = [
 ]
 
 export const statusList = [
-    { value: 'draft', label: 'Draft', className: 'status-draft' },
     { value: 'done', label: 'Done', className: 'status-done' },
     { value: 'wip', label: 'Working on it', className: 'status-wip' },
     { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
     { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
     { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
     { value: 'design', label: 'In Design', className: 'status-design' },
+    { value: 'draft', label: 'Draft', className: 'status-draft' },
 ]
 
 export const priorityList = [
@@ -120,7 +120,9 @@ function getBoards(filterBy = {}) {
 }
 
 // ----------------- Boards -----------------
-async function getBoardById(boardId, filterBy = {}) {
+async function getBoardById(boardId, filterBy = {}, sortBy = []) {
+    console.log("byID", sortBy);
+
     let boards = await storageService.query(STORAGE_KEY) || [];
     const board = boards.find(board => board._id === boardId) || null;
     if (!board) return null;
@@ -130,6 +132,9 @@ async function getBoardById(boardId, filterBy = {}) {
     const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim()
         ? filterBy.taskTitle.toLowerCase()
         : null;
+
+    const getStatusIndex = (status) => statusList.findIndex(s => s.value === status);
+    const getPriorityIndex = (priority) => priorityList.findIndex(p => p.value === priority);
 
     const filteredGroups = groups.map(group => {
         const tasks = Array.isArray(group.tasks) ? group.tasks : [];
@@ -157,11 +162,39 @@ async function getBoardById(boardId, filterBy = {}) {
             return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch;
         });
 
+        const sortedTasks = filteredTasks.sort((taskA, taskB) => {
+            for (const { title, order } of sortBy) {
+                let comparison = 0;
+                if (title === 'status') {
+                    comparison = getStatusIndex(taskA.status) - getStatusIndex(taskB.status);
+                } else if (title === 'priority') {
+                    comparison = getPriorityIndex(taskA.priority) - getPriorityIndex(taskB.priority);
+                } else if (title === 'name') {
+                    comparison = taskA.localeCompare(taskB)
+                } else if (title === 'timeline') {
+                    const dateA = new Date(taskA.timeline?.endDate || 0)
+                    const dateB = new Date(taskB.timeline?.endDate || 0)
+                    if (isNaN(dateA) && isNaN(dateB)) {
+                        comparison = 0
+                    } else if (isNaN(dateA)) {
+                        comparison = 1
+                    } else if (isNaN(dateB)) {
+                        comparison = -1
+                    } else {
+                        comparison = dateA - dateB
+                    }
+                }
+                if (comparison !== 0) return comparison * order;
+            }
+            return 0
+        }
+        )
         return {
             ...group,
-            tasks: filteredTasks
+            tasks: sortedTasks
         };
     });
+
 
     return {
         ...board,

@@ -8,55 +8,56 @@ import SortHeader from "./SortHeader";
 
 export function BoardSort() {
     const sortBy = useSelector(storeState => storeState.boardModule.sortBy);
-    const board = useSelector(storeState => storeState.boardModule.board);
-    // List of available columns to sort by.
-    const sortList = ['name', 'status', 'priority', 'timeline'];
-    // Local state holds an array of sort row objects.
-    const [sortByList, setSortByList] = useState([{ title: '', order: 1 }]);
 
-    // Determine if any valid sort row exists (i.e. title is set).
+    const sortList = ['name', 'status', 'priority', 'timeline'];
+
+    const [sortByList, setSortByList] = useState(sortBy.length > 0 ? sortBy : [{ title: '', order: 1 }]);
+
     const isSortActive = sortByList.some(sort => sort.title !== '') || sortByList.length > 1;
 
-    // Whenever sortByList changes, update Redux (filtering out empty sort rows)
     useEffect(() => {
         // setSortBy(sortByList)
-        console.log(sortBy);
-        console.log(sortByList);
-        setSortBy(sortByList)
+        // console.log('sortByList', sortByList);
+
     }, [sortByList]);
 
     function getAvailableSortOptions() {
         return sortList.filter((sort) => !sortByList.some((s) => s.title === sort));
     }
 
-    // Update a particular sort row in the list.
     function updateSortRow(index, newSort) {
         const newList = [...sortByList];
         newList[index] = newSort;
         setSortByList(newList);
+        setSortBy(newList);
+        console.log('newSort', newList);
     }
 
-    function clearSortRow(idx) {
+    function clearSortRow(index) {
         const newList = [...sortByList];
-        newList[idx] = { ...newList[idx], title: '' };
+        newList[index] = { ...newList[index], title: '' };
         setSortByList(newList);
+        setSortBy(newList);
     }
 
-    // Remove a sort row by index.
     function removeSort(index) {
-        const newList = sortByList.filter((sort, idx) => idx !== index);
+        const newList = sortByList.filter((_, idx) => idx !== index);
         setSortByList(newList);
-        if (sortByList.length === 1) resetSort();
+        setSortBy(newList);
+        if (newList.length === 0) resetSort()
     }
 
-    // Add a new (empty) sort row.
     function addSortByList() {
-        setSortByList([...sortByList, { title: '', order: 1 }]);
+        const newList = [...sortByList, { title: '', order: 1 }];
+        setSortByList(newList);
+        setSortBy(newList);
     }
 
-    // Optionally, reset to a single empty sort row.
+
     function resetSort() {
-        setSortByList([{ title: '', order: 1 }]);
+        const defaultSort = [{ title: '', order: 1 }];
+        setSortByList(defaultSort);
+        setSortBy(defaultSort);
     }
 
     return (

@@ -212,7 +212,7 @@ export function boardReducer(state = initialState, action) {
         case SET_SORT:
             return {
                 ...state,
-                sortBy: { ...state.sortBy, ...action.sortBy }
+                sortBy: [...action.sortBy]
             };
 
         default:

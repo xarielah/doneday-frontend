@@ -1,8 +1,9 @@
 import { Button } from "@vibe/core";
-import React from "react";
+import React, { useEffect } from "react";
 import SortRow from "./SortRow";
 
 const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSortActive, addSortByList, getAvailableSortOptions, clearSortRow }) => {
+
     return (
         <section className="sort-body">
             {sortByList.map((sort, idx) => (

@@ -19,9 +19,11 @@ export async function loadBoards(filterBy = {}) {
 }
 
 // Get Board
-export async function getBoardById(boardId, filterBy = {}) {
+export async function getBoardById(boardId, filterBy = {}, sortBy = []) {
     try {
-        const board = await boardService.getBoardById(boardId, filterBy);
+        console.log('getBoardById', sortBy);
+
+        const board = await boardService.getBoardById(boardId, filterBy, sortBy);
         if (!board) throw new Error('Board not found');
         return board;
     } catch (err) {
