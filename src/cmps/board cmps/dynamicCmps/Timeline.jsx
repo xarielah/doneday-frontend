@@ -33,7 +33,6 @@ export function Timeline({ info, onTaskUpdate, isEditable = true }) {
     };
 
     const formattedDateRange = useMemo(() => {
-        console.log("🚀 ~ formattedDateRange ~ dateRange:", dateRange)
         if (!dateRange.startDate || !dateRange.endDate) return "-";
         return `${dateRange.startDate.format("MMM DD")} - ${dateRange.endDate.format("DD")}`;
     }, [dateRange]);

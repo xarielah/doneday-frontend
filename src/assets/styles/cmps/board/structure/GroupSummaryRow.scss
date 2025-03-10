@@ -6,6 +6,7 @@
     margin-left: 40px;
     background-color: transparent;
     flex-basis: 367px;
+    flex-shrink: 0;
   }
 
   & .summary-row {

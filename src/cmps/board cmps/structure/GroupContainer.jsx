@@ -41,7 +41,7 @@ const GroupContainer = ({ group }) => {
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
-        zIndex: isDragging ? 1250 : 0,
+        zIndex: isDragging ? 3000 : 0,
     };
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
         <section role="rowheader" className="group-header-container">
