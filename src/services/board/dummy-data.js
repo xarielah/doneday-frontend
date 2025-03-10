@@ -17,6 +17,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "15-01-2025",
         status: "wip",
         priority: "high",
@@ -39,6 +40,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "20-01-2025",
         status: "stuck",
         priority: "critical",
@@ -61,6 +63,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "18-01-2025",
         status: "done",
         priority: "medium",
@@ -83,6 +86,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "22-01-2025",
         status: "wip",
         priority: "low",
@@ -105,6 +109,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "10-02-2025",
         status: "revision",
         priority: "high",
@@ -127,6 +132,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "12-02-2025",
         status: "stuck",
         priority: "medium",
@@ -149,6 +155,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "08-02-2025",
         status: "done",
         priority: "high",
@@ -171,6 +178,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "15-02-2025",
         status: "wip",
         priority: "critical",
@@ -193,6 +201,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "13-01-2025",
         status: "wip",
         priority: "high",
@@ -215,6 +224,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "20-01-2025",
         status: "wip",
         priority: "medium",
@@ -237,6 +247,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "25-01-2025",
         status: "revision",
         priority: "high",
@@ -259,6 +270,7 @@ const defaultTasks = [
             startDate: '',
             endDate: ''
         },
+        link: "",
         date: "18-01-2025",
         status: "done",
         priority: "low",
