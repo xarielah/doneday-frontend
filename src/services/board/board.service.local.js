@@ -170,7 +170,7 @@ async function getBoardById(boardId, filterBy = {}, sortBy = []) {
                 } else if (title === 'priority') {
                     comparison = getPriorityIndex(taskA.priority) - getPriorityIndex(taskB.priority);
                 } else if (title === 'name') {
-                    comparison = taskA.localeCompare(taskB)
+                    comparison = taskA.taskTitle.localeCompare(taskB.taskTitle)
                 } else if (title === 'timeline') {
                     const dateA = new Date(taskA.timeline?.endDate || 0)
                     const dateB = new Date(taskB.timeline?.endDate || 0)
@@ -417,7 +417,11 @@ function getEmptyTask(groupId) {
         allMembers: allMembers,
         date: '',
         status: '',
-        priority: ''
+        priority: '',
+        timeline: {
+            "startDate": "",
+            "endDate": ""
+        }
     }
 }
 
