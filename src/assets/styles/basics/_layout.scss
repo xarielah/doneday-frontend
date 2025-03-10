@@ -1,5 +1,6 @@
 .main-container {
   background-color: #eceff8;
+  height: 100vh;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
@@ -7,36 +8,23 @@
     "header header"
     "nav board";
 
-  >* {
+  > * {
     grid-column: 2;
 
     &.full {
       grid-column: 1 / -1;
     }
   }
-
-  // @include for-narrow-layout {
-  //     grid-template-columns:
-  //         minmax(20px, 1fr)
-  //         minmax(auto, $mobile-breakpoint)
-  //         minmax(20px, 1fr);
-  // }
-  // @include for-normal-layout {
-  //     grid-template-columns:
-  //         minmax(20px, 1fr)
-  //         minmax(auto, $narrow-breakpoint)
-  //         minmax(20px, 1fr);
-  // }
-  // @include for-wide-layout {
-  //     grid-template-columns:
-  //         minmax(20px, 1fr)
-  //         minmax(auto, $normal-breakpoint)
-  //         minmax(20px, 1fr);
-  // }
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
+}
+
+.page-container {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

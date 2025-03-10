@@ -1,9 +1,17 @@
+.group-sticky-header {
+  position: absolute;
+  background-color: red;
+}
+
 .group-header {
   height: 40px;
   font-size: 18px;
   display: flex;
   align-items: center;
   z-index: 1;
+  position: sticky;
+  top: 0;
+  left: 0;
 
   .group-menu-button {
     width: 40px;
@@ -83,7 +91,7 @@
     margin: 0;
   }
 
-  &>.group-heading {
+  & > .group-heading {
     height: 40px;
   }
 }
