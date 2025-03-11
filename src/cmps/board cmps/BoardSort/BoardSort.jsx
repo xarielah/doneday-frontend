@@ -17,9 +17,6 @@ export function BoardSort() {
 
     useEffect(() => {
         // setSortBy(sortByList)
-        console.log('sortByList', sortByList);
-        console.log('sortBy', sortBy);
-
 
     }, [sortByList]);
 
@@ -32,7 +29,6 @@ export function BoardSort() {
         newList[index] = newSort;
         setSortByList(newList);
         setSortBy(newList);
-        console.log('newSort', newList);
     }
 
     function clearSortRow(index) {

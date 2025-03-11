@@ -121,7 +121,6 @@ function getBoards(filterBy = {}) {
 
 // ----------------- Boards -----------------
 async function getBoardById(boardId, filterBy = {}, sortBy = []) {
-    console.log("byID", sortBy);
 
     let boards = await storageService.query(STORAGE_KEY) || [];
     const board = boards.find(board => board._id === boardId) || null;

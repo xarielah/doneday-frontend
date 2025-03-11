@@ -8,7 +8,7 @@ const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive, getAvailabl
         { label: "Ascending", value: 1 },
         { label: "Descending", value: -1 },
     ];
-
+    let titleValue = sortList.find((title) => title === sort.title) || ''
 
     return (
         <section className="sort-row">
@@ -20,8 +20,11 @@ const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive, getAvailabl
                     label: s.charAt(0).toUpperCase() + s.slice(1),
                     value: s,
                 }))}
-                // value={sortList.find((s) => s === sort.title)}
                 onChange={(option) => onChange({ ...sort, title: option?.value || '' })}
+                value={titleValue != "" ? {
+                    label: titleValue.charAt(0).toUpperCase() + titleValue.slice(1),
+                    value: titleValue
+                } : null}
             />
             <Dropdown
                 onChange={(option) => onChange({ ...sort, order: option.value })}
