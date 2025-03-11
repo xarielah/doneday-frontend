@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Dialog, TextField, Tooltip, IconButton, DialogContentContainer, Text, Heading, Link } from "@vibe/core"; 
-import { Add, Delete } from "@vibe/icons";
+import { Add, CloseSmall, Delete } from "@vibe/icons";
 import {
     Modal,
     ModalHeader,
@@ -180,10 +180,10 @@ export function LinkColumn({ info, onTaskUpdate}) {
                             />
                             {previewVisible && (
                                 <IconButton
-                                icon={Delete}
+                                icon={CloseSmall}
                                 size="xs"
                                 className="rounded-btn"
-                                kind="primary"
+                                kind="tertiary"
                                 ariaLabel="Remove Link"
                                 onClick={() => setIsModalOpen(true)}
                                 />

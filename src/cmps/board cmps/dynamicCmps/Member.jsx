@@ -10,22 +10,42 @@ import {
     Button,
 } from "@vibe/core";
 import { Add, Search } from "@vibe/icons";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { debounce } from "../../../services/util.service";
 
 export function Member({ info, allMembers, onTaskUpdate }) {
     const [infoState, setInfoState] = useState(info);
-    const [allAvailableMembers, setAllAvailableMembers] = useState(allMembers);
+    const [allAvailableMembers, setAllAvailableMembers] = useState(() => {
+        return allMembers.filter(member => 
+            !info.some(infoMember => infoMember.name === member.name)
+        );
+    });
     const [isAddButtonVisible, setIsAddButtonVisible] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
     const [selectedMembers, setSelectedMembers] = useState([]);
 
+    useEffect(() => {
+        const uniqueMembers = [];
+        const seenNames = new Set();
+        
+        allAvailableMembers.forEach(member => {
+            if (!seenNames.has(member.name)) {
+                seenNames.add(member.name);
+                uniqueMembers.push(member);
+            }
+        });
+        
+        if (uniqueMembers.length !== allAvailableMembers.length) {
+            setAllAvailableMembers(uniqueMembers);
+        }
+    }, [allAvailableMembers]);
+
     const openDialog = () => setIsDialogOpen(true);
     const closeDialog = () => {
         setIsDialogOpen(false);
-        setSelectedMembers([]); // Reset selected members when the dialog is closed
+        setSelectedMembers([]);
     };
 
     const onAddMembers = (newMembers) => {
@@ -54,16 +74,22 @@ export function Member({ info, allMembers, onTaskUpdate }) {
     const handleRemoveMember = (memberName) => {
         const updatedInfo = infoState.filter((member) => member.name !== memberName);
         const memberToRemove = infoState.find((member) => member.name === memberName);
-
+    
         if (memberToRemove) {
-            const updatedAvailableMembers = [
-                ...allAvailableMembers,
-                { name: memberToRemove.name, color: memberToRemove.color },
-            ];
-
-            setInfoState(updatedInfo);
-            setAllAvailableMembers(updatedAvailableMembers);
-            onTaskUpdate(updatedInfo);
+            const originalMember = allMembers.find(m => m.name === memberName);
+            
+            if (originalMember) {
+                const filtered = allAvailableMembers.filter(m => m.name !== memberName);
+            
+                setAllAvailableMembers([
+                    ...filtered,
+                    { name: originalMember.name, color: originalMember.color }
+                ]);
+                
+                setInfoState(updatedInfo);
+                setSelectedMembers(prev => prev.filter(name => name !== memberName));
+                onTaskUpdate(updatedInfo);
+            }
         }
     };
 
@@ -83,22 +109,32 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         }
     };
 
-    const updateServiceWithMembers = (newMembers) => {
-        const structuredMembers = newMembers.map((memberName) => {
-            const member = allMembers.find((m) => m.name === memberName);
+    const updateServiceWithMembers = (newMemberNames) => {
+        if (!newMemberNames.length) {
+            return;
+        }
+        
+        const memberPool = [...allMembers, ...allAvailableMembers];
+        
+        const structuredMembers = newMemberNames.map(memberName => {
+            const memberSet = new Set(memberPool.map(m => JSON.stringify(m)));
+            const members = Array.from(memberSet).map(m => JSON.parse(m));
+            
+            const member = members.find(m => m.name === memberName);
             return member ? { name: member.name, color: member.color } : null;
-        });
-
+        }).filter(Boolean);
+        
         if (!structuredMembers.length) {
             alert("No member data found.");
             return;
         }
-
+        
         const updatedInfo = [...infoState, ...structuredMembers];
+        
         const updatedAllAvailableMembers = allAvailableMembers.filter(
-            (member) => !newMembers.includes(member.name)
+            member => !newMemberNames.includes(member.name)
         );
-
+        
         setInfoState(updatedInfo);
         setAllAvailableMembers(updatedAllAvailableMembers);
         onAddMembers(updatedInfo);

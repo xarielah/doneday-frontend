@@ -34,7 +34,19 @@
 
 .infoOutput {
   justify-content: space-evenly;
-  width: 100%;
+  width: 90%;
+}
+
+.infoOutput:hover {
+  border: 1px solid #eee;
+}
+
+.infoOutput a {
+  text-overflow: ellipsis;
+  max-width: 120px;
+  overflow: hidden;
+  display: block;
+  transition: .2s all ease;
 }
 .rounded-btn {
   border-radius: 50%;
@@ -59,4 +71,12 @@
 .addMemberDialog {
   z-index: 99;
   position: absolute;
+}
+
+[class^="column-label-"], .table-task-row .default-cell-color, .table-row-layout .task-left-checkbox {
+  transition: .2s all ease;
+}
+
+.table-task-row:hover .default-cell-color, [class^="column-label-"]:hover, .table-row-layout:hover .task-left-checkbox {
+  background-color: #efefef;
 }
