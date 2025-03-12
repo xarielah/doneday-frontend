@@ -16,7 +16,6 @@ export function Board() {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         getBoardById(boardId, filterBy, sortBy)
             .then(setBoard)
             .catch((err) => {

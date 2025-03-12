@@ -28,7 +28,6 @@ export function BoardSort() {
         newList[index] = newSort;
         setSortByList(newList);
         setSortBy(newList);
-        console.log('newSort', newList);
     }
 
     function clearSortRow(index) {
