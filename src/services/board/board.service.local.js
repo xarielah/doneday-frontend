@@ -121,7 +121,6 @@ function getBoards(filterBy = {}) {
 
 // ----------------- Boards -----------------
 async function getBoardById(boardId, filterBy = {}, sortBy = []) {
-    console.log("byID", sortBy);
 
     let boards = await storageService.query(STORAGE_KEY) || [];
     const board = boards.find(board => board._id === boardId) || null;
@@ -317,6 +316,8 @@ async function saveTask(boardId, groupId, newTask) {
     if (taskIdx === -1) {
         newTask.allMembers = allMembers;
         newTask._id = 't' + makeId();
+        newTask.priority = 'tbd'
+        newTask.status = 'draft'
         boards[boardIdx].groups[groupIdx].tasks.push(newTask);
         await storageService._save(STORAGE_KEY, boards);
         return { ...newTask };

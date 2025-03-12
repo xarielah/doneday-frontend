@@ -1,4 +1,8 @@
 .table-footer {
+  // display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
+
   & .last-cell {
     background-color: white;
   }

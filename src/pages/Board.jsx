@@ -16,7 +16,6 @@ export function Board() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(sortBy);
 
         getBoardById(boardId, filterBy, sortBy)
             .then(setBoard)
