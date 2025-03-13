@@ -10,19 +10,20 @@ import { setSelectedTask } from "../store/actions/taskSelect.actions";
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
     const boards = useSelector(storeState => storeState.boardModule.boards)
+    const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
+    const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
     const { boardId } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        getBoardById(boardId)
+        getBoardById(boardId, filterBy, sortBy)
             .then(setBoard)
             .catch((err) => {
                 navigate('/', { replace: true })
                 console.error('Cannot get board', err);
             });
 
-    }, [boards, boardId])
+    }, [boards, boardId, filterBy, sortBy])
 
     useEffect(() => {
         setSelectedTask([])

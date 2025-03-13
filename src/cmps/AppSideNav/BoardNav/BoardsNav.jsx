@@ -7,9 +7,9 @@ import {
     Delete,
     Duplicate, Edit, ExternalPage, Favorite
 } from "@vibe/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { addBoard, addGroup, addTask, getBoardById, removeBoard, setBoard } from "../../../store/actions/board.actions";
+import { addBoard, addGroup, addTask, getBoardById, removeBoard } from "../../../store/actions/board.actions";
 import { AddBoardCmp } from "../AddBoardCmp";
 import WorkspacesDropdown from "./WorkspacesDropdown";
 import WorkspaceTitle from "./WorkspaceTitle";
@@ -17,7 +17,7 @@ import WorkspaceTitle from "./WorkspaceTitle";
 export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch,
 }) {
 
-    const board = useSelector(store => store.boardModule.board)
+    const board = useSelector(storeState => storeState.boardModule.board)
 
     const [isOpen, setIsOpen] = useState(false)
     const [isAddBoard, setIsAddBoard] = useState(false)
@@ -26,14 +26,13 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     const [addedBoard, setAddedBoard] = useState({ name: '' })
     const [isDuplicate, setIsDuplicate] = useState(false)
 
+    useEffect(() => {
+    }, [board])
+
     const handleCloseModal = () => {
         setIsAddBoard(false)
         setIsDuplicate(false)
         setAddedBoard({ name: '' })
-    }
-
-    const handleShowModal = () => {
-        return isAddBoard
     }
 
     const openBoardLink = (boardId) => {
@@ -49,45 +48,19 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     };
 
 
-    async function handleAddBoard() {
-        const newBoard = { name: addedBoard.name, _id: undefined }
-        return addBoard(newBoard)
+    async function handleSaveBoard() {
+        let boardToSave = { ...addedBoard }
+        return addBoard(boardToSave)
             .then((savedboard) => {
-                console.log(`Board added: ${addedBoard.name}`);
+                console.log(`Board saved: ${addedBoard.name}`);
                 handleCloseModal();
                 return savedboard
             })
     }
 
-    async function handleDuplicateBoard() {
-        try {
-            return addBoard(newBoard)
-                .then(async (savedboard) => {
-                    console.log(`Board duplicated: ${name}`);
-                    const prevBoard = { ...board }
-                    setBoard(savedboard)
-                    for (const group of prevBoard.groups) {
-                        const newGroup = { ...group, _id: undefined }
-                        await addGroup(savedboard._id, newGroup)
-                            .then((async savedGroup => {
-                                for (const task of group.tasks) {
-                                    const newTask = { ...task, _id: undefined }
-                                    await addTask(savedGroup._id, newTask)
-                                }
-                            }))
-                    }
-                })
-                .finally(() => {
-                    handleCloseModal();
-                })
-        } catch (error) {
-            console.error('Could not duplicate board' + error);
-        }
-    }
-
     function openDuplicateModal(boardName, boardId) {
+        setIsDuplicate(true)
         setAddedBoard(addedBoard => addedBoard = { name: "Duplicate of " + boardName, _id: boardId })
-        console.log(addedBoard);
 
         setIsAddBoard(true)
     }
@@ -134,8 +107,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
         }
     }
 
-    function onRenameBoard() {
-
+    function onRenameBoard(board) {
+        setAddedBoard(prev => prev = { ...board })
+        setIsAddBoard(true)
     }
 
     function onAddBoardToFavorite() {
@@ -188,79 +162,12 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                     }
                 >
                     <WorkspaceTitle setIsSearch={setIsSearch} isSearch={isSearch} />
-                    {/* <section className="workspace-title">
-                        {!isSearch && (
-                            <>
-                                <Icon icon={Workspace} className="icon" />
-                                <MenuTitle className="title" caption="Boards" icon={Workspace} />
-
-                                <MenuButton size="xs" className="menu-btn">
-                                    <Menu id="menu" size={Menu.sizes.MEDIUM}>
-                                        <MenuItem iconType="svg" title="test 1" />
-                                        <MenuItem iconType="svg" title="test 2" />
-                                        <MenuItem title="test 3" />
-                                    </Menu>
-                                </MenuButton>
-
-                                <IconButton
-                                    className="search-btn"
-                                    icon={SearchIcon}
-                                    kind="tertiary"
-                                    ariaLabel="Search boards"
-                                    size="xs"
-                                    onClick={() => setIsSearch(true)}
-                                />
-                            </>
-                        )}
-                        {isSearch && (
-                            <Search
-                                className="search"
-                                ref={searchRef}
-                                placeholder="Search in Main workspaces"
-                                size="small"
-                                autoFocus
-                                onClick={() => setIsSearch(true)}
-                                renderAction={<IconButton icon={Filter} ariaLabel="Filter results" size="xs" />}
-                            />
-                        )}
-                    </section> */}
-
                     <WorkspacesDropdown
                         selectedBoard={selectedBoard}
                         onToggleModal={() => setIsAddBoard(true)}
                         isBoardMenuOpen={isOpen}
                         toggleBoardMenu={() => setIsOpen(prev => !prev)}
                     />
-                    {/* <section className="workspaces-dropdown">
-                        <Button
-                            size={Button.sizes.SMALL}
-                            className="workspace-dropdown-btn"
-                            kind={Button.kinds.TERTIARY}
-                            onClick={() => setIsOpen(prev => !prev)}
-                            style={{
-                                border: "1px solid #d0d4e4"
-                            }}
-                        >
-                            <span style={{ marginLeft: "8px", textOverflow: 'ellipsis' }}>{selectedBoard}</span>
-                            <Icon icon={isOpen ? DropdownChevronUp : DropdownChevronDown} />
-                        </Button>
-
-                        <IconButton
-                            className="add-workspace-btn"
-                            size={Button.sizes.SMALL}
-                            kind={Button.kinds.PRIMARY}
-                            ariaLabel="Add Board"
-                            icon={Add}
-                            aria-disabled="false"
-                            style={{
-                                marginLeft: "8px",
-                                backgroundColor: "#0073ea",
-                                color: "#ffffff"
-                            }}
-                            onClick={() => setIsAddBoard(true)}
-
-                        />
-                    </section> */}
                 </Dialog>
             </section>
 
@@ -272,14 +179,15 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                         title={board.name}
                         icon={Board}
                         onClick={() => handleSelect(board)}
-                    >{board.name}
+                    >
+                        <span className="board-name-nav">{board.name}</span>
                         <MenuButton onClick={(e) => e.stopPropagation()} className="board-crudl" size="xs">
                             <Menu id="menu" size={Menu.sizes.MEDIUM}>
                                 <MenuItem icon={ExternalPage} onClick={() => openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
                                 <MenuDivider />
                                 <MenuItem onClick={() => openDuplicateModal(board.name, board._id)} icon={Duplicate} title="Duplicate board" />
                                 <MenuItem onClick={() => onRemoveBoard(board._id)} icon={Delete} title="Delete board" />
-                                <MenuItem icon={Edit} title="Rename board" />
+                                <MenuItem onClick={() => onRenameBoard(board)} icon={Edit} title="Rename board" />
                                 <MenuDivider />
                                 <MenuItem icon={Favorite} title="Add to favorite" />
                             </Menu>
@@ -292,9 +200,10 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                 addedBoard={addedBoard}
                 setAddedBoard={setAddedBoard}
                 onDuplicateBoard={onDuplicateBoard}
-                handleAddBoard={handleAddBoard}
+                handleSaveBoard={handleSaveBoard}
                 show={isAddBoard}
                 onClose={handleCloseModal}
+                isDuplicate={isDuplicate}
             />
         </>
     );

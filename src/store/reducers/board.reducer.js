@@ -13,6 +13,9 @@ export const ADD_TASK = 'ADD_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 
+export const SET_FILTER = 'SET_FILTER';
+export const SET_SORT = 'SET_SORT';
+
 export const SET_CMP_ORDER = 'SET_CMP_ORDER';
 
 export const ADD_MEMBERS = 'ADD_MEMBERS'
@@ -30,6 +33,8 @@ const initialState = {
     lastRemovedBoard: null,
     statusLabels: [],
     priorityLabels: [],
+    filterBy: {},
+    sortBy: [],
     cmpOrder: ["status",
         "priority",
         "members",
@@ -162,7 +167,7 @@ export function boardReducer(state = initialState, action) {
         case SET_CMP_ORDER:
             return {
                 ...state,
-                cmpOrder: action.cmpOrder
+                cmpOrder: { ...action.cmpOrder }
             };
 
         case SET_GLOBALLY_COLLAPSED:
@@ -198,6 +203,17 @@ export function boardReducer(state = initialState, action) {
             return {
                 ...state,
                 selectedTasks: state.selectedTasks.filter(task => task._id !== action.taskId)
+            }
+
+        case SET_FILTER:
+            return {
+                ...state,
+                filterBy: { ...state.filterBy, ...action.filterBy }
+            };
+        case SET_SORT:
+            return {
+                ...state,
+                sortBy: [...action.sortBy]
             };
 
         default:

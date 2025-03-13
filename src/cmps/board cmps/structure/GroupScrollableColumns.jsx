@@ -1,10 +1,12 @@
 import GroupColumnFiller from "./GroupColumnFillter"
 
-const GroupScrollableColumns = ({ children }) => {
-    return <section className="group-scrollable-columns table-row-layout">
+
+const GroupScrollableColumns = ({ children, bottomBorder = false }) => {
+
+    return <section className={`group-scrollable-columns table-row-layout ${bottomBorder && " bottom-border"}`}>
         {children}
-        <GroupColumnFiller />
-    </section>
+        < GroupColumnFiller />
+    </section >
 }
 
 export default GroupScrollableColumns

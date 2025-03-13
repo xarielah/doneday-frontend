@@ -38,27 +38,29 @@ export const boardService = {
     getEmptyReply,
     // Message Operations
     addBoardMsg,
+    // Filter
+    getEmptyFilter,
+    getDateFilters,
     // Storage Key
     STORAGE_KEY
 };
-
 export const allMembers = [
     { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
     { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
     { name: "Afik", label: "Afik", value: "Afik", color: "#fb275d" }
 ]
 
-const statusList = [
-    { value: 'draft', label: 'Draft', className: 'status-draft' },
+export const statusList = [
     { value: 'done', label: 'Done', className: 'status-done' },
     { value: 'wip', label: 'Working on it', className: 'status-wip' },
     { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
     { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
     { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
     { value: 'design', label: 'In Design', className: 'status-design' },
+    { value: 'draft', label: 'Draft', className: 'status-draft' },
 ]
 
-const priorityList = [
+export const priorityList = [
     { value: 'low', label: 'Low', className: 'priority-low' },
     { value: 'medium', label: 'Medium', className: 'priority-medium' },
     { value: 'high', label: 'High', className: 'priority-high' },
@@ -118,10 +120,89 @@ function getBoards(filterBy = {}) {
 }
 
 // ----------------- Boards -----------------
-async function getBoardById(boardId) {
+async function getBoardById(boardId, filterBy = {}, sortBy = []) {
+
     let boards = await storageService.query(STORAGE_KEY) || [];
-    return boards.find(board => board._id === boardId) || null;
+    const board = boards.find(board => board._id === boardId) || null;
+    if (!board) return null;
+
+    const groups = Array.isArray(board.groups) ? board.groups : [];
+
+    const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim()
+        ? filterBy.taskTitle.toLowerCase()
+        : null;
+
+    const getStatusIndex = (status) => statusList.findIndex(s => s.value === status);
+    const getPriorityIndex = (priority) => priorityList.findIndex(p => p.value === priority);
+
+    const filteredGroups = groups.map(group => {
+        const tasks = Array.isArray(group.tasks) ? group.tasks : [];
+        const filteredTasks = tasks.filter(task => {
+            const priorityMatch = filterBy.Priority && filterBy.Priority.length > 0
+                ? filterBy.Priority.includes(task.priority)
+                : true;
+
+            const membersMatch = filterBy.Members && filterBy.Members.length > 0
+                ? task.members && task.members.some(member => filterBy.Members.includes(member.name))
+                : true;
+
+            const statusMatch = filterBy.Status && filterBy.Status.length > 0
+                ? filterBy.Status.includes(task.status)
+                : true;
+
+            const titleMatch = taskTitleFilter
+                ? task.taskTitle && task.taskTitle.toLowerCase().includes(taskTitleFilter)
+                : true;
+
+            const timelineMatch = filterBy.Timeline
+                ? task.timeline?.endDate && new Date(task.timeline.endDate) <= new Date(filterBy.Timeline)
+                : true;
+
+            return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch;
+        });
+
+        const sortedTasks = filteredTasks.sort((taskA, taskB) => {
+            for (const { title, order } of sortBy) {
+                let comparison = 0;
+                if (title === 'status') {
+                    comparison = getStatusIndex(taskA.status) - getStatusIndex(taskB.status);
+                } else if (title === 'priority') {
+                    comparison = getPriorityIndex(taskA.priority) - getPriorityIndex(taskB.priority);
+                } else if (title === 'name') {
+                    comparison = taskA.taskTitle.localeCompare(taskB.taskTitle)
+                } else if (title === 'timeline') {
+                    const dateA = new Date(taskA.timeline?.endDate || 0)
+                    const dateB = new Date(taskB.timeline?.endDate || 0)
+                    if (isNaN(dateA) && isNaN(dateB)) {
+                        comparison = 0
+                    } else if (isNaN(dateA)) {
+                        comparison = 1
+                    } else if (isNaN(dateB)) {
+                        comparison = -1
+                    } else {
+                        comparison = dateA - dateB
+                    }
+                }
+                if (comparison !== 0) return comparison * order;
+            }
+            return 0
+        }
+        )
+        return {
+            ...group,
+            tasks: sortedTasks
+        };
+    });
+
+
+    return {
+        ...board,
+        groups: filteredGroups
+    };
+
 }
+
+
 
 async function saveBoard(newBoard) {
     let boards = await storageService.query(STORAGE_KEY) || [];
@@ -235,6 +316,8 @@ async function saveTask(boardId, groupId, newTask) {
     if (taskIdx === -1) {
         newTask.allMembers = allMembers;
         newTask._id = 't' + makeId();
+        newTask.priority = 'tbd'
+        newTask.status = 'draft'
         boards[boardIdx].groups[groupIdx].tasks.push(newTask);
         await storageService._save(STORAGE_KEY, boards);
         return { ...newTask };
@@ -335,7 +418,11 @@ function getEmptyTask(groupId) {
         allMembers: allMembers,
         date: '',
         status: '',
-        priority: ''
+        priority: '',
+        timeline: {
+            "startDate": "",
+            "endDate": ""
+        }
     }
 }
 
@@ -384,3 +471,83 @@ async function addBoardMsg(boardId, txt) {
     return msg
 }
 
+async function getEmptyFilter() {
+    return {
+        taskTitle: '',
+        status: [],
+        priority: [],
+        members: [],
+        timeline: ''
+    }
+}
+
+function getDateFilters() {
+    const today = new Date();
+    // Normalize today to midnight
+    const normalizedToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    // Single-day calculations
+    const yesterday = new Date(normalizedToday);
+    yesterday.setDate(normalizedToday.getDate() - 1);
+
+    const tomorrow = new Date(normalizedToday);
+    tomorrow.setDate(normalizedToday.getDate() + 1);
+
+    // Week calculations (assuming week starts on Monday)
+    const dayOfWeek = normalizedToday.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    // If Sunday (0), treat it as day 7 so that Monday is the start of the week
+    const adjustedDay = dayOfWeek === 0 ? 7 : dayOfWeek;
+    // Calculate Monday of the current week
+    const startOfThisWeek = new Date(normalizedToday);
+    startOfThisWeek.setDate(normalizedToday.getDate() - (adjustedDay - 1));
+    // End of this week is Sunday (i.e., Monday + 6 days)
+    const endOfThisWeek = new Date(startOfThisWeek);
+    endOfThisWeek.setDate(startOfThisWeek.getDate() + 6);
+
+    // Last week: previous Monday to previous Sunday
+    const startOfLastWeek = new Date(startOfThisWeek);
+    startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
+    const endOfLastWeek = new Date(startOfThisWeek);
+    endOfLastWeek.setDate(startOfThisWeek.getDate() - 1);
+
+    // Next week: next Monday to next Sunday
+    const startOfNextWeek = new Date(startOfThisWeek);
+    startOfNextWeek.setDate(startOfThisWeek.getDate() + 7);
+    const endOfNextWeek = new Date(startOfNextWeek);
+    endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+
+    // Month calculations
+    const startOfThisMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth(), 1);
+    // Setting date to 0 gives the last day of the previous month, so for current month end:
+    const endOfThisMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() + 1, 0);
+
+    // Last month
+    const startOfLastMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth(), 0);
+
+    // Next month
+    const startOfNextMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() + 1, 1);
+    const endOfNextMonth = new Date(normalizedToday.getFullYear(), normalizedToday.getMonth() + 2, 0);
+
+    // Past Dates: all dates before today
+    // Future Dates: all dates after today
+    // Upcoming: define as the next 7 days (from tomorrow to 7 days later)
+    const upcomingStart = new Date(tomorrow);
+    const upcomingEnd = new Date(tomorrow);
+    upcomingEnd.setDate(tomorrow.getDate() + 7 - 1); // upcoming range: 7 days
+
+    return [
+        { label: 'Yesterday', value: yesterday },
+        { label: 'Today', value: normalizedToday },
+        { label: 'Tomorrow', value: tomorrow },
+        { label: 'This Week', value: { start: startOfThisWeek, end: endOfThisWeek } },
+        { label: 'Last Week', value: { start: startOfLastWeek, end: endOfLastWeek } },
+        { label: 'Next Week', value: { start: startOfNextWeek, end: endOfNextWeek } },
+        { label: 'This Month', value: { start: startOfThisMonth, end: endOfThisMonth } },
+        { label: 'Last Month', value: { start: startOfLastMonth, end: endOfLastMonth } },
+        { label: 'Next Month', value: { start: startOfNextMonth, end: endOfNextMonth } },
+        { label: 'Past Dates', value: { before: normalizedToday } },
+        { label: 'Future Dates', value: { after: normalizedToday } },
+        { label: 'Upcoming', value: { start: upcomingStart, end: upcomingEnd } }
+    ];
+}

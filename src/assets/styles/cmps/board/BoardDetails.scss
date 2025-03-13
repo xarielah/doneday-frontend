@@ -1,7 +1,10 @@
 .board-details {
   width: 100%;
-  min-height: 0;
   display: flex;
+  // overflow-x: auto;
+  overflow-y: auto;
   flex-direction: column;
+  position: relative;
+  height: 100%;
   gap: 16px;
 }
