@@ -38,9 +38,9 @@ const initialState = {
     cmpOrder: ["status",
         "priority",
         "members",
-        "date",
+        // "date",
         "timeline",
-    "link"],
+        "link"],
     isGloballyCollapsed: false
 };
 
