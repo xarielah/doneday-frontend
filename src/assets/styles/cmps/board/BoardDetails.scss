@@ -1,8 +1,8 @@
 .board-details {
   width: 100%;
   display: flex;
-  // overflow-x: auto;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   flex-direction: column;
   position: relative;
   height: 100%;
