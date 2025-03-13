@@ -128,7 +128,7 @@ export function LinkColumn({ info, onTaskUpdate}) {
                     }
                     position="bottom"
                 >
-                    <IconButton icon={Add} size="xs" className="rounded-btn" kind="primary" ariaLabel="Add Link" onClick={handleOpenDialog} />
+                    <IconButton icon={Add} size="xs" className="rounded-btn custom" kind="primary" ariaLabel="Add Link" onClick={handleOpenDialog} />
                 </Dialog>
             )}
 
@@ -173,11 +173,11 @@ export function LinkColumn({ info, onTaskUpdate}) {
                     }
                     position="bottom"
                 >
-                        <div className="mt-4 flex justify-end space-x-2 infoOutput" onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
-                            <EditableLink
+                        <div className="mt-4 flex justify-end space-x-2 infoOutput" onClick={() => handleOpenDialog()} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
+                            <Link
                                 href={info.link}
-                                text={info.displayText}
-                            />
+                                text={info.displayText} 
+                                onClick={(e) => e.stopPropagation()}/>
                             {previewVisible && (
                                 <IconButton
                                 icon={CloseSmall}
@@ -185,14 +185,20 @@ export function LinkColumn({ info, onTaskUpdate}) {
                                 className="rounded-btn"
                                 kind="tertiary"
                                 ariaLabel="Remove Link"
-                                onClick={() => setIsModalOpen(true)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsModalOpen(true);
+                                }}
                                 />
                             )}
                             <Modal
                                 id="modal-basic"
                                 show={isModalOpen}
                                 size="small"
-                                onClose={() => setIsModalOpen(false)}
+                                onClose={(e) => {
+                                    e.stopPropagation();
+                                    setIsModalOpen(false);
+                                }}
                                 >
                                 <ModalBasicLayout>
                                     <ModalHeader title="Want to delete?" />
@@ -205,11 +211,17 @@ export function LinkColumn({ info, onTaskUpdate}) {
                                 <ModalFooter
                                     primaryButton={{
                                         text: "Confirm",
-                                        onClick: () => handleDeleteLink(false),
+                                        onClick: (e) => {
+                                            e.stopPropagation();
+                                            handleDeleteLink(false);
+                                        },
                                     }}
                                     secondaryButton={{
                                         text: "Cancel",
-                                        onClick: () => setIsModalOpen(false),
+                                        onClick: (e) => {
+                                            e.stopPropagation();
+                                            setIsModalOpen(false);
+                                        },
                                     }}
                                 />
                             </Modal>

@@ -33,23 +33,33 @@
 }
 
 .infoOutput {
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 90%;
+  position: relative;
+  transition: .2s all ease;
+  cursor: pointer;
 }
 
 .infoOutput:hover {
-  border: 1px solid #eee;
+  border: 1px solid #cfcfcf;
 }
 
 .infoOutput a {
   text-overflow: ellipsis;
-  max-width: 120px;
+  max-width: 100px;
   overflow: hidden;
   display: block;
   transition: .2s all ease;
 }
 .rounded-btn {
   border-radius: 50%;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+.rounded-btn.custom {
+  position: relative;
 }
 
 .avatars {
@@ -73,10 +83,10 @@
   position: absolute;
 }
 
-[class^="column-label-"], .table-task-row .default-cell-color, .table-row-layout .task-left-checkbox {
+[class^="column-label-"], .table-task-row .default-cell-color, .table-row-row .task-left-checkbox, .table-task-row .column-filler {
   transition: .2s all ease;
 }
 
-.table-task-row:hover .default-cell-color, [class^="column-label-"]:hover, .table-row-layout:hover .task-left-checkbox {
+.table-task-row:hover .default-cell-color, [class^="column-label-"]:hover, .table-task-row:hover .task-left-checkbox, .table-task-row:hover .column-filler {
   background-color: #efefef;
 }
