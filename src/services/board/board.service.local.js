@@ -64,7 +64,7 @@ export const priorityList = [
     { value: 'low', label: 'Low', className: 'priority-low' },
     { value: 'medium', label: 'Medium', className: 'priority-medium' },
     { value: 'high', label: 'High', className: 'priority-high' },
-    { value: 'critical', label: 'Critical', className: 'priority-critical' },
+    { value: 'critical', label: 'Critical⚠️', className: 'priority-critical' },
     { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
 ]
 
