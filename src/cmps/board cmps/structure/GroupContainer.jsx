@@ -45,14 +45,17 @@ const GroupContainer = ({ group }) => {
     };
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
         <section role="rowheader" className="group-header-container">
-            <GroupHeader
-                ref={setDraggableRef}
-                dndProps={{ ...attributes, ...listeners }}
-                isDragging={isDragging}
-                group={group}
-                isCollapsed={isCollapsed}
-                setIsCollapsed={setIsCollapsed}
-            />
+            <div className="group-title-container">
+                <GroupHeader
+                    ref={setDraggableRef}
+                    dndProps={{ ...attributes, ...listeners }}
+                    isDragging={isDragging}
+                    group={group}
+                    isCollapsed={isCollapsed}
+                    setIsCollapsed={setIsCollapsed}
+                />
+                <div className="spacer-div"></div>
+            </div>
             {!isCollapsed && <GroupTableHeader group={group} />}
         </section>
         {!isCollapsed && <>

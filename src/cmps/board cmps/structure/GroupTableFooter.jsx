@@ -2,8 +2,8 @@ import { EditableText } from "@vibe/core"
 import { useEffect, useState } from "react"
 import { boardService } from "../../../services/board/board.service.local"
 import { addTask } from "../../../store/actions/board.actions"
+import GroupColumnFiller from "./GroupColumnFillter"
 import GroupPreRow from "./GroupPreRow"
-import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
 
 const GroupTableFooter = ({ group }) => {
@@ -35,8 +35,7 @@ const GroupTableFooter = ({ group }) => {
                 />
             </div>
         </GroupStickyColumns>
-        <GroupScrollableColumns noLeftBorder={true} bottomBorder={true}>
-        </GroupScrollableColumns>
+        <GroupColumnFiller borders />
     </section >
 }
 
