@@ -31,7 +31,7 @@ const GroupTableFooter = ({ group }) => {
                     value={taskValue}
                     onChange={setTaskValue}
                     className="cell-left-padding"
-                    placeholder="+ Add Task"
+                    placeholder="+ Add task"
                 />
             </div>
         </GroupStickyColumns>
