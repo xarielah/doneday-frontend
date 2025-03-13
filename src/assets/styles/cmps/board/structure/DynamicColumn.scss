@@ -17,3 +17,76 @@
   width: 175px !important;
   flex-basis: 175px !important;
 }
+
+.column-label-timeline {
+  width: 175px;
+  flex-basis: 175px;
+}
+
+.column-label-link {
+  width: 175px;
+  flex-basis: 175px;
+}
+
+.input-container {
+  margin-top: .5rem;
+}
+
+.infoOutput {
+  justify-content: space-between;
+  width: 90%;
+  position: relative;
+  transition: .2s all ease;
+  cursor: pointer;
+}
+
+.infoOutput:hover {
+  border: 1px solid #cfcfcf;
+}
+
+.infoOutput a {
+  text-overflow: ellipsis;
+  max-width: 100px;
+  overflow: hidden;
+  display: block;
+  transition: .2s all ease;
+}
+.rounded-btn {
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+.rounded-btn.custom {
+  position: relative;
+}
+
+.avatars {
+  position: relative;
+  width: 100%;
+  justify-content: center;
+  display: flex
+;
+  align-items: center;
+}
+
+.addMembers {
+  position: absolute;
+  left: 0;
+  z-index: 9;
+  justify-content: left;
+}
+
+.addMemberDialog {
+  z-index: 99;
+  position: absolute;
+}
+
+[class^="column-label-"], .table-task-row .default-cell-color, .table-row-row .task-left-checkbox, .table-task-row .column-filler {
+  transition: .2s all ease;
+}
+
+.table-task-row:hover .default-cell-color, [class^="column-label-"]:hover, .table-task-row:hover .task-left-checkbox, .table-task-row:hover .column-filler {
+  background-color: #efefef;
+}

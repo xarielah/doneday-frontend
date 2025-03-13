@@ -1,10 +1,11 @@
 .add-group {
-  height: 60px;
-  margin-left: 40px;
+  display: flex;
   position: sticky;
-  left: 40px;
-  margin-top: 8px;
-  max-width: 300px;
-  cursor: pointer;
+  left: 0;
+  margin-bottom: 8px;
   border: none;
+}
+
+.add-new-group {
+  display: flex;
 }

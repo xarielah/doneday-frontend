@@ -6,6 +6,7 @@
 }
 
 .app-nav {
+  position: relative;
   box-sizing: border-box;
   grid-area: nav;
   width: 100%;
@@ -13,22 +14,41 @@
   display: grid;
   grid-template-columns: 1fr 3px;
   background-color: $modal-background-color;
-  background: linear-gradient(
-    180deg,
-    $modal-background-color 30%,
-    $primary-surface-color 100%
-  );
+  background: linear-gradient(180deg,
+      $modal-background-color 30%,
+      $primary-surface-color 100%);
 
   * {
     box-sizing: border-box;
   }
 
-  .medium_004db5bace {
+  button {
     width: 100%;
   }
 
-  button {
-    width: 100%;
+
+
+  .nav.minimize {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: none;
+  }
+
+  .nav.minimize.hovered {
+    transform: translateX(0);
+    opacity: 1;
+    height: 100%;
+    pointer-events: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: linear-gradient(180deg,
+        $modal-background-color 30%,
+        $primary-surface-color 100%);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.1s ease;
   }
 
   &:hover {
@@ -37,38 +57,54 @@
     }
 
     nav {
-      .menu-nav > :nth-child(1) {
+      .menu-nav> :nth-child(1) {
         margin-right: 27px;
       }
     }
   }
 
+  .nav-close {
+    width: 28px;
+  }
+
+  .minimize-btn {
+    display: none;
+    position: absolute;
+    right: 0;
+    border-radius: 0 8px;
+    // margin-right: -3px;
+
+    // &.hovered {
+    //   margin-right: 0;
+    // }
+
+    padding: 0 8px;
+    font-size: 15px;
+    width: 28px !important;
+    height: 38px !important;
+    background-color: #f6f7fb;
+    cursor: pointer;
+    z-index: 1;
+
+    &:hover {
+      background-color: #6768791a;
+    }
+  }
+
+  .minimize-close-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: -2px;
+
+  }
+
   nav {
+    border-radius: 0 8px;
     display: flex;
     flex-direction: column;
     position: relative;
 
-    .minimize-btn {
-      display: none;
-      position: absolute;
-      right: 0;
-      border-radius: 0 8px;
-      margin-right: -2.5px;
-      padding: auto;
-      font-size: 15px;
-      width: 28px;
-      padding: 0 8px;
-      height: 38px;
-      background-color: #f6f7fb;
-      cursor: pointer;
-      z-index: 1;
-
-      &:hover {
-        background-color: #6768791a;
-      }
-    }
-
-    > * {
+    >* {
       width: 100%;
     }
 
@@ -78,7 +114,7 @@
       display: grid;
       grid-template-columns: 1fr auto;
 
-      & > :nth-child(1) {
+      &> :nth-child(1) {
         transition: ease-in 0.02s;
       }
 
@@ -91,7 +127,6 @@
       }
     }
 
-    // devider
     .horizontal_f8c2f25be6 {
       margin: 4px 0;
     }
@@ -101,7 +136,7 @@
       padding: 0 10px 0 8px;
       display: grid;
 
-      > * {
+      >* {
         width: 100%;
       }
     }
@@ -142,10 +177,25 @@
 
         .workspace-dropdown-btn {
           margin: 3px 1px;
+          text-align: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          box-sizing: border-box;
+
+          button {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
 
           span {
             font-size: 16px;
             font-weight: 600;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
 
@@ -159,6 +209,24 @@
       padding: 0 10px 0 11px;
       grid-column: 1/-1;
       padding-top: 2px;
+
+      .board-item {
+        display: grid;
+        place-content: center;
+        grid-template-columns: 1fr auto;
+        width: 100%;
+
+        .board-name-nav {
+          text-align: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .board-crudl {
+          width: 24px;
+        }
+      }
 
       li {
         margin-top: 2px;

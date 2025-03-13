@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import GroupTableContentTask from "./GroupTableContentTask";
+import { boardService } from "../../../services/board/board.service.local";
 
-const GroupTableContent = ({ group, columnLabels }) => {
+const GroupTableContent = ({ group }) => {
 
     const onDragEnd = useCallback((dragEvent) => {
         const { active, over } = dragEvent;
@@ -18,7 +19,7 @@ const GroupTableContent = ({ group, columnLabels }) => {
         group.tasks[activeTaskIdx] = overTask;
         group.tasks[overTaskIdx] = activeTask;
 
-        groupService.update
+        boardService.updateGroup(group)
         setBoard({ ...board })
     }, [])
 
@@ -27,7 +28,6 @@ const GroupTableContent = ({ group, columnLabels }) => {
             <GroupTableContentTask
                 key={task._id}
                 task={task}
-                columnLabels={columnLabels}
                 group={group}
             />
         )}

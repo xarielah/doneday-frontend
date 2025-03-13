@@ -1,11 +1,14 @@
 .summary-row-wrapper {
   display: flex;
   height: 36px;
+  position: relative;
 
   & .spacer-div {
-    margin-left: 40px;
-    background-color: transparent;
-    flex-basis: 367px;
+    background-color: white;
+    position: sticky;
+    left: 0;
+    flex-basis: 407px;
+    flex-shrink: 0;
   }
 
   & .summary-row {
@@ -13,7 +16,6 @@
     flex-grow: 1;
     border-bottom-left-radius: 6px;
     border-bottom: 1px solid $layout-border-color;
-    border-left: 1px solid $layout-border-color;
     background-color: white;
   }
 }
@@ -22,6 +24,7 @@
   display: flex;
   align-items: center;
   border-right: 1px solid $layout-border-color;
+  border-top: none;
 }
 
 .visual-summary-container {

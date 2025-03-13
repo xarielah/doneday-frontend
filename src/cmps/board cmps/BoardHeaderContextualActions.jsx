@@ -1,5 +1,8 @@
 import { Button, Flex, Icon, MenuButton, MenuItem, SplitButton, SplitButtonMenu } from "@vibe/core"
 import { Filter, Group, Person, Search, Show, Sort } from "@vibe/icons"
+import { BoardPerson } from "./BoardPerson/BoardPerson"
+import { BoardFilter } from "./BoardFilter/BoardFilter"
+import { BoardSort } from "./BoardSort/BoardSort"
 
 const BoardHeaderContextualActions = ({ onAddGroup, onAddTask }) => {
     return <Flex className="action" gap="small" align="center">
@@ -16,22 +19,10 @@ const BoardHeaderContextualActions = ({ onAddGroup, onAddTask }) => {
         <Button className="icon-button" size="small" ariaLabel="Search" kind="tertiary">
             <Icon iconSize={20} icon={Search} /> Search
         </Button>
-        <Button className="icon-button" size="small" ariaLabel="Person" kind="tertiary">
-            <Icon iconSize={20} icon={Person} /> Person
-        </Button>
-        <Button className="icon-button" size="small" ariaLabel="Filter" kind="tertiary">
-            <Icon iconSize={20} icon={Filter} /> Filter
-        </Button>
-        <Button className="icon-button" size="small" ariaLabel="Sort" kind="tertiary">
-            <Icon iconSize={20} icon={Sort} /> Sort
-        </Button>
-        <Button className="icon-button" size="small" ariaLabel="Hide" kind="tertiary">
-            <Icon iconSize={20} icon={Show} /> Hide
-        </Button>
-        <Button className="icon-button" size="small" ariaLabel="Group by" kind="tertiary">
-            <Icon iconSize={20} icon={Group} /> Group by
-        </Button>
-        <MenuButton ariaLabel="More options" />
+        <BoardPerson />
+        <BoardFilter />
+
+        <BoardSort />
     </Flex>
 }
 

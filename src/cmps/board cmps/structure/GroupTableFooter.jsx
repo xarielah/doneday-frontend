@@ -1,11 +1,12 @@
 import { EditableText } from "@vibe/core"
-import { useState, useEffect} from "react"
-import { taskService } from "../../../services/board/task.service.local"
+import { useEffect, useState } from "react"
+import { boardService } from "../../../services/board/board.service.local"
 import { addTask } from "../../../store/actions/board.actions"
+import GroupColumnFiller from "./GroupColumnFillter"
 import GroupPreRow from "./GroupPreRow"
 import GroupStickyColumns from "./GroupStickyColumns"
 
-const GroupTableFooter = ({ onAddTask, group }) => {
+const GroupTableFooter = ({ group }) => {
     const [taskValue, setTaskValue] = useState("")
 
     useEffect(() => {
@@ -17,15 +18,15 @@ const GroupTableFooter = ({ onAddTask, group }) => {
 
     function onAddTask(taskTitle) {
         const groupId = group._id
-        let newTask = taskService.getEmptyTask()
+        let newTask = boardService.getEmptyTask()
         newTask = { ...newTask, groupId, taskTitle }
         return addTask(groupId, newTask)
     }
 
     return <section className="table-footer">
         <GroupStickyColumns>
-            <GroupPreRow group={group} roundedBottomLeft bottomBorders disableCheckbox />
-            <div className="min-table-cell add-task-cell cell-left-padding task-border-bottom last-cell" style={{ textAlign: 'left' }}>
+            <GroupPreRow crudlType="none" group={group} roundedBottomLeft bottomBorders disableCheckbox />
+            <div className="min-table-cell table-cell-first-column task-title default-cell-color bottom-border" style={{ textAlign: 'left' }}>
                 <EditableText
                     value={taskValue}
                     onChange={setTaskValue}
@@ -34,7 +35,8 @@ const GroupTableFooter = ({ onAddTask, group }) => {
                 />
             </div>
         </GroupStickyColumns>
-    </section>
+        <GroupColumnFiller borders />
+    </section >
 }
 
 export default GroupTableFooter

@@ -8,10 +8,15 @@ const StatusSummary = ({ group }) => {
     const [statuses, setStatuses] = useState([]);
 
     useEffect(() => {
+        if (!group?.tasks?.length) {
+            console.warn("Group tasks are undefined or empty");
+            setStatuses([]);
+            return;
+        }
         const statusesCountObj = group.tasks.reduce((acc, task) => {
             acc[task.status] = (acc[task.status] || 0) + 1;
             return acc;
-        }, {})
+        }, [])
 
         const availableStatuses = Object.keys(statusesCountObj);
 

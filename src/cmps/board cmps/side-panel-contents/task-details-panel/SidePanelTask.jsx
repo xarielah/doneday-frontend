@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { taskService } from "../../../../services/board/task.service.local";
 import SidePanelWrapper from "../SidePanelWrapper";
 import SidePanelTaskContentTabs from "./SidePanelTaskContentTabs";
 import SidePanelTaskFiles from "./SidePanelTaskFiles";
 import SidePanelTaskMessages from "./SidePanelTaskMessages";
+import { boardService } from "../../../../services/board/board.service.local";
 
 const tabs = {
     messages: 0,
@@ -18,7 +18,7 @@ const SidePanelTask = () => {
 
     useEffect(() => {
         if (taskId) {
-            taskService.get(taskId)
+            boardService.getTaskById(taskId)
                 .then(setTask)
         } else {
             setTask(null)

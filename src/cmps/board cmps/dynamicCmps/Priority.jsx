@@ -1,6 +1,7 @@
 import { Dialog, DialogContentContainer, useSwitch } from "@vibe/core";
 import { cn } from "../../../services/util.service";
 import DialogValuePicker from "./DialogValuesPicker";
+import { priorityList } from "../../../services/board/board.service.local";
 
 const modifiers = [
     {
@@ -11,13 +12,7 @@ const modifiers = [
     },
 ];
 
-export const values = [
-    { value: 'low', label: 'Low', className: 'priority-low' },
-    { value: 'medium', label: 'Medium', className: 'priority-medium' },
-    { value: 'high', label: 'High', className: 'priority-high' },
-    { value: 'critical', label: 'Critical', className: 'priority-critical' },
-    { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
-]
+export const values = priorityList
 
 function getLabel(value) {
     return values.find(v => v.value === value)?.label || value

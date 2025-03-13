@@ -1,21 +1,15 @@
-@use '/src/assets/styles/setup/variables';
+@use "/src/assets/styles/setup/variables";
 
-.main-container,
 .board-container {
-    height: 100%;
-    // width: 100%;
-    font-family: "Figtree", "Roboto", sans-serif;
-
+  height: 100%;
+  font-family: "Figtree", "Roboto", sans-serif;
 }
 
 .board-container {
-    background-color: $modal-background-color;
-    // width: 100%;
-    min-height: 0;
-    grid-area: board;
-    border-radius: 8px 0px;
-    // overflow: auto;
-    position: relative;
-    // box-sizing: border-box;
-    // background-color: red;
+  background-color: $modal-background-color;
+  min-height: 0;
+  grid-area: board;
+  border-radius: 8px 0px;
+  position: relative;
+  overflow-y: auto;
 }

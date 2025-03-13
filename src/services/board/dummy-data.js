@@ -5,9 +5,19 @@ const defaultTasks = [
         side: null,
         taskTitle: "Design homepage UI",
         members: [
-            { name: "Tal", color: "red" },
-            { name: "Avi", color: "blue" },
+            { name: "Tal", color: "#2a5699" },
+            { name: "Avi", color: "#e4901c" },
         ],
+        allMembers: [
+            { name: "Dor", color: "#2a5699" },
+            { name: "Ariel", color: "#e4901c" },
+            { name: "Afik", color: "#fb275d" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "15-01-2025",
         status: "wip",
         priority: "high",
@@ -21,6 +31,16 @@ const defaultTasks = [
             { name: "Dana", color: "green" },
             { name: "Shay", color: "black" },
         ],
+        allMembers: [
+            { name: "Dor", color: "#2a5699" },
+            { name: "Ariel", color: "#e4901c" },
+            { name: "Afik", color: "#fb275d" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "20-01-2025",
         status: "stuck",
         priority: "critical",
@@ -34,6 +54,16 @@ const defaultTasks = [
             { name: "Eli", color: "orange" },
             { name: "Tal", color: "red" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "18-01-2025",
         status: "done",
         priority: "medium",
@@ -47,6 +77,16 @@ const defaultTasks = [
             { name: "Shir", color: "purple" },
             { name: "Lior", color: "blue" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "22-01-2025",
         status: "wip",
         priority: "low",
@@ -60,6 +100,16 @@ const defaultTasks = [
             { name: "Yossi", color: "pink" },
             { name: "Dana", color: "green" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "10-02-2025",
         status: "revision",
         priority: "high",
@@ -73,6 +123,16 @@ const defaultTasks = [
             { name: "Tal", color: "red" },
             { name: "Shay", color: "black" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "12-02-2025",
         status: "stuck",
         priority: "medium",
@@ -86,6 +146,16 @@ const defaultTasks = [
             { name: "Avi", color: "blue" },
             { name: "Eli", color: "orange" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "08-02-2025",
         status: "done",
         priority: "high",
@@ -99,6 +169,16 @@ const defaultTasks = [
             { name: "Shay", color: "black" },
             { name: "Lior", color: "blue" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "15-02-2025",
         status: "wip",
         priority: "critical",
@@ -112,6 +192,16 @@ const defaultTasks = [
             { name: "Shir", color: "purple" },
             { name: "Dana", color: "green" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "13-01-2025",
         status: "wip",
         priority: "high",
@@ -125,6 +215,16 @@ const defaultTasks = [
             { name: "Yossi", color: "pink" },
             { name: "Shay", color: "black" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "20-01-2025",
         status: "wip",
         priority: "medium",
@@ -138,6 +238,16 @@ const defaultTasks = [
             { name: "Lior", color: "blue" },
             { name: "Tal", color: "red" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "25-01-2025",
         status: "revision",
         priority: "high",
@@ -151,6 +261,16 @@ const defaultTasks = [
             { name: "Avi", color: "blue" },
             { name: "Eli", color: "orange" },
         ],
+        allMembers: [
+            { name: "Dor", color: "red" },
+            { name: "Ariel", color: "blue" },
+            { name: "Afik", color: "yellow" },
+        ],
+        timeline: {
+            startDate: '',
+            endDate: ''
+        },
+        link: "",
         date: "18-01-2025",
         status: "done",
         priority: "low",
@@ -184,7 +304,33 @@ const defaultBoards = [
     {
         _id: "board1",
         name: "Board numero uno",
-        color: "#339ecd"
+        color: "#339ecd",
+        groups: [{
+            _id: "group1",
+            name: "Backlog",
+            boardId: "board1",
+            color: "#339ecd",
+            tasks: [{
+                _id: "task101",
+                groupId: "group1",
+                taskTitle: "Design homepage UI",
+                members: [
+                    { name: "Tal", color: "red" },
+                    { name: "Avi", color: "blue" }
+                ],
+                allMembers: [
+                    { name: "Dor", color: "red" },
+                    { name: "Ariel", color: "blue" },
+                    { name: "Afik", color: "yellow" }
+                ],
+                timeline: { startDate: "", endDate: "" },
+                date: "15-01-2025",
+                status: "wip",
+                priority: "high"
+            }]
+        },
+
+        ]
     }
 ];
 

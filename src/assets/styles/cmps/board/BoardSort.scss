@@ -1,0 +1,60 @@
+.board-sort {}
+
+.sort-dialog {
+    width: 500px;
+    padding: 0;
+
+    .sort-header {
+        display: flex;
+        align-items: center;
+        padding: 16px 24px;
+
+        * {
+            margin-right: 12px;
+        }
+
+    }
+
+    .sort-body {
+        padding: 8px 24px 24px 24px;
+
+        .sort-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+            justify-content: flex-start;
+        }
+
+        .sort-row .sort-list {
+            flex: 1;
+            margin-right: 8px;
+        }
+
+        .sort-row .ascending-descending {
+            width: 150px;
+        }
+
+        .sort-row .icon-btn {
+            width: 100%;
+            color: #6b778c;
+            padding: 4px 8px;
+        }
+
+        .sort-row .icon-btn:hover {
+            background-color: transparent;
+            color: #323338;
+        }
+
+    }
+}
+
+.sort-btn {
+    &.active {
+        background-color: #cce5ff;
+    }
+
+    &.active:hover {
+        background-color: #cce5ff !important;
+    }
+}

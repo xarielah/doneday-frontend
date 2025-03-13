@@ -1,0 +1,27 @@
+.set-dates-button {
+  background-color: #d3d3d3;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 11px;
+  color: #fff;
+  cursor: pointer;
+  min-width: 107px;
+  transition: 0.2s all ease;
+  font-weight: bold;
+  font: var(--font-text2-normal);
+
+  &.default {
+    color: #fff;
+  }
+
+  &.selected {
+    background-color: #333;
+    color: #fff;
+  }
+
+  &:hover {
+    background-color: #bdbdbd;
+  }
+}

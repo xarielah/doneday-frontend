@@ -5,9 +5,8 @@ import { AppHeader } from './cmps/AppHeader'
 import ExternalHomePage from "./pages/ExternalHomePage"
 import { HomePage } from './pages/HomePage'
 
-import { useSelector } from "react-redux"
 import { AppFooter } from './cmps/AppFooter'
-import { AppNav } from './cmps/AppNav'
+import { AppNav } from "./cmps/AppSideNav/AppNav.jsx"
 import SlidePanel from "./cmps/SlidePanel"
 import { Board } from './pages/Board'
 
@@ -18,7 +17,6 @@ export function RootCmp() {
 }
 
 const AuthenticatedRoutes = () => {
-    const { type } = useSelector(storeState => storeState.sidePanelModule)
     const { pathname } = useLocation()
     const match = matchPath('/board/:boardId/task/:taskId', pathname)
     const params = match?.params || {};
@@ -27,7 +25,7 @@ const AuthenticatedRoutes = () => {
         <AppHeader />
         <AppNav />
         <SlidePanel params={params} />
-        <main>
+        <main className="page-container">
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path='/board/:boardId' element={<Board />}>

@@ -1,10 +1,12 @@
 .board-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 1;
   height: 156px;
-  // background-color: red;
   border-radius: 8px 0 0 0;
-  // width: 100%;
   padding: 18px 30px 0 38px;
-  width: 100%;
   column-gap: 16px;
   display: grid;
   grid-template-areas:
@@ -12,7 +14,6 @@
     "navigation navigation navigation"
     "contextualAction contextualAction contextualAction";
   grid-template-columns: auto auto 1fr;
-  // grid-template-columns: fit-content(800px) 1fr;
   grid-template-rows: auto;
   width: 100%;
 

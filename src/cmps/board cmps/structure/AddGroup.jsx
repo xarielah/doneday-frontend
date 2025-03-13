@@ -1,31 +1,30 @@
 import { Button } from "@vibe/core";
 import { Add } from "@vibe/icons";
-import GroupStickyColumns from "./GroupStickyColumns";
 import { useSelector } from "react-redux";
-import { groupService } from "../../../services/board/group.service.local";
+import { boardService } from "../../../services/board/board.service.local";
 import { addGroup } from "../../../store/actions/board.actions";
 
 
 export function AddGroup() {
     const boardId = useSelector((storeState) => storeState.boardModule.board._id)
 
-    function onAddGroup() {
+    async function onAddGroup() {
         try {
-
-            let newGroup = groupService.getEmptyGroup()
+            let newGroup = boardService.getEmptyGroup()
             newGroup = { ...newGroup, boardId, name: "New Group" }
-            addGroup(newGroup)
+            await addGroup(boardId, newGroup)
         } catch (err) {
             console.error('group could not be added' + err);
         }
     }
 
     return (
-        <GroupStickyColumns>
-            {/* There is also sticky on the add-group scss */}
+        <section className="add-new-group">
             <section className="add-group">
+                <div style={{ width: '40px', height: '40px' }}></div>
                 <Button kind="secondary" onClick={() => onAddGroup()} size="small" leftIcon={Add}> Add new group</Button>
             </section>
-        </GroupStickyColumns>
+            <div className="spacer-div"></div>
+        </section>
     )
 }

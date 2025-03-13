@@ -1,32 +1,29 @@
 /* eslint-disable react/no-children-prop */
 import { useSelector } from "react-redux";
-import { groupService } from "../../services/board/group.service.local";
-import { taskService } from "../../services/board/task.service.local";
 import { addGroup, addTask } from "../../store/actions/board.actions";
 import BoardHeaderContextualActions from "./BoardHeaderContextualActions";
 import BoardHeadersTabList from "./BoardHeadersTabList";
 import BoardHeaderTitleButtons from "./BoardHeaderTitleButtons";
+import { boardService } from "../../services/board/board.service.local";
 
 export function BoardHeader() {
     const board = useSelector((storeState) => storeState.boardModule.board)
 
-    function onAddGroup() {
+    async function onAddGroup() {
         try {
-            let newGroup = groupService.getEmptyGroup()
-            newGroup = { ...newGroup, boardId: board._id, name: "New Group" }
-            addGroup(newGroup)
+            let newGroup = boardService.getEmptyGroup()
+            newGroup = { ...newGroup, name: "New Group" }
+            await addGroup(board._id, newGroup)
         } catch (err) {
             console.error('group could not be added' + err);
         }
     }
 
-    function onAddTask() {
-        console.log(board);
-
+    async function onAddTask() {
         const groupId = board.groups[0]._id
-        let newTask = taskService.getEmptyTask()
+        let newTask = boardService.getEmptyTask()
         newTask = { ...newTask, groupId, taskTitle: "New task", status: "draft", priority: "tbd" }
-        return addTask(groupId, newTask)
+        return await addTask(groupId, newTask)
     }
 
     return (

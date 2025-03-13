@@ -1,6 +1,7 @@
 import { Dialog, DialogContentContainer, useSwitch } from "@vibe/core";
 import { cn } from "../../../services/util.service";
 import { DialogValuePicker } from "./DialogValuesPicker";
+import { statusList } from "../../../services/board/board.service.local";
 
 const modifiers = [
     {
@@ -11,15 +12,8 @@ const modifiers = [
     },
 ];
 
-export const values = [
-    { value: 'draft', label: 'Draft', className: 'status-draft' },
-    { value: 'done', label: 'Done', className: 'status-done' },
-    { value: 'wip', label: 'Working on it', className: 'status-wip' },
-    { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
-    { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
-    { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
-    { value: 'design', label: 'In Design', className: 'status-design' },
-]
+export const values = statusList
+
 
 function getLabel(statusValue) {
     return values.find(value => value.value === statusValue)?.label || statusValue

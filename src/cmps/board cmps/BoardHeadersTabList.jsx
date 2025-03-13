@@ -8,9 +8,6 @@ const BoardHeadersTabList = () => {
                 <Text type="text2">Main Table</Text>
             </Tab>
             <Tab className="single-tab">
-                <Text type="text2">File gallery</Text>
-            </Tab>
-            <Tab className="single-tab">
                 <Text type="text2">Chart</Text>
             </Tab>
         </TabList>
