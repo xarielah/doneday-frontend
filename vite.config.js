@@ -12,6 +12,13 @@ export default defineConfig({
 	define: {
 		global: {},
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				quietDeps: true, // Silences warnings from sass dependencies
+			}
+		}
+	},
 	server: {
 		historyApiFallback: true
 	}
