@@ -1,5 +1,11 @@
 .add-group {
-  margin-left: 40px;
-  margin-top: 8px;
+  display: flex;
+  position: sticky;
+  left: 0;
+  margin-bottom: 8px;
   border: none;
+}
+
+.add-new-group {
+  display: flex;
 }

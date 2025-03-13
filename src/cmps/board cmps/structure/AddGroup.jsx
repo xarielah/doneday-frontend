@@ -3,7 +3,6 @@ import { Add } from "@vibe/icons";
 import { useSelector } from "react-redux";
 import { boardService } from "../../../services/board/board.service.local";
 import { addGroup } from "../../../store/actions/board.actions";
-import GroupStickyColumns from "./GroupStickyColumns";
 
 
 export function AddGroup() {
@@ -11,7 +10,6 @@ export function AddGroup() {
 
     async function onAddGroup() {
         try {
-
             let newGroup = boardService.getEmptyGroup()
             newGroup = { ...newGroup, boardId, name: "New Group" }
             await addGroup(boardId, newGroup)
@@ -21,10 +19,12 @@ export function AddGroup() {
     }
 
     return (
-        <GroupStickyColumns>
+        <section className="add-new-group">
             <section className="add-group">
+                <div style={{ width: '40px', height: '40px' }}></div>
                 <Button kind="secondary" onClick={() => onAddGroup()} size="small" leftIcon={Add}> Add new group</Button>
             </section>
-        </GroupStickyColumns>
+            <div className="spacer-div"></div>
+        </section>
     )
 }
