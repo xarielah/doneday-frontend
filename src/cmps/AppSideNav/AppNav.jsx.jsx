@@ -1,90 +1,90 @@
-import { IconButton } from "@vibe/core";
-import { DropdownChevronLeft, DropdownChevronRight } from "@vibe/icons";
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { BoardNav } from "./BoardNav/BoardsNav";
-import { FavoritesNav } from "./FavoriteNav";
-import { MainNav } from "./MainNav";
+import { IconButton } from "@vibe/core"
+import { DropdownChevronLeft, DropdownChevronRight } from "@vibe/icons"
+import { useEffect, useRef, useState } from "react"
+import { useSelector } from "react-redux"
+import { useLocation, useNavigate } from "react-router-dom"
+import { BoardNav } from "./BoardNav/BoardsNav"
+import { FavoritesNav } from "./FavoriteNav"
+import { MainNav } from "./MainNav"
 
 export function AppNav() {
-    const boards = useSelector(storeState => storeState.boardModule.boards);
-    const navigate = useNavigate();
-    const location = useLocation();
+    const boards = useSelector(storeState => storeState.boardModule.boards)
+    const navigate = useNavigate()
+    const location = useLocation()
 
-    const [isSearch, setIsSearch] = useState(false);
-    const [isMinimize, setIsMinimize] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
+    const [isSearch, setIsSearch] = useState(false)
+    const [isMinimize, setIsMinimize] = useState(false)
+    const [isHovered, setIsHovered] = useState(false)
 
-    const innerSidebarRef = useRef(null);
-    const sidebarRef = useRef(null);
-    const searchRef = useRef(null);
-    const isResizing = useRef(false);
+    const innerSidebarRef = useRef(null)
+    const sidebarRef = useRef(null)
+    const searchRef = useRef(null)
+    const isResizing = useRef(false)
 
     // Only set isSearch to false when clicking outside the search area
     const handleClickOutside = (event) => {
         if (searchRef.current && !searchRef.current.contains(event.target)) {
-            setIsSearch(false);
+            setIsSearch(false)
         }
-    };
+    }
 
     // Only depend on isSearch so the effect doesn't run on every isMinimize change
     useEffect(() => {
         if (isSearch) {
-            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside)
         } else {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside)
         }
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isSearch]);
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [isSearch])
 
     useEffect(() => {
         if (sidebarRef.current && innerSidebarRef.current) {
-            sidebarRef.current.style.width = innerSidebarRef.current.style.width;
-            innerSidebarRef.current.style.width = sidebarRef.current.style.width;
+            sidebarRef.current.style.width = innerSidebarRef.current.style.width
+            innerSidebarRef.current.style.width = sidebarRef.current.style.width
         }
-    }, []);
+    }, [])
 
     const handleMouseDown = () => {
-        isResizing.current = true;
-        document.addEventListener("mousemove", handleMouseMove);
-        document.addEventListener("mouseup", handleMouseUp);
-    };
+        isResizing.current = true
+        document.addEventListener("mousemove", handleMouseMove)
+        document.addEventListener("mouseup", handleMouseUp)
+    }
 
     const handleMouseMove = (e) => {
         if (isResizing.current) {
-            const newWidth = e.clientX;
-            const minWidth = 250;
-            const maxWidth = 580;
+            const newWidth = e.clientX
+            const minWidth = 250
+            const maxWidth = 580
 
             if (newWidth >= minWidth && newWidth <= maxWidth) {
-                sidebarRef.current.style.width = `${newWidth}px`;
-                innerSidebarRef.current.style.width = `${newWidth}px`;
+                sidebarRef.current.style.width = `${newWidth}px`
+                innerSidebarRef.current.style.width = `${newWidth}px`
             }
         }
-    };
+    }
 
     const handleMouseUp = () => {
-        isResizing.current = false;
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-    };
+        isResizing.current = false
+        document.removeEventListener("mousemove", handleMouseMove)
+        document.removeEventListener("mouseup", handleMouseUp)
+    }
 
     const handleNavigate = (path) => {
-        navigate(path);
-    };
+        navigate(path)
+    }
 
     function toggleMinimize() {
         if (!isMinimize) {
-            sidebarRef.current.style.width = "30px";
+            sidebarRef.current.style.width = "30px"
         } else {
-            sidebarRef.current.style.width = innerSidebarRef.current.style.width;
+            sidebarRef.current.style.width = innerSidebarRef.current.style.width
         }
-        setIsMinimize(!isMinimize);
-        setIsHovered(false);
-        innerSidebarRef.current.style.width = `${newWidth}px`;
+        setIsMinimize(!isMinimize)
+        setIsHovered(false)
+        innerSidebarRef.current.style.width = `${newWidth}px`
     }
 
     return (
@@ -126,5 +126,5 @@ export function AppNav() {
             </nav>}
             <div className="resize-bar" onMouseDown={handleMouseDown}></div>
         </section>
-    );
+    )
 }

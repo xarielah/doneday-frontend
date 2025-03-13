@@ -316,6 +316,8 @@ async function saveTask(boardId, groupId, newTask) {
     if (taskIdx === -1) {
         newTask.allMembers = allMembers;
         newTask._id = 't' + makeId();
+        newTask.priority = 'tbd'
+        newTask.status = 'draft'
         boards[boardIdx].groups[groupIdx].tasks.push(newTask);
         await storageService._save(STORAGE_KEY, boards);
         return { ...newTask };

@@ -71,3 +71,9 @@ button {
 .icon-button {
   @include button-with-icon;
 }
+
+.monday-style-dialog-content-wrapper,
+.dialogContentContainer_6277b00528,
+.typeModal_1732a0f647 {
+  z-index: 9999;
+}

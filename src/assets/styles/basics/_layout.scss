@@ -2,13 +2,14 @@
   background-color: #eceff8;
   height: 100vh;
   display: grid;
+  overflow: hidden;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
     "header header"
     "nav board";
 
-  > * {
+  >* {
     grid-column: 2;
 
     &.full {
@@ -23,8 +24,8 @@
   grid-gap: 20px;
 }
 
-.page-container {
-  max-height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+// .page-container {
+//   max-height: 100%;
+//   overflow-y: auto;
+//   overflow-x: hidden;
+// }

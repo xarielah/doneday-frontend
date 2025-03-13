@@ -17,7 +17,6 @@ export function BoardSort() {
 
     useEffect(() => {
         // setSortBy(sortByList)
-
     }, [sortByList]);
 
     function getAvailableSortOptions() {
