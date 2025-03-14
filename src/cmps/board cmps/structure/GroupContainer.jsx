@@ -38,6 +38,7 @@ const GroupContainer = ({ group }) => {
         console.log('task: ' + task);
     }
 
+
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
