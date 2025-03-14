@@ -15,6 +15,7 @@ const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks);
     const cmpOrder = useSelector(state => state.boardModule.cmpOrder);
 
+    // The setNodeRef and style must remain on the root container.
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task._id });
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -53,8 +54,6 @@ const GroupTableContentTask = ({ task, group }) => {
         <div
             ref={setNodeRef}
             style={style}
-            {...attributes}
-            {...listeners}
             role="listitem"
             className="table-task-row"
         >
@@ -66,20 +65,20 @@ const GroupTableContentTask = ({ task, group }) => {
                     group={group}
                     task={task}
                 />
-                <div className="min-table-cell table-cell-first-column task-title default-cell-color">
-                    {/* Wrap EditableText in a container that stops propagation of drag events */}
-                    <div onMouseDown={(e) => e.stopPropagation()}>
-                        <div
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onDragStart={(e) => e.stopPropagation()}
-                        >
-                            <EditableText
-                                type="text2"
-                                onChange={handleChangeTitle}
-                                value={task.taskTitle}
-                            />
-                        </div>
+                <div className="min-table-cell table-cell-first-column task-title default-cell-color"
+                    {...attributes}
+                    {...listeners}
+                >
+                    <div
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onDragStart={(e) => e.stopPropagation()}
+                    >
+                        <EditableText
+                            type="text2"
+                            onChange={handleChangeTitle}
+                            value={task.taskTitle}
+                        />
                     </div>
                     <TaskDetailsTriggerCell task={task} />
                 </div>

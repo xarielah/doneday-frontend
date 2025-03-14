@@ -6,7 +6,6 @@ import { cn } from "../../../services/util.service";
 import { updateGroup } from "../../../store/actions/board.actions";
 import { TaskMenuButton } from "../CrudlMenuButtons/TaskMenuButton";
 import ChevronTooltip from "./ChevronTooltip";
-import { GroupColorPicker } from "./GroupColorPicker";
 
 
 
@@ -52,14 +51,19 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
 
     const collapsedStyle = isCollapsed ? { borderLeft: '6px solid' + (group.color || '#000') } : undefined
 
-    return <section className={cn(!isCollapsed && "group-header", isCollapsed && "group-header-collapsed group-collapsed-border")} style={collapsedStyle}>
+    return <section
+        className={cn(!isCollapsed && "group-header", isCollapsed && "group-header-collapsed group-collapsed-border")} style={collapsedStyle}
+
+    >
         {!isCollapsed && <div className="group-menu-button"><TaskMenuButton crudlType={"group"} task={{}} group={group} /></div>}
         {isCollapsed && <button onClick={() => setIsCollapsed(false)}>
             <ChevronTooltip content='Expand group'>
                 <Icon style={{ color: group.color || 'inherit' }} className="collapse-chevron" icon={DropdownChevronRight} iconSize={20} />
             </ChevronTooltip>
         </button>}
-        {!isCollapsed && <button onClick={() => setIsCollapsed(true)}>
+        {!isCollapsed && <button onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            onDragStart={(e) => e.stopPropagation()} onClick={() => setIsCollapsed(true)}>
             <ChevronTooltip content="Collapse group">
                 <Icon style={{ color: group.color || 'inherit' }} className="collapse-chevron" icon={DropdownChevronDown} iconSize={20} />
             </ChevronTooltip>
@@ -74,7 +78,7 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
                     setHeaderColorTrigger(!headerColorTrigger)
                     setIsEdit(b)
                 }} ref={headingRef} onChange={(name) => handleChangeName(name)} className={cn("group-header-color group-heading")} type="h3" style={{ color: group.color || 'inherit' }} value={group.name || group._id} />
-                {isEdit && <GroupColorPicker handleChangeColor={handleChangeColor} />}
+                {/* {isEdit && <GroupColorPicker handleChangeColor={handleChangeColor} />} */}
             </div>
             {!isCollapsed && <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{groupCount || "No"} Task{groupCount !== 1 && "s"}</Text>}
         </div>
