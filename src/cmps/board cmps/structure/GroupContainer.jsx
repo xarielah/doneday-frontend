@@ -54,20 +54,22 @@ const GroupContainer = ({ group }) => {
                     isCollapsed={isCollapsed}
                     setIsCollapsed={setIsCollapsed}
                 />
-                <div className="spacer-div"></div>
+                <div  {...attributes} {...listeners} className="spacer-div"></div>
             </div>
             {!isCollapsed && <GroupTableHeader group={group} />}
         </section>
-        {!isCollapsed && <>
-            <section role="rowgroup">
-                <GroupTableContent group={group} />
-            </section>
-            <footer>
-                <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
-                <GroupSummaryRow group={group} />
-            </footer>
-        </>}
-    </section>
+        {
+            !isCollapsed && <>
+                <section role="rowgroup">
+                    <GroupTableContent group={group} />
+                </section>
+                <footer>
+                    <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
+                    <GroupSummaryRow group={group} />
+                </footer>
+            </>
+        }
+    </section >
 }
 
 export default GroupContainer
