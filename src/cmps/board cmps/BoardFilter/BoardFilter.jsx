@@ -95,7 +95,7 @@ export function BoardFilter() {
     return (
         <section className="board-filter">
             <Dialog
-                position="bottom-start"
+                position="bottom"
                 showTrigger={["click"]}
                 hideTrigger={["clickoutside"]}
                 content={

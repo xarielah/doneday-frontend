@@ -1,5 +1,5 @@
-import React from "react";
 import { Button, Text } from "@vibe/core";
+import React from "react";
 
 const FilterHeader = ({ title, subtitle, resetFilters, isFilter }) => {
     return (
