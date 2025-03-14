@@ -7,7 +7,7 @@
   display: flex;
   width: 100%;
 
-  & > .spacer-div {
+  &>.spacer-div {
     flex-grow: 1;
     width: 100%;
   }
@@ -38,6 +38,13 @@
     align-items: center;
     width: 100%;
     cursor: grab;
+
+    .group-color-picker {
+      width: 16px;
+      height: 16px;
+      border-radius: 32px;
+    }
+
   }
 
   .items-count {
@@ -99,7 +106,7 @@
     margin: 0;
   }
 
-  & > .group-heading {
+  &>.group-heading {
     height: 40px;
   }
 }

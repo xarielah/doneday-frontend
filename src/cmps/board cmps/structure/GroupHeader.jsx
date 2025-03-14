@@ -6,6 +6,7 @@ import { cn } from "../../../services/util.service";
 import { updateGroup } from "../../../store/actions/board.actions";
 import { TaskMenuButton } from "../CrudlMenuButtons/TaskMenuButton";
 import ChevronTooltip from "./ChevronTooltip";
+import { GroupColorPicker } from "./GroupColorPicker";
 
 
 
@@ -13,6 +14,7 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
     const tasksCount = group.tasks?.length || 0;
     const headingRef = useRef()
     const [headerColorTrigger, setHeaderColorTrigger] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
 
     useEffect(() => {
         if (headingRef.current) {
@@ -24,14 +26,23 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
                 inputHeaderColor.style.color = group.color;
             }
         }
-    }, [headingRef, headerColorTrigger])
+    }, [headingRef, headerColorTrigger, isEdit, group])
 
     const groupCount = group.tasks?.length || 0;
 
     function handleChangeName(name) {
         try {
-            const updatedName = { ...group, name }
-            updateGroup(updatedName)
+            const updatedGroup = { ...group, name }
+            updateGroup(updatedGroup)
+        } catch (err) {
+            console.error('group name could not be updated' + err);
+        }
+    }
+
+    function handleChangeColor(color) {
+        try {
+            const updatedGroup = { ...group, color }
+            updateGroup(updatedGroup)
         } catch (err) {
             console.error('group name could not be updated' + err);
         }
@@ -59,7 +70,11 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
                 onPointerDown={(e) => e.stopPropagation()}
                 onDragStart={(e) => e.stopPropagation()}
             >
-                <EditableHeading onEditModeChange={() => setHeaderColorTrigger(!headerColorTrigger)} ref={headingRef} onChange={(name) => handleChangeName(name)} className={cn("group-header-color group-heading")} type="h3" style={{ color: group.color || 'inherit' }} value={group.name || group._id} />
+                <EditableHeading onEditModeChange={(b) => {
+                    setHeaderColorTrigger(!headerColorTrigger)
+                    setIsEdit(b)
+                }} ref={headingRef} onChange={(name) => handleChangeName(name)} className={cn("group-header-color group-heading")} type="h3" style={{ color: group.color || 'inherit' }} value={group.name || group._id} />
+                {isEdit && <GroupColorPicker handleChangeColor={handleChangeColor} />}
             </div>
             {!isCollapsed && <Text className="items-count" color='secondary' type="text2" style={{ marginLeft: '8px' }}>{groupCount || "No"} Task{groupCount !== 1 && "s"}</Text>}
         </div>
