@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .column-label-status {
   width: 180px !important;
   flex-basis: 180px !important;
@@ -29,14 +31,14 @@
 }
 
 .input-container {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .infoOutput {
   justify-content: space-between;
   width: 90%;
   position: relative;
-  transition: .2s all ease;
+  transition: 0.2s all ease;
   cursor: pointer;
 }
 
@@ -49,7 +51,7 @@
   max-width: 100px;
   overflow: hidden;
   display: block;
-  transition: .2s all ease;
+  transition: 0.2s all ease;
 }
 .rounded-btn {
   border-radius: 50%;
@@ -66,16 +68,27 @@
   position: relative;
   width: 100%;
   justify-content: center;
-  display: flex
-;
+  display: flex;
   align-items: center;
 }
 
 .addMembers {
+  border-radius: 50%;
   position: absolute;
-  left: 0;
+  left: 8px;
   z-index: 9;
   justify-content: left;
+  background-color: #0073ea;
+  color: white;
+
+  &:hover {
+    background-color: color.adjust(#0073ea, $lightness: -10%) !important;
+  }
+}
+
+.addMembersIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .addMemberDialog {
@@ -83,10 +96,16 @@
   position: absolute;
 }
 
-[class^="column-label-"], .table-task-row .default-cell-color, .table-row-row .task-left-checkbox, .table-task-row .column-filler {
-  transition: .2s all ease;
+[class^="column-label-"],
+.table-task-row .default-cell-color,
+.table-row-row .task-left-checkbox,
+.table-task-row .column-filler {
+  transition: 0.2s all ease;
 }
 
-.table-task-row:hover .default-cell-color, [class^="column-label-"]:hover, .table-task-row:hover .task-left-checkbox, .table-task-row:hover .column-filler {
+.table-task-row:hover .default-cell-color,
+[class^="column-label-"]:hover,
+.table-task-row:hover .task-left-checkbox,
+.table-task-row:hover .column-filler {
   background-color: #efefef;
 }

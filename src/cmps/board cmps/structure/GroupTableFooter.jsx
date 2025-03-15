@@ -25,7 +25,7 @@ const GroupTableFooter = ({ group }) => {
 
     return <section className="table-footer">
         <GroupStickyColumns>
-            <GroupPreRow crudlType="none" group={group} roundedBottomLeft bottomBorders disableCheckbox />
+            <GroupPreRow crudlType="none" group={group} roundedBottomLeft bottomBorders disableCheckbox ligherColor />
             <div className="min-table-cell table-cell-first-column task-title default-cell-color bottom-border" style={{ textAlign: 'left' }}>
                 <EditableText
                     value={taskValue}

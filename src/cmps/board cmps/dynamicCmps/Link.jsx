@@ -1,24 +1,29 @@
-import { useState } from 'react';
-import { Button, Dialog, TextField, Tooltip, IconButton, DialogContentContainer, Text, Heading, Link } from "@vibe/core"; 
-import { Add, CloseSmall, Delete } from "@vibe/icons";
+import { Button, Dialog, DialogContentContainer, Heading, IconButton, Link, Text, TextField } from "@vibe/core";
 import {
     Modal,
-    ModalHeader,
-    ModalContent,
-    ModalMedia,
-    ModalFooter,
-    ModalFooterWizard,
     ModalBasicLayout,
-    ModalSideBySideLayout,
-    ModalMediaLayout
-  } from "@vibe/core/next";
+    ModalContent,
+    ModalFooter,
+    ModalHeader
+} from "@vibe/core/next";
+import { Add, CloseSmall } from "@vibe/icons";
+import { useEffect, useState } from 'react';
 
-export function LinkColumn({ info, onTaskUpdate}) {
+export function LinkColumn({ info, onTaskUpdate }) {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false);
     const [link, setLink] = useState(info?.link || "");
     const [displayText, setDisplayText] = useState(info?.displayText || "");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(false);
+
+    useEffect(() => {
+        if (!link || !isValidUrl(link) || !displayText) {
+            setCanSubmit(false);
+        } else {
+            setCanSubmit(true);
+        }
+    }, [link, displayText])
 
     const handleOpenDialog = () => {
         if (info) {
@@ -34,21 +39,15 @@ export function LinkColumn({ info, onTaskUpdate}) {
 
     const isValidUrl = (url) => {
         try {
-          const parsedUrl = new URL(url);
-          return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+            const parsedUrl = new URL(url);
+            return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
         } catch (error) {
-          return false;
+            return false;
         }
-      };
-    
+    };
+
 
     const handleSubmit = () => {
-        if (!link || !isValidUrl(link)) {
-            return alert("Invalid link. Please provide a valid URL starting with http:// or https://");
-        }
-        if(!displayText) {
-            return alert('Invalid display text');
-        }
         const saveLinkStructure = {
             link,
             displayText
@@ -62,7 +61,7 @@ export function LinkColumn({ info, onTaskUpdate}) {
     };
 
     const handleDeleteLink = () => {
-        onTaskUpdate({link: "", displayText: ""});
+        onTaskUpdate({ link: "", displayText: "" });
         setDialogOpen(false);
         setIsModalOpen(false);
     }
@@ -71,7 +70,7 @@ export function LinkColumn({ info, onTaskUpdate}) {
             e.preventDefault();
             handleOpenDialog();
         };
-        
+
         return (
             <Link
                 href={href}
@@ -83,10 +82,15 @@ export function LinkColumn({ info, onTaskUpdate}) {
     };
 
     return (
-        <div className="column-label column-label-link default-cell-color" style={{ justifyContent: 'center', display: 'flex' }} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
+        <div
+            className="column-label column-label-link default-cell-color"
+            style={{ justifyContent: 'center', height: '100%', display: 'flex' }}
+            onMouseEnter={() => handleMouseChanges(true)}
+            onMouseLeave={() => handleMouseChanges(false)}
+        >
             {!info?.link && previewVisible && (
                 <Dialog
-                    modifiers={[{ name: "preventOverflow", options: { mainAxis: false } }]}
+                    modifiers={[{ name: "preventOverflow", options: { mainAxis: false, padding: '5' } }]}
                     open={isDialogOpen}
                     showTrigger={isDialogOpen ? [] : null}
                     onClickOutside={isDialogOpen && handleCloseDialog}
@@ -119,7 +123,12 @@ export function LinkColumn({ info, onTaskUpdate}) {
                                     />
                                 </div>
                                 <div className="mt-4 flex justify-center space-x-2">
-                                    <Button onClick={handleSubmit} size='small' position="center" style={{marginTop: ".5rem"}}>
+                                    <Button
+                                        onClick={handleSubmit}
+                                        disabled={!canSubmit}
+                                        size='small'
+                                        position="center"
+                                        style={{ marginTop: ".5rem" }}>
                                         Submit
                                     </Button>
                                 </div>
@@ -128,7 +137,9 @@ export function LinkColumn({ info, onTaskUpdate}) {
                     }
                     position="bottom"
                 >
-                    <IconButton icon={Add} size="xs" className="rounded-btn custom" kind="primary" ariaLabel="Add Link" onClick={handleOpenDialog} />
+                    <IconButton size="xxs" className="addMembersIcon rounded-btn custom" kind="primary" ariaLabel="Add Link" onClick={handleOpenDialog}>
+                        <Add />
+                    </IconButton>
                 </Dialog>
             )}
 
@@ -164,7 +175,7 @@ export function LinkColumn({ info, onTaskUpdate}) {
                                     />
                                 </div>
                                 <div className="mt-4 flex justify-center space-x-2">
-                                    <Button onClick={handleSubmit} size='small' position="center" style={{marginTop: ".5rem"}}>
+                                    <Button onClick={handleSubmit} size='small' position="center" style={{ marginTop: ".5rem" }}>
                                         Update
                                     </Button>
                                 </div>
@@ -173,59 +184,58 @@ export function LinkColumn({ info, onTaskUpdate}) {
                     }
                     position="bottom"
                 >
-                        <div className="mt-4 flex justify-end space-x-2 infoOutput" onClick={() => handleOpenDialog()} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
-                            <Link
-                                href={info.link}
-                                text={info.displayText} 
-                                onClick={(e) => e.stopPropagation()}/>
-                            {previewVisible && (
-                                <IconButton
+                    <div className="mt-4 flex justify-end space-x-2 infoOutput" onClick={() => handleOpenDialog()} onMouseEnter={() => handleMouseChanges(true)} onMouseLeave={() => handleMouseChanges(false)}>
+                        <Link
+                            href={info.link}
+                            text={info.displayText}
+                            onClick={(e) => e.stopPropagation()} />
+                        {previewVisible && (
+                            <IconButton
                                 icon={CloseSmall}
-                                size="xs"
+                                size="xxs"
                                 className="rounded-btn"
                                 kind="tertiary"
-                                ariaLabel="Remove Link"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsModalOpen(true);
                                 }}
-                                />
-                            )}
-                            <Modal
-                                id="modal-basic"
-                                show={isModalOpen}
-                                size="small"
-                                onClose={(e) => {
-                                    e.stopPropagation();
-                                    setIsModalOpen(false);
-                                }}
-                                >
-                                <ModalBasicLayout>
-                                    <ModalHeader title="Want to delete?" />
-                                    <ModalContent>
+                            />
+                        )}
+                        <Modal
+                            id="modal-basic"
+                            show={isModalOpen}
+                            size="small"
+                            onClose={(e) => {
+                                e.stopPropagation();
+                                setIsModalOpen(false);
+                            }}
+                        >
+                            <ModalBasicLayout>
+                                <ModalHeader title="Want to delete?" />
+                                <ModalContent>
                                     <Text type="text1" align="inherit" element="p">
                                         Are you sure you want to delete this link?
                                     </Text>
-                                    </ModalContent>
-                                </ModalBasicLayout>
-                                <ModalFooter
-                                    primaryButton={{
-                                        text: "Confirm",
-                                        onClick: (e) => {
-                                            e.stopPropagation();
-                                            handleDeleteLink(false);
-                                        },
-                                    }}
-                                    secondaryButton={{
-                                        text: "Cancel",
-                                        onClick: (e) => {
-                                            e.stopPropagation();
-                                            setIsModalOpen(false);
-                                        },
-                                    }}
-                                />
-                            </Modal>
-                        </div>
+                                </ModalContent>
+                            </ModalBasicLayout>
+                            <ModalFooter
+                                primaryButton={{
+                                    text: "Confirm",
+                                    onClick: (e) => {
+                                        e.stopPropagation();
+                                        handleDeleteLink(false);
+                                    },
+                                }}
+                                secondaryButton={{
+                                    text: "Cancel",
+                                    onClick: (e) => {
+                                        e.stopPropagation();
+                                        setIsModalOpen(false);
+                                    },
+                                }}
+                            />
+                        </Modal>
+                    </div>
                 </Dialog>
             )}
         </div>
