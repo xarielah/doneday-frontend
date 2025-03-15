@@ -11,7 +11,7 @@ const TaskDetailsTriggerCell = ({ task }) => {
     const hasReplies = task?.replies?.length > 0;
 
     return <Link to={url} className="task-details-button-cell" style={{ zIndex: 1500 }}>
-        <button className="task-details-icon">
+        <button onClick={(e) => e.preventDefault()} className="task-details-icon">
             {hasReplies && <div className="task-details-badge-container">
                 <Icon className={cn(hasReplies && 'has-updates')} icon={Update} iconSize={22} badge="1" />
                 <span className="task-details-badge">{task.replies.length > 9 ? '9+' : task.replies.length}</span>
