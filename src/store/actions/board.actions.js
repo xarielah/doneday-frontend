@@ -6,10 +6,10 @@ import { ADD_BOARD, ADD_GROUP, ADD_TASK, REMOVE_BOARD, REMOVE_GROUP, REMOVE_TASK
 import { store } from '../store';
 
 loadBoards()
-// Set Boards
+// Get Boards
 export async function loadBoards(filterBy = {}) {
     try {
-        const boards = await boardService.getBoards(filterBy);
+        const boards = await boardService.query();
         store.dispatch(getCmdSetBoards(boards));
         return boards;
     } catch (err) {
@@ -38,8 +38,7 @@ export async function setBoard(board) {
 // Remove Board
 export async function removeBoard(boardId) {
     try {
-        await boardService.removeBoard(boardId);
-        loadBoards()
+        await boardService.remove(boardId);
     } catch (err) {
         console.error('Board Action -> Cannot remove board', err);
         throw err;
@@ -49,8 +48,10 @@ export async function removeBoard(boardId) {
 // Add Board
 export async function addBoard(board) {
     try {
-        const savedBoard = await boardService.saveBoard(board);
-        loadBoards()
+        const savedBoard = await boardService.save(board);
+        store.dispatch(getCmdSetBoard(savedBoard));
+        // const boards = await boardService.query()
+        // store.dispatch(getCmdSetBoards(boards));
         return savedBoard;
     } catch (err) {
         console.error('Board Action -> Cannot add board', err);
@@ -61,17 +62,15 @@ export async function addBoard(board) {
 // Update Board
 export async function updateBoard(board) {
     try {
-        return await boardService.saveBoard(board)
-            .then(savedBoard => {
-                loadBoards()
-                return savedBoard
-            })
+        const savedBoard = await boardService.save(board);
+        store.dispatch(getCmdSetBoard(savedBoard));
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
     }
 }
 
+// ------------------------------------------------------------------------------
 
 // Get Group
 export async function getGroupById(groupId) {
