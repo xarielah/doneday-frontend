@@ -1,4 +1,6 @@
 .task-details-button-cell {
+  margin-left: auto;
+  min-width: 66.8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +13,7 @@
     color: $primary-color;
   }
 
-  & > .task-details-icon {
+  &>.task-details-icon {
     $side-paddings: 22px;
 
     position: relative;

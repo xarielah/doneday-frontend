@@ -3,13 +3,13 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { EditableText } from "@vibe/core";
 import { useSelector } from "react-redux";
+import { updateBoard } from "../../../store/actions/board.actions";
 import { addSelectedTask, removeSelectedTask } from "../../../store/actions/taskSelect.actions";
 import DynamicColumn from "./DynamicColumn";
 import GroupPreRow from "./GroupPreRow";
 import GroupScrollableColumns from "./GroupScrollableColumns";
 import GroupStickyColumns from "./GroupStickyColumns";
 import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell";
-import { updateBoard } from "../../../store/actions/board.actions";
 
 const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks);
@@ -91,11 +91,13 @@ const GroupTableContentTask = ({ task, group }) => {
                     {...listeners}
                 >
                     <div
+                        className="task-title-container"
                         onMouseDown={(e) => e.stopPropagation()}
                         onPointerDown={(e) => e.stopPropagation()}
                         onDragStart={(e) => e.stopPropagation()}
                     >
                         <EditableText
+                            className="task-title-display"
                             type="text2"
                             onChange={handleChangeTitle}
                             value={task.taskTitle}

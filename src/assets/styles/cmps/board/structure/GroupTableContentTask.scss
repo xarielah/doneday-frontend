@@ -1,8 +1,23 @@
 .task-title {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   box-sizing: border-box;
   padding-left: 16px;
+  max-width: 330px;
+
+  * {
+    overflow: hidden;
+  }
+
+}
+
+.task-title-display {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.task-title-container {
+  width: 100%;
 }
 
 .row-dragging {
