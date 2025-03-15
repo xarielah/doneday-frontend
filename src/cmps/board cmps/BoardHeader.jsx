@@ -14,7 +14,7 @@ export function BoardHeader() {
         try {
             let newGroup = boardService.getEmptyGroup()
             newGroup._id = 'g' + makeId();
-            newGroup = { ...newGroup, boardId: board._id, name: "New Group" }
+            newGroup = { ...newGroup, name: "New Group" }
 
             const newBoard = { ...board }
 

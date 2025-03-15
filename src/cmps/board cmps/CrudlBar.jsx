@@ -1,17 +1,13 @@
 import { Dialog, DialogContentContainer, Heading, Icon, Menu, MenuItem } from "@vibe/core"
-import { makeId } from "../../services/util.service"
-import { Close, Delete, Duplicate, Group, MoveArrowRight, Open, Upload, } from "@vibe/icons"
-import { getGroupById, getTaskById, removeTask, setBoard, updateBoard } from "../../store/actions/board.actions"
+import { Close, Delete, Duplicate, Group, MoveArrowRight, Upload } from "@vibe/icons"
 import { useSelector } from "react-redux"
 import { deleteSelectedTasks, duplicateSelectedTasks, moveSelectedTasks, setSelectedTask } from "../../store/actions/taskSelect.actions"
-import { useState } from "react"
 
 
 export function CrudlBar() {
 
     const selectedTasks = useSelector((storeState) => storeState.taskSelectModule.selectedTasks)
     const board = useSelector((storeState) => storeState.boardModule.board)
-    const [isOpen, setIsOpen] = useState(false)
 
 
     async function onDuplicateSelectedTasks() {
@@ -24,7 +20,7 @@ export function CrudlBar() {
 
     async function onDeleteSelectedTasks() {
         try {
-            await deleteSelectedTasks(selectedTasks);
+            await deleteSelectedTasks(selectedTasks, board);
         } catch (err) {
             console.error('Error deleting tasks:', err);
         }
@@ -32,8 +28,7 @@ export function CrudlBar() {
 
     async function onMoveSelectedTasks(targetGroupId = null) {
         try {
-            await moveSelectedTasks(selectedTasks, targetGroupId);
-            setIsOpen(false);
+            await moveSelectedTasks(selectedTasks, board, targetGroupId);
         } catch (err) {
             console.error('Error moving tasks:', err);
         }

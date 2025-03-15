@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { boardService } from "../../../services/board/board.service.local";
 import { makeId } from "../../../services/util.service";
 import { updateBoard } from "../../../store/actions/board.actions";
-import GroupStickyColumns from "./GroupStickyColumns";
 
 
 export function AddGroup() {
@@ -14,7 +13,7 @@ export function AddGroup() {
         try {
             let newGroup = boardService.getEmptyGroup()
             newGroup._id = 'g' + makeId();
-            newGroup = { ...newGroup, boardId: board._id, name: "New Group" }
+            newGroup = { ...newGroup, name: "New Group" }
 
             const newBoard = { ...board }
 

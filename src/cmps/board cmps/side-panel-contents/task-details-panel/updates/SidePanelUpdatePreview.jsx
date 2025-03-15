@@ -5,7 +5,7 @@ import SidePanelReplyInput from "./SidePanelReplyInput"
 import SidePanelUpdateActions from "./SidePanelUpdateActions"
 import SidePanelUpdateMenu from "./SidePanelUpdateMenu"
 
-const SidePanelUpdatePreview = ({ update, onUpdateReply, onDeleteUpdate }) => {
+const SidePanelUpdatePreview = ({ update, onUpdateReply, onRemoveReply }) => {
     const textAreaRef = useRef();
 
     // When user clicks on reply button, it focuses on the reply input
@@ -33,7 +33,7 @@ const SidePanelUpdatePreview = ({ update, onUpdateReply, onDeleteUpdate }) => {
             <div className="update-preview-user">
                 <Avatar className="update-preview-avatar" size="large" text={update.by.name[0]} />
                 <Text className="update-preview-user-name" type="text1" weight="bold" element="p">{update.by.name}</Text>
-                <SidePanelUpdateMenu onDelete={() => console.log('delete')} onEdit={() => console.log('edit')} />
+                <SidePanelUpdateMenu onDelete={() => onRemoveReply(update._id)} onEdit={() => console.log('edit')} />
             </div>
             <section className="update-preview-contents">
                 <Text type="text1" element="p">{update.text}</Text>

@@ -12,17 +12,7 @@ export const boardService = {
     save,
     remove,
     getBoards,
-    saveBoard,
-    removeBoard,
-    getBoardById,
-    // CRUD Operations for Groups
-    getGroupById,
-    saveGroup,
-    removeGroup,
-    // CRUD Operations for Tasks
-    getTaskById,
-    saveTask,
-    removeTask,
+    getById,
     // Utility Functions
     getRandomStatus,
     getRandomPriority,
@@ -85,7 +75,7 @@ async function query() {
 }
 
 async function remove(boardId) {
-    await storageService.remove(STORAGE_KEY, boardId)
+    return await storageService.remove(STORAGE_KEY, boardId)
 }
 
 async function save(board) {
@@ -102,6 +92,7 @@ async function save(board) {
         const boardToSave = {
             name: board.name,
             color: getRandomColor(),
+            groups: board.groups || []
         }
         savedBoard = await storageService.post(STORAGE_KEY, boardToSave)
     }
@@ -191,223 +182,6 @@ async function getById(boardId, filterBy = {}, sortBy = []) {
 
 function getBoards() {
     return query()
-}
-
-// ----------------- Boards -----------------
-async function getBoardById(boardId, filterBy = {}, sortBy = []) {
-
-    let boards = await storageService.query(STORAGE_KEY) || [];
-    const board = boards.find(board => board._id === boardId) || null;
-    if (!board) return null;
-
-    const groups = Array.isArray(board.groups) ? board.groups : [];
-
-    const taskTitleFilter = filterBy.taskTitle && filterBy.taskTitle.trim()
-        ? filterBy.taskTitle.toLowerCase()
-        : null;
-
-    const getStatusIndex = (status) => statusList.findIndex(s => s.value === status);
-    const getPriorityIndex = (priority) => priorityList.findIndex(p => p.value === priority);
-
-    const filteredGroups = groups.map(group => {
-        const tasks = Array.isArray(group.tasks) ? group.tasks : [];
-        const filteredTasks = tasks.filter(task => {
-            const priorityMatch = filterBy.Priority && filterBy.Priority.length > 0
-                ? filterBy.Priority.includes(task.priority)
-                : true;
-
-            const membersMatch = filterBy.Members && filterBy.Members.length > 0
-                ? task.members && task.members.some(member => filterBy.Members.includes(member.name))
-                : true;
-
-            const statusMatch = filterBy.Status && filterBy.Status.length > 0
-                ? filterBy.Status.includes(task.status)
-                : true;
-
-            const titleMatch = taskTitleFilter
-                ? task.taskTitle && task.taskTitle.toLowerCase().includes(taskTitleFilter)
-                : true;
-
-            const timelineMatch = filterBy.Timeline
-                ? task.timeline?.endDate && new Date(task.timeline.endDate) <= new Date(filterBy.Timeline)
-                : true;
-
-            return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch;
-        });
-
-        const sortedTasks = filteredTasks.sort((taskA, taskB) => {
-            for (const { title, order } of sortBy) {
-                let comparison = 0;
-                if (title === 'status') {
-                    comparison = getStatusIndex(taskA.status) - getStatusIndex(taskB.status);
-                } else if (title === 'priority') {
-                    comparison = getPriorityIndex(taskA.priority) - getPriorityIndex(taskB.priority);
-                } else if (title === 'name') {
-                    comparison = taskA.taskTitle.localeCompare(taskB.taskTitle)
-                } else if (title === 'timeline') {
-                    const dateA = new Date(taskA.timeline?.endDate || 0)
-                    const dateB = new Date(taskB.timeline?.endDate || 0)
-                    if (isNaN(dateA) && isNaN(dateB)) {
-                        comparison = 0
-                    } else if (isNaN(dateA)) {
-                        comparison = 1
-                    } else if (isNaN(dateB)) {
-                        comparison = -1
-                    } else {
-                        comparison = dateA - dateB
-                    }
-                }
-                if (comparison !== 0) return comparison * order;
-            }
-            return 0
-        }
-        )
-        return {
-            ...group,
-            tasks: sortedTasks
-        };
-    });
-
-
-    return {
-        ...board,
-        groups: filteredGroups
-    };
-
-}
-
-
-
-async function saveBoard(board) {
-    if (newBoard._id) {
-        return await storageService.put(STORAGE_KEY, board)
-    } else {
-        const emptyBoard = getEmptyBoard();
-        newBoard = { ...emptyBoard, ...board }
-        return await storageService.post(STORAGE_KEY, newBoard)
-    }
-}
-
-async function removeBoard(boardId) {
-    return storageService.remove(boardId)
-}
-
-// ----------------- Groups -----------------
-async function getGroupById(groupId) {
-    const boards = await boardService.getBoards();
-    if (!boards || boards.length === 0) {
-        throw new Error('No boards found.');
-    }
-    for (const board of boards) {
-        if (board.groups && board.groups.length) {
-            const group = board.groups.find(g => g._id === groupId);
-            if (group) return group;
-        }
-    }
-    throw new Error(`Group with ID ${groupId} not found in any board.`);
-}
-
-async function saveGroup(boardId, newGroup) {
-    let boards = await storageService.query(STORAGE_KEY) || [];
-    const boardIdx = boards.findIndex(board => board._id === boardId);
-
-    if (boardIdx === -1) throw new Error(`Board with ID ${boardId} not found`);
-
-    const groupIdx = boards[boardIdx].groups.findIndex(group => group._id === newGroup._id)
-
-    if (groupIdx === -1) {
-        newGroup._id = 'g' + makeId();
-        boards[boardIdx].groups.push(newGroup)
-    } else {
-        boards[boardIdx].groups[groupIdx] = newGroup
-    }
-
-    await storageService._save(STORAGE_KEY, boards)
-    return newGroup;
-}
-
-async function removeGroup(boardId, groupId) {
-    let boards = await storageService.query(STORAGE_KEY) || [];
-    const boardIdx = boards.findIndex(board => board._id === boardId);
-
-    if (boardIdx === -1) throw new Error(`Board with ID ${boardId} not found`);
-
-    boards[boardIdx].groups = boards[boardIdx].groups.filter(group => group._id !== groupId);
-
-    await storageService._save(STORAGE_KEY, boards);
-    return groupId;
-}
-
-// ----------------- Tasks -----------------
-async function getTaskById(taskId) {
-    const boards = await boardService.getBoards();
-    if (!boards || boards.length === 0) {
-        throw new Error('No boards found.');
-    }
-    for (const board of boards) {
-        if (board.groups && board.groups.length) {
-            for (const group of board.groups) {
-                if (group.tasks && group.tasks.length) {
-                    const task = group.tasks.find(t => t._id === taskId);
-                    console.log(task);
-
-                    if (task) return task;
-                }
-            }
-        }
-    }
-    throw new Error(`Task with ID ${taskId} not found in any board.`);
-}
-
-async function saveTask(boardId, groupId, newTask) {
-    let boards = await storageService.query(STORAGE_KEY) || [];
-    const boardIdx = boards.findIndex(board => board._id === boardId);
-
-    if (boardIdx === -1) throw new Error(`Board with ID ${boardId} not found`);
-
-    const groupIdx = boards[boardIdx].groups.findIndex(group => group._id === groupId);
-
-    if (groupIdx === -1) throw new Error(`Group with ID ${groupId} not found`);
-
-    if (!boards[boardIdx].groups[groupIdx].tasks) {
-        boards[boardIdx].groups[groupIdx].tasks = [];
-    }
-
-    if (!newTask.groupId) newTask.groupId = groupId;
-
-    const taskIdx = boards[boardIdx].groups[groupIdx].tasks.findIndex(task => task._id === newTask._id);
-
-    if (taskIdx === -1) {
-        newTask.allMembers = allMembers;
-        newTask._id = 't' + makeId();
-        newTask.priority = 'tbd'
-        newTask.status = 'draft'
-        boards[boardIdx].groups[groupIdx].tasks.push(newTask);
-        await storageService._save(STORAGE_KEY, boards);
-        return { ...newTask };
-    } else {
-        boards[boardIdx].groups[groupIdx].tasks[taskIdx] = newTask;
-        await storageService._save(STORAGE_KEY, boards);
-        return { ...newTask }
-    }
-
-}
-
-
-async function removeTask(boardId, groupId, taskId) {
-    let boards = await storageService.query(STORAGE_KEY) || [];
-    const boardIdx = boards.findIndex(board => board._id === boardId);
-
-    if (boardIdx === -1) throw new Error(`Board with ID ${boardId} not found`);
-
-    const groupIdx = boards[boardIdx].groups.findIndex(group => group._id === groupId);
-
-    if (groupIdx === -1) throw new Error(`Group with ID ${groupId} not found`);
-
-    boards[boardIdx].groups[groupIdx].tasks = boards[boardIdx].groups[groupIdx].tasks.filter(task => task._id !== taskId);
-
-    await storageService._save(STORAGE_KEY, boards);
-    return taskId;
 }
 
 // ----------------- Util -----------------

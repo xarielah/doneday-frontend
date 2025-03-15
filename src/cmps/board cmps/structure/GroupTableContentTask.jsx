@@ -3,17 +3,18 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { EditableText } from "@vibe/core";
 import { useSelector } from "react-redux";
-import { updateTask } from "../../../store/actions/board.actions";
 import { addSelectedTask, removeSelectedTask } from "../../../store/actions/taskSelect.actions";
 import DynamicColumn from "./DynamicColumn";
 import GroupPreRow from "./GroupPreRow";
 import GroupScrollableColumns from "./GroupScrollableColumns";
 import GroupStickyColumns from "./GroupStickyColumns";
 import TaskDetailsTriggerCell from "./TaskDetailsTriggerCell";
+import { updateBoard } from "../../../store/actions/board.actions";
 
 const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks);
     const cmpOrder = useSelector(state => state.boardModule.cmpOrder);
+    const board = useSelector(state => state.boardModule.board);
 
     // The setNodeRef and style must remain on the root container.
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task._id });
@@ -22,9 +23,21 @@ const GroupTableContentTask = ({ task, group }) => {
         transition,
     };
 
-    const handleCellUpdate = (cmpType, value) => {
-        const updatedTask = { ...task, [cmpType]: value };
-        updateTask(group._id, updatedTask);
+    const handleCellUpdate = async (cmpType, value) => {
+        try {
+            const newBoard = { ...board };
+            const groupIdx = newBoard.groups.findIndex(g => g._id === group._id);
+            if (groupIdx === -1) throw new Error(`Group with id ${group._id} not found`);
+
+            const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(t => t._id === task._id);
+            if (taskIdx === -1) throw new Error(`Task with id ${task._id} not found`);
+
+            newBoard.groups[groupIdx].tasks[taskIdx][cmpType] = value;
+
+            await updateBoard(newBoard);
+        } catch (error) {
+            console.error("Error updating task cell:", error);
+        }
     };
 
     async function handleChangeSelect(ev, groupId, taskId) {
@@ -35,14 +48,22 @@ const GroupTableContentTask = ({ task, group }) => {
         }
     }
 
-    function handleChangeTitle(taskTitle) {
+    const handleChangeTitle = async (taskTitle) => {
         try {
-            const updatedTask = { ...task, taskTitle };
-            updateTask(group._id, updatedTask);
-        } catch (err) {
-            console.error('task could not be updated: ' + err);
+            const newBoard = { ...board };
+            const groupIdx = newBoard.groups.findIndex(g => g._id === group._id);
+            if (groupIdx === -1) throw new Error(`Group with id ${group._id} not found`);
+
+            const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(t => t._id === task._id);
+            if (taskIdx === -1) throw new Error(`Task with id ${task._id} not found`);
+
+            newBoard.groups[groupIdx].tasks[taskIdx].taskTitle = taskTitle;
+
+            await updateBoard(newBoard);
+        } catch (error) {
+            console.error("Error updating task title:", error);
         }
-    }
+    };
 
     function isTaskSelected(groupId = "", taskId = "") {
         const groupSelected = selectedTasks.find(selectedGroups => selectedGroups.groupId === groupId);
