@@ -4,8 +4,8 @@ import { useSelector } from "react-redux"
 import { allMembers, boardService } from "../../../services/board/board.service.local"
 import { makeId } from "../../../services/util.service"
 import { updateBoard } from "../../../store/actions/board.actions"
+import GroupColumnFiller from "./GroupColumnFillter"
 import GroupPreRow from "./GroupPreRow"
-import GroupScrollableColumns from "./GroupScrollableColumns"
 import GroupStickyColumns from "./GroupStickyColumns"
 
 const GroupTableFooter = ({ group }) => {
@@ -56,12 +56,11 @@ const GroupTableFooter = ({ group }) => {
                     value={taskValue}
                     onChange={setTaskValue}
                     className="cell-left-padding"
-                    placeholder="+ Add Task"
+                    placeholder="+ Add task"
                 />
             </div>
         </GroupStickyColumns>
-        <GroupScrollableColumns noLeftBorder={true} bottomBorder={true}>
-        </GroupScrollableColumns>
+        <GroupColumnFiller borders />
     </section >
 }
 

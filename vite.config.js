@@ -6,11 +6,18 @@ import svgr from 'vite-plugin-svgr'
 export default defineConfig({
 	plugins: [react(), svgr()],
 	build: {
-		outDir: '../backend/public',
+		outDir: '../public',
 		emptyOutDir: true,
 	},
 	define: {
 		global: {},
+	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				quietDeps: true, // Silences warnings from sass dependencies
+			}
+		}
 	},
 	server: {
 		historyApiFallback: true

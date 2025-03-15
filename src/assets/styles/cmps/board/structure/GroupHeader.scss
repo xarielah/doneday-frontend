@@ -1,17 +1,25 @@
 .group-sticky-header {
   position: absolute;
-  background-color: red;
+  // background-color: red;
+}
+
+.group-title-container {
+  display: flex;
+  width: 100%;
+
+  &>.spacer-div {
+    flex-grow: 1;
+    width: 100%;
+  }
 }
 
 .group-header {
   height: 40px;
+  position: sticky;
+  left: 0;
   font-size: 18px;
   display: flex;
   align-items: center;
-  z-index: 1;
-  position: sticky;
-  top: 0;
-  left: 0;
 
   .group-menu-button {
     width: 40px;
@@ -30,6 +38,13 @@
     align-items: center;
     width: 100%;
     cursor: grab;
+
+    .group-color-picker {
+      width: 16px;
+      height: 16px;
+      border-radius: 32px;
+    }
+
   }
 
   .items-count {
@@ -91,7 +106,7 @@
     margin: 0;
   }
 
-  & > .group-heading {
+  &>.group-heading {
     height: 40px;
   }
 }

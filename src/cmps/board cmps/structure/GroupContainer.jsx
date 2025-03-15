@@ -38,6 +38,7 @@ const GroupContainer = ({ group }) => {
         console.log('task: ' + task);
     }
 
+
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
@@ -45,26 +46,31 @@ const GroupContainer = ({ group }) => {
     };
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
         <section role="rowheader" className="group-header-container">
-            <GroupHeader
-                ref={setDraggableRef}
-                dndProps={{ ...attributes, ...listeners }}
-                isDragging={isDragging}
-                group={group}
-                isCollapsed={isCollapsed}
-                setIsCollapsed={setIsCollapsed}
-            />
+            <div className="group-title-container">
+                <GroupHeader
+                    ref={setDraggableRef}
+                    dndProps={{ ...attributes, ...listeners }}
+                    isDragging={isDragging}
+                    group={group}
+                    isCollapsed={isCollapsed}
+                    setIsCollapsed={setIsCollapsed}
+                />
+                <div  {...attributes} {...listeners} className="spacer-div"></div>
+            </div>
             {!isCollapsed && <GroupTableHeader group={group} />}
         </section>
-        {!isCollapsed && <>
-            <section role="rowgroup">
-                <GroupTableContent group={group} />
-            </section>
-            <footer>
-                <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
-                <GroupSummaryRow group={group} />
-            </footer>
-        </>}
-    </section>
+        {
+            !isCollapsed && <>
+                <section role="rowgroup">
+                    <GroupTableContent group={group} />
+                </section>
+                <footer>
+                    <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
+                    <GroupSummaryRow group={group} />
+                </footer>
+            </>
+        }
+    </section >
 }
 
 export default GroupContainer

@@ -206,6 +206,7 @@ export async function removeTask(groupId, taskId) {
     }
 }
 
+
 // Set Task (for local state updates)
 export function setTask(task) {
     store.dispatch(getCmdSetTask(task));

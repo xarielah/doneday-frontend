@@ -30,10 +30,12 @@ export function AddGroup() {
     }
 
     return (
-        <GroupStickyColumns>
+        <section className="add-new-group">
             <section className="add-group">
+                <div style={{ width: '40px', height: '40px' }}></div>
                 <Button kind="secondary" onClick={() => onAddGroup()} size="small" leftIcon={Add}> Add new group</Button>
             </section>
-        </GroupStickyColumns>
+            <div className="spacer-div"></div>
+        </section>
     )
 }
