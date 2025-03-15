@@ -20,6 +20,7 @@
     "@vibe/core": "^3.15.0",
     "axios": "^1.5.0",
     "canvas-confetti": "^1.9.3",
+    "ESlint": "npm:eslint@^8.57.1",
     "global": "^4.4.0",
     "lottie-react": "^2.4.1",
     "moment": "^2.30.1",
@@ -34,6 +35,7 @@
     "react-router-dom": "^6.16.0",
     "redux": "^4.2.1",
     "socket.io-client": "^4.7.2",
+    "typescript": "^5.8.2",
     "vite-plugin-svgr": "^4.3.0",
     "vite-react-proj": "file:"
   },

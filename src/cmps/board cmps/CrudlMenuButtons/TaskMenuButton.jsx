@@ -1,9 +1,10 @@
-import { Dialog, DialogContentContainer, IconButton, Menu, MenuDivider, MenuItem } from "@vibe/core";
-import { Board, Checkbox, Delete, Duplicate, Group, Menu as MenuDots, MoveArrowRight, Open } from "@vibe/icons";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { addGroup, addTask, removeGroup, removeTask } from "../../../store/actions/board.actions";
-import { addSelectedGroup } from "../../../store/actions/taskSelect.actions";
+import { Dialog, DialogContentContainer, IconButton, Menu, MenuDivider, MenuItem } from "@vibe/core"
+import { Board, Checkbox, Delete, Duplicate, Group, Menu as MenuDots, MoveArrowRight, Open } from "@vibe/icons"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router"
+import { makeId } from "../../../services/util.service"
+import { updateBoard, updateBoardOnBackground } from "../../../store/actions/board.actions"
+import { addSelectedGroup } from "../../../store/actions/taskSelect.actions"
 
 export function TaskMenuButton({ task, group, crudlType }) {
     const board = useSelector(storeState => storeState.boardModule.board)
@@ -13,86 +14,149 @@ export function TaskMenuButton({ task, group, crudlType }) {
     // Task CRUDL
     async function moveTaskToGroup(groupId, task) {
         try {
-            const updatedTask = { ...task, groupId };
-            await removeTask(task.groupId, task._id);
-            await addTask(groupId, updatedTask);
+            const newBoard = { ...board }
+            const groupIdx = newBoard.groups.findIndex(group => group._id === task.groupId)
+
+            if (groupIdx === -1) throw new Error(`Group with ID ${task.groupId} not found`)
+            newBoard.groups[groupIdx].tasks = newBoard.groups[groupIdx].tasks.filter(prevTask => prevTask._id !== task._id)
+
+            const newGroupIdx = newBoard.groups.findIndex(group => group._id === groupId)
+            if (newGroupIdx === -1) throw new Error(`Group with ID ${groupId} not found`)
+            if (!newBoard.groups[newGroupIdx].tasks) {
+                newBoard.groups[newGroupIdx].tasks = []
+            }
+            const newTask = { ...task, groupId }
+            newBoard.groups[newGroupIdx].tasks.push(newTask)
+
+            return await updateBoard(newBoard)
         } catch (error) {
-            console.error("Error moving task to group:", error);
+            console.error("Error moving task to group:", error)
         }
     }
 
     async function onTaskDuplicate(task) {
         try {
-            console.log(task);
+            const cloneTask = {
+                ...task,
+                taskTitle: `${task.taskTitle} (copy)`,
+                _id: 't' + makeId()
+            }
+            const newBoard = { ...board }
+            const groupIdx = newBoard.groups.findIndex(group => group._id === task.groupId)
+            if (groupIdx === -1) throw new Error(`Group with ID ${task.groupId} not found`)
 
-            const cloneTask = { ...task, taskTitle: `${task.taskTitle} (copy)`, _id: undefined };
-            await addTask(task.groupId, cloneTask);
+            const taskIndex = newBoard.groups[groupIdx].tasks.findIndex(t => t._id === task._id)
+            if (taskIndex === -1) throw new Error(`Task with ID ${task._id} not found`)
+
+            newBoard.groups[groupIdx].tasks.splice(taskIndex + 1, 0, cloneTask)
+
+            return await updateBoard(newBoard)
         } catch (error) {
-            console.error("Error duplicating task:", error);
+            console.error("Error duplicating task:", error)
         }
     }
 
+
     async function onTaskRemove(taskId) {
         try {
-            await removeTask(task.groupId, taskId);
+            const newBoard = { ...board }
+            for (const group of newBoard.groups) {
+                group.tasks = group.tasks.filter(task => task._id !== taskId)
+            }
+            return await updateBoard(newBoard)
         } catch (error) {
-            console.error("Error removing task:", error);
+            console.error("Error removing task:", error)
         }
     }
 
     // Group CRUDL
     async function onGroupRemove(groupId) {
         try {
-            await removeGroup(groupId);
+            const newBoard = { ...board }
+            newBoard.groups = newBoard.groups.filter(group => group._id !== groupId)
+            return await updateBoard(newBoard)
         } catch (error) {
-            console.error("Error removing group:", error);
+            console.error("Error removing group:", error)
         }
     }
 
     async function onGroupDuplicate(group) {
         try {
+            const newBoard = { ...board }
+
             const cloneGroup = {
                 ...group,
                 name: `Duplicate of ${group.name}`,
-                tasks: undefined,
-                _id: undefined,
-            };
-            const newGroup = await addGroup(board._id, cloneGroup);
-            const newTasks = []
-            if (group.tasks) {
-                for (const task of group.tasks) {
-                    const cloneTask = {
-                        ...task,
-                        taskTitle: task.taskTitle,
-                        _id: undefined,
-                        groupId: newGroup._id,
-                    };
-                    const newTask = await addTask(newGroup._id, cloneTask);
-                    newTasks.push(newTask);
-                }
+                _id: 'g' + makeId(),
+                tasks: []
             }
+
+            if (group.tasks) {
+                const newTasks = group.tasks.map(task => ({
+                    ...task,
+                    _id: 't' + makeId(),
+                    groupId: cloneGroup._id,
+                }))
+                cloneGroup.tasks = newTasks
+            }
+
+            const groupIndex = newBoard.groups.findIndex(g => g._id === group._id)
+            if (groupIndex === -1) throw new Error("Original group not found")
+
+            newBoard.groups.splice(groupIndex + 1, 0, cloneGroup)
+
+            return await updateBoard(newBoard)
         } catch (error) {
-            console.error("Error duplicating group:", error);
+            console.error("Error duplicating group:", error)
         }
     }
 
+
     async function selectAllTasks(group) {
         try {
-            await addSelectedGroup(group._id, group.tasks);
+            await addSelectedGroup(group._id, group.tasks)
         } catch (error) {
-            console.error("Error selecting all tasks:", error);
+            console.error("Error selecting all tasks:", error)
         }
     }
 
     async function moveGroupToBoard(targetBoardId) {
         try {
-            await removeGroup(group._id)
-                .then(() => {
-                    addGroup(targetBoardId, { ...group });
-                })
+            const boardId = board._id
+            const groupId = group._id
+            const sourceBoardIndex = boards.findIndex(board =>
+                board._id === boardId
+            )
+            if (sourceBoardIndex === -1) {
+                throw new Error(`Group with ID ${groupId} not found in any board`)
+            }
+
+            const sourceBoard = { ...boards[sourceBoardIndex] }
+            const groupIndex = sourceBoard.groups.findIndex(group => group._id === groupId)
+            if (groupIndex === -1) {
+                throw new Error(`Group with ID ${groupId} not found in source board`)
+            }
+            const groupToMove = sourceBoard.groups[groupIndex]
+
+            sourceBoard.groups = sourceBoard.groups.filter(group => group._id !== groupId)
+
+            const targetBoardIndex = boards.findIndex(board => board._id === targetBoardId)
+            if (targetBoardIndex === -1) {
+                throw new Error(`Target board with ID ${targetBoardId} not found`)
+            }
+            const targetBoard = { ...boards[targetBoardIndex] }
+            if (!Array.isArray(targetBoard.groups)) {
+                targetBoard.groups = []
+            }
+
+            targetBoard.groups.push(groupToMove)
+
+            await updateBoardOnBackground(targetBoard)
+            return await updateBoard(sourceBoard)
+
         } catch (error) {
-            console.error("Error moving group to board:", error);
-            throw error;
+            console.error("Error moving group to board:", error)
+            throw error
         }
     }
 
