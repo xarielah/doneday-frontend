@@ -182,6 +182,10 @@
           white-space: nowrap;
           text-overflow: ellipsis;
           box-sizing: border-box;
+          width: 90%;
+          display: block;
+          margin-right: 10px;
+          position: relative;
 
           button {
             display: inline-block;
@@ -196,6 +200,13 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+          }
+
+          svg {
+            position: absolute;
+            right: 3px;
+            top: 5px;
+            font-size: 24px;
           }
         }
 

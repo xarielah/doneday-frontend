@@ -6,4 +6,9 @@
   & .last-cell {
     background-color: white;
   }
+
+  .task-left-checkbox.task-border-bottom [data-testid="checkbox-checkbox"] {
+      opacity: .4;
+      background: white;
+  }
 }

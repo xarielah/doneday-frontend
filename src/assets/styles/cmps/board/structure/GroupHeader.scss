@@ -75,6 +75,9 @@
 .group-heading {
   cursor: grab;
   grid-area: title;
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .group-header-menu-button {
@@ -113,4 +116,12 @@
 
 .group-collapsed-border {
   border-left: 6px solid;
+}
+
+.collapse-chevron {
+  margin-left: 17px;
+  margin-right: 4px;
+  cursor: pointer;
+  position: relative;
+  top: 2px;
 }
