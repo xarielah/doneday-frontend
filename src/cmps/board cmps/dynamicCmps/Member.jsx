@@ -1,22 +1,22 @@
 /* eslint-disable react/prop-types */
 import {
-    AvatarGroup,
     Avatar,
+    AvatarGroup,
+    Button,
     Dialog,
-    Icon,
     DialogContentContainer,
+    Icon,
     IconButton,
     Text,
-    Button,
 } from "@vibe/core";
 import { Add, Search } from "@vibe/icons";
-import { useState, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { debounce } from "../../../services/util.service";
 
 export function Member({ info, allMembers, onTaskUpdate }) {
     const [infoState, setInfoState] = useState(info);
     const [allAvailableMembers, setAllAvailableMembers] = useState(() => {
-        return allMembers.filter(member => 
+        return allMembers.filter(member =>
             !info.some(infoMember => infoMember.name === member.name)
         );
     });
@@ -29,14 +29,14 @@ export function Member({ info, allMembers, onTaskUpdate }) {
     useEffect(() => {
         const uniqueMembers = [];
         const seenNames = new Set();
-        
+
         allAvailableMembers.forEach(member => {
             if (!seenNames.has(member.name)) {
                 seenNames.add(member.name);
                 uniqueMembers.push(member);
             }
         });
-        
+
         if (uniqueMembers.length !== allAvailableMembers.length) {
             setAllAvailableMembers(uniqueMembers);
         }
@@ -74,18 +74,18 @@ export function Member({ info, allMembers, onTaskUpdate }) {
     const handleRemoveMember = (memberName) => {
         const updatedInfo = infoState.filter((member) => member.name !== memberName);
         const memberToRemove = infoState.find((member) => member.name === memberName);
-    
+
         if (memberToRemove) {
             const originalMember = allMembers.find(m => m.name === memberName);
-            
+
             if (originalMember) {
                 const filtered = allAvailableMembers.filter(m => m.name !== memberName);
-            
+
                 setAllAvailableMembers([
                     ...filtered,
                     { name: originalMember.name, color: originalMember.color }
                 ]);
-                
+
                 setInfoState(updatedInfo);
                 setSelectedMembers(prev => prev.filter(name => name !== memberName));
                 onTaskUpdate(updatedInfo);
@@ -113,28 +113,28 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         if (!newMemberNames.length) {
             return;
         }
-        
+
         const memberPool = [...allMembers, ...allAvailableMembers];
-        
+
         const structuredMembers = newMemberNames.map(memberName => {
             const memberSet = new Set(memberPool.map(m => JSON.stringify(m)));
             const members = Array.from(memberSet).map(m => JSON.parse(m));
-            
+
             const member = members.find(m => m.name === memberName);
             return member ? { name: member.name, color: member.color } : null;
         }).filter(Boolean);
-        
+
         if (!structuredMembers.length) {
-            alert("No member data found.");
+            // alert("No member data found.");
             return;
         }
-        
+
         const updatedInfo = [...infoState, ...structuredMembers];
-        
+
         const updatedAllAvailableMembers = allAvailableMembers.filter(
             member => !newMemberNames.includes(member.name)
         );
-        
+
         setInfoState(updatedInfo);
         setAllAvailableMembers(updatedAllAvailableMembers);
         onAddMembers(updatedInfo);
@@ -312,33 +312,47 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                     isAddButtonVisible && (
                         <IconButton
                             className="addMembers"
-                            iconType="svg"
-                            icon={Add}
+                            iconClassName="addMembersIcon"
                             iconLabel="Add Members"
-                            size="small"
+                            size="xxs"
                             onClick={openDialog}
-                        />
+                        >
+                            <Add />
+                        </IconButton>
                     )}
-                <AvatarGroup
-                    size="medium"
+                {infoState?.length === 1 &&
+                    <Avatar
+                        key={infoState[0].name}
+                        type="text"
+                        size="small"
+                        text={infoState[0].name.substring(0, 1)}
+                        backgroundColor={
+                            infoState[0]?.color ? infoState[0].color : "black"
+                        }
+                        ariaLabel={infoState[0].name}
+                    />
+                }
+                {infoState?.length > 1 && <AvatarGroup
+                    size="small"
                     max={avatarMax}
                     counterProps={{
                         ariaLabelItemsName: "teams",
                     }}
                 >
-                    {infoState?.length > 0 &&
-                        infoState.map((member) => (
-                            <Avatar
-                                key={member.name}
-                                type="text"
-                                text={member.name.substring(0, 1)}
-                                backgroundColor={
-                                    member?.color ? member.color : "black"
-                                }
-                                ariaLabel={member.name}
-                            />
-                        ))}
+                    {infoState.map((member) => (
+                        <Avatar
+                            key={member.name}
+                            type="text"
+                            text={member.name.substring(0, 1)}
+                            backgroundColor={
+                                member?.color ? member.color : "black"
+                            }
+                            ariaLabel={member.name}
+                        />
+                    ))}
                 </AvatarGroup>
+                }
+                {infoState?.length === 0 && <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={24} height={24} />}
             </div>
         </div>
     );
