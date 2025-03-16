@@ -2,13 +2,16 @@
   // display: flex;
   display: grid;
   grid-template-columns: auto 1fr;
+  box-shadow: -2px 3px 5px rgba(104, 104, 104, 0.2) !important;
+
 
   & .last-cell {
     background-color: white;
   }
 
   .task-left-checkbox.task-border-bottom [data-testid="checkbox-checkbox"] {
-      opacity: .4;
-      background: white;
+    opacity: .4;
+    background: white;
   }
+
 }

@@ -135,9 +135,11 @@ section.table-footer::after {
   position: absolute;
   background: transparent;
   box-shadow: -2px 3px 5px rgba(104, 104, 104, 0.2);
-  z-index: 0;
+  z-index: 1;
+  border-bottom-left-radius: 4px;
   height: 36px;
 }
+
 
 .task-title.active-class {
   background-color: #cce5ff !important;
