@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { BoardDetails } from "../cmps/board cmps/BoardDetails";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
 import { CrudlBar } from "../cmps/board cmps/CrudlBar";
-import { getBoardById, setBoard } from "../store/actions/board.actions";
+import { getById, setBoard } from "../store/actions/board.actions";
 import { setSelectedTask } from "../store/actions/taskSelect.actions";
 
 export function Board() {
@@ -16,7 +16,7 @@ export function Board() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getBoardById(boardId, filterBy, sortBy)
+        getById(boardId, filterBy, sortBy)
             .then(setBoard)
             .catch((err) => {
                 navigate('/', { replace: true })

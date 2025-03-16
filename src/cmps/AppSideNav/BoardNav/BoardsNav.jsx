@@ -9,7 +9,9 @@ import {
 } from "@vibe/icons";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { addBoard, addGroup, addTask, getBoardById, removeBoard } from "../../../store/actions/board.actions";
+import { boardService } from "../../../services/board/board.service.local";
+import { makeId } from "../../../services/util.service";
+import { addBoard, getById, removeBoard } from "../../../store/actions/board.actions";
 import { AddBoardCmp } from "../AddBoardCmp";
 import WorkspacesDropdown from "./WorkspacesDropdown";
 import WorkspaceTitle from "./WorkspaceTitle";
@@ -27,6 +29,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     const [isDuplicate, setIsDuplicate] = useState(false)
 
     useEffect(() => {
+        if (board) {
+            setSelectedBoard(board.name)
+        }
     }, [board])
 
     const handleCloseModal = () => {
@@ -67,34 +72,35 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
     async function onDuplicateBoard() {
         try {
-            getBoardById(addedBoard._id)
-                .then(boardToDuplicate => {
-                    return addBoard({ ...boardToDuplicate, _id: undefined, name: addedBoard.name })
-                        .then(duplicatedBoard => {
-                            return boardToDuplicate.groups.reduce((groupChain, group) => {
-                                return groupChain.then(() => {
-                                    const newGroup = { ...group, _id: undefined }
-                                    return addGroup(duplicatedBoard._id, newGroup)
-                                        .then(savedGroup => {
-                                            return group.tasks.reduce((taskChain, task) => {
-                                                return taskChain.then(() => {
-                                                    const newTask = { ...task, _id: undefined }
-                                                    return addTask(savedGroup._id, newTask)
-                                                })
-                                            }, Promise.resolve())
-                                        })
-                                })
-                            }, Promise.resolve())
-                                .then(() => duplicatedBoard)
-                        })
-                })
-                .catch(error => {
-                    console.error('Could not duplicate board', error)
-                })
+            const boardToDuplicate = await getById(addedBoard._id);
+            console.log(addedBoard);
+            console.log(boardToDuplicate);
+
+            const newBoard = boardService.getEmptyBoard();
+            newBoard.name = addedBoard.name;
+            if (!Array.isArray(newBoard.groups)) newBoard.groups = [];
+
+            for (const group of boardToDuplicate.groups) {
+                console.log(1);
+
+                const newGroup = { ...group, _id: 'g' + makeId(), tasks: [] };
+
+                if (Array.isArray(group.tasks)) {
+                    for (const task of group.tasks) {
+                        console.log(2);
+                        const newTask = { ...task, _id: 't' + makeId() };
+                        newGroup.tasks.push(newTask);
+                    }
+                }
+
+                newBoard.groups.push(newGroup);
+            }
+
+            return await addBoard(newBoard);
         } catch (error) {
-            console.error('Could not duplicate board' + error)
+            console.error('Could not duplicate board', error);
         } finally {
-            handleCloseModal()
+            handleCloseModal();
         }
     }
 
@@ -163,6 +169,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                 >
                     <WorkspaceTitle setIsSearch={setIsSearch} isSearch={isSearch} />
                     <WorkspacesDropdown
+                        boardColor={board?.color}
                         selectedBoard={selectedBoard}
                         onToggleModal={() => setIsAddBoard(true)}
                         isBoardMenuOpen={isOpen}

@@ -72,11 +72,7 @@
     position: absolute;
     right: 0;
     border-radius: 0 8px;
-    // margin-right: -3px;
 
-    // &.hovered {
-    //   margin-right: 0;
-    // }
 
     padding: 0 8px;
     font-size: 15px;
@@ -176,6 +172,8 @@
         align-items: center;
 
         .workspace-dropdown-btn {
+          display: flex;
+          justify-content: start;
           margin: 3px 1px;
           text-align: left;
           overflow: hidden;
@@ -186,6 +184,16 @@
           display: block;
           margin-right: 10px;
           position: relative;
+
+          .board-avatar-icon {
+            min-width: 23px;
+
+            .little-home-icon {}
+          }
+
+          .board-dropdown-chevron {
+            min-width: 16px;
+          }
 
           button {
             display: inline-block;

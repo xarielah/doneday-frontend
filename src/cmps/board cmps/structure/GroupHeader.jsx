@@ -1,8 +1,9 @@
 import { EditableHeading, Icon, Text } from "@vibe/core";
 import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons";
 import { forwardRef, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { cn } from "../../../services/util.service";
-import { updateGroup } from "../../../store/actions/board.actions";
+import { updateBoard } from "../../../store/actions/board.actions";
 import { TaskMenuButton } from "../CrudlMenuButtons/TaskMenuButton";
 import ChevronTooltip from "./ChevronTooltip";
 
@@ -12,6 +13,7 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
     const tasksCount = group.tasks?.length || 0;
     const headingRef = useRef()
     const [headerColorTrigger, setHeaderColorTrigger] = useState(false)
+    const board = useSelector(storeState => storeState.boardModule.board)
 
     useEffect(() => {
         if (headingRef.current) {
@@ -27,12 +29,17 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
 
     const groupCount = group.tasks?.length || 0;
 
-    function handleChangeName(name) {
+    async function handleChangeName(name) {
         try {
-            const updatedName = { ...group, name }
-            updateGroup(updatedName)
+            const newBoard = { ...board };
+            const groupIndex = newBoard.groups.findIndex(g => g._id === group._id);
+            if (groupIndex === -1) {
+                throw new Error(`Group with id ${group._id} not found`);
+            }
+            newBoard.groups[groupIndex].name = name;
+            await updateBoard(newBoard);
         } catch (err) {
-            console.error('group name could not be updated' + err);
+            console.error('Group name could not be updated: ' + err);
         }
     }
 

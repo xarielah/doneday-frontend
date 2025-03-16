@@ -9,7 +9,7 @@ export function GroupColorPicker({ groupColor, handleChangeColor }) {
             // open={checkedTop}
             position="top"
             showTrigger={['click']}
-            hideTrigger={[]}
+            hideTrigger={['clickoutside']}
             content={
                 <DialogContentContainer>
                     <ColorPicker

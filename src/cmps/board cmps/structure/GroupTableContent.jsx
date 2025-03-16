@@ -1,19 +1,30 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { useCallback, useEffect, useState } from "react";
-import { updateGroup } from "../../../store/actions/board.actions";
+import { useSelector } from "react-redux";
+import { updateBoard } from "../../../store/actions/board.actions";
 import GroupTableContentTask from "./GroupTableContentTask";
 
 const GroupTableContent = ({ group }) => {
     // Maintain a local state for tasks
     const [tasks, setTasks] = useState(group.tasks);
+    const board = useSelector(stateStore => stateStore.boardModule.board)
 
     useEffect(() => {
         // When group.tasks changes externally, update local state
         setTasks(group.tasks);
     }, [group.tasks]);
 
-    const onDragEnd = useCallback((dragEvent) => {
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(MouseSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    )
+
+    const onDragEnd = useCallback(async (dragEvent) => {
         const { active, over } = dragEvent;
         if (!over || active.id === over.id) return;
 
@@ -22,14 +33,24 @@ const GroupTableContent = ({ group }) => {
         const newTasks = arrayMove(tasks, oldIndex, newIndex);
         setTasks(newTasks);
 
-        // Update the group object and persist the change
-        const updatedGroup = { ...group, tasks: newTasks };
-        updateGroup(updatedGroup);
-        // Optionally dispatch an action to update the Redux store here
-    }, [tasks, group]);
+        const newBoard = { ...board };
+        const groupIndex = newBoard.groups.findIndex(g => g._id === group._id);
+        if (groupIndex === -1) {
+            console.error(`Group with id ${group._id} not found in board`);
+            return;
+        }
+        newBoard.groups[groupIndex].tasks = newTasks;
+
+        try {
+            await updateBoard(newBoard);
+        } catch (err) {
+            console.error("Error updating board: ", err);
+        }
+    }, [tasks, group, board]);
+
 
     return (
-        <DndContext onDragEnd={onDragEnd} collisionDetection={closestCenter}>
+        <DndContext sensors={sensors} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
             <SortableContext
                 items={tasks.map(task => task._id)}
                 strategy={verticalListSortingStrategy}
