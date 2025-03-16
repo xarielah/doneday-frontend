@@ -16,7 +16,7 @@ export default function WorkspacesDropdown({ selectedBoard, isBoardMenuOpen, tog
                 size="xs"
                 type="text"
                 className="board-avatar-icon"
-                text={selectedBoard.charAt(0)}
+                text={selectedBoard.charAt(0) || ''}
                 backgroundColor={boardColor}
                 bottomRightBadgeProps={{
                     icon: Home,

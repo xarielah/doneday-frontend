@@ -10,6 +10,8 @@ const SlidePanel = ({ params }) => {
     const { type } = store;
     const { boardId, taskId } = params;
     const dispatch = useDispatch();
+    // const sidePanelRef = useRef(null);
+    // const navigate = useNavigate()
 
     useEffect(() => {
         if (taskId) {
@@ -17,6 +19,7 @@ const SlidePanel = ({ params }) => {
         } if (!taskId && type === panelTypes.task) {
             dispatch({ type: CLEAR_PAGE_INFO });
         }
+
     }, [taskId])
 
     useEffect(() => {
@@ -27,10 +30,25 @@ const SlidePanel = ({ params }) => {
         }
     }, [type])
 
+    // const handleClickOutside = (event) => {
+    //     if (sidePanelRef.current && !sidePanelRef.current.contains(event.target) && isOpen) {
+    //         navigate(-1)
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //     };
+    // }, []);
+
     const openClass = isOpen ? ' open' : '';
 
     return <aside className="slide-panel-container">
-        <div className={`slide-panel` + openClass}>
+        <div
+            // ref={sidePanelRef}
+            className={`slide-panel` + openClass}>
             <SidePanelDynamicCmps cmpType={type} />
         </div>
     </aside>
