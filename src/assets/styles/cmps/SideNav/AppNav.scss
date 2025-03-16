@@ -175,17 +175,20 @@
           display: flex;
           justify-content: start;
           margin: 3px 1px;
+          margin-right: 6px;
           text-align: left;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
           box-sizing: border-box;
 
+
           .board-avatar-icon {
             min-width: 23px;
 
             .little-home-icon {}
           }
+
 
           .board-dropdown-chevron {
             min-width: 16px;
