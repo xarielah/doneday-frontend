@@ -1,8 +1,11 @@
 import { Button } from "@vibe/core";
 import React, { useEffect } from "react";
 import SortRow from "./SortRow";
+import { useSelector } from "react-redux";
 
 const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSortActive, addSortByList, getAvailableSortOptions, clearSortRow }) => {
+
+    const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
 
     return (
         <section className="sort-body">
@@ -23,7 +26,7 @@ const SortBody = ({ sortList, sortByList, onSortRowChange, onRemoveSortRow, isSo
                 size="small"
                 className="add-sort"
                 onClick={addSortByList}
-                disabled={sortList.length === sortByList.length}
+                disabled={sortList.length === sortByList.length || sortByList[0] === ''}
             >
                 Add sort
             </Button>

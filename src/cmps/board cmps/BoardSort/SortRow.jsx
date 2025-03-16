@@ -1,5 +1,5 @@
-import { Dropdown, IconButton } from "@vibe/core";
-import { CloseSmall } from "@vibe/icons";
+import { Dropdown, Icon, IconButton } from "@vibe/core";
+import { CloseSmall, Drag } from "@vibe/icons";
 import React from "react";
 
 const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive, getAvailableSortOptions, clearSortRow }) => {
@@ -12,6 +12,7 @@ const SortRow = ({ sortList, sort, onChange, onRemove, isSortActive, getAvailabl
 
     return (
         <section className="sort-row">
+            <Icon icon={Drag} />
             <Dropdown
                 onClear={clearSortRow}
                 className="sort-list"
