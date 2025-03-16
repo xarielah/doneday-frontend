@@ -105,7 +105,7 @@ const GroupTableContentTask = ({ task, group }) => {
                     </div>
                     <TaskDetailsTriggerCell task={task} />
                 </div>
-            </GroupStickyColumns>
+            </GroupStickyColumns >
             <GroupScrollableColumns>
                 {cmpOrder.map(cmpType =>
                     <DynamicColumn
@@ -117,7 +117,7 @@ const GroupTableContentTask = ({ task, group }) => {
                     />
                 )}
             </GroupScrollableColumns>
-        </div>
+        </div >
     );
 };
 
