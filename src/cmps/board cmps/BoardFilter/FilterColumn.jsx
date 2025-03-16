@@ -1,5 +1,5 @@
-import React from "react";
 import { List, ListItem, MenuTitle } from "@vibe/core";
+import React from "react";
 
 const FilterColumn = ({ title, options, toggleFilterBy, filterBy, countTasksByFilter }) => {
 
