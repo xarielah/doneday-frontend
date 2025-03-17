@@ -1,10 +1,9 @@
 
-import { boardService } from '../../services/board/board.service.local';
+import { boardService } from '../../services/board/board.service.remote';
 
-import { SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_SORT } from '../reducers/board.reducer';
+import { REMOVE_BOARD, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_SORT } from '../reducers/board.reducer';
 import { store } from '../store';
 
-loadBoards()
 // Get Boards
 export async function loadBoards(filterBy = {}) {
     try {
@@ -38,8 +37,7 @@ export async function setBoard(board) {
 export async function removeBoard(boardId) {
     try {
         await boardService.remove(boardId);
-        const boards = await boardService.query()
-        store.dispatch(getCmdSetBoards(boards));
+        store.dispatch(getCmdRemoveBoard(boardId))
     } catch (err) {
         console.error('Board Action -> Cannot remove board', err);
         throw err;
@@ -65,8 +63,8 @@ export async function updateBoard(board) {
     try {
         const savedBoard = await boardService.save(board);
         store.dispatch(getCmdSetBoard(savedBoard));
-        const boards = await boardService.query()
-        store.dispatch(getCmdSetBoards(boards));
+        // const boards = await boardService.query()
+        // store.dispatch(getCmdSetBoards(boards));
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
@@ -76,9 +74,9 @@ export async function updateBoard(board) {
 // Update Board Without setting it a current board
 export async function updateBoardOnBackground(board) {
     try {
-        const savedBoard = await boardService.save(board);
-        const boards = await boardService.query()
-        store.dispatch(getCmdSetBoards(boards));
+        await boardService.save(board);
+        // const boards = await boardService.query()
+        // store.dispatch(getCmdSetBoards(boards));
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
@@ -106,6 +104,10 @@ function getCmdSetBoards(boards) {
 }
 function getCmdSetBoard(board) {
     return { type: SET_BOARD, board };
+}
+
+function getCmdRemoveBoard(boardId) {
+    return { type: REMOVE_BOARD, boardId }
 }
 
 // Component Order Command

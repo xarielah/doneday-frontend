@@ -32,7 +32,6 @@ export function BoardFilter() {
         { title: "Priority", options: priorityList },
         { title: "Status", options: statusList },
         { title: "Members", options: allMembers },
-        // { title: "Timeline", options: boardService.getDateFilters() },
     ]
 
     function countBoardTasks(board) {
@@ -89,8 +88,6 @@ export function BoardFilter() {
 
     const totalTasks = countBoardTasks(unfilteredBoard)
     const filteredTasks = countBoardTasks(board)
-
-
 
     return (
         <section className="board-filter">

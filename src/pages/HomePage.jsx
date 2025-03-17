@@ -1,19 +1,11 @@
 // import { Tooltip, IconButton, ExpandCollapse, Heading, Box, Avatar, Icon, Text } from "@vibe/core";
 import { Info } from "@vibe/icons";
 
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CollapseSection } from "../cmps/home-page/CollapseSection.jsx";
-import { loadBoards } from "../store/actions/board.actions.js";
 
 export function HomePage() {
-
     const boards = useSelector(storeState => storeState.boardModule.boards)
-
-    useEffect(() => {
-        loadBoards()
-    }, [])
-
     return (
         <section className="home-page">
             <CollapseSection
