@@ -11,6 +11,13 @@
     flex-shrink: 0;
   }
 
+  .summery-white {
+    z-index: 1000;
+    // padding-bottom: 3px;
+    // border-bottom: 10px solid white;
+
+  }
+
   & .summary-row {
     display: flex;
     flex-grow: 1;

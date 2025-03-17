@@ -1,4 +1,4 @@
-import { EditableHeading, Icon, Text } from "@vibe/core";
+import { ColorPicker, EditableHeading, Icon, Text } from "@vibe/core";
 import { DropdownChevronDown, DropdownChevronRight } from "@vibe/icons";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";

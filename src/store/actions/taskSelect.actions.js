@@ -2,7 +2,7 @@
 import { makeId } from '../../services/util.service';
 import { ADD_SELECTED_TASK, REMOVE_SELECTED_TASK, SET_SELECTED_TASK } from '../reducers/taskSelect.reducer';
 import { store } from '../store';
-// import { getTaskById, updateBoard } from './board.actions';
+import { updateBoard } from './board.actions';
 
 
 export async function setSelectedTask(selectedTasks = []) {

@@ -1,26 +1,14 @@
-import { Button, Flex, Heading, IconButton, MenuButton, Dialog, Icon, Tooltip, DialogContentContainer, Text, Link } from "@vibe/core";
-import { Notifications, DropdownChevronDown, DropdownChevronUp } from "@vibe/icons";
+import { Button, Dialog, DialogContentContainer, Flex, Heading, Icon, IconButton, MenuButton, Text } from "@vibe/core";
+import { DropdownChevronDown, DropdownChevronUp, Notifications } from "@vibe/icons";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { boardService } from "../../services/board/board.service.local";
-import {
-    Modal,
-    ModalHeader,
-    ModalContent,
-    ModalMedia,
-    ModalFooter,
-    ModalFooterWizard,
-    ModalBasicLayout,
-    ModalSideBySideLayout,
-    ModalMediaLayout
-  } from "@vibe/core/next";
 
 const BoardHeaderTitleButtons = ({ boardName }) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const board = useSelector(storeState => storeState.boardModule.board)
     const [numberOfMembers, setNumberOfMembers] = useState(0);
 
-    
+
     const handleCloseDialog = () => {
         setDialogOpen(false);
     };
@@ -51,7 +39,7 @@ const BoardHeaderTitleButtons = ({ boardName }) => {
                         <Text>
                             A clone of monday.com
                         </Text>
-                        <hr/>
+                        <hr />
                         <div class="headerBoardInfo">
                             <Heading type="h4" weight="light" className="title">
                                 Board info
@@ -75,12 +63,12 @@ const BoardHeaderTitleButtons = ({ boardName }) => {
                 </DialogContentContainer>
             }
         >
-            <div className={`space-y-4 headerTitle ${isDialogOpen ? "active-header" : ""}`} style={{display: "flex"}}>
+            <div className={`space-y-4 headerTitle ${isDialogOpen ? "active-header" : ""}`} style={{ display: "flex" }}>
                 <Heading type="h2" className="title" onClick={(event) => handleOpenDialog(event)}>
                     {board.name}
                 </Heading>
 
-                <Icon icon={isDialogOpen ? DropdownChevronUp : DropdownChevronDown} ariaLabel={board.name} iconSize="32" />
+                <Icon icon={isDialogOpen ? DropdownChevronUp : DropdownChevronDown} ariaLabel={board.name} iconSize="24" />
             </div>
         </Dialog>
 

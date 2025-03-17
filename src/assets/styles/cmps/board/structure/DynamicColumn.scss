@@ -104,8 +104,9 @@
 [class^="column-label-"],
 .table-task-row .default-cell-color,
 .table-row-row .task-left-checkbox,
+.task-left-checkbox,
 .table-task-row .column-filler {
-  transition: 0.2s all ease;
+  transition: 0.1s all ease !important;
 }
 
 .table-task-row:hover .default-cell-color,
@@ -135,7 +136,7 @@ section.table-footer::after {
   position: absolute;
   background: transparent;
   box-shadow: -2px 3px 5px rgba(104, 104, 104, 0.2);
-  z-index: 1;
+  z-index: 0;
   border-bottom-left-radius: 4px;
   height: 36px;
 }

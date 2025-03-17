@@ -4,6 +4,8 @@ import { Modal, ModalBasicLayout, ModalContent, ModalFooter, ModalHeader } from 
 export const AddBoardCmp = ({ setAddedBoard, onDuplicateBoard, addedBoard, show, onClose, handleSaveBoard, isDuplicate }) => {
     const btnText = (isDuplicate ? "Duplicate " : "Save ") + "board";
 
+    // const modalTitle = 
+
     return <Modal
         show={show}
         size="medium"
