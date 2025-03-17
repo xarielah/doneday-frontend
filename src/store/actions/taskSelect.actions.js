@@ -16,8 +16,6 @@ export async function setSelectedTask(selectedTasks = []) {
 
 export async function addSelectedTask(groupId, taskId) {
     try {
-        const task = await getTaskById(taskId);
-        if (!task) throw new Error(`Task with ID ${taskId} not found.`);
 
         store.dispatch(getCmdAddSelectedTasks(groupId, taskId));
     } catch (err) {
