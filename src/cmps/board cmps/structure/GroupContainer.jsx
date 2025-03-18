@@ -47,6 +47,7 @@ const GroupContainer = ({ group }) => {
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
         <section role="rowheader" className="group-header-container">
             <div className="group-title-container">
+                {isCollapsed && <div className="pre-collapsed-filler"></div>}
                 <GroupHeader
                     ref={setDraggableRef}
                     dndProps={{ ...attributes, ...listeners }}

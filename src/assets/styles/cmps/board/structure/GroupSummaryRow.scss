@@ -13,9 +13,7 @@
 
   .summery-white {
     z-index: 1000;
-    // padding-bottom: 3px;
-    // border-bottom: 10px solid white;
-
+    height: 120%;
   }
 
   & .summary-row {
@@ -37,9 +35,9 @@
 .summary-cell {
   display: flex;
   align-items: center;
+  justify-content: center;
   border-right: 1px solid $layout-border-color;
   border-top: none;
-  border-bottom-left-radius: 6px;
 }
 
 .visual-summary-container {
