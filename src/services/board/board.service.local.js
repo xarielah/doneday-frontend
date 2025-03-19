@@ -1,45 +1,9 @@
-
 import { storageService } from '../async-storage.service';
 import { generateBoardName, generateGroupName, generateTaskName, getRandomColor, makeId } from '../util.service';
 
+const STORAGE_KEY = 'boardDB';
 
-
-const STORAGE_KEY = 'boardDB'
-
-export const boardService = {
-    // CRUD Operations for Boards
-    query,
-    save,
-    remove,
-    getBoards,
-    getById,
-    // Utility Functions
-    getRandomStatus,
-    getRandomPriority,
-    getRandomMembers,
-    getRandomDate,
-    // Empty Templates and Generators
-    getEmptyBoard,
-    getEmptyGroup,
-    getEmptyTask,
-    generateBoard,
-    generateGroup,
-    generateTask,
-    getEmptyReply,
-    // Message Operations
-    addBoardMsg,
-    // Filter
-    getEmptyFilter,
-    getDateFilters,
-    // Storage Key
-    STORAGE_KEY
-};
-export const allMembers = [
-    { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
-    { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
-    { name: "Afik", label: "Afik", value: "Afik", color: "#fb275d" }
-]
-
+// Status and priority lists
 export const statusList = [
     { value: 'done', label: 'Done', className: 'status-done' },
     { value: 'wip', label: 'Working on it', className: 'status-wip' },
@@ -48,7 +12,7 @@ export const statusList = [
     { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
     { value: 'design', label: 'In Design', className: 'status-design' },
     { value: 'draft', label: 'Draft', className: 'status-draft' },
-]
+];
 
 export const priorityList = [
     { value: 'low', label: 'Low', className: 'priority-low' },
@@ -56,7 +20,254 @@ export const priorityList = [
     { value: 'high', label: 'High', className: 'priority-high' },
     { value: 'critical', label: 'Critical ⚠️', className: 'priority-critical' },
     { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
-]
+];
+
+export const allMembers = [
+    { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
+    { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
+    { name: "Afik", label: "Afik", value: "Afik", color: "#fb275d" }
+];
+
+// Chart-related constants and utilities
+export const STATUS_COLORS = {
+    'done': '#00c875',     // Green
+    'wip': '#fdab3d',      // Orange
+    'stuck': '#e44258',    // Red
+    'onhold': '#a25ddc',   // Purple
+    'revision': '#0086c0', // Blue
+    'design': '#579bfc',   // Light Blue
+    'draft': '#c4c4c4'     // Gray
+};
+
+// Chart data preparation
+export function getChartDataFromBoard(board) {
+    if (!board || !board.groups) return { labels: [], counts: [], colors: [] };
+    
+    // Count tasks by status
+    const statusCounts = {};
+    statusList.forEach(status => statusCounts[status.value] = 0);
+    
+    board.groups.forEach(group => {
+        if (!group.tasks) return;
+        
+        group.tasks.forEach(task => {
+            if (task.status && statusCounts[task.status] !== undefined) {
+                statusCounts[task.status]++;
+            }
+        });
+    });
+    
+    // Format data for chart
+    const chartData = statusList
+        .filter(status => statusCounts[status.value] > 0)
+        .map(status => ({
+            label: status.label,
+            count: statusCounts[status.value],
+            color: STATUS_COLORS[status.value]
+        }))
+        .sort((a, b) => a.count - b.count);
+    
+    return {
+        labels: chartData.map(item => item.label),
+        counts: chartData.map(item => item.count),
+        colors: chartData.map(item => item.color)
+    };
+}
+
+// Chart configuration factory
+export function getChartConfig(chartData, chartType = 'bar') {
+    const { labels, counts, colors } = chartData;
+    const maxValue = counts.length ? Math.max(...counts) : 0;
+    
+    // Common dataset configuration
+    const dataset = {
+        data: counts,
+        backgroundColor: colors,
+        borderWidth: 0
+    };
+    
+    // Type-specific dataset config
+    if (chartType === 'bar') {
+        dataset.borderRadius = 4;
+        dataset.barPercentage = 0.8;
+        dataset.categoryPercentage = 0.7;
+    } else if (chartType === 'pie') {
+        dataset.borderColor = colors.map(() => '#fff');
+        dataset.borderWidth = 2;
+        dataset.hoverOffset = 15;
+        dataset.circumference = 360;
+        dataset.radius = '70%';
+    }
+    
+    // Common config
+    const config = {
+        type: chartType,
+        data: {
+            labels,
+            datasets: [dataset]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 500 // Faster animations for smoother transitions
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    left: 10,
+                    right: 10,
+                    bottom: 10
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: tooltipItems => tooltipItems[0].label,
+                        label: context => `Count: ${context.raw}`
+                    }
+                }
+            }
+        },
+        plugins: []
+    };
+    
+    // Type-specific config
+    if (chartType === 'bar') {
+        // Config for bar chart
+        config.options.plugins.legend = { display: false };
+        config.options.plugins.title = { display: false };
+        
+        config.options.scales = {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    display: true,
+                    drawBorder: false,
+                    color: '#f0f0f0'
+                },
+                ticks: {
+                    padding: 10,
+                    color: '#777',
+                    font: { size: 12 }
+                },
+                border: { display: false },
+                suggestedMax: maxValue * 1.2
+            },
+            x: {
+                grid: { display: false, drawBorder: false },
+                ticks: {
+                    color: '#777',
+                    padding: 10,
+                    font: { size: 12 }
+                },
+                border: { display: false }
+            }
+        };
+        
+        // Bar chart specific plugin
+        config.plugins.push({
+            id: 'datalabels',
+            afterDatasetsDraw(chart) {
+                if (!chart) return;
+                
+                const { ctx } = chart;
+                const dataset = chart.data.datasets[0];
+                const meta = chart.getDatasetMeta(0);
+                
+                if (meta.hidden) return;
+                
+                const threshold = maxValue * 0.3;
+                
+                meta.data.forEach((element, index) => {
+                    const value = dataset.data[index];
+                    const { x, y, height } = element.getProps(['x', 'y', 'height']);
+                    
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    
+                    if (value > threshold) {
+                        // For taller bars, show value inside the bar
+                        ctx.fillStyle = '#fff';
+                        ctx.fillText(value, x, y + height/2 + 5);
+                    } else {
+                        // For shorter bars, show value above the bar
+                        ctx.fillStyle = '#333';
+                        ctx.fillText(value, x, y - 10);
+                    }
+                });
+            }
+        });
+    } else if (chartType === 'pie') {
+        // Config for pie chart
+        config.options.plugins.legend = { 
+            display: true,
+            position: 'right',
+            labels: {
+                padding: 15,
+                color: '#555',
+                font: { size: 12 },
+                usePointStyle: true,
+                boxWidth: 10
+            }
+        };
+        
+        // Add specific options for pie charts
+        config.options.cutout = '0%';  // Make it a full pie, not a donut
+        config.options.radius = '70%'; // Slightly smaller to fit in container
+        
+        // Pie chart specific plugin for labels
+        config.plugins.push({
+            id: 'datalabels',
+            afterDatasetsDraw(chart) {
+                if (!chart || !chart.data) return;
+                
+                const { ctx } = chart;
+                ctx.save();
+                
+                // Only try to get metadata if chart exists and is rendered
+                const meta = chart.getDatasetMeta(0);
+                if (!meta || meta.hidden) {
+                    ctx.restore();
+                    return;
+                }
+                
+                const total = chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
+                
+                meta.data.forEach((element, index) => {
+                    try {
+                        // Get position - use center for small segments, tooltipPosition for larger ones
+                        const { x, y } = element.tooltipPosition ? 
+                            element.tooltipPosition() : 
+                            { x: chart.getDatasetMeta(0).data[index].x, y: chart.getDatasetMeta(0).data[index].y };
+                        
+                        // Get the data value
+                        const value = chart.data.datasets[0].data[index];
+                        const percentage = Math.round((value / total) * 100);
+                        
+                        // Only show labels for segments that are large enough
+                        if (percentage >= 8) {
+                            // Draw with appropriate contrast
+                            ctx.font = 'bold 12px Arial';
+                            ctx.fillStyle = 'white';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            
+                            // Just draw the text without the stroke/shadow
+                            ctx.fillText(value, x, y);
+                        }
+                    } catch (err) {
+                        console.error('Error rendering pie chart label:', err);
+                    }
+                });
+                
+                ctx.restore();
+            }
+        });
+    }
+    
+    return config;
+}
 
 _checkForDummyData();
 
@@ -206,8 +417,6 @@ function getRandomDate() {
     const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     return randomDate.toISOString().split('T')[0];
 }
-
-
 
 // ----------------- Get Empty + Generate -----------------
 
@@ -388,3 +597,36 @@ function getDateFilters() {
         { label: 'Upcoming', value: { start: upcomingStart, end: upcomingEnd } }
     ];
 }
+
+export const boardService = {
+    // CRUD Operations for Boards
+    query,
+    save,
+    remove,
+    getBoards,
+    getById,
+    // Utility Functions
+    getRandomStatus,
+    getRandomPriority,
+    getRandomMembers,
+    getRandomDate,
+    // Empty Templates and Generators
+    getEmptyBoard,
+    getEmptyGroup,
+    getEmptyTask,
+    generateBoard,
+    generateGroup,
+    generateTask,
+    getEmptyReply,
+    // Message Operations
+    addBoardMsg,
+    // Filter
+    getEmptyFilter,
+    getDateFilters,
+    // Storage Key
+    STORAGE_KEY,
+    // Chart related functions
+    getChartDataFromBoard,
+    getChartConfig,
+    STATUS_COLORS
+};

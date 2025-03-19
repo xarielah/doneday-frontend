@@ -9,6 +9,7 @@ import { AppFooter } from './cmps/AppFooter'
 import { AppNav } from "./cmps/AppSideNav/AppNav.jsx"
 import SlidePanel from "./cmps/SlidePanel"
 import { Board } from './pages/Board'
+import { Chart } from "./pages/Chart.jsx"
 
 export function RootCmp() {
     const isAuthenticated = true;
@@ -25,12 +26,13 @@ const AuthenticatedRoutes = () => {
         <AppHeader />
         <AppNav />
         <SlidePanel params={params} />
-        <main className="page-container">
+        <main className={`page-container ${location.pathname.includes('/chart') ? 'chart-page' : ''}`}>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path='/board/:boardId' element={<Board />}>
                     <Route path="task/:taskId" element={<>asdasdasd</>} />
                 </Route>
+                <Route path="/board/:boardId/chart" element={<Chart />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </main>
