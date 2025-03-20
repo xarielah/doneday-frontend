@@ -1,73 +1,73 @@
 // // Setup
-@use "setup/variables";
-@use "setup/functions";
-@use "setup/mixins";
-@use "setup/typography";
+@use "./setup/variables";
+@use "./setup/functions";
+@use "./setup/mixins";
+@use "./setup/typography";
 
 // // Basics
-@use "basics/helpers";
-@use "basics/layout";
-@use "basics/base";
-@use "basics/forms";
+@use "./basics/helpers";
+@use "./basics/layout";
+@use "./basics/base";
+@use "./basics/forms";
 
 // // pages
-@use "RootCmp";
-@use "cmps/HomePage";
+@use "./RootCmp";
+@use "./cmps/HomePage";
 
 // Dynamic Components
-@use "cmps/BoardDynamicCmps/Status";
-@use "cmps/BoardDynamicCmps/Priority";
-@use "cmps/BoardDynamicCmps/DialogValuePicker";
-@use "cmps/BoardDynamicCmps/Timeline";
+@use "./cmps/BoardDynamicCmps/Status";
+@use "./cmps/BoardDynamicCmps/Priority";
+@use "./cmps/BoardDynamicCmps/DialogValuePicker";
+@use "./cmps/BoardDynamicCmps/Timeline";
 
 // Board Stuff
-@use "cmps/Board/Board.scss";
-@use "cmps/Board/BoardHeader.scss";
-@use "cmps/Board/CrudleBar";
-@use "cmps/Board/BoardFilter";
-@use "cmps/Board/BoardSort";
-@use "cmps/Board/BoardDetails";
+@use "./cmps/Board/Board.scss";
+@use "./cmps/Board/BoardHeader.scss";
+@use "./cmps/Board/CrudleBar";
+@use "./cmps/Board/BoardFilter";
+@use "./cmps/Board/BoardSort";
+@use "./cmps/Board/BoardDetails";
 
 // New Structure & Board Layout
-@use "cmps/board/structure/GroupHeader";
-@use "cmps/board/structure/GroupTableHeader";
-@use "cmps/board/structure/GroupStickyColumns";
-@use "cmps/board/structure/GroupContainer";
-@use "cmps/board/structure/GroupTableContent";
-@use "cmps/board/structure/DynamicColumn";
-@use "cmps/board/structure/GroupTableContentTask";
-@use "cmps/board/structure/TaskDetailsTriggerCell";
-@use "cmps/board/structure/AddGroup";
-@use "cmps/board/structure/GroupTableFooter";
-@use "cmps/board/structure/GroupColumnFiller";
-@use "cmps/board/structure/GroupSummaryRow";
+@use "./cmps/board/structure/GroupHeader";
+@use "./cmps/board/structure/GroupTableHeader";
+@use "./cmps/board/structure/GroupStickyColumns";
+@use "./cmps/board/structure/GroupContainer";
+@use "./cmps/board/structure/GroupTableContent";
+@use "./cmps/board/structure/DynamicColumn";
+@use "./cmps/board/structure/GroupTableContentTask";
+@use "./cmps/board/structure/TaskDetailsTriggerCell";
+@use "./cmps/board/structure/AddGroup";
+@use "./cmps/board/structure/GroupTableFooter";
+@use "./cmps/board/structure/GroupColumnFiller";
+@use "./cmps/board/structure/GroupSummaryRow";
 
 // App
-@use "cmps/AppHeader/AppHeader";
-@use "cmps/AppHeader/AppHeaderInviteMembers";
-@use "cmps/SideNav/AppNav";
-@use "cmps/BoardHeaderTabList";
+@use "./cmps/AppHeader/AppHeader";
+@use "./cmps/AppHeader/AppHeaderInviteMembers";
+@use "./cmps/SideNav/AppNav";
+@use "./cmps/BoardHeaderTabList";
 
 // External (Unauthed) Home Page
-@use "cmps/ExternalHomePage/ExternalHeader";
-@use "cmps/ExternalHomePage/ExternalHomePage";
-@use "cmps/ExternalHomePage/ExternalHero";
-@use "cmps/ExternalHomePage/ExternalDemoButton";
-@use "cmps/ExternalHomePage/ExternalFooter";
-@use "cmps/ExternalHomePage/ExternalHeroTitle";
+@use "./cmps/ExternalHomePage/ExternalHeader";
+@use "./cmps/ExternalHomePage/ExternalHomePage";
+@use "./cmps/ExternalHomePage/ExternalHero";
+@use "./cmps/ExternalHomePage/ExternalDemoButton";
+@use "./cmps/ExternalHomePage/ExternalFooter";
+@use "./cmps/ExternalHomePage/ExternalHeroTitle";
 
 // Side Panel Stuff
-@use "cmps/SidePanel/SidePanel";
-@use "cmps/SidePanel/SidePanelWrapper";
-@use "cmps/SidePanel/SidePanelDynamicCmps";
-@use "cmps/SidePanel/SidePanelWriteUpdate";
-@use "cmps/SidePanel/SidePanelTaskMessages";
-@use "cmps/SidePanel/SidePanelNoUpdates";
-@use "cmps/SidePanel/SidePanelUpdatesList";
-@use "cmps/SidePanel/SidePanelUpdatePreview";
-@use "cmps/SidePanel/SidePanelReplyUpdate";
-@use "cmps/SidePanel/SidePanelUpdateActions";
-@use "cmps/SidePanel/SidePanelReplyInput";
-@use "cmps/SidePanel/SidePanelRepliesList";
-@use "cmps/SidePanel/SidePanelReplyPreview";
-@use "cmps/SidePanel/SidePanelActivity";
+@use "./cmps/SidePanel/SidePanel";
+@use "./cmps/SidePanel/SidePanelWrapper";
+@use "./cmps/SidePanel/SidePanelDynamicCmps";
+@use "./cmps/SidePanel/SidePanelWriteUpdate";
+@use "./cmps/SidePanel/SidePanelTaskMessages";
+@use "./cmps/SidePanel/SidePanelNoUpdates";
+@use "./cmps/SidePanel/SidePanelUpdatesList";
+@use "./cmps/SidePanel/SidePanelUpdatePreview";
+@use "./cmps/SidePanel/SidePanelReplyUpdate";
+@use "./cmps/SidePanel/SidePanelUpdateActions";
+@use "./cmps/SidePanel/SidePanelReplyInput";
+@use "./cmps/SidePanel/SidePanelRepliesList";
+@use "./cmps/SidePanel/SidePanelReplyPreview";
+@use "./cmps/SidePanel/SidePanelActivity";
