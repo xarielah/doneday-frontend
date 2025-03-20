@@ -137,11 +137,13 @@ const GroupTableContentTask = ({ task, group }) => {
                     {...listeners}
                 >
                     <div
+                        className="task-title-container"
                         onMouseDown={(e) => e.stopPropagation()}
                         onPointerDown={(e) => e.stopPropagation()}
                         onDragStart={(e) => e.stopPropagation()}
                     >
                         <EditableText
+                            className="task-title-display"
                             type="text2"
                             onChange={handleChangeTitle}
                             value={task.taskTitle}
@@ -149,7 +151,7 @@ const GroupTableContentTask = ({ task, group }) => {
                     </div>
                     <TaskDetailsTriggerCell task={task} />
                 </div>
-            </GroupStickyColumns>
+            </GroupStickyColumns >
             <GroupScrollableColumns>
                 {cmpOrder.map(cmpType =>
                     <DynamicColumn
@@ -161,7 +163,7 @@ const GroupTableContentTask = ({ task, group }) => {
                     />
                 )}
             </GroupScrollableColumns>
-        </div>
+        </div >
     );
 };
 

@@ -62,7 +62,7 @@ export function BoardFilter() {
                 }
             }
         }
-        return count
+        return count === 0 ? "" : count
     }
 
     function resetFilters() {

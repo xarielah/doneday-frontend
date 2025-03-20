@@ -1,9 +1,40 @@
 .task-title {
   display: flex;
   justify-content: space-between;
-  box-sizing: border-box;
+  // box-sizing: border-box;
   padding-left: 16px;
+  max-width: 330px;
+  cursor: grab;
+
+  * {
+    overflow: hidden;
+  }
+
 }
+
+.task-title-container {
+  display: inline-block; // Shrinks to fit content
+  max-width: 100%; // Ensures it doesn't overflow
+  min-width: fit-content; // Ensures it wraps the text
+  cursor: text;
+}
+
+.task-title-display {
+  display: inline-block; // Ensures it takes up only necessary space
+  max-width: 220px; // Prevents it from growing too large
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: text;
+}
+
+// .task-title-container {
+//   border: 1px solid red;
+// }
+
+// .task-title-display {
+//   border: 1px solid blue;
+// }
 
 .row-dragging {
   background-color: gray;

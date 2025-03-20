@@ -11,6 +11,8 @@ const SlidePanel = ({ params }) => {
     const { type } = store;
     const { boardId, taskId } = params;
     const dispatch = useDispatch();
+    // const sidePanelRef = useRef(null);
+    // const navigate = useNavigate()
 
     useEffect(() => {
         if (taskId) {
@@ -18,6 +20,7 @@ const SlidePanel = ({ params }) => {
         } if (!taskId && type === panelTypes.task) {
             dispatch({ type: CLEAR_PAGE_INFO });
         }
+
     }, [taskId])
 
     useEffect(() => {
@@ -27,7 +30,6 @@ const SlidePanel = ({ params }) => {
             setIsOpen(false);
         }
     }, [type])
-
 
     return <aside className="slide-panel-container">
         <div className={cn('slide-panel', isOpen && 'open')}>

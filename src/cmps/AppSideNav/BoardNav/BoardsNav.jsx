@@ -29,6 +29,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     const [isDuplicate, setIsDuplicate] = useState(false)
 
     useEffect(() => {
+        if (board) {
+            setSelectedBoard(board.name)
+        }
     }, [board])
 
     const handleCloseModal = () => {
@@ -166,6 +169,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                 >
                     <WorkspaceTitle setIsSearch={setIsSearch} isSearch={isSearch} />
                     <WorkspacesDropdown
+                        boardColor={board?.color}
                         selectedBoard={selectedBoard}
                         onToggleModal={() => setIsAddBoard(true)}
                         isBoardMenuOpen={isOpen}

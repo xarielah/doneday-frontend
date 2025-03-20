@@ -1,5 +1,5 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { updateBoard } from "../../../store/actions/board.actions";
@@ -14,6 +14,15 @@ const GroupTableContent = ({ group }) => {
         // When group.tasks changes externally, update local state
         setTasks(group.tasks);
     }, [group.tasks]);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(MouseSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    )
 
     const onDragEnd = useCallback(async (dragEvent) => {
         const { active, over } = dragEvent;
@@ -41,7 +50,7 @@ const GroupTableContent = ({ group }) => {
 
 
     return (
-        <DndContext onDragEnd={onDragEnd} collisionDetection={closestCenter}>
+        <DndContext sensors={sensors} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
             <SortableContext
                 items={tasks.map(task => task._id)}
                 strategy={verticalListSortingStrategy}

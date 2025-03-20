@@ -162,7 +162,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                     title="Add Members"
                     width="large"
                     position="top"
-                    zIndex="99"
+                    zIndex="999"
                     className="dialogMembers"
                 >
                     <DialogContentContainer
