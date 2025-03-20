@@ -42,8 +42,8 @@ export function AppNav() {
 
     useEffect(() => {
         if (sidebarRef.current && innerSidebarRef.current) {
-            sidebarRef.current.style.width = innerSidebarRef.current.style.width
-            innerSidebarRef.current.style.width = sidebarRef.current.style.width
+            sidebarRef.current.style.width = innerSidebarRef.current.style.width || 200
+            innerSidebarRef.current.style.width = sidebarRef.current.style.width || 200
         }
     }, [])
 
@@ -55,8 +55,8 @@ export function AppNav() {
 
     const handleMouseMove = (e) => {
         if (isResizing.current) {
-            const newWidth = e.clientX
-            const minWidth = 250
+            const newWidth = e.clientX || 200
+            const minWidth = 200
             const maxWidth = 580
 
             if (newWidth >= minWidth && newWidth <= maxWidth) {
@@ -106,7 +106,8 @@ export function AppNav() {
                 ref={innerSidebarRef}
                 onMouseEnter={(e) => setIsHovered(true)}
                 onMouseLeave={(e) => setIsHovered(false)}
-                onLoad={(e) => e.target.style.width = `${e.clientX}px`}
+                onLoad={(e) => e.target.style.width = `${200 && e.clientX}px`}
+                style={{ minWidth: '200px' }}
             >
                 <IconButton
                     className={`minimize-btn ${isHovered && isMinimize ? 'hovered' : ''}`}

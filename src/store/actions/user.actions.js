@@ -1,5 +1,5 @@
-import { userService } from '../../services/user'
 import { socketService } from '../../services/socket.service'
+import { userService } from '../../services/user'
 import { store } from '../store'
 
 import { showErrorMsg } from '../../services/event-bus.service'

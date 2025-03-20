@@ -1,5 +1,5 @@
-import React from "react";
 import { Text } from "@vibe/core";
+import React from "react";
 import FilterColumn from "./FilterColumn";
 
 const FilterBody = ({ columns, toggleFilterBy, filterBy, countTasksByFilter }) => {

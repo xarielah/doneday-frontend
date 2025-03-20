@@ -13,7 +13,7 @@ const getComponent = (type) => {
 }
 
 const SidePanelDynamicCmps = ({ cmpType }) => {
-    return <div className="side-panel-dynamic-cmps">
+    return <div className="side-panel-dynamic-cmps" >
         {getComponent(cmpType)}
     </div>
 }

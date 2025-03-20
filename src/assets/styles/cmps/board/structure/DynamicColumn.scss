@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .column-label-status {
   width: 180px !important;
   flex-basis: 180px !important;
@@ -9,8 +11,8 @@
 }
 
 .column-label-members {
-  width: 175px !important;
-  flex-basis: 175px !important;
+  width: 150px !important;
+  flex-basis: 150px !important;
 }
 
 .column-label-date {
@@ -29,14 +31,14 @@
 }
 
 .input-container {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .infoOutput {
   justify-content: space-between;
   width: 90%;
   position: relative;
-  transition: .2s all ease;
+  transition: 0.2s all ease;
   cursor: pointer;
 }
 
@@ -49,8 +51,9 @@
   max-width: 100px;
   overflow: hidden;
   display: block;
-  transition: .2s all ease;
+  transition: 0.2s all ease;
 }
+
 .rounded-btn {
   border-radius: 50%;
   position: absolute;
@@ -66,16 +69,27 @@
   position: relative;
   width: 100%;
   justify-content: center;
-  display: flex
-;
+  display: flex;
   align-items: center;
 }
 
 .addMembers {
+  border-radius: 50%;
   position: absolute;
-  left: 0;
+  left: 8px;
   z-index: 9;
   justify-content: left;
+  background-color: #0073ea;
+  color: white;
+
+  &:hover {
+    background-color: color.adjust(#0073ea, $lightness: -10%) !important;
+  }
+}
+
+.addMembersIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .addMemberDialog {
@@ -83,10 +97,51 @@
   position: absolute;
 }
 
-[class^="column-label-"], .table-task-row .default-cell-color, .table-row-row .task-left-checkbox, .table-task-row .column-filler {
-  transition: .2s all ease;
+/*.column-label-status, .column-label-priority, .group-sticky-columns {
+  z-index: 2;
+}*/
+
+[class^="column-label-"],
+.table-task-row .default-cell-color,
+.table-row-row .task-left-checkbox,
+.task-left-checkbox,
+.table-task-row .column-filler {
+  transition: 0.1s all ease !important;
 }
 
-.table-task-row:hover .default-cell-color, [class^="column-label-"]:hover, .table-task-row:hover .task-left-checkbox, .table-task-row:hover .column-filler {
+.table-task-row:hover .default-cell-color,
+[class^="column-label-"]:hover,
+.table-task-row:hover .task-left-checkbox,
+.table-task-row:hover .column-filler {
   background-color: #efefef;
+}
+
+/*.table-task-row:hover::after {
+  display: block;
+  content: '';
+  width: 100%;
+  left: 2.5%;
+  position: absolute;
+  background: transparent;
+  box-shadow: 0px 0px 5px rgba(104, 104, 104, 0.5);
+  z-index: 2;
+  height: 36px;
+}*/
+
+section.table-footer::after {
+  display: block;
+  content: '';
+  width: 100%;
+  left: 40px;
+  position: absolute;
+  background: transparent;
+  box-shadow: -2px 3px 5px rgba(104, 104, 104, 0.2);
+  z-index: 0;
+  border-bottom-left-radius: 4px;
+  height: 36px;
+}
+
+
+.task-title.active-class {
+  background-color: #cce5ff !important;
 }

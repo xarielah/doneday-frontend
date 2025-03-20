@@ -9,7 +9,9 @@ import {
 } from "@vibe/icons";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { addBoard, addGroup, addTask, getBoardById, removeBoard } from "../../../store/actions/board.actions";
+import { boardService } from "../../../services/board/board.service.local";
+import { getRandomColor, makeId } from "../../../services/util.service";
+import { addBoard, getById, removeBoard } from "../../../store/actions/board.actions";
 import { AddBoardCmp } from "../AddBoardCmp";
 import WorkspacesDropdown from "./WorkspacesDropdown";
 import WorkspaceTitle from "./WorkspaceTitle";
@@ -27,6 +29,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     const [isDuplicate, setIsDuplicate] = useState(false)
 
     useEffect(() => {
+        if (board) {
+            setSelectedBoard(board.name)
+        }
     }, [board])
 
     const handleCloseModal = () => {
@@ -50,9 +55,16 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
     async function handleSaveBoard() {
         let boardToSave = { ...addedBoard }
+        boardToSave.groups = [
+            {
+                _id: makeId(),
+                name: 'New Group',
+                color: getRandomColor(),
+                tasks: []
+            }
+        ];
         return addBoard(boardToSave)
             .then((savedboard) => {
-                console.log(`Board saved: ${addedBoard.name}`);
                 handleCloseModal();
                 return savedboard
             })
@@ -67,34 +79,34 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
     async function onDuplicateBoard() {
         try {
-            getBoardById(addedBoard._id)
-                .then(boardToDuplicate => {
-                    return addBoard({ ...boardToDuplicate, _id: undefined, name: addedBoard.name })
-                        .then(duplicatedBoard => {
-                            return boardToDuplicate.groups.reduce((groupChain, group) => {
-                                return groupChain.then(() => {
-                                    const newGroup = { ...group, _id: undefined }
-                                    return addGroup(duplicatedBoard._id, newGroup)
-                                        .then(savedGroup => {
-                                            return group.tasks.reduce((taskChain, task) => {
-                                                return taskChain.then(() => {
-                                                    const newTask = { ...task, _id: undefined }
-                                                    return addTask(savedGroup._id, newTask)
-                                                })
-                                            }, Promise.resolve())
-                                        })
-                                })
-                            }, Promise.resolve())
-                                .then(() => duplicatedBoard)
-                        })
-                })
-                .catch(error => {
-                    console.error('Could not duplicate board', error)
-                })
+            const boardToDuplicate = await getById(addedBoard._id);
+
+            const newBoard = boardService.getEmptyBoard();
+            newBoard.name = addedBoard.name;
+            if (!Array.isArray(newBoard.groups)) newBoard.groups = [];
+
+            if (boardToDuplicate.groups && boardToDuplicate.groups.length > 0) {
+                for (const group of boardToDuplicate.groups) {
+                    const newGroup = { ...group, _id: 'g' + makeId(), tasks: [] };
+
+                    if (Array.isArray(group.tasks)) {
+                        for (const task of group.tasks) {
+                            const newTask = { ...task, _id: 't' + makeId() };
+                            newGroup.tasks.push(newTask);
+                        }
+                    }
+
+                    newBoard.groups.push(newGroup);
+                }
+            } else {
+                newBoard.groups = [{ _id: makeId(), name: 'New Group', color: getRandomColor(), tasks: [] }]
+            }
+
+            return await addBoard(newBoard);
         } catch (error) {
-            console.error('Could not duplicate board' + error)
+            console.error('Could not duplicate board', error);
         } finally {
-            handleCloseModal()
+            handleCloseModal();
         }
     }
 
@@ -108,15 +120,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     }
 
     function onRenameBoard(board) {
-        setAddedBoard(prev => prev = { ...board })
+        setAddedBoard(prev => ({ ...prev, ...board }))
         setIsAddBoard(true)
     }
-
-    function onAddBoardToFavorite() {
-
-    }
-
-
 
     const filteredBoards = boards.filter((board) =>
         board.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -163,6 +169,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                 >
                     <WorkspaceTitle setIsSearch={setIsSearch} isSearch={isSearch} />
                     <WorkspacesDropdown
+                        boardColor={board?.color}
                         selectedBoard={selectedBoard}
                         onToggleModal={() => setIsAddBoard(true)}
                         isBoardMenuOpen={isOpen}
@@ -186,7 +193,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                                 <MenuItem icon={ExternalPage} onClick={() => openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
                                 <MenuDivider />
                                 <MenuItem onClick={() => openDuplicateModal(board.name, board._id)} icon={Duplicate} title="Duplicate board" />
-                                <MenuItem onClick={() => onRemoveBoard(board._id)} icon={Delete} title="Delete board" />
+                                <MenuItem onClick={() => onRemoveBoard(board._id)} icon={Delete} title="Delete board" disabled={boards.length === 1} />
                                 <MenuItem onClick={() => onRenameBoard(board)} icon={Edit} title="Rename board" />
                                 <MenuDivider />
                                 <MenuItem icon={Favorite} title="Add to favorite" />

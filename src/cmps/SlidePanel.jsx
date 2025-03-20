@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { panelTypes } from "../services/sidePanel.service";
+import { cn } from "../services/util.service";
 import { CLEAR_PAGE_INFO, SET_PAGE_INFO } from "../store/reducers/sidePanel.reducer";
 import SidePanelDynamicCmps from "./SidePanelDynamicCmps";
 
@@ -10,6 +11,8 @@ const SlidePanel = ({ params }) => {
     const { type } = store;
     const { boardId, taskId } = params;
     const dispatch = useDispatch();
+    // const sidePanelRef = useRef(null);
+    // const navigate = useNavigate()
 
     useEffect(() => {
         if (taskId) {
@@ -17,6 +20,7 @@ const SlidePanel = ({ params }) => {
         } if (!taskId && type === panelTypes.task) {
             dispatch({ type: CLEAR_PAGE_INFO });
         }
+
     }, [taskId])
 
     useEffect(() => {
@@ -27,10 +31,8 @@ const SlidePanel = ({ params }) => {
         }
     }, [type])
 
-    const openClass = isOpen ? ' open' : '';
-
     return <aside className="slide-panel-container">
-        <div className={`slide-panel` + openClass}>
+        <div className={cn('slide-panel', isOpen && 'open')}>
             <SidePanelDynamicCmps cmpType={type} />
         </div>
     </aside>

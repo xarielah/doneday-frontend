@@ -4,6 +4,8 @@ import { Modal, ModalBasicLayout, ModalContent, ModalFooter, ModalHeader } from 
 export const AddBoardCmp = ({ setAddedBoard, onDuplicateBoard, addedBoard, show, onClose, handleSaveBoard, isDuplicate }) => {
     const btnText = (isDuplicate ? "Duplicate " : "Save ") + "board";
 
+    const modalTitle = isDuplicate ? "Duplicate" : addedBoard._id ? "Edit" : "Create"
+
     return <Modal
         show={show}
         size="medium"
@@ -12,7 +14,7 @@ export const AddBoardCmp = ({ setAddedBoard, onDuplicateBoard, addedBoard, show,
         onClose={onClose}
     >
         <ModalBasicLayout>
-            <ModalHeader title={<Heading type="h1">Create board</Heading>} />
+            <ModalHeader title={<Heading type="h1">{modalTitle} board</Heading>} />
             <ModalContent>
                 <div className="board-nav-add-content">
                     <TextField

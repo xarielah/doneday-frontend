@@ -2,7 +2,8 @@ import { Button, Dialog, DialogContentContainer, Icon } from "@vibe/core"
 import { Filter } from "@vibe/icons"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { allMembers, priorityList, statusList } from "../../../services/board/board.service.local"
+import { priorityList, statusList } from "../../../services/board"
+import { allMembers } from "../../../services/board/board.service.local"
 import { setFilterBy } from "../../../store/actions/board.actions"
 import FilterBody from "./FilterBody"
 import FilterHeader from "./FilterHeader"
@@ -32,7 +33,6 @@ export function BoardFilter() {
         { title: "Priority", options: priorityList },
         { title: "Status", options: statusList },
         { title: "Members", options: allMembers },
-        // { title: "Timeline", options: boardService.getDateFilters() },
     ]
 
     function countBoardTasks(board) {
@@ -62,7 +62,7 @@ export function BoardFilter() {
                 }
             }
         }
-        return count
+        return count === 0 ? "" : count
     }
 
     function resetFilters() {
@@ -90,12 +90,10 @@ export function BoardFilter() {
     const totalTasks = countBoardTasks(unfilteredBoard)
     const filteredTasks = countBoardTasks(board)
 
-
-
     return (
         <section className="board-filter">
             <Dialog
-                position="bottom-start"
+                position="bottom"
                 showTrigger={["click"]}
                 hideTrigger={["clickoutside"]}
                 content={

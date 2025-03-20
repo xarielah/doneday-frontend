@@ -1,4 +1,4 @@
-@use '../setup/functions';
+@use "../setup/functions";
 // // Font Sizes
 // .fs12 { font-size: rem(12px); }
 // .fs14 { font-size: rem(14px); }
@@ -10,22 +10,38 @@
 
 // flex helpers
 
+.elipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keep-aspect {
+  aspect-ratio: 1 / 1;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.avatar-zindex {
+  z-index: -99999;
+}
+
 .flex {
+  display: flex;
 
-    display: flex;
-
-    > *.full {
-        flex: 1;
-    }
-    &.column {
-        flex-direction: column;
-    }
-    &.justify-center {
-        justify-content: center;
-    }
-    &.align-center {
-        align-items: center;
-    }
+  > *.full {
+    flex: 1;
+  }
+  &.column {
+    flex-direction: column;
+  }
+  &.justify-center {
+    justify-content: center;
+  }
+  &.align-center {
+    align-items: center;
+  }
 }
 
 // Media helpers

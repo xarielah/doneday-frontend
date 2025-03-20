@@ -1,4 +1,4 @@
-@use "/src/assets/styles/setup/variables";
+@use "/src/assets/styles/setup/variables" as *;
 
 .active {
   background-color: #cce5ff;
@@ -14,9 +14,11 @@
   display: grid;
   grid-template-columns: 1fr 3px;
   background-color: $modal-background-color;
-  background: linear-gradient(180deg,
-      $modal-background-color 30%,
-      $primary-surface-color 100%);
+  background: linear-gradient(
+    180deg,
+    $modal-background-color 30%,
+    $primary-surface-color 100%
+  );
 
   * {
     box-sizing: border-box;
@@ -25,8 +27,6 @@
   button {
     width: 100%;
   }
-
-
 
   .nav.minimize {
     transform: translateX(-100%);
@@ -44,9 +44,11 @@
     top: 0;
     left: 0;
     z-index: 10;
-    background: linear-gradient(180deg,
-        $modal-background-color 30%,
-        $primary-surface-color 100%);
+    background: linear-gradient(
+      180deg,
+      $modal-background-color 30%,
+      $primary-surface-color 100%
+    );
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, opacity 0.1s ease;
   }
@@ -57,7 +59,7 @@
     }
 
     nav {
-      .menu-nav> :nth-child(1) {
+      .menu-nav > :nth-child(1) {
         margin-right: 27px;
       }
     }
@@ -72,11 +74,6 @@
     position: absolute;
     right: 0;
     border-radius: 0 8px;
-    // margin-right: -3px;
-
-    // &.hovered {
-    //   margin-right: 0;
-    // }
 
     padding: 0 8px;
     font-size: 15px;
@@ -95,7 +92,6 @@
     display: block;
     margin-left: auto;
     margin-right: -2px;
-
   }
 
   nav {
@@ -104,7 +100,7 @@
     flex-direction: column;
     position: relative;
 
-    >* {
+    > * {
       width: 100%;
     }
 
@@ -114,7 +110,7 @@
       display: grid;
       grid-template-columns: 1fr auto;
 
-      &> :nth-child(1) {
+      & > :nth-child(1) {
         transition: ease-in 0.02s;
       }
 
@@ -136,7 +132,7 @@
       padding: 0 10px 0 8px;
       display: grid;
 
-      >* {
+      > * {
         width: 100%;
       }
     }
@@ -176,12 +172,27 @@
         align-items: center;
 
         .workspace-dropdown-btn {
+          display: flex;
+          justify-content: start;
           margin: 3px 1px;
+          margin-right: 6px;
           text-align: left;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
           box-sizing: border-box;
+
+
+          .board-avatar-icon {
+            min-width: 23px;
+
+            .little-home-icon {}
+          }
+
+
+          .board-dropdown-chevron {
+            min-width: 16px;
+          }
 
           button {
             display: inline-block;

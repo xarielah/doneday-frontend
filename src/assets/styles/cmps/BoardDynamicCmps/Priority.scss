@@ -1,3 +1,6 @@
+@use "../../setup/variables" as *;
+@use "../../setup/mixins" as *;
+
 .priority-low {
   @include dialog-options-button($color: $clr-priority-low);
 }

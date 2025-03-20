@@ -1,3 +1,5 @@
+@use "../../../setup/variables" as *;
+
 .summary-row-wrapper {
   display: flex;
   height: 36px;
@@ -11,18 +13,31 @@
     flex-shrink: 0;
   }
 
+  .summery-white {
+    z-index: 1000;
+    height: 120%;
+  }
+
   & .summary-row {
     display: flex;
     flex-grow: 1;
+    z-index: 6;
+    box-shadow: -2px 3px 5px rgba(104, 104, 104, 0.1);
     border-bottom-left-radius: 6px;
+    border-left: 1px solid $layout-border-color;
     border-bottom: 1px solid $layout-border-color;
     background-color: white;
   }
 }
 
+.status-summary {
+  border-left: none;
+}
+
 .summary-cell {
   display: flex;
   align-items: center;
+  justify-content: center;
   border-right: 1px solid $layout-border-color;
   border-top: none;
 }
