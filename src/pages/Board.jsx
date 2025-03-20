@@ -8,28 +8,24 @@ import { getById, setBoard } from "../store/actions/board.actions";
 
 export function Board() {
     const board = useSelector(storeState => storeState.boardModule.board)
-    const boards = useSelector(storeState => storeState.boardModule.boards)
     const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
     const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
     const { boardId } = useParams();
-    const navigate = useNavigate();
     const isWatching = useRef(false)
+    const navigate = useNavigate();
 
     useEffect(() => {
         getById(boardId, filterBy, sortBy)
-            .then(board => {
-                setBoard(board)
-            })
+            .then(setBoard)
             .catch((err) => {
                 navigate('/', { replace: true })
                 console.error('Cannot get board', err);
             });
-
+        return () => {
+            socketService.emit('unwatch-board', boardId)
+        }
     }, [boardId])
 
-    useEffect(() => {
-
-    }, [board])
 
     useEffect(() => {
         if (board && !isWatching.current) {

@@ -1,0 +1,57 @@
+.activity-row {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 150px 1fr 100px 1fr;
+  margin-block: 16px;
+  margin-inline: 20px;
+}
+
+.activity-dyn-mem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.placeholder-cmp,
+.activity-row-dyn-col,
+.activity-row-ago,
+.activity-row-who,
+.dyn-col {
+  display: flex;
+  align-items: center;
+}
+
+.activity-row-who,
+.dyn-col {
+  gap: 4px;
+  justify-content: flex-start;
+}
+
+.activity-row-ago {
+  gap: 4px;
+}
+
+.placeholder-cmp {
+  gap: 4px;
+}
+
+.placeholder-cmp-value {
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activity-dyn-states {
+  border-radius: 4px;
+}
+
+.empty-activities {
+  padding-inline: 16px;
+}
+
+.activity-dyn-states,
+.placeholder-cmp {
+  height: 100%;
+}

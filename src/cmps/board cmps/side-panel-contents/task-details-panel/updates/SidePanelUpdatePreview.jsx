@@ -31,7 +31,9 @@ const SidePanelUpdatePreview = ({ update, onUpdateReply, onRemoveReply }) => {
     return <article className="update-preview">
         <header className="update-preview-header">
             <div className="update-preview-user">
-                <Avatar className="update-preview-avatar" size="large" text={update.by.name[0]} />
+                {/* <Avatar className="update-preview-avatar" size="large" text={update.by.name[0]} /> */}
+                {update.by.avatar && <Avatar className="update-preview-avatar" type="img" size="large" src={update.by.avatar} />}
+                {!update.by.avatar && <Avatar className="update-preview-avatar" type="text" size="large" text={update.by.name[0]} />}
                 <Text className="update-preview-user-name" type="text1" weight="bold" element="p">{update.by.name}</Text>
                 <SidePanelUpdateMenu onDelete={() => onRemoveReply(update._id)} onEdit={() => console.log('edit')} />
             </div>

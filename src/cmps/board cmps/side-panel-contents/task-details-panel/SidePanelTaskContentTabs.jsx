@@ -7,8 +7,8 @@ const SidePanelTaskContentTabs = ({ onTabChange }) => {
             <Text type="text2">Updates</Text>
         </Tab>
         <Divider direction="vertical" className="tab-divider" withoutMargin />
-        <Tab value="files" className="single-tab">
-            <Text type="text2">Files</Text>
+        <Tab value="actvity" className="single-tab">
+            <Text type="text2">Activity</Text>
         </Tab>
     </TabList>
 }

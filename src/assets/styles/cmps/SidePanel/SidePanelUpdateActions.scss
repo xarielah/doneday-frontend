@@ -1,3 +1,5 @@
+@use "../../setup/variables" as *;
+
 .update-preview-actions {
   $panel-actions-spacings: 8px;
   border-block: 1px solid $ui-border-color;

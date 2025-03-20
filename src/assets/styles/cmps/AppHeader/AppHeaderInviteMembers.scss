@@ -1,3 +1,5 @@
+@use "../../setup/variables" as *;
+
 .app-header-invite-modal {
   display: grid;
   padding: $spacing-small;

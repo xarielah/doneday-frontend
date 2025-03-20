@@ -1,6 +1,6 @@
-@import "../setup/variables";
-@import "../setup/typography";
-@import "../setup/mixins";
+@use "../setup/variables" as *;
+@use "../setup/typography" as *;
+@use "../setup/mixins" as *;
 
 * {
   box-sizing: border-box;
@@ -37,7 +37,6 @@ h5,
 h6 {
   margin: 0 0 0.6em;
   font-family: "Figtree", "Roboto", sans-serif;
-
 }
 
 img {

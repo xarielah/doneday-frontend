@@ -1,5 +1,5 @@
 
-import { boardService } from '../../services/board/board.service.remote';
+import { boardService } from '../../services/board';
 
 import { REMOVE_BOARD, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_SORT } from '../reducers/board.reducer';
 import { store } from '../store';
@@ -63,8 +63,6 @@ export async function updateBoard(board) {
     try {
         const savedBoard = await boardService.save(board);
         store.dispatch(getCmdSetBoard(savedBoard));
-        // const boards = await boardService.query()
-        // store.dispatch(getCmdSetBoards(boards));
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
@@ -75,8 +73,6 @@ export async function updateBoard(board) {
 export async function updateBoardOnBackground(board) {
     try {
         await boardService.save(board);
-        // const boards = await boardService.query()
-        // store.dispatch(getCmdSetBoards(boards));
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
@@ -102,7 +98,7 @@ export function setSortBy(sortBy) {
 function getCmdSetBoards(boards) {
     return { type: SET_BOARDS, boards };
 }
-function getCmdSetBoard(board) {
+export function getCmdSetBoard(board) {
     return { type: SET_BOARD, board };
 }
 

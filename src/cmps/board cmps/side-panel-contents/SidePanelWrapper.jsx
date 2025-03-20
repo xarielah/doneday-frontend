@@ -1,4 +1,4 @@
-import { Heading, IconButton } from "@vibe/core";
+import { Heading } from "@vibe/core";
 import { CloseMedium } from "@vibe/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ const SidePanelWrapper = ({ children, heading, resetUrl = '/' }) => {
         <header className="side-panel-header">
             <div className="side-panel-closing-bar">
                 <Link to={closingURL} onClick={closePage}>
-                    <IconButton size="xs" icon={CloseMedium} />
+                    <CloseMedium size={16} />
                 </Link>
             </div>
             {heading && <Heading className="side-panel-heading" type="h2">{heading}</Heading>}

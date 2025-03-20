@@ -1,12 +1,19 @@
 import { Avatar, Button, TextArea } from "@vibe/core";
 import { forwardRef, useEffect, useState } from "react";
-import { cn } from "../../../../../services/util.service";
 import { boardService } from "../../../../../services/board/board.service.local";
+import { userService } from "../../../../../services/user";
+import { cn } from "../../../../../services/util.service";
 
 export default forwardRef(function SidePanelReplyInput({ onAddReply }, ref) {
     const [inputFocus, setInputFocus] = useState(false)
+    const [user, setUser] = useState();
     const [reply, setReply] = useState('');
     const textAreaRef = ref;
+
+    useEffect(() => {
+        const user = userService.getLoggedinUser()
+        setUser(user)
+    }, [])
 
     useEffect(() => {
         if (textAreaRef.current) {
@@ -22,6 +29,14 @@ export default forwardRef(function SidePanelReplyInput({ onAddReply }, ref) {
     const handleAddReply = () => {
         const newReply = boardService.getEmptyReply();
         newReply.text = reply;
+
+        const loggedInUser = userService.getLoggedinUser();
+        newReply.by = {
+            _id: loggedInUser._id,
+            name: loggedInUser.fullname,
+            avatar: loggedInUser.imgUrl
+        }
+
         onAddReply(newReply)
         setReply('')
     }
@@ -29,7 +44,8 @@ export default forwardRef(function SidePanelReplyInput({ onAddReply }, ref) {
     const showFocusedStyles = (reply || inputFocus)
 
     return (<section className="side-panel-reply-input">
-        <Avatar size="medium" text="U" className="side-panel-reply-avatar" />
+        {(user && user?.imgUrl) && <Avatar size="medium" type="img" src={user.imgUrl} className="side-panel-reply-avatar" />}
+        {(user && user.fullname && !user?.imgUrl) && <Avatar size="medium" type="text" text='A' className="side-panel-reply-avatar" />}
         <section className={cn('side-panel-input-group', showFocusedStyles && 'focused')}>
             <TextArea
                 ref={textAreaRef}

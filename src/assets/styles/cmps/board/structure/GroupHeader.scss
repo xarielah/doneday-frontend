@@ -1,3 +1,6 @@
+@use "../../../setup/variables" as *;
+@use "../../../setup/mixins" as *;
+
 .group-sticky-header {
   position: absolute;
   // background-color: red;
@@ -7,7 +10,7 @@
   display: flex;
   width: 100%;
 
-  &>.spacer-div {
+  & > .spacer-div {
     flex-grow: 1;
     width: 100%;
   }
@@ -44,7 +47,6 @@
       height: 16px;
       border-radius: 32px;
     }
-
   }
 
   .items-count {
@@ -106,7 +108,7 @@
     margin: 0;
   }
 
-  &>.group-heading {
+  & > .group-heading {
     height: 40px;
   }
 }
