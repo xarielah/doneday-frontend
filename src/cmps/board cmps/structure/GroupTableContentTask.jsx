@@ -17,10 +17,11 @@ const GroupTableContentTask = ({ task, group }) => {
     const board = useSelector(state => state.boardModule.board);
 
     // The setNodeRef and style must remain on the root container.
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task._id });
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task._id });
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
+        zIndex: isDragging ? 30000 : 0,
     };
 
     const handleCellUpdate = async (cmpType, value) => {
