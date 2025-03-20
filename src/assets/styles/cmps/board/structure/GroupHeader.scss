@@ -137,6 +137,14 @@
   border: 1px solid $layout-border-color;
   border-left: none;
 
+  .timeline-container {
+    background-color: transparent;
+  }
+
+  .bottom-border {
+    border-bottom: none;
+  }
+
   .summary-cell {
     border-right: none;
   }
@@ -144,6 +152,7 @@
 
 .summary-collapsed-filler {
   // width: 841px;
+  width: 100%;
 }
 
 .group-collapsed-border {

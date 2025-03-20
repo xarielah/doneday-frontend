@@ -105,13 +105,13 @@ const GroupHeader = forwardRef(({ group, isCollapsed, setIsCollapsed, dndProps, 
         </section>
 
         {isCollapsed && cmpOrder.map(cmp => (
-            <div className="summary-collapsed">
-                <Text type="text2">{cmp}</Text>
+            <div className={`summary-collapsed ${cmp}-summary column-label-${cmp}`}>
+                <Text type="text2" className="column-label">{cmp}</Text>
                 <DynamicSummary key={cmp + " summery"} cmpType={cmp} group={group} />
             </div>
         ))}
-        {isCollapsed && <div className="summary-collapsed summary-collapsed-filler">
-        </div>}
+        {isCollapsed && <div {...dndProps} className="summary-collapsed summary-collapsed-filler column-filler">
+        </div >}
     </>
 
 })

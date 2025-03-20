@@ -56,7 +56,7 @@ const GroupContainer = ({ group }) => {
                     isCollapsed={isCollapsed}
                     setIsCollapsed={setIsCollapsed}
                 />
-                <div  {...attributes} {...listeners} className="spacer-div"></div>
+                {/* <div  {...attributes} {...listeners} className="spacer-div"></div> */}
             </div>
             {!isCollapsed && <GroupTableHeader group={group} />}
         </section>
