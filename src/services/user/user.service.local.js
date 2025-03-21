@@ -3,18 +3,27 @@ import { storageService } from '../async-storage.service'
 const demoUsers = [{
     "_id": "67d0854f9ac065be10afc10f",
     "username": "ariel",
+    "name": "Ariel Aharon",
+    "value": "67d0854f9ac065be10afc10f",
+    "label": "Ariel Aharon",
     "fullname": "Ariel Aharon",
     "imgUrl": "https://i.ibb.co/FbhJTgSD/ariel.png"
 },
 {
     "_id": "67dd75d4229db84f413b2bf5",
     "fullname": "Afik Yefet",
+    "name": "Afik Yefet",
+    "value": "67dd75d4229db84f413b2bf5",
+    "label": "Afik Yefet",
     "username": "afik",
     "imgUrl": "https://i.ibb.co/kgT2yyP0/afik.png"
 },
 {
     "_id": "67dd75f1229db84f413b2bf6",
     "fullname": "Dor Cohen",
+    "name": "Dor Cohen",
+    "value": "67dd75f1229db84f413b2bf6",
+    "label": "Dor Cohen",
     "username": "dor",
     "imgUrl": "https://i.ibb.co/yHS0XXM/b7ab07ca-abd4-42b0-941e-fec3ee5ed260.jpg"
 }]
@@ -34,11 +43,7 @@ export const userService = {
 }
 
 async function getUsers() {
-    const users = await storageService.query('user')
-    return users.map(user => {
-        delete user.password
-        return user
-    })
+    return structuredClone(demoUsers)
 }
 
 async function getById(userId) {
