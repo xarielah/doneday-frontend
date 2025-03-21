@@ -4,8 +4,12 @@
   position: relative;
 }
 
-.group-container:not(:first-child) {
+.compensate-ghost-div:not(:first-child) {
   margin-top: -76px;
+}
+
+.collapsed-group:not(:first-child) {
+  margin-top: -60px !important;
 }
 
 .ghost-div {
