@@ -168,3 +168,9 @@
   position: relative;
   top: 2px;
 }
+
+.group-header-container {
+  position: sticky;
+  top: 156px;
+  z-index: 2000;
+}

@@ -11,8 +11,9 @@ export function Board() {
     const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
     const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
     const { boardId } = useParams();
-    const isWatching = useRef(false)
+    const isWatching = useRef(false);
     const navigate = useNavigate();
+
 
     useEffect(() => {
         getById(boardId, filterBy, sortBy)

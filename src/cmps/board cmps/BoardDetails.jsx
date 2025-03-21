@@ -41,10 +41,11 @@ export function BoardDetails() {
         <DndContext sensors={sensors} onDragEnd={onDragEnd}>
             <section className="board-details">
                 <SortableContext items={boardGroupIds}>
-                    {board.groups.map(group => (
+                    {board.groups.map((group, index) => (
                         <GroupContainer
                             group={group}
                             key={group._id}
+                            index={index}
                             selectedTasks={selectedTasks}
                         />
                     ))}

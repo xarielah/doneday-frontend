@@ -55,9 +55,7 @@ export function BoardHeader() {
     }
 
     return (
-        <section
-            className="board-header"
-        >
+        <section className="board-header">
             <BoardHeaderTitleButtons />
             <BoardHeadersTabList />
             <BoardHeaderContextualActions onAddGroup={() => onAddGroup()} onAddTask={() => onAddTask()} />
