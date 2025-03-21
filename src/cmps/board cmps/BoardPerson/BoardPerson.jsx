@@ -1,11 +1,15 @@
 import { Avatar, Button, Dialog, DialogContentContainer, Heading, Icon } from "@vibe/core";
 import { Person } from "@vibe/icons";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { loadMembers } from "../../../store/actions/board.actions";
 
 export function BoardPerson() {
     const [isDialogOpen, setDialogOpen] = useState(false);
-    const allMembers = useSelector(storeState => storeState.boardModule.members)
+    const [allMembers, setAllMembers] = useState([])
+
+    useEffect(() => {
+        setAllMembers(loadMembers())
+    }, [])
 
     const handleCloseDialog = () => {
         setDialogOpen(false);
@@ -38,12 +42,12 @@ export function BoardPerson() {
                                 {allMembers?.length > 0 &&
                                     allMembers.map((member) => (
                                         <Avatar
-                                            key={member.name}
+                                            key={member.fullname}
                                             type="text"
                                             size="small"
-                                            text={member.name.substring(0, 1)}
-                                            backgroundColor={
-                                                member?.color ? member.color : "black"
+                                            text={member.fullname.substring(0, 1)}
+                                            src={
+                                                member?.imgUrl ? member.imgUrl : "https://vibe.monday.com/static/media/person1.dd0cd6ea.png"
                                             }
                                         />
                                     ))}
