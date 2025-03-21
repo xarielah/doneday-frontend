@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import { useSelector } from "react-redux";
-import { allMembers, boardService } from "../../services/board/board.service.local";
+import { boardService } from "../../services/board/board.service.local";
 import { makeId } from "../../services/util.service";
 import { updateBoard } from "../../store/actions/board.actions";
 import BoardHeaderContextualActions from "./BoardHeaderContextualActions";
@@ -35,7 +35,6 @@ export function BoardHeader() {
 
             let newTask = boardService.getEmptyTask()
             newTask.taskTitle = 'New task'
-            newTask.allMembers = allMembers;
             newTask._id = 't' + makeId();
             newTask.priority = 'tbd'
             newTask.status = 'draft'

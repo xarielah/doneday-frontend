@@ -93,8 +93,9 @@
 }
 
 .addMemberDialog {
-  z-index: 99;
+  z-index: 99999;
   position: absolute;
+  width: 330px;
 }
 
 /*.column-label-status, .column-label-priority, .group-sticky-columns {
@@ -130,7 +131,7 @@
 
 section.table-footer::after {
   display: block;
-  content: '';
+  content: "";
   width: 100%;
   left: 40px;
   position: absolute;
@@ -140,7 +141,6 @@ section.table-footer::after {
   border-bottom-left-radius: 4px;
   height: 36px;
 }
-
 
 .task-title.active-class {
   background-color: #cce5ff !important;

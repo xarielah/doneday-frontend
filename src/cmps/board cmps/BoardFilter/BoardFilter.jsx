@@ -3,7 +3,6 @@ import { Filter } from "@vibe/icons"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { priorityList, statusList } from "../../../services/board"
-import { allMembers } from "../../../services/board/board.service.local"
 import { setFilterBy } from "../../../store/actions/board.actions"
 import FilterBody from "./FilterBody"
 import FilterHeader from "./FilterHeader"
@@ -11,6 +10,7 @@ import FilterHeader from "./FilterHeader"
 export function BoardFilter() {
     const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
     const board = useSelector(storeState => storeState.boardModule.board)
+    const allMembers = useSelector(storeState => storeState.boardModule.members)
     const boards = useSelector(storeState => storeState.boardModule.boards)
     const [isFilter, setIsFilter] = useState(false)
     const unfilteredBoard = boards.filter(unfilteredBoard => unfilteredBoard._id === board._id)[0]

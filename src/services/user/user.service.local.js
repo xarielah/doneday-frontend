@@ -1,5 +1,24 @@
 import { storageService } from '../async-storage.service'
 
+const demoUsers = [{
+    "_id": "67d0854f9ac065be10afc10f",
+    "username": "ariel",
+    "fullname": "Ariel Aharon",
+    "imgUrl": "https://i.ibb.co/FbhJTgSD/ariel.png"
+},
+{
+    "_id": "67dd75d4229db84f413b2bf5",
+    "fullname": "Afik Yefet",
+    "username": "afik",
+    "imgUrl": "https://i.ibb.co/kgT2yyP0/afik.png"
+},
+{
+    "_id": "67dd75f1229db84f413b2bf6",
+    "fullname": "Dor Cohen",
+    "username": "dor",
+    "imgUrl": "https://i.ibb.co/yHS0XXM/b7ab07ca-abd4-42b0-941e-fec3ee5ed260.jpg"
+}]
+
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 export const userService = {
@@ -35,7 +54,7 @@ async function update({ _id, score }) {
     user.score = score
     await storageService.put('user', user)
 
-	// When admin updates other user's details, do not update loggedinUser
+    // When admin updates other user's details, do not update loggedinUser
     const loggedinUser = getLoggedinUser()
     if (loggedinUser._id === user._id) saveLoggedinUser(user)
 
@@ -43,8 +62,8 @@ async function update({ _id, score }) {
 }
 
 async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
+    // const users = await storageService.query('user')
+    const user = demoUsers.find(user => user.username === userCred.username)
 
     if (user) return saveLoggedinUser(user)
 }
@@ -66,15 +85,15 @@ function getLoggedinUser() {
 }
 
 function saveLoggedinUser(user) {
-	user = { 
-        _id: user._id, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
-        score: user.score, 
-        isAdmin: user.isAdmin 
+    user = {
+        _id: user._id,
+        fullname: user.fullname,
+        imgUrl: user.imgUrl,
+        score: user.score,
+        isAdmin: user.isAdmin
     }
-	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-	return user
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    return user
 }
 
 // To quickly create an admin user, uncomment the next line

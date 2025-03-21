@@ -1,7 +1,7 @@
 import { EditableText } from "@vibe/core"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { allMembers, boardService } from "../../../services/board/board.service.local"
+import { boardService } from "../../../services/board/board.service.local"
 import { makeId } from "../../../services/util.service"
 import { updateBoard } from "../../../store/actions/board.actions"
 import GroupColumnFiller from "./GroupColumnFillter"
@@ -25,7 +25,6 @@ const GroupTableFooter = ({ group }) => {
             const groupId = group._id
 
             let newTask = boardService.getEmptyTask()
-            newTask.allMembers = allMembers;
             newTask._id = 't' + makeId();
             newTask.priority = 'tbd'
             newTask.status = 'draft'

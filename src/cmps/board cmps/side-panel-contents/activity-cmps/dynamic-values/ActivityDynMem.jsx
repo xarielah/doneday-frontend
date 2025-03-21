@@ -2,10 +2,11 @@ import { Avatar, Text } from "@vibe/core";
 
 export default function ActivityDynMem({ prev, next }) {
     const { action, user } = detectUserChange(prev, next);
+    console.log("🚀 ~ ActivityDynMem ~ user:", user)
 
     return <div className="activity-dyn-mem elipsis">
-        {user.avatar && <Avatar type="img" src={user.avatar} size="small" className="keep-aspect " />}
-        {!user.avatar && <Avatar type="text" backgroundColor={user.color} text={user.name.substring(0, 1)} size="small" className="keep-aspect " />}
+        {(user.avatar || user.imgUrl) && <Avatar type="img" src={user.avatar || user.imgUrl} size="small" className="keep-aspect " />}
+        {(!user.avatar && !user.imgUrl) && <Avatar type="text" backgroundColor={user.color} text={user.name.substring(0, 1)} size="small" className="keep-aspect " />}
         <Text type="text2">{user.name} was {action}.</Text>
     </div>
 }
