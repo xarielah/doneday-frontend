@@ -1,11 +1,17 @@
 
 import { boardService } from '../../services/board';
+import { userService } from '../../services/user';
 
-import { REMOVE_BOARD, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_SORT } from '../reducers/board.reducer';
+import { REMOVE_BOARD, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_MEMBERS, SET_SORT } from '../reducers/board.reducer';
 import { store } from '../store';
 
+export async function loadMembers() {
+    const users = await userService.getUsers();
+    store.dispatch(getCmdSetMembers(users));
+}
+
 // Get Boards
-export async function loadBoards(filterBy = {}) {
+export async function loadBoards() {
     try {
         const boards = await boardService.query();
         store.dispatch(getCmdSetBoards(boards));
@@ -117,4 +123,8 @@ function getCmdFilterBy(filterBy) {
 }
 function getCmdSortBy(sortBy) {
     return { type: SET_SORT, sortBy };
+}
+
+function getCmdSetMembers(members) {
+    return { type: SET_MEMBERS, members };
 }

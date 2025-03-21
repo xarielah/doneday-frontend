@@ -17,6 +17,7 @@ const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks);
     const cmpOrder = useSelector(state => state.boardModule.cmpOrder);
     const board = useSelector(state => state.boardModule.board);
+    const members = useSelector(state => state.boardModule.members);
 
     // The setNodeRef and style must remain on the root container.
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task._id });
@@ -38,14 +39,15 @@ const GroupTableContentTask = ({ task, group }) => {
 
             const previousValue = structuredClone(foundTask[cmpType]);
             foundTask[cmpType] = value;
+            console.log("🚀 ~ handleCellUpdate ~ foundTask[cmpType]:", foundTask[cmpType])
+
+            const loggedUser = userService.getLoggedinUser();
 
             const user = {
-                _id: 'user101',
-                name: 'User 101',
-                avatar: ''
+                _id: loggedUser._id,
+                name: loggedUser.fullname,
+                avatar: loggedUser.imgUrl
             };
-
-            // TODO: insert real user here
 
             const newActivity = {
                 _id: makeId(),
@@ -103,7 +105,6 @@ const GroupTableContentTask = ({ task, group }) => {
 
             const activities = [newActivity, ...(Array.isArray(foundTask.activities) ? foundTask.activities : [])];
             foundTask.activities = activities;
-            console.log("🚀 ~ handleChangeTitle ~ foundTask.activities:", foundTask.activities)
 
             await updateBoard(newBoard);
         } catch (error) {
@@ -158,7 +159,6 @@ const GroupTableContentTask = ({ task, group }) => {
                         key={cmpType}
                         cmpType={cmpType}
                         info={task[cmpType]}
-                        allMembers={cmpType === 'members' ? task['allMembers'] : ''}
                         onTaskUpdate={(value) => handleCellUpdate(cmpType, value)}
                     />
                 )}

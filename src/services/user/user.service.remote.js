@@ -14,8 +14,14 @@ export const userService = {
 	saveLoggedinUser,
 }
 
-function getUsers() {
-	return httpService.get(`user`)
+async function getUsers() {
+	const users = await httpService.get(`user`)
+	for (let user of users) {
+		user.label = user.fullname
+		user.name = user.fullname
+		user.value = user.fullname
+	}
+	return users;
 }
 
 async function getById(userId) {

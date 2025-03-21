@@ -13,6 +13,7 @@ import { boardService } from "../../../services/board/board.service.local";
 import { getRandomColor, makeId } from "../../../services/util.service";
 import { addBoard, getById, removeBoard } from "../../../store/actions/board.actions";
 import { AddBoardCmp } from "../AddBoardCmp";
+import { EditBoardCmp } from "../EditBoardCmp";
 import WorkspacesDropdown from "./WorkspacesDropdown";
 import WorkspaceTitle from "./WorkspaceTitle";
 
@@ -23,9 +24,11 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
     const [isOpen, setIsOpen] = useState(false)
     const [isAddBoard, setIsAddBoard] = useState(false)
+    const [isEditedBoard, setIsEditedBoard] = useState(false)
     const [searchValue, setSearchValue] = useState("")
     const [selectedBoard, setSelectedBoard] = useState("Main Board")
     const [addedBoard, setAddedBoard] = useState({ name: '' })
+    const [editedBoard, setEditedBoard] = useState({ name: '' })
     const [isDuplicate, setIsDuplicate] = useState(false)
 
     useEffect(() => {
@@ -55,14 +58,16 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
     async function handleSaveBoard() {
         let boardToSave = { ...addedBoard }
-        boardToSave.groups = [
-            {
-                _id: makeId(),
-                name: 'New Group',
-                color: getRandomColor(),
-                tasks: []
-            }
-        ];
+        if (boardToSave.groups.length === 0) {
+            boardToSave.groups = [
+                {
+                    _id: makeId(),
+                    name: 'New Group',
+                    color: getRandomColor(),
+                    tasks: []
+                }
+            ];
+        }
         return addBoard(boardToSave)
             .then((savedboard) => {
                 handleCloseModal();
@@ -120,6 +125,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     }
 
     function onRenameBoard(board) {
+        setIsDuplicate(false)
         setAddedBoard(prev => ({ ...prev, ...board }))
         setIsAddBoard(true)
     }
@@ -192,9 +198,9 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                             <Menu id="menu" size={Menu.sizes.MEDIUM}>
                                 <MenuItem icon={ExternalPage} onClick={() => openBoardLink(board._id)} iconType="svg" title="Open in new tab" />
                                 <MenuDivider />
+                                <MenuItem onClick={() => onRenameBoard(board)} icon={Edit} title="Rename" />
                                 <MenuItem onClick={() => openDuplicateModal(board.name, board._id)} icon={Duplicate} title="Duplicate board" />
                                 <MenuItem onClick={() => onRemoveBoard(board._id)} icon={Delete} title="Delete board" disabled={boards.length === 1} />
-                                <MenuItem onClick={() => onRenameBoard(board)} icon={Edit} title="Rename board" />
                                 <MenuDivider />
                                 <MenuItem icon={Favorite} title="Add to favorite" />
                             </Menu>
@@ -211,6 +217,12 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                 show={isAddBoard}
                 onClose={handleCloseModal}
                 isDuplicate={isDuplicate}
+            />
+            <EditBoardCmp
+                editedBoard={editedBoard}
+                show={isEditedBoard}
+                onClose={handleCloseModal}
+
             />
         </>
     );

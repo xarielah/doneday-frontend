@@ -1,12 +1,11 @@
-import { Button, Dialog, DialogContentContainer, Text, Heading, Link, Icon, AvatarGroup, Avatar } from "@vibe/core";
+import { Avatar, Button, Dialog, DialogContentContainer, Heading, Icon } from "@vibe/core";
 import { Person } from "@vibe/icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { allMembers } from "../../../services/board/board.service.local";
 
 export function BoardPerson() {
     const [isDialogOpen, setDialogOpen] = useState(false);
-    const board = useSelector(storeState => storeState.boardModule.board)
+    const allMembers = useSelector(storeState => storeState.boardModule.members)
 
     const handleCloseDialog = () => {
         setDialogOpen(false);

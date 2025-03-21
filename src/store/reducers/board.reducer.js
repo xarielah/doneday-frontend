@@ -11,6 +11,8 @@ export const SET_CMP_ORDER = 'SET_CMP_ORDER';
 
 export const ADD_MEMBERS = 'ADD_MEMBERS'
 
+export const SET_MEMBERS = 'SET_MEMBERS'
+
 export const SET_GLOBALLY_COLLAPSED = 'SET_GLOBALLY_COLLAPSED';
 
 export const REMOVE_SELECTED_TASK = 'REMOVE_SELECTED_TASK';
@@ -32,7 +34,8 @@ const initialState = {
         // "date",
         "timeline",
         "link"],
-    isGloballyCollapsed: false
+    isGloballyCollapsed: false,
+    members: [],
 };
 
 export function boardReducer(state = initialState, action) {
@@ -106,6 +109,12 @@ export function boardReducer(state = initialState, action) {
                 }
             };
         }
+
+        case SET_MEMBERS:
+            return {
+                ...state,
+                members: action.members
+            }
 
         case REMOVE_SELECTED_TASK:
             return {

@@ -11,15 +11,13 @@ import {
 } from "@vibe/core";
 import { Add, Search } from "@vibe/icons";
 import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import { debounce } from "../../../services/util.service";
 
-export function Member({ info, allMembers, onTaskUpdate }) {
+export function Member({ info, onTaskUpdate }) {
+    const allMembers = useSelector(state => state.boardModule.members)
     const [infoState, setInfoState] = useState(info);
-    const [allAvailableMembers, setAllAvailableMembers] = useState(() => {
-        return allMembers.filter(member =>
-            !info.some(infoMember => infoMember.name === member.name)
-        );
-    });
+    const [allAvailableMembers, setAllAvailableMembers] = useState([]);
     const [isAddButtonVisible, setIsAddButtonVisible] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -27,20 +25,24 @@ export function Member({ info, allMembers, onTaskUpdate }) {
     const [selectedMembers, setSelectedMembers] = useState([]);
 
     useEffect(() => {
-        const uniqueMembers = [];
-        const seenNames = new Set();
+        setAllAvailableMembers(allMembers.filter(member => !info.some(infoMember => infoMember._id === member._id)))
+    }, [allMembers])
 
-        allAvailableMembers.forEach(member => {
-            if (!seenNames.has(member.name)) {
-                seenNames.add(member.name);
-                uniqueMembers.push(member);
-            }
-        });
+    // useEffect(() => {
+    //     const uniqueMembers = [];
+    //     const seenNames = new Set();
 
-        if (uniqueMembers.length !== allAvailableMembers.length) {
-            setAllAvailableMembers(uniqueMembers);
-        }
-    }, [allAvailableMembers]);
+    //     allAvailableMembers.forEach(member => {
+    //         if (!seenNames.has(member.name)) {
+    //             seenNames.add(member.name);
+    //             uniqueMembers.push(member);
+    //         }
+    //     });
+
+    //     if (uniqueMembers.length !== allAvailableMembers.length) {
+    //         setAllAvailableMembers(uniqueMembers);
+    //     }
+    // }, [allAvailableMembers]);
 
     const openDialog = () => setIsDialogOpen(true);
     const closeDialog = () => {
@@ -71,36 +73,36 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         debouncedUpdate(value);
     };
 
-    const handleRemoveMember = (memberName) => {
-        const updatedInfo = infoState.filter((member) => member.name !== memberName);
-        const memberToRemove = infoState.find((member) => member.name === memberName);
+    const handleRemoveMember = (memberId) => {
+        const updatedInfo = infoState.filter((member) => member._id !== memberId);
+        const memberToRemove = infoState.find((member) => member._id === memberId);
 
         if (memberToRemove) {
-            const originalMember = allMembers.find(m => m.name === memberName);
+            const originalMember = allMembers.find(m => m._id === memberId);
 
             if (originalMember) {
-                const filtered = allAvailableMembers.filter(m => m.name !== memberName);
+                const filtered = allAvailableMembers.filter(m => m._id !== memberId);
 
                 setAllAvailableMembers([
                     ...filtered,
-                    { name: originalMember.name, color: originalMember.color }
+                    { ...originalMember }
                 ]);
 
                 setInfoState(updatedInfo);
-                setSelectedMembers(prev => prev.filter(name => name !== memberName));
+                setSelectedMembers(prev => prev.filter(id => id !== memberId));
                 onTaskUpdate(updatedInfo);
             }
         }
     };
 
-    const toggleMemberSelection = (memberName, isCtrlPressed) => {
+    const toggleMemberSelection = (memberId, isCtrlPressed) => {
         const updatedMembers = isCtrlPressed
-            ? selectedMembers.includes(memberName)
-                ? selectedMembers.filter((name) => name !== memberName)
-                : [...selectedMembers, memberName]
-            : selectedMembers.includes(memberName)
+            ? selectedMembers.includes(memberId)
+                ? selectedMembers.filter((id) => id !== memberId)
+                : [...selectedMembers, memberId]
+            : selectedMembers.includes(memberId)
                 ? []
-                : [memberName];
+                : [memberId];
 
         setSelectedMembers(updatedMembers);
 
@@ -109,22 +111,22 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         }
     };
 
-    const updateServiceWithMembers = (newMemberNames) => {
-        if (!newMemberNames.length) {
+    const updateServiceWithMembers = (newMemberIds) => {
+        if (!newMemberIds.length) {
             return;
         }
 
         const memberPool = [...allMembers, ...allAvailableMembers];
 
-        const structuredMembers = newMemberNames.map(memberName => {
+        const structuredMembers = newMemberIds.map(newMemberId => {
             const memberSet = new Set(memberPool.map(m => JSON.stringify(m)));
             const members = Array.from(memberSet).map(m => JSON.parse(m));
 
-            const member = members.find(m => m.name === memberName);
-            return member ? { name: member.name, color: member.color } : null;
+            const member = members.find(m => m._id === newMemberId);
+            return member ? member : null;
         }).filter(Boolean);
 
-        if (!structuredMembers.length) {
+        if (!newMemberIds.length) {
             // alert("No member data found.");
             return;
         }
@@ -132,7 +134,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
         const updatedInfo = [...infoState, ...structuredMembers];
 
         const updatedAllAvailableMembers = allAvailableMembers.filter(
-            member => !newMemberNames.includes(member.name)
+            member => !newMemberIds.includes(member._id)
         );
 
         setInfoState(updatedInfo);
@@ -143,7 +145,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
     const filteredMembers = (allAvailableMembers ? allAvailableMembers.filter(
         (member) =>
             member.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) &&
-            !infoState.some((infoMember) => infoMember.name === member.name)
+            !infoState.some((infoMember) => infoMember._id === member._id)
     ) : '');
 
     const avatarMax = infoState.length > 3 ? 3 : infoState.length;
@@ -160,14 +162,14 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                     showTrigger={[]}
                     onClose={closeDialog}
                     title="Add Members"
-                    width="large"
                     position="top"
+                    isOpen
                     zIndex="999"
                     className="dialogMembers"
                 >
                     <DialogContentContainer
                         className="addMemberDialog"
-                        size="large"
+                        size={DialogContentContainer.sizes.LARGE}
                         type="modal"
                     >
                         <div
@@ -178,7 +180,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                 marginBottom: "20px",
                             }}
                         >
-                            {infoState.map((member) => (
+                            {infoState && infoState.length > 0 && infoState.map((member) => (
                                 <div
                                     key={member.name}
                                     style={{
@@ -193,7 +195,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                     }}
                                 >
                                     <button
-                                        onClick={() => handleRemoveMember(member.name)}
+                                        onClick={() => handleRemoveMember(member._id)}
                                         style={{
                                             display: "flex",
                                             alignItems: "center",
@@ -204,17 +206,23 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                         }}
                                         aria-label={`Remove ${member.name}`}
                                     >
-                                        <Avatar
-                                            type="text"
-                                            text={member.name.substring(0, 2)}
-                                            backgroundColor={member?.color || "#6200ea"}
+                                        {member.imgUrl && <Avatar
+                                            type="img"
+                                            src={member.imgUrl}
                                             ariaLabel={member.name}
                                             size="small"
-                                        />
+                                        />}
+                                        {!member.imgUrl && <Avatar
+                                            type="text"
+                                            text={member.name.substring(0, 1)}
+                                            backgroundColor={member?.color || "black"}
+                                            ariaLabel={member.name}
+                                            size="small"
+                                        />}
                                     </button>
                                     <span style={{ margin: "0 8px" }}>{member.name}</span>
                                     <button
-                                        onClick={() => handleRemoveMember(member.name)}
+                                        onClick={() => handleRemoveMember(member._id)}
                                         style={{
                                             background: "none",
                                             border: "none",
@@ -261,9 +269,9 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                             {filteredMembers.length > 0 &&
                                 filteredMembers.map((member) => (
                                     <Button
-                                        key={member.name}
+                                        key={member._id}
                                         kind={
-                                            selectedMembers.includes(member.name)
+                                            selectedMembers.includes(member._id)
                                                 ? "primary"
                                                 : "tertiary"
                                         }
@@ -273,7 +281,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                         }}
                                         onClick={(e) =>
                                             toggleMemberSelection(
-                                                member.name,
+                                                member._id,
                                                 e.ctrlKey || e.metaKey
                                             )
                                         }
@@ -287,7 +295,14 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                                 color: "#000",
                                             }}
                                         >
-                                            <Avatar
+                                            {member.imgUrl && <Avatar
+                                                key={member.name}
+                                                type="img"
+                                                src={member.imgUrl}
+                                                ariaLabel={member.name}
+                                                size="small"
+                                            />}
+                                            {!member.imgUrl && <Avatar
                                                 key={member.name}
                                                 type="text"
                                                 text={member.name.substring(0, 1)}
@@ -296,7 +311,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                                                 }
                                                 ariaLabel={member.name}
                                                 size="small"
-                                            />
+                                            />}
                                             <span style={{ marginLeft: "5px" }}>
                                                 {member.name}
                                             </span>
@@ -320,7 +335,7 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                             <Add />
                         </IconButton>
                     )}
-                {infoState?.length === 1 &&
+                {(infoState?.length === 1 && !infoState[0].imgUrl) &&
                     <Avatar
                         key={infoState[0].name}
                         type="text"
@@ -332,6 +347,15 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                         ariaLabel={infoState[0].name}
                     />
                 }
+                {(infoState?.length === 1 && infoState[0].imgUrl) &&
+                    <Avatar
+                        key={infoState[0].name}
+                        type="img"
+                        size="small"
+                        src={infoState[0].imgUrl}
+                        ariaLabel={infoState[0].name}
+                    />
+                }
                 {infoState?.length > 1 && <AvatarGroup
                     size="small"
                     max={avatarMax}
@@ -339,17 +363,29 @@ export function Member({ info, allMembers, onTaskUpdate }) {
                         ariaLabelItemsName: "teams",
                     }}
                 >
-                    {infoState.map((member) => (
-                        <Avatar
-                            key={member.name}
-                            type="text"
-                            text={member.name.substring(0, 1)}
-                            backgroundColor={
-                                member?.color ? member.color : "black"
-                            }
-                            ariaLabel={member.name}
-                        />
-                    ))}
+                    {infoState.map((member) => {
+                        if (member.imgUrl) {
+                            return <Avatar
+                                key={member.name}
+                                type="img"
+                                src={member.imgUrl}
+                                backgroundColor={
+                                    member?.color ? member.color : "black"
+                                }
+                                ariaLabel={member.name}
+                            />
+                        } else if (!member.imgUrl) {
+                            return <Avatar
+                                key={member.name}
+                                type="text"
+                                text={member.name.substring(0, 1)}
+                                backgroundColor={
+                                    member?.color ? member.color : "black"
+                                }
+                                ariaLabel={member.name}
+                            />
+                        }
+                    })}
                 </AvatarGroup>
                 }
                 {infoState?.length === 0 && <img src="https://cdn.monday.com/icons/dapulse-person-column.svg" width={24} height={24} />}

@@ -1,7 +1,6 @@
-
 import { storageService } from '../async-storage.service';
 import { generateBoardName, generateGroupName, generateTaskName, getRandomColor, makeId } from '../util.service';
-
+import { priorityList, statusList } from './board-values';
 
 
 const STORAGE_KEY = 'boardDB'
@@ -34,6 +33,8 @@ export const boardService = {
     // Storage Key
     STORAGE_KEY
 };
+
+
 export const allMembers = [
     { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
     { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
@@ -234,7 +235,6 @@ function getEmptyTask(groupId) {
         groupId,
         members: [],
         replies: [],
-        allMembers: allMembers,
         date: '',
         status: '',
         priority: '',
@@ -251,7 +251,6 @@ function generateTask(groupId = '') {
         taskTitle: generateTaskName(),
         groupId,
         members: getRandomMembers(),
-        allMembers: allMembers,
         timeline: {
             startDate: '',
             endDate: ''
@@ -370,3 +369,4 @@ function getDateFilters() {
         { label: 'Upcoming', value: { start: upcomingStart, end: upcomingEnd } }
     ];
 }
+
