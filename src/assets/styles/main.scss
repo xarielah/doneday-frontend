@@ -21,8 +21,8 @@
 @use "./cmps/BoardDynamicCmps/Timeline";
 
 // Board Stuff
-@use "./cmps/Board/Board.scss";
-@use "./cmps/Board/BoardHeader.scss";
+@use "./cmps/Board/Board";
+@use "./cmps/Board/BoardHeader";
 @use "./cmps/Board/CrudleBar";
 @use "./cmps/Board/BoardFilter";
 @use "./cmps/Board/BoardSort";
