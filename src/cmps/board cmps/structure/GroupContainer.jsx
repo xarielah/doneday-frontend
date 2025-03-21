@@ -9,12 +9,12 @@ import GroupSummaryRow from "./GroupSummaryRow";
 import GroupTableContent from "./GroupTableContent";
 import GroupTableFooter from "./GroupTableFooter";
 import GroupTableHeader from "./GroupTableHeader";
-
-const GroupContainer = ({ group }) => {
+const GroupContainer = ({ group, index }) => {
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { attributes, listeners, setNodeRef: setDraggableRef, transform, transition, isDragging } = useSortable({ id: group?._id || "", activationConstraint: { distance: 5 } });
     const { setNodeRef: setDroppableRef } = useDroppable({ id: group._id });
+
     const previousCollapsedValue = useRef(isCollapsed);
     const { isGloballyCollapsed } = useSelector(state => state.boardModule)
     const dispatch = useDispatch();
@@ -44,8 +44,8 @@ const GroupContainer = ({ group }) => {
         transition,
         zIndex: isDragging ? 3000 : 0,
     };
-    return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={style}>
-        <section role="rowheader" className="group-header-container">
+    return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={{ zIndex: 2000 - (index * 10), ...style }}>
+        <section role="rowheader" className="group-header-container" >
             <div className="group-title-container">
                 {isCollapsed && <div className="pre-collapsed-filler"></div>}
                 <GroupHeader
@@ -56,7 +56,6 @@ const GroupContainer = ({ group }) => {
                     isCollapsed={isCollapsed}
                     setIsCollapsed={setIsCollapsed}
                 />
-                {/* <div  {...attributes} {...listeners} className="spacer-div"></div> */}
             </div>
             {!isCollapsed && <GroupTableHeader group={group} />}
         </section>
@@ -69,6 +68,7 @@ const GroupContainer = ({ group }) => {
                     <GroupTableFooter group={group} onAddTask={handleOnAddTask} />
                     <GroupSummaryRow group={group} />
                 </footer>
+                <div className="ghost-div"></div>
             </>
         }
     </section >
