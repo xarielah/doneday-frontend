@@ -24,7 +24,7 @@ export function Board() {
         return () => {
             socketService.emit('unwatch-board', boardId)
         }
-    }, [boardId])
+    }, [boardId, filterBy, sortBy])
 
 
     useEffect(() => {
