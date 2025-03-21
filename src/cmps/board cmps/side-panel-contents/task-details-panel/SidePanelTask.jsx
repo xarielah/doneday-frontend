@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SidePanelWrapper from "../SidePanelWrapper";
+import SidePanelTaskActivity from "./SidePanelTaskActivity";
 import SidePanelTaskContentTabs from "./SidePanelTaskContentTabs";
-import SidePanelTaskFiles from "./SidePanelTaskFiles";
 import SidePanelTaskMessages from "./SidePanelTaskMessages";
 
 const tabs = {
     messages: 0,
-    files: 2,
+    activity: 2,
 }
 
 const SidePanelTask = () => {
@@ -36,7 +36,7 @@ const SidePanelTask = () => {
     return <SidePanelWrapper heading={task?.taskTitle || 'loading...'}>
         <SidePanelTaskContentTabs onTabChange={setCurrentTab} />
         {currentTab === tabs.messages && <SidePanelTaskMessages task={task} />}
-        {currentTab === tabs.files && <SidePanelTaskFiles />}
+        {currentTab === tabs.activity && <SidePanelTaskActivity task={task} />}
     </SidePanelWrapper>
 }
 

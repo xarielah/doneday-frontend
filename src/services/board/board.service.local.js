@@ -1,7 +1,6 @@
-
 import { storageService } from '../async-storage.service';
 import { generateBoardName, generateGroupName, generateTaskName, getRandomColor, makeId } from '../util.service';
-
+import { priorityList, statusList } from './board-values';
 
 
 const STORAGE_KEY = 'boardDB'
@@ -34,28 +33,12 @@ export const boardService = {
     // Storage Key
     STORAGE_KEY
 };
+
+
 export const allMembers = [
     { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
     { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
     { name: "Afik", label: "Afik", value: "Afik", color: "#fb275d" }
-]
-
-export const statusList = [
-    { value: 'done', label: 'Done', className: 'status-done' },
-    { value: 'wip', label: 'Working on it', className: 'status-wip' },
-    { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
-    { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
-    { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
-    { value: 'design', label: 'In Design', className: 'status-design' },
-    { value: 'draft', label: 'Draft', className: 'status-draft' },
-]
-
-export const priorityList = [
-    { value: 'low', label: 'Low', className: 'priority-low' },
-    { value: 'medium', label: 'Medium', className: 'priority-medium' },
-    { value: 'high', label: 'High', className: 'priority-high' },
-    { value: 'critical', label: 'Critical ⚠️', className: 'priority-critical' },
-    { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
 ]
 
 _checkForDummyData();
@@ -252,7 +235,6 @@ function getEmptyTask(groupId) {
         groupId,
         members: [],
         replies: [],
-        allMembers: allMembers,
         date: '',
         status: '',
         priority: '',
@@ -269,7 +251,6 @@ function generateTask(groupId = '') {
         taskTitle: generateTaskName(),
         groupId,
         members: getRandomMembers(),
-        allMembers: allMembers,
         timeline: {
             startDate: '',
             endDate: ''
@@ -388,3 +369,4 @@ function getDateFilters() {
         { label: 'Upcoming', value: { start: upcomingStart, end: upcomingEnd } }
     ];
 }
+

@@ -12,7 +12,7 @@ export const SET_SCORE = 'SET_SCORE'
 const initialState = {
     users: [],
     user: userService.getLoggedinUser(),
-    watchedUser: null
+    watchedUser: null,
 }
 
 export function userReducer(state = initialState, action) {
@@ -49,9 +49,5 @@ export function userReducer(state = initialState, action) {
             break
         default:
     }
-    // For debug:
-    // window.userState = newState
-    // console.log('State:', newState)
     return newState
-
 }

@@ -2,7 +2,7 @@ import { Button, Dialog, DialogContentContainer, Icon } from "@vibe/core"
 import { Filter } from "@vibe/icons"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { allMembers, priorityList, statusList } from "../../../services/board/board.service.local"
+import { priorityList, statusList } from "../../../services/board"
 import { setFilterBy } from "../../../store/actions/board.actions"
 import FilterBody from "./FilterBody"
 import FilterHeader from "./FilterHeader"
@@ -10,6 +10,7 @@ import FilterHeader from "./FilterHeader"
 export function BoardFilter() {
     const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
     const board = useSelector(storeState => storeState.boardModule.board)
+    const allMembers = useSelector(storeState => storeState.boardModule.members)
     const boards = useSelector(storeState => storeState.boardModule.boards)
     const [isFilter, setIsFilter] = useState(false)
     const unfilteredBoard = boards.filter(unfilteredBoard => unfilteredBoard._id === board._id)[0]
@@ -32,7 +33,6 @@ export function BoardFilter() {
         { title: "Priority", options: priorityList },
         { title: "Status", options: statusList },
         { title: "Members", options: allMembers },
-        // { title: "Timeline", options: boardService.getDateFilters() },
     ]
 
     function countBoardTasks(board) {
@@ -89,8 +89,6 @@ export function BoardFilter() {
 
     const totalTasks = countBoardTasks(unfilteredBoard)
     const filteredTasks = countBoardTasks(board)
-
-
 
     return (
         <section className="board-filter">

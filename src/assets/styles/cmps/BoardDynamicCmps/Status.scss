@@ -1,3 +1,6 @@
+@use "../../setup/mixins" as *;
+@use "../../setup/variables" as *;
+
 .fancy-value-picker {
   display: flex;
   align-items: center;

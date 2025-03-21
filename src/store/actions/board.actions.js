@@ -1,12 +1,17 @@
 
-import { boardService } from '../../services/board/board.service.local';
+import { boardService } from '../../services/board';
+import { userService } from '../../services/user';
 
-import { SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_SORT } from '../reducers/board.reducer';
+import { REMOVE_BOARD, SET_BOARD, SET_BOARDS, SET_CMP_ORDER, SET_FILTER, SET_MEMBERS, SET_SORT } from '../reducers/board.reducer';
 import { store } from '../store';
 
-loadBoards()
+export async function loadMembers() {
+    const users = await userService.getUsers();
+    store.dispatch(getCmdSetMembers(users));
+}
+
 // Get Boards
-export async function loadBoards(filterBy = {}) {
+export async function loadBoards() {
     try {
         const boards = await boardService.query();
         store.dispatch(getCmdSetBoards(boards));
@@ -38,8 +43,7 @@ export async function setBoard(board) {
 export async function removeBoard(boardId) {
     try {
         await boardService.remove(boardId);
-        const boards = await boardService.query()
-        store.dispatch(getCmdSetBoards(boards));
+        store.dispatch(getCmdRemoveBoard(boardId))
     } catch (err) {
         console.error('Board Action -> Cannot remove board', err);
         throw err;
@@ -65,8 +69,6 @@ export async function updateBoard(board) {
     try {
         const savedBoard = await boardService.save(board);
         store.dispatch(getCmdSetBoard(savedBoard));
-        const boards = await boardService.query()
-        store.dispatch(getCmdSetBoards(boards));
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
@@ -76,9 +78,7 @@ export async function updateBoard(board) {
 // Update Board Without setting it a current board
 export async function updateBoardOnBackground(board) {
     try {
-        const savedBoard = await boardService.save(board);
-        const boards = await boardService.query()
-        store.dispatch(getCmdSetBoards(boards));
+        await boardService.save(board);
     } catch (err) {
         console.error('Board Action -> Cannot save board', err)
         throw err
@@ -104,8 +104,12 @@ export function setSortBy(sortBy) {
 function getCmdSetBoards(boards) {
     return { type: SET_BOARDS, boards };
 }
-function getCmdSetBoard(board) {
+export function getCmdSetBoard(board) {
     return { type: SET_BOARD, board };
+}
+
+function getCmdRemoveBoard(boardId) {
+    return { type: REMOVE_BOARD, boardId }
 }
 
 // Component Order Command
@@ -119,4 +123,8 @@ function getCmdFilterBy(filterBy) {
 }
 function getCmdSortBy(sortBy) {
     return { type: SET_SORT, sortBy };
+}
+
+function getCmdSetMembers(members) {
+    return { type: SET_MEMBERS, members };
 }

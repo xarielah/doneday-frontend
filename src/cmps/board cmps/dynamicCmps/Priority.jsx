@@ -1,7 +1,7 @@
 import { Dialog, DialogContentContainer, useSwitch } from "@vibe/core";
+import { priorityList } from "../../../services/board";
 import { cn } from "../../../services/util.service";
 import DialogValuePicker from "./DialogValuesPicker";
-import { priorityList } from "../../../services/board/board.service.local";
 
 const modifiers = [
     {

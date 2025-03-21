@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { boardService } from "../../../../services/board/board.service.local";
+import { userService } from "../../../../services/user";
 import { updateBoard } from "../../../../store/actions/board.actions";
 import SidePanelUpdateList from "./updates/SidePanelUpdateList";
 import SidePanelWriteUpdate from "./updates/SidePanelWriteUpdate";
@@ -54,6 +55,13 @@ const SidePanelTaskMessages = ({ task }) => {
             const newUpdate = boardService.getEmptyReply();
             newUpdate.text = newUpdateText;
             newUpdate.groupId = task.groupId;
+
+            const loggedUser = userService.getLoggedinUser();
+            newUpdate.by = {
+                _id: loggedUser._id,
+                name: loggedUser.fullname,
+                avatar: loggedUser.imgUrl,
+            }
 
             const newBoard = { ...board };
             let foundTask = false;

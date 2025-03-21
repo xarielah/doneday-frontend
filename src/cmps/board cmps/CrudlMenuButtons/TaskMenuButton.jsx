@@ -228,6 +228,7 @@ export function TaskMenuButton({ task, group, crudlType }) {
                             icon={Delete}
                             onClick={() => onGroupRemove(group._id)}
                             title="Delete group"
+                            disabled={board.groups.length === 1}
                         />
                     </Menu>
                 </DialogContentContainer>)

@@ -1,7 +1,7 @@
 import { Dialog, DialogContentContainer, useSwitch } from "@vibe/core";
 import React, { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
-import { statusList } from "../../../services/board/board.service.local";
+import { statusList } from "../../../services/board";
 import { cn } from "../../../services/util.service";
 import { DialogValuePicker } from "./DialogValuesPicker";
 

@@ -1,3 +1,5 @@
+@use "../../setup/variables" as *;
+
 .update-preview {
   $panel-spacings: 16px;
   border: 1px solid $ui-border-color;

@@ -3,6 +3,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { EditableText } from "@vibe/core";
 import { useSelector } from "react-redux";
+import { userService } from "../../../services/user";
+import { makeId } from "../../../services/util.service";
 import { updateBoard } from "../../../store/actions/board.actions";
 import { addSelectedTask, removeSelectedTask } from "../../../store/actions/taskSelect.actions";
 import DynamicColumn from "./DynamicColumn";
@@ -15,6 +17,7 @@ const GroupTableContentTask = ({ task, group }) => {
     const selectedTasks = useSelector(storeState => storeState.taskSelectModule.selectedTasks);
     const cmpOrder = useSelector(state => state.boardModule.cmpOrder);
     const board = useSelector(state => state.boardModule.board);
+    const members = useSelector(state => state.boardModule.members);
 
     // The setNodeRef and style must remain on the root container.
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task._id });
@@ -33,7 +36,31 @@ const GroupTableContentTask = ({ task, group }) => {
             const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(t => t._id === task._id);
             if (taskIdx === -1) throw new Error(`Task with id ${task._id} not found`);
 
-            newBoard.groups[groupIdx].tasks[taskIdx][cmpType] = value;
+            const foundTask = newBoard.groups[groupIdx].tasks[taskIdx]
+
+            const previousValue = structuredClone(foundTask[cmpType]);
+            foundTask[cmpType] = value;
+            console.log("🚀 ~ handleCellUpdate ~ foundTask[cmpType]:", foundTask[cmpType])
+
+            const loggedUser = userService.getLoggedinUser();
+
+            const user = {
+                _id: loggedUser._id,
+                name: loggedUser.fullname,
+                avatar: loggedUser.imgUrl
+            };
+
+            const newActivity = {
+                _id: makeId(),
+                user: user,
+                previous: previousValue,
+                current: value,
+                cmpType: cmpType,
+                at: Date.now()
+            }
+
+            const activities = [newActivity, ...(Array.isArray(foundTask.activities) ? foundTask.activities : [])];
+            foundTask.activities = activities;
 
             await updateBoard(newBoard);
         } catch (error) {
@@ -58,7 +85,27 @@ const GroupTableContentTask = ({ task, group }) => {
             const taskIdx = newBoard.groups[groupIdx].tasks.findIndex(t => t._id === task._id);
             if (taskIdx === -1) throw new Error(`Task with id ${task._id} not found`);
 
-            newBoard.groups[groupIdx].tasks[taskIdx].taskTitle = taskTitle;
+            const foundTask = newBoard.groups[groupIdx].tasks[taskIdx]
+            const previousValue = structuredClone(foundTask.taskTitle);
+            foundTask.taskTitle = taskTitle;
+
+            const user = userService.getLoggedinUser();
+
+            const newActivity = {
+                _id: makeId(),
+                user: {
+                    _id: user._id,
+                    name: user.fullname,
+                    avatar: user.imgUrl
+                },
+                previous: previousValue,
+                current: taskTitle,
+                cmpType: 'taskTitle',
+                at: Date.now()
+            }
+
+            const activities = [newActivity, ...(Array.isArray(foundTask.activities) ? foundTask.activities : [])];
+            foundTask.activities = activities;
 
             await updateBoard(newBoard);
         } catch (error) {
@@ -113,7 +160,6 @@ const GroupTableContentTask = ({ task, group }) => {
                         key={cmpType}
                         cmpType={cmpType}
                         info={task[cmpType]}
-                        allMembers={cmpType === 'members' ? task['allMembers'] : ''}
                         onTaskUpdate={(value) => handleCellUpdate(cmpType, value)}
                     />
                 )}
