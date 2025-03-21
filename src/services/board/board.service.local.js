@@ -598,6 +598,98 @@ function getDateFilters() {
     ];
 }
 
+function getMemberTaskDistribution(board) {
+    // Initialize member count object
+    const memberCounts = {};
+    
+    // Iterate through all groups and tasks to count members
+    board.groups.forEach(group => {
+        group.tasks.forEach(task => {
+            // Count each member in the task
+            task.members.forEach(member => {
+                if (!memberCounts[member.name]) {
+                    memberCounts[member.name] = {
+                        count: 0,
+                        color: member.color
+                    };
+                }
+                memberCounts[member.name].count++;
+            });
+        });
+    });
+    
+    // Convert to array and sort from lowest to highest
+    const sortedMembers = Object.keys(memberCounts)
+        .map(name => ({
+            name,
+            count: memberCounts[name].count,
+            color: memberCounts[name].color
+        }))
+        .sort((a, b) => a.count - b.count);
+    
+    // Prepare data for Chart.js
+    const labels = sortedMembers.map(member => member.name);
+    const counts = sortedMembers.map(member => member.count);
+    const colors = sortedMembers.map(member => member.color);
+    
+    return {
+        labels,
+        counts,
+        colors
+    };
+}
+
+// Add this function to get the configuration for the member chart
+function getMemberChartConfig(memberData) {
+    return {
+        type: 'bar',
+        data: {
+            labels: memberData.labels,
+            datasets: [{
+                label: 'Tasks Assigned',
+                data: memberData.counts,
+                backgroundColor: memberData.colors,
+                borderColor: memberData.colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bar chart
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Tasks: ${context.raw}`;
+                        }
+                    }
+                },
+                title: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    }
+                },
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0 // Only show integers
+                    }
+                }
+            }
+        }
+    };
+}
+
 export const boardService = {
     // CRUD Operations for Boards
     query,
@@ -628,5 +720,7 @@ export const boardService = {
     // Chart related functions
     getChartDataFromBoard,
     getChartConfig,
-    STATUS_COLORS
+    STATUS_COLORS,
+    getMemberTaskDistribution,
+    getMemberChartConfig
 };
