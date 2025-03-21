@@ -21,12 +21,12 @@
 @use "./cmps/BoardDynamicCmps/Timeline";
 
 // Board Stuff
-@use "./cmps/Board/Board";
-@use "./cmps/Board/BoardHeader";
-@use "./cmps/Board/CrudleBar";
-@use "./cmps/Board/BoardFilter";
-@use "./cmps/Board/BoardSort";
-@use "./cmps/Board/BoardDetails";
+@use "./cmps/board/Board";
+@use "./cmps/board/BoardHeader";
+@use "./cmps/board/CrudleBar";
+@use "./cmps/board/BoardFilter";
+@use "./cmps/board/BoardSort";
+@use "./cmps/board/BoardDetails";
 
 // New Structure & Board Layout
 @use "./cmps/board/structure/GroupHeader";
