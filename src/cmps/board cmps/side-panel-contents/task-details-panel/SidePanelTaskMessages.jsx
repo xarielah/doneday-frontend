@@ -23,7 +23,7 @@ const SidePanelTaskMessages = ({ task }) => {
         setUpdates(newUpdatesArray);
     }
 
-    const handleUpdateReply = async (newReply) => {
+    const handleUpdateReply = async (newReply, originalReply) => {
         try {
             const updateIdx = updates.findIndex(update => update._id === newReply._id);
             const newUpdatesArray = [...updates];
@@ -56,7 +56,7 @@ const SidePanelTaskMessages = ({ task }) => {
                     name: loggedUser.fullname,
                     avatar: loggedUser.imgUrl
                 },
-                text: newReply.text,
+                text: originalReply,
                 task: {
                     _id: taskDetails._id,
                     taskTitle: taskDetails.taskTitle,
@@ -75,8 +75,6 @@ const SidePanelTaskMessages = ({ task }) => {
     };
 
     const handleNewUpdate = async (newUpdateText) => {
-        console.log("CMMENT");
-
         try {
             const newUpdate = boardService.getEmptyReply();
             newUpdate.text = newUpdateText;
@@ -125,7 +123,6 @@ const SidePanelTaskMessages = ({ task }) => {
                 type: 'comment',
                 at: Date.now()
             }
-
             await updateBoard(newBoard);
 
             await boardService.emitNotification(newNotification);
