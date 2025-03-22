@@ -25,8 +25,6 @@ const SidePanelTaskMessages = ({ task }) => {
 
     const handleUpdateReply = async (newReply) => {
         try {
-            console.log("REPLY");
-
             const updateIdx = updates.findIndex(update => update._id === newReply._id);
             const newUpdatesArray = [...updates];
             newUpdatesArray[updateIdx] = newReply;
@@ -49,9 +47,15 @@ const SidePanelTaskMessages = ({ task }) => {
                 throw new Error("Task not found in board");
             }
 
+            const loggedUser = userService.getLoggedinUser();
+
             const newNotification = {
                 _id: makeId(),
-                by: newReply.by,
+                by: {
+                    _id: loggedUser._id,
+                    name: loggedUser.fullname,
+                    avatar: loggedUser.imgUrl
+                },
                 text: newReply.text,
                 task: {
                     _id: taskDetails._id,
@@ -104,9 +108,15 @@ const SidePanelTaskMessages = ({ task }) => {
                 throw new Error("Task not found in board");
             }
 
+
+
             const newNotification = {
                 _id: makeId(),
-                by: newUpdate.by,
+                by: {
+                    _id: loggedUser._id,
+                    name: loggedUser.fullname,
+                    avatar: loggedUser.imgUrl
+                },
                 text: newUpdate.text,
                 task: {
                     _id: taskDetails._id,
