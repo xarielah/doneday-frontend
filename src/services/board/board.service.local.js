@@ -35,6 +35,27 @@ export const boardService = {
 };
 
 
+const STORAGE_KEY = 'boardDB';
+
+// Status and priority lists
+export const statusList = [
+    { value: 'done', label: 'Done', className: 'status-done' },
+    { value: 'wip', label: 'Working on it', className: 'status-wip' },
+    { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
+    { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
+    { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
+    { value: 'design', label: 'In Design', className: 'status-design' },
+    { value: 'draft', label: 'Draft', className: 'status-draft' },
+];
+
+export const priorityList = [
+    { value: 'low', label: 'Low', className: 'priority-low' },
+    { value: 'medium', label: 'Medium', className: 'priority-medium' },
+    { value: 'high', label: 'High', className: 'priority-high' },
+    { value: 'critical', label: 'Critical ⚠️', className: 'priority-critical' },
+    { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
+];
+
 export const allMembers = [
     { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
     { name: "Ariel", label: "Ariel", value: "Ariel", color: "#e4901c" },
@@ -189,8 +210,6 @@ function getRandomDate() {
     const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     return randomDate.toISOString().split('T')[0];
 }
-
-
 
 // ----------------- Get Empty + Generate -----------------
 
@@ -370,3 +389,132 @@ function getDateFilters() {
     ];
 }
 
+<<<<<<< HEAD
+=======
+function getMemberTaskDistribution(board) {
+    // Initialize member count object
+    const memberCounts = {};
+
+    // Iterate through all groups and tasks to count members
+    board.groups.forEach(group => {
+        group.tasks.forEach(task => {
+            // Count each member in the task
+            task.members.forEach(member => {
+                if (!memberCounts[member.name]) {
+                    memberCounts[member.name] = {
+                        count: 0,
+                        color: member.color
+                    };
+                }
+                memberCounts[member.name].count++;
+            });
+        });
+    });
+
+    // Convert to array and sort from lowest to highest
+    const sortedMembers = Object.keys(memberCounts)
+        .map(name => ({
+            name,
+            count: memberCounts[name].count,
+            color: memberCounts[name].color
+        }))
+        .sort((a, b) => a.count - b.count);
+
+    // Prepare data for Chart.js
+    const labels = sortedMembers.map(member => member.name);
+    const counts = sortedMembers.map(member => member.count);
+    const colors = sortedMembers.map(member => member.color);
+
+    return {
+        labels,
+        counts,
+        colors
+    };
+}
+
+// Add this function to get the configuration for the member chart
+function getMemberChartConfig(memberData) {
+    return {
+        type: 'bar',
+        data: {
+            labels: memberData.labels,
+            datasets: [{
+                label: 'Tasks Assigned',
+                data: memberData.counts,
+                backgroundColor: memberData.colors,
+                borderColor: memberData.colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bar chart
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Tasks: ${context.raw}`;
+                        }
+                    }
+                },
+                title: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    }
+                },
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0 // Only show integers
+                    }
+                }
+            }
+        }
+    };
+}
+
+export const boardService = {
+    // CRUD Operations for Boards
+    query,
+    save,
+    remove,
+    getBoards,
+    getById,
+    // Utility Functions
+    getRandomStatus,
+    getRandomPriority,
+    getRandomMembers,
+    getRandomDate,
+    // Empty Templates and Generators
+    getEmptyBoard,
+    getEmptyGroup,
+    getEmptyTask,
+    generateBoard,
+    generateGroup,
+    generateTask,
+    getEmptyReply,
+    // Message Operations
+    addBoardMsg,
+    // Filter
+    getEmptyFilter,
+    getDateFilters,
+    // Storage Key
+    STORAGE_KEY,
+    // Chart related functions
+    getChartDataFromBoard,
+    getChartConfig,
+    STATUS_COLORS,
+    getMemberTaskDistribution,
+    getMemberChartConfig
+};
+>>>>>>> feature/charts-new

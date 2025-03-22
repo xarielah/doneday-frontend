@@ -15,7 +15,7 @@ const BoardHeaderTitleButtons = ({ boardName }) => {
 
     const handleOpenDialog = (event) => {
         event.stopPropagation();
-        setDialogOpen((prev) => !prev);
+        setDialogOpen(!isDialogOpen);
     };
 
     const currentDate = new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
@@ -67,7 +67,7 @@ const BoardHeaderTitleButtons = ({ boardName }) => {
                     {board.name}
                 </Heading>
 
-                <Icon icon={isDialogOpen ? DropdownChevronUp : DropdownChevronDown} ariaLabel={board.name} iconSize="24" />
+                <Icon className="board-icon" icon={isDialogOpen ? DropdownChevronUp : DropdownChevronDown} ariaLabel={board.name} iconSize="22"/>
             </div>
         </Dialog>
 

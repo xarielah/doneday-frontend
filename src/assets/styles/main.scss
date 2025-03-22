@@ -28,6 +28,8 @@
 @use "./cmps/board/BoardSort";
 @use "./cmps/board/BoardDetails";
 
+@import "cmps/Board/BoardChart";
+
 // New Structure & Board Layout
 @use "./cmps/board/structure/GroupHeader";
 @use "./cmps/board/structure/GroupTableHeader";
