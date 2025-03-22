@@ -96,6 +96,8 @@ export function BoardFilter() {
                 position="bottom"
                 showTrigger={["click"]}
                 hideTrigger={["clickoutside"]}
+                isOpen={isFilter}
+                animationType="expand"
                 content={
                     <DialogContentContainer style={{ padding: "0px" }}>
                         <section className="filter-dialog">

@@ -1,9 +1,8 @@
 import { storageService } from '../async-storage.service';
 import { generateBoardName, generateGroupName, generateTaskName, getRandomColor, makeId } from '../util.service';
-import { priorityList, statusList } from './board-values';
+import { priorityList, STATUS_COLORS, statusList } from './board-values';
 
-
-const STORAGE_KEY = 'boardDB'
+const STORAGE_KEY = 'boardDB';
 
 export const boardService = {
     // CRUD Operations for Boards
@@ -31,8 +30,17 @@ export const boardService = {
     getEmptyFilter,
     getDateFilters,
     // Storage Key
-    STORAGE_KEY
+    STORAGE_KEY,
+    getMemberTaskDistribution,
+    getMemberChartConfig,
+    getChartDataFromBoard,
+    getMemberChartConfig,
+    getChartConfig
+
 };
+
+
+// Chart-related constants and utilities
 
 
 export const allMembers = [
@@ -189,8 +197,6 @@ function getRandomDate() {
     const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     return randomDate.toISOString().split('T')[0];
 }
-
-
 
 // ----------------- Get Empty + Generate -----------------
 
@@ -370,3 +376,326 @@ function getDateFilters() {
     ];
 }
 
+function getMemberTaskDistribution(board) {
+    // Initialize member count object
+    const memberCounts = {};
+
+    // Iterate through all groups and tasks to count members
+    board.groups.forEach(group => {
+        group.tasks.forEach(task => {
+            // Count each member in the task
+            task.members.forEach(member => {
+                if (!memberCounts[member.name]) {
+                    memberCounts[member.name] = {
+                        count: 0,
+                        color: member.color
+                    };
+                }
+                memberCounts[member.name].count++;
+            });
+        });
+    });
+
+    // Convert to array and sort from lowest to highest
+    const sortedMembers = Object.keys(memberCounts)
+        .map(name => ({
+            name,
+            count: memberCounts[name].count,
+            color: memberCounts[name].color
+        }))
+        .sort((a, b) => a.count - b.count);
+
+    // Prepare data for Chart.js
+    const labels = sortedMembers.map(member => member.name);
+    const counts = sortedMembers.map(member => member.count);
+    const colors = sortedMembers.map(member => member.color);
+
+    return {
+        labels,
+        counts,
+        colors
+    };
+}
+
+// Add this function to get the configuration for the member chart
+function getMemberChartConfig(memberData) {
+    return {
+        type: 'bar',
+        data: {
+            labels: memberData.labels,
+            datasets: [{
+                label: 'Tasks Assigned',
+                data: memberData.counts,
+                backgroundColor: memberData.colors,
+                borderColor: memberData.colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bar chart
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `Tasks: ${context.raw}`;
+                        }
+                    }
+                },
+                title: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    }
+                },
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0 // Only show integers
+                    }
+                }
+            }
+        }
+    };
+}
+
+
+
+// Chart data preparation
+export function getChartDataFromBoard(board) {
+    if (!board || !board.groups) return { labels: [], counts: [], colors: [] };
+
+    // Count tasks by status
+    const statusCounts = {};
+    statusList.forEach(status => statusCounts[status.value] = 0);
+
+    board.groups.forEach(group => {
+        if (!group.tasks) return;
+
+        group.tasks.forEach(task => {
+            if (task.status && statusCounts[task.status] !== undefined) {
+                statusCounts[task.status]++;
+            }
+        });
+    });
+
+    // Format data for chart
+    const chartData = statusList
+        .filter(status => statusCounts[status.value] > 0)
+        .map(status => ({
+            label: status.label,
+            count: statusCounts[status.value],
+            color: STATUS_COLORS[status.value]
+        }))
+        .sort((a, b) => a.count - b.count);
+
+    return {
+        labels: chartData.map(item => item.label),
+        counts: chartData.map(item => item.count),
+        colors: chartData.map(item => item.color)
+    };
+}
+
+// Chart configuration factory
+export function getChartConfig(chartData, chartType = 'bar') {
+    const { labels, counts, colors } = chartData;
+    const maxValue = counts.length ? Math.max(...counts) : 0;
+
+    // Common dataset configuration
+    const dataset = {
+        data: counts,
+        backgroundColor: colors,
+        borderWidth: 0
+    };
+
+    // Type-specific dataset config
+    if (chartType === 'bar') {
+        dataset.borderRadius = 4;
+        dataset.barPercentage = 0.8;
+        dataset.categoryPercentage = 0.7;
+    } else if (chartType === 'pie') {
+        dataset.borderColor = colors.map(() => '#fff');
+        dataset.borderWidth = 2;
+        dataset.hoverOffset = 15;
+        dataset.circumference = 360;
+        dataset.radius = '70%';
+    }
+
+    // Common config
+    const config = {
+        type: chartType,
+        data: {
+            labels,
+            datasets: [dataset]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 500 // Faster animations for smoother transitions
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    left: 10,
+                    right: 10,
+                    bottom: 10
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: tooltipItems => tooltipItems[0].label,
+                        label: context => `Count: ${context.raw}`
+                    }
+                }
+            }
+        },
+        plugins: []
+    };
+
+    // Type-specific config
+    if (chartType === 'bar') {
+        // Config for bar chart
+        config.options.plugins.legend = { display: false };
+        config.options.plugins.title = { display: false };
+
+        config.options.scales = {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    display: true,
+                    drawBorder: false,
+                    color: '#f0f0f0'
+                },
+                ticks: {
+                    padding: 10,
+                    color: '#777',
+                    font: { size: 12 }
+                },
+                border: { display: false },
+                suggestedMax: maxValue * 1.2
+            },
+            x: {
+                grid: { display: false, drawBorder: false },
+                ticks: {
+                    color: '#777',
+                    padding: 10,
+                    font: { size: 12 }
+                },
+                border: { display: false }
+            }
+        };
+
+        // Bar chart specific plugin
+        config.plugins.push({
+            id: 'datalabels',
+            afterDatasetsDraw(chart) {
+                if (!chart) return;
+
+                const { ctx } = chart;
+                const dataset = chart.data.datasets[0];
+                const meta = chart.getDatasetMeta(0);
+
+                if (meta.hidden) return;
+
+                const threshold = maxValue * 0.3;
+
+                meta.data.forEach((element, index) => {
+                    const value = dataset.data[index];
+                    const { x, y, height } = element.getProps(['x', 'y', 'height']);
+
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+
+                    if (value > threshold) {
+                        // For taller bars, show value inside the bar
+                        ctx.fillStyle = '#fff';
+                        ctx.fillText(value, x, y + height / 2 + 5);
+                    } else {
+                        // For shorter bars, show value above the bar
+                        ctx.fillStyle = '#333';
+                        ctx.fillText(value, x, y - 10);
+                    }
+                });
+            }
+        });
+    } else if (chartType === 'pie') {
+        // Config for pie chart
+        config.options.plugins.legend = {
+            display: true,
+            position: 'right',
+            labels: {
+                padding: 15,
+                color: '#555',
+                font: { size: 12 },
+                usePointStyle: true,
+                boxWidth: 10
+            }
+        };
+
+        // Add specific options for pie charts
+        config.options.cutout = '0%';  // Make it a full pie, not a donut
+        config.options.radius = '70%'; // Slightly smaller to fit in container
+
+        // Pie chart specific plugin for labels
+        config.plugins.push({
+            id: 'datalabels',
+            afterDatasetsDraw(chart) {
+                if (!chart || !chart.data) return;
+
+                const { ctx } = chart;
+                ctx.save();
+
+                // Only try to get metadata if chart exists and is rendered
+                const meta = chart.getDatasetMeta(0);
+                if (!meta || meta.hidden) {
+                    ctx.restore();
+                    return;
+                }
+
+                const total = chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
+
+                meta.data.forEach((element, index) => {
+                    try {
+                        // Get position - use center for small segments, tooltipPosition for larger ones
+                        const { x, y } = element.tooltipPosition ?
+                            element.tooltipPosition() :
+                            { x: chart.getDatasetMeta(0).data[index].x, y: chart.getDatasetMeta(0).data[index].y };
+
+                        // Get the data value
+                        const value = chart.data.datasets[0].data[index];
+                        const percentage = Math.round((value / total) * 100);
+
+                        // Only show labels for segments that are large enough
+                        if (percentage >= 8) {
+                            // Draw with appropriate contrast
+                            ctx.font = 'bold 12px Arial';
+                            ctx.fillStyle = 'white';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+
+                            // Just draw the text without the stroke/shadow
+                            ctx.fillText(value, x, y);
+                        }
+                    } catch (err) {
+                        console.error('Error rendering pie chart label:', err);
+                    }
+                });
+
+                ctx.restore();
+            }
+        });
+    }
+
+    return config;
+}

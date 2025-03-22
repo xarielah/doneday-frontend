@@ -15,3 +15,13 @@ export const priorityList = [
     { value: 'critical', label: 'Critical ⚠️', className: 'priority-critical' },
     { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
 ]
+
+export const STATUS_COLORS = {
+    'done': '#00c875',     // Green
+    'wip': '#fdab3d',      // Orange
+    'stuck': '#e44258',    // Red
+    'onhold': '#a25ddc',   // Purple
+    'revision': '#0086c0', // Blue
+    'design': '#579bfc',   // Light Blue
+    'draft': '#c4c4c4'     // Gray
+};

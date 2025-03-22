@@ -6,10 +6,16 @@
   max-width: 330px;
   cursor: grab;
 
+  // margin-left: 1px;
+
   * {
     overflow: hidden;
   }
 
+}
+
+.editableTypography_14b3c95bd7 .typography_d0890bfdba {
+  margin-left: 6px;
 }
 
 .task-title-container {
@@ -28,13 +34,7 @@
   cursor: text;
 }
 
-// .task-title-container {
-//   border: 1px solid red;
-// }
 
-// .task-title-display {
-//   border: 1px solid blue;
-// }
 
 .row-dragging {
   background-color: gray;

@@ -87,6 +87,7 @@ export function AppNav() {
         innerSidebarRef.current.style.width = `${newWidth}px`
     }
 
+
     return (
         <section className="app-nav" ref={sidebarRef}>
             {isMinimize && (
@@ -116,14 +117,14 @@ export function AppNav() {
                 />
                 <MainNav location={location} handleNavigate={handleNavigate} />
                 <FavoritesNav />
-                <BoardNav
+                {boards && <BoardNav
                     boards={boards}
                     location={location}
                     handleNavigate={handleNavigate}
                     isSearch={isSearch}
                     setIsSearch={setIsSearch}
                     searchRef={searchRef}
-                />
+                />}
             </nav>}
             <div className="resize-bar" onMouseDown={handleMouseDown}></div>
         </section>
