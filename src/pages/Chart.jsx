@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
+import { BoardChart } from "../cmps/board cmps/BoardChart";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
+import { statusList } from "../services/board";
 import { getById, setBoard } from "../store/actions/board.actions";
 import { setSelectedTask } from "../store/actions/taskSelect.actions";
-import { BoardChart } from "../cmps/board cmps/BoardChart";
-import { statusList } from "../services/board/board.service.local";
 
 export const values = statusList;
 

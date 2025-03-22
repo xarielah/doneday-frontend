@@ -2,8 +2,7 @@ import { storageService } from '../async-storage.service';
 import { generateBoardName, generateGroupName, generateTaskName, getRandomColor, makeId } from '../util.service';
 import { priorityList, statusList } from './board-values';
 
-
-const STORAGE_KEY = 'boardDB'
+const STORAGE_KEY = 'boardDB';
 
 export const boardService = {
     // CRUD Operations for Boards
@@ -31,30 +30,31 @@ export const boardService = {
     getEmptyFilter,
     getDateFilters,
     // Storage Key
-    STORAGE_KEY
+    STORAGE_KEY,
+    getMemberTaskDistribution,
+    getMemberChartConfig
 };
 
 
-const STORAGE_KEY = 'boardDB';
 
 // Status and priority lists
-export const statusList = [
-    { value: 'done', label: 'Done', className: 'status-done' },
-    { value: 'wip', label: 'Working on it', className: 'status-wip' },
-    { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
-    { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
-    { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
-    { value: 'design', label: 'In Design', className: 'status-design' },
-    { value: 'draft', label: 'Draft', className: 'status-draft' },
-];
+// export const statusList = [
+//     { value: 'done', label: 'Done', className: 'status-done' },
+//     { value: 'wip', label: 'Working on it', className: 'status-wip' },
+//     { value: 'stuck', label: 'Stuck', className: 'status-stuck' },
+//     { value: 'onhold', label: 'On Hold', className: 'status-onhold' },
+//     { value: 'revision', label: 'Requires Revision', className: 'status-revision' },
+//     { value: 'design', label: 'In Design', className: 'status-design' },
+//     { value: 'draft', label: 'Draft', className: 'status-draft' },
+// ];
 
-export const priorityList = [
-    { value: 'low', label: 'Low', className: 'priority-low' },
-    { value: 'medium', label: 'Medium', className: 'priority-medium' },
-    { value: 'high', label: 'High', className: 'priority-high' },
-    { value: 'critical', label: 'Critical ⚠️', className: 'priority-critical' },
-    { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
-];
+// export const priorityList = [
+//     { value: 'low', label: 'Low', className: 'priority-low' },
+//     { value: 'medium', label: 'Medium', className: 'priority-medium' },
+//     { value: 'high', label: 'High', className: 'priority-high' },
+//     { value: 'critical', label: 'Critical ⚠️', className: 'priority-critical' },
+//     { value: 'tbd', label: 'TBD', className: 'priority-tbd' },
+// ];
 
 export const allMembers = [
     { name: "Dor", label: "Dor", value: "Dor", color: "#2a5699" },
@@ -389,8 +389,6 @@ function getDateFilters() {
     ];
 }
 
-<<<<<<< HEAD
-=======
 function getMemberTaskDistribution(board) {
     // Initialize member count object
     const memberCounts = {};
@@ -456,7 +454,7 @@ function getMemberChartConfig(memberData) {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return `Tasks: ${context.raw}`;
                         }
                     }
@@ -482,39 +480,3 @@ function getMemberChartConfig(memberData) {
         }
     };
 }
-
-export const boardService = {
-    // CRUD Operations for Boards
-    query,
-    save,
-    remove,
-    getBoards,
-    getById,
-    // Utility Functions
-    getRandomStatus,
-    getRandomPriority,
-    getRandomMembers,
-    getRandomDate,
-    // Empty Templates and Generators
-    getEmptyBoard,
-    getEmptyGroup,
-    getEmptyTask,
-    generateBoard,
-    generateGroup,
-    generateTask,
-    getEmptyReply,
-    // Message Operations
-    addBoardMsg,
-    // Filter
-    getEmptyFilter,
-    getDateFilters,
-    // Storage Key
-    STORAGE_KEY,
-    // Chart related functions
-    getChartDataFromBoard,
-    getChartConfig,
-    STATUS_COLORS,
-    getMemberTaskDistribution,
-    getMemberChartConfig
-};
->>>>>>> feature/charts-new
