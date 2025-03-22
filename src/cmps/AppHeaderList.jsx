@@ -29,7 +29,7 @@ const AppHeaderList = ({ onToggleInvite, onOpenNotifications }) => {
                         size="medium"
                         type="img"
                         src={user.imgUrl}
-                        ariaLabel="Ariel Aharon"
+                        ariaLabel={user?.fullname}
                     />}
                     {!user.imgUrl && <Avatar
                         withoutBorder
@@ -37,7 +37,7 @@ const AppHeaderList = ({ onToggleInvite, onOpenNotifications }) => {
                         type="text"
                         text={user.fullname[0]?.toUpperCase()}
                         backgroundColor="purple"
-                        ariaLabel="Ariel Aharon"
+                        ariaLabel={user.fullname[0]?.toUpperCase()}
                     />}
 
                 </span>
