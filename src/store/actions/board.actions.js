@@ -22,6 +22,21 @@ export async function loadBoards() {
     }
 }
 
+// Save boards
+export async function setBoards(boards) {
+    try {
+        store.dispatch(getCmdSetBoards(boards));
+        const savedBoards = await Promise.all(
+            boards.map(board => boardService.save(board))
+        );
+        // store.dispatch(getCmdSetBoards(savedBoards));
+        return savedBoards;
+    } catch (error) {
+        console.error('Failed to save boards:', error);
+        throw error;
+    }
+}
+
 // Get Board
 export async function getById(boardId, filterBy = {}, sortBy = []) {
     try {

@@ -3,7 +3,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cn } from "../../../services/util.service";
 import { SET_GLOBALLY_COLLAPSED } from "../../../store/reducers/board.reducer";
 import GroupHeader from "./GroupHeader";
 import GroupSummaryRow from "./GroupSummaryRow";
@@ -46,7 +45,9 @@ const GroupContainer = ({ group, index }) => {
         zIndex: isDragging ? 3000 : 0,
     };
     return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={{ zIndex: 2000 - (index * 10), ...style }}>
-        <section role="rowheader" className="group-header-container">
+        <section role="rowheader" className="group-header-container"
+        // style={{ position: isCollapsed ? 'relative' : 'sticky' }}
+        >
             <div className="group-title-container" {...attributes} {...listeners}>
                 {isCollapsed && (
                     <div
