@@ -1,19 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { BoardDetails } from "../cmps/board cmps/BoardDetails";
+import { BoardChart } from "../cmps/board cmps/BoardChart";
 import { BoardHeader } from "../cmps/board cmps/BoardHeader";
-import { CrudlBar } from "../cmps/board cmps/CrudlBar";
+import { statusList } from "../services/board";
 import { getById, setBoard } from "../store/actions/board.actions";
+import { setSelectedTask } from "../store/actions/taskSelect.actions";
 
-export function Board() {
+export const values = statusList;
+
+export function Chart() {
     const board = useSelector(storeState => storeState.boardModule.board)
+    const boards = useSelector(storeState => storeState.boardModule.boards)
     const filterBy = useSelector(storeState => storeState.boardModule.filterBy)
     const sortBy = useSelector(storeState => storeState.boardModule.sortBy)
     const { boardId } = useParams();
-    const isWatching = useRef(false);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         getById(boardId, filterBy, sortBy)
@@ -22,26 +24,22 @@ export function Board() {
                 navigate('/', { replace: true })
                 console.error('Cannot get board', err);
             });
-        return () => {
-            socketService.emit('unwatch-board', boardId)
-        }
-    }, [boardId, filterBy, sortBy])
 
+    }, [boards, boardId, filterBy, sortBy])
 
     useEffect(() => {
-        if (board && !isWatching.current) {
-            socketService.emit('watch-board', board._id)
-            isWatching.current = true
-        }
+        setSelectedTask([])
     }, [board])
 
     if (!board) return <div>loading...</div>
+
     if (board)
         return (
-            <section className="board-container">
-                <BoardHeader />
-                <BoardDetails />
-                <CrudlBar />
+            <section className="chart-container">
+                <div className="chart-wrapper">
+                    <BoardHeader />
+                    <BoardChart board={board} />
+                </div>
             </section>
         )
 }

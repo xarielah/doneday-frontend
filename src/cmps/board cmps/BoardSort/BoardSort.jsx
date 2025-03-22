@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogContentContainer, Icon } from "@vibe/core";
 import { Sort } from "@vibe/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { setSortBy } from "../../../store/actions/board.actions";
 import SortBody from "./SortBody";
@@ -33,6 +33,11 @@ export function BoardSort() {
 
     const isSortActive =
         sortByList.some((sort) => sort.title !== "") || sortByList.length > 1;
+
+    useEffect(() => {
+        // setSortBy(sortByList)
+
+    }, [sortByList]);
 
     function getAvailableSortOptions() {
         return sortList.filter(

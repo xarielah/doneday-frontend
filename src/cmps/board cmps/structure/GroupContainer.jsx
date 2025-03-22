@@ -3,7 +3,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cn } from "../../../services/util.service";
 import { SET_GLOBALLY_COLLAPSED } from "../../../store/reducers/board.reducer";
 import GroupHeader from "./GroupHeader";
 import GroupSummaryRow from "./GroupSummaryRow";
@@ -45,10 +44,17 @@ const GroupContainer = ({ group, index }) => {
         transition,
         zIndex: isDragging ? 3000 : 0,
     };
-    return <section ref={setDroppableRef} className={cn('group-container', !isCollapsed && 'compensate-ghost-div', isCollapsed && 'collapsed-group')} role="rowgroup" style={{ zIndex: 2000 - (index * 10), ...style }}>
-        <section role="rowheader" className={cn(!isCollapsed && 'group-header-container')} >
-            <div className="group-title-container">
-                {isCollapsed && <div className="pre-collapsed-filler"></div>}
+    return <section ref={setDroppableRef} className="group-container" role="rowgroup" style={{ zIndex: 2000 - (index * 10), ...style }}>
+        <section role="rowheader" className="group-header-container"
+        // style={{ position: isCollapsed ? 'relative' : 'sticky' }}
+        >
+            <div className="group-title-container" {...attributes} {...listeners}>
+                {isCollapsed && (
+                    <div
+                        style={{ backgroundColor: isDragging ? "transparent" : 'white' }}
+                        className="pre-collapsed-filler"
+                    ></div>
+                )}
                 <GroupHeader
                     ref={setDraggableRef}
                     dndProps={{ ...attributes, ...listeners }}

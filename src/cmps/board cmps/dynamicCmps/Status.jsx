@@ -69,11 +69,12 @@ export function Status({ info, onTaskUpdate }) {
                     <Confetti
                         width={containerWidth}
                         height={containerHeight}
-                        numberOfPieces={300}
+                        numberOfPieces={250}
                         recycle={false}
+                        // gravity={0.1}s
                         confettiConfig={{
                             scalar: 0.1,       // Make particles smaller
-                            gravity: 0.5,      // Lower gravity for a gentle fade-out effect
+                            gravity: 0.8,      // Lower gravity for a gentle fade-out effect
                             startVelocity: 20, //Velocity
                         }}
                     />

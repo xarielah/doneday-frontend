@@ -42,6 +42,7 @@ export function BoardPerson() {
                                             type="text"
                                             size="small"
                                             text={member.name.substring(0, 1)}
+                                            // src={member.imgUrl ? member.imgUrl : undefined}
                                             backgroundColor={
                                                 member?.color ? member.color : "black"
                                             }
