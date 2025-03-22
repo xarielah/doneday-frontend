@@ -4,8 +4,6 @@ import { userService } from "../services/user";
 
 const AppHeaderList = ({ onToggleInvite, onOpenNotifications }) => {
     const user = userService.getLoggedinUser();
-    console.log("🚀 ~ AppHeaderList ~ user:", user)
-
     return <section className='app-header-list'>
         <ul>
             <li>
