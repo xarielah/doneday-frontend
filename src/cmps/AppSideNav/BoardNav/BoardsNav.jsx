@@ -1,21 +1,21 @@
 import {
     Button, Dialog, DialogContentContainer, Divider, Icon,
     ListItem, Menu, MenuButton, MenuDivider, MenuItem, MenuTitle, Search
-} from "@vibe/core";
+} from "@vibe/core"
 import {
     AddSmall, Board,
     Delete,
     Duplicate, Edit, ExternalPage, Favorite
-} from "@vibe/icons";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { boardService } from "../../../services/board/board.service.local";
-import { getRandomColor, makeId } from "../../../services/util.service";
-import { addBoard, getById, removeBoard } from "../../../store/actions/board.actions";
-import { AddBoardCmp } from "../AddBoardCmp";
-import { EditBoardCmp } from "../EditBoardCmp";
-import WorkspacesDropdown from "./WorkspacesDropdown";
-import WorkspaceTitle from "./WorkspaceTitle";
+} from "@vibe/icons"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { boardService } from "../../../services/board/board.service.local"
+import { getRandomColor, makeId } from "../../../services/util.service"
+import { addBoard, getById, removeBoard } from "../../../store/actions/board.actions"
+import { AddBoardCmp } from "../AddBoardCmp"
+import { EditBoardCmp } from "../EditBoardCmp"
+import WorkspacesDropdown from "./WorkspacesDropdown"
+import WorkspaceTitle from "./WorkspaceTitle"
 
 export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSearch,
 }) {
@@ -46,19 +46,19 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
     const openBoardLink = (boardId) => {
         const currentUrl = window.location.origin
         const newUrl = `${currentUrl}/board/${boardId}`
-        window.open(newUrl, '_blank', 'noopener,noreferrer');
-    };
+        window.open(newUrl, '_blank', 'noopener,noreferrer')
+    }
 
     const handleSelect = (board) => {
-        setSelectedBoard(board.name);
-        setIsOpen(false);
-        handleNavigate(`/board/${board._id}`);
-    };
+        setSelectedBoard(board.name)
+        setIsOpen(false)
+        handleNavigate(`/board/${board._id}`)
+    }
 
 
     async function handleSaveBoard() {
         let boardToSave = { ...addedBoard }
-        if (boardToSave.groups.length === 0) {
+        if (boardToSave.groups && boardToSave.groups.length === 0) {
             boardToSave.groups = [
                 {
                     _id: makeId(),
@@ -66,52 +66,73 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
                     color: getRandomColor(),
                     tasks: []
                 }
-            ];
+            ]
         }
         return addBoard(boardToSave)
             .then((savedboard) => {
-                handleCloseModal();
+                handleCloseModal()
                 return savedboard
             })
     }
 
     function openDuplicateModal(boardName, boardId) {
-        setIsDuplicate(true)
         setAddedBoard(addedBoard => addedBoard = { name: "Duplicate of " + boardName, _id: boardId })
+        setIsDuplicate(true)
 
         setIsAddBoard(true)
     }
 
     async function onDuplicateBoard() {
         try {
-            const boardToDuplicate = await getById(addedBoard._id);
+            const boardToDuplicate = await getById(addedBoard._id)
 
-            const newBoard = boardService.getEmptyBoard();
-            newBoard.name = addedBoard.name;
-            if (!Array.isArray(newBoard.groups)) newBoard.groups = [];
+            const newBoard = boardService.getEmptyBoard()
+            newBoard.name = addedBoard.name
+            if (!Array.isArray(newBoard.groups)) newBoard.groups = []
 
             if (boardToDuplicate.groups && boardToDuplicate.groups.length > 0) {
                 for (const group of boardToDuplicate.groups) {
-                    const newGroup = { ...group, _id: 'g' + makeId(), tasks: [] };
+                    const newGroup = { ...group, _id: 'g' + makeId(), tasks: [] }
 
                     if (Array.isArray(group.tasks)) {
                         for (const task of group.tasks) {
-                            const newTask = { ...task, _id: 't' + makeId() };
-                            newGroup.tasks.push(newTask);
+                            const newTask = { ...task, _id: 't' + makeId() }
+                            newGroup.tasks.push(newTask)
                         }
                     }
 
-                    newBoard.groups.push(newGroup);
+                    newBoard.groups.push(newGroup)
                 }
             } else {
-                newBoard.groups = [{ _id: makeId(), name: 'New Group', color: getRandomColor(), tasks: [] }]
+                newBoard.groups = [{
+                    _id: makeId(),
+                    name: 'New Group',
+                    color: getRandomColor(),
+                    tasks: []
+                }]
             }
 
-            return await addBoard(newBoard);
+            // Add the duplicated board (assumed to add it to boards by default, e.g. at the end)
+            const duplicatedBoard = await addBoard(newBoard)
+
+            // Reorder the boards list so that the duplicate is immediately after the original.
+            // This assumes that "boards" is accessible in this scope.
+            const originalIndex = boards.findIndex(board => board._id === boardToDuplicate._id)
+            if (originalIndex !== -1) {
+                // Remove the duplicated board from its current position, if it was appended.
+                const duplicateIndex = boards.findIndex(board => board._id === duplicatedBoard._id)
+                if (duplicateIndex !== -1) {
+                    boards.splice(duplicateIndex, 1)
+                }
+                // Insert the duplicate right after the original board.
+                boards.splice(originalIndex + 1, 0, duplicatedBoard)
+            }
+
+            return saveBoards(duplicatedBoard)
         } catch (error) {
-            console.error('Could not duplicate board', error);
+            console.error('Could not duplicate board', error)
         } finally {
-            handleCloseModal();
+            handleCloseModal()
         }
     }
 
@@ -119,7 +140,7 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
         try {
             return removeBoard(boardId)
         } catch (error) {
-            console.error('Could not remove board' + error);
+            console.error('Could not remove board' + error)
 
         }
     }
@@ -225,5 +246,5 @@ export function BoardNav({ boards, location, handleNavigate, isSearch, setIsSear
 
             />
         </>
-    );
+    )
 }

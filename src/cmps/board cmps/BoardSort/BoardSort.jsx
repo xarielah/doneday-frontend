@@ -34,6 +34,11 @@ export function BoardSort() {
     const isSortActive =
         sortByList.some((sort) => sort.title !== "") || sortByList.length > 1;
 
+    useEffect(() => {
+        // setSortBy(sortByList)
+
+    }, [sortByList]);
+
     function getAvailableSortOptions() {
         return sortList.filter(
             (sort) => !sortByList.some((s) => s.title === sort)

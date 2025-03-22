@@ -7,7 +7,8 @@ const demoUsers = [{
     "value": "67d0854f9ac065be10afc10f",
     "label": "Ariel Aharon",
     "fullname": "Ariel Aharon",
-    "imgUrl": "https://i.ibb.co/FbhJTgSD/ariel.png"
+    "imgUrl": "https://i.ibb.co/FbhJTgSD/ariel.png",
+    color: "#e4901c"
 },
 {
     "_id": "67dd75d4229db84f413b2bf5",
@@ -16,7 +17,8 @@ const demoUsers = [{
     "value": "67dd75d4229db84f413b2bf5",
     "label": "Afik Yefet",
     "username": "afik",
-    "imgUrl": "https://i.ibb.co/kgT2yyP0/afik.png"
+    "imgUrl": "https://i.ibb.co/kgT2yyP0/afik.png",
+    color: "#fb275d"
 },
 {
     "_id": "67dd75f1229db84f413b2bf6",
@@ -25,7 +27,8 @@ const demoUsers = [{
     "value": "67dd75f1229db84f413b2bf6",
     "label": "Dor Cohen",
     "username": "dor",
-    "imgUrl": "https://i.ibb.co/yHS0XXM/b7ab07ca-abd4-42b0-941e-fec3ee5ed260.jpg"
+    "imgUrl": "https://i.ibb.co/yHS0XXM/b7ab07ca-abd4-42b0-941e-fec3ee5ed260.jpg",
+    color: "#2a5699"
 }]
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
