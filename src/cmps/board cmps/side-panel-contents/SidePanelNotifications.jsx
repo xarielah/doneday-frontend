@@ -5,7 +5,7 @@ import { NotificationsList } from "./task-details-panel/NotificationsList"
 
 const SidePanelNotifications = () => {
     useEffect(() => {
-        readNotifications();
+        return () => readNotifications()
     }, [])
 
     return <SidePanelWrapper heading="Notifications">

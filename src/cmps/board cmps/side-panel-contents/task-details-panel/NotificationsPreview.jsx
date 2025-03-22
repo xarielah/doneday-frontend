@@ -23,7 +23,10 @@ export const NotificationsPreview = ({ notification }) => {
                     <DynamicDesc type={notification.type} />
                     <span>on a task.</span>
                 </div>
-                <Text type="text2" className="notification-preview-time">{moment(notification.at).fromNow()}</Text>
+                <Text type="text2" className="notification-preview-time">
+                    {moment(notification.at).fromNow()}
+                    {!notification.read && <div className="unread-notification"></div>}
+                </Text>
             </div>
             <div className="notification-preview-text elipsis">
                 <Text type="text2" ellipsis>{notification.text}</Text>
