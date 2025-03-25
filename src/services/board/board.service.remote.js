@@ -25,33 +25,59 @@ async function getById(boardId, filterBy = {}, sortBy = []) {
         ? filterBy.taskTitle.toLowerCase()
         : null;
 
+    const textFilter = filterBy.text && filterBy.text.trim().toLowerCase();
+
     const getStatusIndex = (status) => statusList.findIndex(s => s.value === status);
     const getPriorityIndex = (priority) => priorityList.findIndex(p => p.value === priority);
 
+    const matchesTextDeep = (obj, text) => {
+        if (!obj || typeof text !== 'string') return false;
+
+        const searchIn = (val) => {
+            if (typeof val === 'string') {
+                return val.toLowerCase().includes(text);
+            }
+            if (Array.isArray(val)) {
+                return val.some(searchIn);
+            }
+            if (typeof val === 'object' && val !== null) {
+                return Object.values(val).some(searchIn);
+            }
+            return false;
+        };
+
+        return searchIn(obj);
+    };
+
     const filteredGroups = groups.map(group => {
         const tasks = Array.isArray(group.tasks) ? group.tasks : [];
+
         const filteredTasks = tasks.filter(task => {
-            const priorityMatch = filterBy.Priority && filterBy.Priority.length > 0
+            const priorityMatch = filterBy.Priority?.length
                 ? filterBy.Priority.includes(task.priority)
                 : true;
 
-            const membersMatch = filterBy.Members && filterBy.Members.length > 0
-                ? task.members && task.members.some(member => filterBy.Members.includes(member.name))
+            const membersMatch = filterBy.Members?.length
+                ? task.members?.some(member => filterBy.Members.includes(member.name))
                 : true;
 
-            const statusMatch = filterBy.Status && filterBy.Status.length > 0
+            const statusMatch = filterBy.Status?.length
                 ? filterBy.Status.includes(task.status)
                 : true;
 
             const titleMatch = taskTitleFilter
-                ? task.taskTitle && task.taskTitle.toLowerCase().includes(taskTitleFilter)
+                ? task.taskTitle?.toLowerCase().includes(taskTitleFilter)
                 : true;
 
             const timelineMatch = filterBy.Timeline
                 ? task.timeline?.endDate && new Date(task.timeline.endDate) <= new Date(filterBy.Timeline)
                 : true;
 
-            return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch;
+            const textMatch = textFilter
+                ? matchesTextDeep(task, textFilter)
+                : true;
+
+            return priorityMatch && membersMatch && statusMatch && titleMatch && timelineMatch && textMatch;
         });
 
         const sortedTasks = filteredTasks.sort((taskA, taskB) => {
